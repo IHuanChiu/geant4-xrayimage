@@ -92,7 +92,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   // get volume of the current step
   volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
   CurrentVolumeName = volume->GetName();
-  if(CurrentVolumeName.find("World") != std::string::npos) return;//not care the particle with step in the world
+//  if(CurrentVolumeName.find("World") != std::string::npos) return;//not care the particle with step in the world
 
 
   // get track
@@ -115,6 +115,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     Time              = aTrack->GetGlobalTime()/CLHEP::microsecond;
     KineticEnergy     = aTrack->GetKineticEnergy()/CLHEP::MeV;
     myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
+    if(TrackPosition.z() > 70*CLHEP::mm) return;//kill long term muon
 
 //    if (VolumeMap[CurrentVolumeName] >= 7){//cdte
 //       detector_index = VolumeMap[CurrentVolumeName]-ReNumber; 

@@ -98,7 +98,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,(kapton_radiu)*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, -69*mm);//check beam position
+  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, (-70+1)*mm);//check beam position
   G4LogicalVolume* KaptonLog =
        new G4LogicalVolume(kapton_tubs,         //its solid
                            solid_kapton,          //its material
@@ -119,16 +119,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //    G4Material* solid_target = nist->FindOrBuildMaterial("G4_LITHIUM_FLUORIDE");
     G4Material* solid_target = nist->FindOrBuildMaterial("G4_POLYPROPYLENE");//(C_2H_4)_N-Polypropylene
 
-    G4Orb* solid_ball = new G4Orb("Ball", (0.5/2.)*cm);
-    G4Orb* solid_ball2 = new G4Orb("samllBall", (0.25/2)*cm);
-    G4ThreeVector pos_sample1 = G4ThreeVector((0+5)*mm, (0+5)*mm, (sample_dis+sample_dz/2)*mm);
-    G4ThreeVector pos_sample2 = G4ThreeVector((0-5)*mm, (0+5)*mm, (sample_dis+sample_dz/2)*mm);
+    G4Orb* solid_ball_L = new G4Orb("Ball", (1.0/2.)*cm);
+    G4Orb* solid_ball_S = new G4Orb("samllBall", (0.5/2)*cm);
+    G4ThreeVector pos_sample1 = G4ThreeVector((0+5)*mm, (0+5)*mm, (sample_dis+3+sample_dz/2)*mm);//front
+    G4ThreeVector pos_sample2 = G4ThreeVector((0-5)*mm, (0+5)*mm, (sample_dis-3+sample_dz/2)*mm);//back
     G4ThreeVector pos_sample3 = G4ThreeVector((0+5)*mm, (0-5)*mm, (sample_dis+sample_dz/2)*mm);
     G4ThreeVector pos_sample4 = G4ThreeVector((0-5)*mm, (0-5)*mm, (sample_dis+sample_dz/2)*mm);
-    G4LogicalVolume* TargetLog1 = new G4LogicalVolume(solid_ball,solid_target,"Target1"); 
-    G4LogicalVolume* TargetLog2 = new G4LogicalVolume(solid_ball,solid_target,"Target2"); 
-    G4LogicalVolume* TargetLog3 = new G4LogicalVolume(solid_ball2,solid_target,"Target3"); 
-    G4LogicalVolume* TargetLog4 = new G4LogicalVolume(solid_ball2,solid_target,"Target4"); 
+    G4LogicalVolume* TargetLog1 = new G4LogicalVolume(solid_ball_L,solid_target,"Target1"); 
+    G4LogicalVolume* TargetLog2 = new G4LogicalVolume(solid_ball_L,solid_target,"Target2"); 
+    G4LogicalVolume* TargetLog3 = new G4LogicalVolume(solid_ball_S,solid_target,"Target3"); 
+    G4LogicalVolume* TargetLog4 = new G4LogicalVolume(solid_ball_S,solid_target,"Target4"); 
     new G4PVPlacement(0, pos_sample1, TargetLog1, "Target1", logicWorld, false,0,checkOverlaps);
     new G4PVPlacement(0, pos_sample4, TargetLog2, "Target2", logicWorld, false,0,checkOverlaps);
     new G4PVPlacement(0, pos_sample2, TargetLog3, "Target3", logicWorld, false,0,checkOverlaps);
@@ -166,9 +166,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* DetColliLog_2 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator2");           
 
   new G4PVPlacement(angle_det_1,pos_det_1,DetLog_1,"CdTe1",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(angle_collimator_1,pos_collimator_1,DetColliLog_1,"CdTeCollimator1",logicWorld,false,0,checkOverlaps);
+//  new G4PVPlacement(angle_collimator_1,pos_collimator_1,DetColliLog_1,"CdTeCollimator1",logicWorld,false,0,checkOverlaps);
   new G4PVPlacement(angle_det_2,pos_det_2,DetLog_2,"CdTe2",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(angle_collimator_2,pos_collimator_2,DetColliLog_2,"CdTeCollimator2",logicWorld,false,0,checkOverlaps);
+//  new G4PVPlacement(angle_collimator_2,pos_collimator_2,DetColliLog_2,"CdTeCollimator2",logicWorld,false,0,checkOverlaps);
 
   // Set Detector as scoring volume
   fScoringVolume = DetLog_1;

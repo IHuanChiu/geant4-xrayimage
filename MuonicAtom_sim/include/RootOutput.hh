@@ -92,6 +92,7 @@ class RootOutput{
     void SetInitialEletronParameters(G4double x,G4double y,G4double z, G4double px,G4double py,G4double pz){
          eInitX = x;eInitY = y;eInitZ = z;eInitpX = px;eInitpY = py;eInitpZ = pz;}
     void SetEnergyDepositInVolume(G4int id, G4String name, G4double energy);
+    void SetEnergyDepositInVolume_background(G4int id, G4String name, G4double energy);
 
     TFile* rootFile;
     TTree* rootTree;

@@ -208,7 +208,7 @@ void RootOutput::ClearAllRootVariables() {
    Nneutron[j]=0;  
    Nother[j]=0;  
   }
-  Det_nMax = -1000;
+  Det_nMax = 0;
   for (int i = 0; i < numberOfvolume; i++){
     eDep[numberOfvolume] = 0;
     eDep_e[numberOfvolume] = 0.;
