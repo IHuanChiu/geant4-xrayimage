@@ -119,8 +119,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //    G4Material* solid_target = nist->FindOrBuildMaterial("G4_LITHIUM_FLUORIDE");
     G4Material* solid_target = nist->FindOrBuildMaterial("G4_POLYPROPYLENE");//(C_2H_4)_N-Polypropylene
 
-    G4Orb* solid_ball_L = new G4Orb("Ball", (1.0/2.)*cm);
-    G4Orb* solid_ball_S = new G4Orb("samllBall", (0.5/2)*cm);
+    G4Orb* solid_ball_L = new G4Orb("Ball", (1.27/2.)*cm);
+    G4Orb* solid_ball_S = new G4Orb("samllBall", (0.635/2)*cm);
     G4ThreeVector pos_sample1 = G4ThreeVector((0+5)*mm, (0+5)*mm, (sample_dis+3+sample_dz/2)*mm);//front
     G4ThreeVector pos_sample2 = G4ThreeVector((0-5)*mm, (0+5)*mm, (sample_dis-3+sample_dz/2)*mm);//back
     G4ThreeVector pos_sample3 = G4ThreeVector((0+5)*mm, (0-5)*mm, (sample_dis+sample_dz/2)*mm);

@@ -67,7 +67,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double det_dx = 30; 
     G4double det_dy = 2;
     G4double det_dz = 30;
-    G4double det_dis = 80;
+    G4double det_dis = 109;
     G4double angle = 45;
 
     G4double shadow_front = 15;
