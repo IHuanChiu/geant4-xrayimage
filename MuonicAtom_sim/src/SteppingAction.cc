@@ -92,8 +92,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   // get volume of the current step
   volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
   CurrentVolumeName = volume->GetName();
-//  if(CurrentVolumeName.find("World") != std::string::npos) return;//not care the particle with step in the world
-
 
   // get track
 //  preStep       = step->GetPreStepPoint();
@@ -115,7 +113,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     Time              = aTrack->GetGlobalTime()/CLHEP::microsecond;
     KineticEnergy     = aTrack->GetKineticEnergy()/CLHEP::MeV;
     myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-    if(TrackPosition.z() > 70*CLHEP::mm) return;//kill long term muon
+//    if(TrackPosition.z() > 70*CLHEP::mm) return;//kill long term muon
 
 //    if (VolumeMap[CurrentVolumeName] >= 7){//cdte
 //       detector_index = VolumeMap[CurrentVolumeName]-ReNumber; 
@@ -155,7 +153,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          myRootOutput->SetEndKineticEnergyInCollimator(KineticEnergy);            
 //       }
 
-    }else if(CurrentVolumeName.find("Target1") != std::string::npos){//sample
+    }else if(CurrentVolumeName.find("Target") != std::string::npos){//sample
        if (!muhitSampleInThisEvent) {//start point
           muhitSampleInThisEvent = true;
           myRootOutput->SetInitPolInSample(TrackPosition);
@@ -199,37 +197,30 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   // =========== store detector info. ===============    
   if (VolumeMap[CurrentVolumeName] >= DetNumber){//detector only
      // *** track info. ***
-     // Addition => find number of hit tracks of detector
-     if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){//ignore same particle with different step
-//       std::cout << " step : " << aTrack->GetCurrentStepNumber() << std::endl;
-        ParticleID    = aTrack->GetTrackID();
-        myRootOutput->ScannParticleHitVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName());//scan the number of hit particle 
-
-        Kinetic_e         = aTrack->GetKineticEnergy()/CLHEP::MeV;
-        Total_e           = aTrack->GetTotalEnergy()/CLHEP::MeV;
-        det_x             = TrackPosition.x();
-        det_y             = TrackPosition.y();
-        det_z             = TrackPosition.z();
-        det_pdgid         = pdgID;
-
-        if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
-        }else{ trackprocess = "None";}
-
-        myRootOutput->StoreTrack(VolumeMap[CurrentVolumeName]-DetNumber, det_pdgid, 
-                                 Kinetic_e, Total_e, 
-                                 det_x, det_y, det_z, trackprocess);
-        myRootOutput->FillParticle();
-     }
-
-     // *** energy deposite ***
-     myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit());
-     //first particle is signal, the post steps with the other process name is also signal
-//     if(aTrack->GetCreatorProcess() != 0 && aTrack->GetCreatorProcess()->GetProcessName() == "muMinusCaptureAtRest") SignalType = 1;
-//
-//     if(SignalType){  myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit());     
-//     }else{           myRootOutput->SetEnergyDepositInVolume_background(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit());
-//     }
+     if(ParentID != 0){//skip muon
+        if(step->GetTrack()->GetTrackID() != ParticleID){//ignore same particle with different step
+           ParticleID    = aTrack->GetTrackID();
+           myRootOutput->ScannParticleHitVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName());//scan the number of hit particle 
    
+           Kinetic_e         = aTrack->GetKineticEnergy()/CLHEP::MeV;
+           Total_e           = aTrack->GetTotalEnergy()/CLHEP::MeV;
+           det_x             = TrackPosition.x();
+           det_y             = TrackPosition.y();
+           det_z             = TrackPosition.z();
+           det_pdgid         = pdgID;
+   
+           if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
+           }else{ trackprocess = "None";}
+   
+           myRootOutput->StoreTrack(VolumeMap[CurrentVolumeName]-DetNumber, det_pdgid, 
+                                    Kinetic_e, Total_e, 
+                                    det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
+           myRootOutput->FillParticle();
+        }
+     }
+     // *** energy deposite ***
+     myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
+
   }// only CdTe detector
 
 }

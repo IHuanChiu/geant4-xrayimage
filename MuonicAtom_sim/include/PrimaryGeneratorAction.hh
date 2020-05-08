@@ -67,7 +67,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double p0 = 30;
     G4double mom_error = 0.10;
     G4double dir_error = 0.01;//angle range : 0~2*pi
-    G4double rho_e_a, rho_e_b;   
+    G4double rho_e, rho_e_a, rho_e_b;   
     G4double theta_e; 
     G4double y0_e;    
     G4double x0_e;   

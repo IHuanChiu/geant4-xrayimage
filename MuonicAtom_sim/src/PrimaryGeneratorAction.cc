@@ -87,7 +87,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // from G4LogicalVolumeStore.
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
-  myRootOutput->ClearAllRootVariables(); 
+  myRootOutput->ClearAllRootVariables();//NOTE: GeneratePrimaries is before the BeginOfEventAction of EventAcction
 
   G4double envSizeXY = 0;
   G4double envSizeZ = 0;
@@ -115,15 +115,23 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
   //fParticleGunEle->SetParticleMomentum(p*MeV);
 
-  //particle incident position
-  G4double radius_a = 2.5*CLHEP::cm;
-  G4double radius_b = 1.0*CLHEP::cm;
-  G4double rho_a = radius_a*((2*(G4UniformRand())-0.5));
-  G4double rho_b = radius_b*((2*(G4UniformRand())-0.5));
+  //particle incident position (ellipse)
+//  G4double radius_a = 2.5*CLHEP::cm;
+//  G4double radius_b = 1.0*CLHEP::cm;
+//  G4double rho_a = radius_a*((2*(G4UniformRand())-0.5));
+//  G4double rho_b = radius_b*((2*(G4UniformRand())-0.5));
+//  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//  G4double y0 = rho_a * std::sin(theta);
+//  G4double x0 = rho_b * std::cos(theta);
+
+  //circle
+  G4double radius = 1.5*CLHEP::cm;
+  G4double rho = radius*std::sqrt(G4UniformRand());
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double y0 = rho_a * std::sin(theta);
-  G4double x0 = rho_b * std::cos(theta);
-  G4double z0 = -70*CLHEP::mm;
+  G4double y0 = rho * std::sin(theta);
+  G4double x0 = rho * std::cos(theta);
+
+  G4double z0 = -5*CLHEP::mm;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
@@ -132,21 +140,23 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   long thisEventNr = (long) (anEvent->GetEventID());
   if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
-    rho_e_a = radius_a*((2*(G4UniformRand())-0.5));
-    rho_e_b = radius_b*((2*(G4UniformRand())-0.5));
+    //ellipse
+//    rho_e_a = radius_a*((2*(G4UniformRand())-0.5));
+//    rho_e_b = radius_b*((2*(G4UniformRand())-0.5));
+//    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//    y0_e = rho_e_a * std::sin(theta_e);
+//    x0_e = rho_e_b * std::cos(theta_e);
+    //circle
+    rho_e = radius*std::sqrt(G4UniformRand());
     theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-    y0_e = rho_e_a * std::sin(theta_e);
-    x0_e = rho_e_b * std::cos(theta_e);
+    y0_e = rho_e * std::sin(theta_e);
+    x0_e = rho_e * std::cos(theta_e);
+
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
     fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }
   
   // Assign spin 
-//  G4double ParticleTime;
-//  if (tSigma>0)      {ParticleTime = G4RandGauss::shoot(t0,tSigma);}         //  Gaussian distribution       P.B. 13 May 2009
-//  else if (tSigma<0) {ParticleTime = t0 + tSigma*(G4UniformRand()*2.-1.);}   //  Uniform step distribution   P.B. 13 May 2009
-//  else               {ParticleTime = t0;}           
-//  clearRootOutput->SetInitialMuonParameters(x0,y0,z0,px,py,pz,xpolaris,ypolaris,zpolaris,ParticleTime);
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
   myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
 

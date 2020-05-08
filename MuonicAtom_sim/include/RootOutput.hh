@@ -34,7 +34,7 @@ class RootOutput{
 
     void SetRunID          (G4int id) {runID = id;};
     void SetEventID        (G4int id) {eventID = id;};
-    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double x, G4double y, G4double z, G4String tr_process) {
+    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double x, G4double y, G4double z,  G4String tr_name, G4String tr_process) {
           det_ID = det_index;
           pdgId = pdgid; 
           TotalE = energy_total; 
@@ -42,6 +42,7 @@ class RootOutput{
           Det_X = x; 
           Det_Y = y; 
           Det_Z = z; 
+          Track_Name  = tr_name;
           Track_Process  = tr_process;
     }
 
@@ -92,7 +93,6 @@ class RootOutput{
     void SetInitialEletronParameters(G4double x,G4double y,G4double z, G4double px,G4double py,G4double pz){
          eInitX = x;eInitY = y;eInitZ = z;eInitpX = px;eInitpY = py;eInitpZ = pz;}
     void SetEnergyDepositInVolume(G4int id, G4String name, G4double energy);
-    void SetEnergyDepositInVolume_background(G4int id, G4String name, G4double energy);
 
     TFile* rootFile;
     TTree* rootTree;
@@ -142,6 +142,7 @@ class RootOutput{
     Double_t Det_X;
     Double_t Det_Y;
     Double_t Det_Z;
+    std::string Track_Name;
     std::string Track_Process;
 
     Int_t nDet;

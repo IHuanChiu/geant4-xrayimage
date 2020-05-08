@@ -112,10 +112,10 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("energyDep_e",eDep_e,"energyDep_e[Det_nMax]/D");
    rootTree->Branch("energyDep_gamma",eDep_gamma,"energyDep_gamma[Det_nMax]/D");
    rootTree->Branch("energyDep_other",eDep_other,"energyDep_other[Det_nMax]/D");
-   rootTree->Branch("energyDep_bkg",eDep_bkg,"energyDep_bkg[Det_nMax]/D");
-   rootTree->Branch("energyDep_e_bkg",eDep_e_bkg,"energyDep_e_bkg[Det_nMax]/D");
-   rootTree->Branch("energyDep_gamma_bkg",eDep_gamma_bkg,"energyDep_gamma_bkg[Det_nMax]/D");
-   rootTree->Branch("energyDep_other_bkg",eDep_other_bkg,"energyDep_other_bkg[Det_nMax]/D");
+//   rootTree->Branch("energyDep_bkg",eDep_bkg,"energyDep_bkg[Det_nMax]/D");
+//   rootTree->Branch("energyDep_e_bkg",eDep_e_bkg,"energyDep_e_bkg[Det_nMax]/D");
+//   rootTree->Branch("energyDep_gamma_bkg",eDep_gamma_bkg,"energyDep_gamma_bkg[Det_nMax]/D");
+//   rootTree->Branch("energyDep_other_bkg",eDep_other_bkg,"energyDep_other_bkg[Det_nMax]/D");
 
    rootTree->Branch("nDet",nDet,"nDet/I");
    rootTree->Branch("Ngamma",Ngamma,"Ngamma[nDet]/D");
@@ -131,6 +131,7 @@ void RootOutput::BeginOfRunAction() {
    TrackTree->Branch("Detector_X",&Det_X,"Detector_X/D");
    TrackTree->Branch("Detector_Y",&Det_Y,"Detector_Y/D");
    TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
+   TrackTree->Branch("Track_Name",&Track_Name);
    TrackTree->Branch("Track_Process",&Track_Process);
 
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
@@ -171,19 +172,10 @@ void RootOutput::ScannParticleHitVolume(G4int id, G4String name){
 
 void RootOutput::SetEnergyDepositInVolume(G4int id, G4String particleName, G4double energy){  
   Det_nMax = 2; // find max id (number of detectors)
-  eDep[id] =  energy;
+  eDep[id] +=  energy;
   if (particleName=="e-" || particleName == "e+") { eDep_e[id] +=  energy;
-  }else if(particleName == "gamma"){ eDep_gamma[id] +=  energy;
-  }else{ eDep_other[id] +=  energy;}
-
-}
-
-void RootOutput::SetEnergyDepositInVolume_background(G4int id, G4String particleName, G4double energy){  
-  Det_nMax = 2; // TODO find max id (number of detectors)
-  eDep_bkg[id] =  energy;
-  if (particleName=="e-" || particleName == "e+") { eDep_e_bkg[id] +=  energy;
-  }else if(particleName == "gamma"){ eDep_gamma_bkg[id] +=  energy;
-  }else{ eDep_other_bkg[id] +=  energy;}
+  }else if(particleName == "gamma"){ eDep_gamma[id] += energy;
+  }else{ eDep_other[id] += energy;}
 
 }
 
@@ -199,6 +191,7 @@ void RootOutput::ClearAllRootVariables() {
   }
   KineticE = -1000; TotalE = -1000; pdgId = -1000;
   Det_X = -1000; Det_Y = -1000; Det_Z = -1000;
+  Track_Name = "None";
   Track_Process = "None";
 
   nDet = -1000;
@@ -210,14 +203,10 @@ void RootOutput::ClearAllRootVariables() {
   }
   Det_nMax = 0;
   for (int i = 0; i < numberOfvolume; i++){
-    eDep[numberOfvolume] = 0;
-    eDep_e[numberOfvolume] = 0.;
-    eDep_gamma[numberOfvolume] = 0.;
-    eDep_other[numberOfvolume] = 0.;
-    eDep_bkg[numberOfvolume] = 0;
-    eDep_e_bkg[numberOfvolume] = 0.;
-    eDep_gamma_bkg[numberOfvolume] = 0.;
-    eDep_other_bkg[numberOfvolume] = 0.;
+    eDep[i] = 0.;
+    eDep_e[i] = 0.;
+    eDep_gamma[i] = 0.;
+    eDep_other[i] = 0.;
   }
   
   muSampleTime = -1000; muCollimatorTime = -1000; muWorldTime = -1000; muShadowTime = -1000; muKaptonTime = -1000;
