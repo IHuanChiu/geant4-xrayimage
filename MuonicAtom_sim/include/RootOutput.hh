@@ -93,6 +93,9 @@ class RootOutput{
     void SetInitialEletronParameters(G4double x,G4double y,G4double z, G4double px,G4double py,G4double pz){
          eInitX = x;eInitY = y;eInitZ = z;eInitpX = px;eInitpY = py;eInitpZ = pz;}
     void SetEnergyDepositInVolume(G4int id, G4String name, G4double energy);
+    void SetParticlePositionInVolume(G4int id, G4int x, G4int y , G4int z){
+         Position_x[id] = x; Position_y[id] = y; Position_z[id] = z;
+         }
 
     TFile* rootFile;
     TTree* rootTree;
@@ -122,6 +125,9 @@ class RootOutput{
     Double_t eInitX ; Double_t eInitY ;Double_t eInitZ ;Double_t eInitpX ;Double_t eInitpY ;Double_t eInitpZ ;  
 
     Int_t Det_nMax;
+    Double_t Position_x[numberOfvolume];
+    Double_t Position_y[numberOfvolume];
+    Double_t Position_z[numberOfvolume];
     Double_t eDep[numberOfvolume];
     Double_t eDep_e[numberOfvolume];
     Double_t eDep_gamma[numberOfvolume];

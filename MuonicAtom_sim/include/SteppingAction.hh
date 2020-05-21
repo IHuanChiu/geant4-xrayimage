@@ -68,6 +68,7 @@ class SteppingAction : public G4UserSteppingAction
     G4bool muhitShadowInThisEvent;
     G4bool muhitKaptonInThisEvent;
     G4bool muEscapeInThisEvent;
+    G4bool particleHitCdTe;
     G4int ngammaHitVolume[10];
     G4int neletronHitVolume[10];
     G4int nneutronHitVolume[10];

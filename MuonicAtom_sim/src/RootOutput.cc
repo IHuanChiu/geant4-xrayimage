@@ -112,6 +112,9 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("energyDep_e",eDep_e,"energyDep_e[Det_nMax]/D");
    rootTree->Branch("energyDep_gamma",eDep_gamma,"energyDep_gamma[Det_nMax]/D");
    rootTree->Branch("energyDep_other",eDep_other,"energyDep_other[Det_nMax]/D");
+   rootTree->Branch("Position_x",Position_x,"Position_x[Det_nMax]/D");
+   rootTree->Branch("Position_y",Position_y,"Position_y[Det_nMax]/D");
+   rootTree->Branch("Position_z",Position_z,"Position_z[Det_nMax]/D");
 //   rootTree->Branch("energyDep_bkg",eDep_bkg,"energyDep_bkg[Det_nMax]/D");
 //   rootTree->Branch("energyDep_e_bkg",eDep_e_bkg,"energyDep_e_bkg[Det_nMax]/D");
 //   rootTree->Branch("energyDep_gamma_bkg",eDep_gamma_bkg,"energyDep_gamma_bkg[Det_nMax]/D");
@@ -207,6 +210,9 @@ void RootOutput::ClearAllRootVariables() {
     eDep_e[i] = 0.;
     eDep_gamma[i] = 0.;
     eDep_other[i] = 0.;
+    Position_x[i] = -1000.;
+    Position_y[i] = -1000.;
+    Position_z[i] = -1000.;
   }
   
   muSampleTime = -1000; muCollimatorTime = -1000; muWorldTime = -1000; muShadowTime = -1000; muKaptonTime = -1000;

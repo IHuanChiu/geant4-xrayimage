@@ -73,6 +73,8 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   muhitShadowInThisEvent = false;
   muhitKaptonInThisEvent = false;
   muEscapeInThisEvent = false;
+  
+  particleHitCdTe = false;
 
   for(int i = 0; i<10; i++){
     ngammaHitVolume[i] = 0;
@@ -204,9 +206,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    
            Kinetic_e         = aTrack->GetKineticEnergy()/CLHEP::MeV;
            Total_e           = aTrack->GetTotalEnergy()/CLHEP::MeV;
-           det_x             = TrackPosition.x();
-           det_y             = TrackPosition.y();
-           det_z             = TrackPosition.z();
+           det_x             = aTrack->GetPosition().x()/CLHEP::mm;
+           det_y             = aTrack->GetPosition().y()/CLHEP::mm;
+           det_z             = aTrack->GetPosition().z()/CLHEP::mm;
            det_pdgid         = pdgID;
    
            if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
@@ -218,7 +220,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
            myRootOutput->FillParticle();
         }
      }
-     // *** energy deposite ***
+     // *** energy deposite & position of the first particle ***
+     if(!particleHitCdTe){
+        particleHitCdTe = true;
+        myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm, aTrack->GetPosition().y()/CLHEP::mm, aTrack->GetPosition().z()/CLHEP::mm);
+     }
      myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
 
   }// only CdTe detector
