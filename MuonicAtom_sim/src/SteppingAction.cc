@@ -222,7 +222,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
      }
      // *** energy deposite & position of the first particle ***
      if(!particleHitCdTe){
-        particleHitCdTe = true;
+        if(aTrack->GetDefinition()->GetParticleName() == "gamma") particleHitCdTe = true;//first position of gamma
         myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm, aTrack->GetPosition().y()/CLHEP::mm, aTrack->GetPosition().z()/CLHEP::mm);
      }
      myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
