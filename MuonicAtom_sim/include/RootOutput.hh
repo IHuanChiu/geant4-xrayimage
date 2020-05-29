@@ -133,11 +133,6 @@ class RootOutput{
     Double_t eDep_gamma[numberOfvolume];
     Double_t eDep_other[numberOfvolume];
 
-    Double_t eDep_bkg[numberOfvolume];
-    Double_t eDep_e_bkg[numberOfvolume];
-    Double_t eDep_gamma_bkg[numberOfvolume];
-    Double_t eDep_other_bkg[numberOfvolume];
-
     Int_t Hit_Volume;
     Int_t Stop_Volume;
 

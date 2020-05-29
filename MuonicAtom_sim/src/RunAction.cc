@@ -40,6 +40,7 @@
 #include "RootOutput.hh"
 
 #include "g4root.hh"//IH
+#include "G4Timer.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -63,7 +64,9 @@ RunAction::RunAction()
   // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
-  accumulableManager->RegisterAccumulable(fEdep2); 
+  accumulableManager->RegisterAccumulable(fEdep2);
+
+  timer = new G4Timer; 
 
   //IH make ntuple (G4AnalysisManager is used to handle ntuple and hist)
 //  auto analysisManager = G4AnalysisManager::Instance();
@@ -78,11 +81,14 @@ RunAction::RunAction()
   
 }
 
-RunAction::~RunAction() {}
+RunAction::~RunAction() {
+   delete timer;
+}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::BeginOfRunAction(const G4Run* iRun)
 { 
+  timer->Start();
   G4int run_id= iRun->GetRunID();
   G4cout << "### Run " << run_id << G4endl;
 
@@ -179,6 +185,17 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
+
+  timer->Stop();
+  G4cout << "musrRunAction::EndOfRunAction:"<<G4endl;
+  G4cout << "    Number of events    = " << nofEvents <<G4endl;
+  //         << " " << *timer << G4endl;
+  G4cout << "    User elapsed time   = "<<timer->GetUserElapsed()/3600<<"h   = "
+         <<timer->GetUserElapsed()/60<<"min   = "<<timer->GetUserElapsed()<<"s."<<G4endl;
+  G4cout << "    Real elapsed time   = "<<timer->GetRealElapsed()/3600<<"h   = "
+         <<timer->GetRealElapsed()/60<<"min   = "<<timer->GetRealElapsed()<<"s."<<G4endl;
+  G4cout << "    System elapsed time = "<<timer->GetSystemElapsed()/3600<<"h   = "
+         <<timer->GetSystemElapsed()/60<<"min   = "<<timer->GetSystemElapsed()<<"s."<<G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

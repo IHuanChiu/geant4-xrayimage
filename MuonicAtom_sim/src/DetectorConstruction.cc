@@ -140,20 +140,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4Material* collimator_mater = nist->FindOrBuildMaterial("G4_W");
   G4VSolid* cylinderDet = new G4Tubs("CdTeCollimator",1*mm,20*mm,(8/2)*mm,0.,2*M_PI*rad);
-  G4Cons* collimator_cone=new G4Cons("collimator_cone",0*mm,(3./2)*mm, 0*mm, (6./2)*mm,(4./2)*mm, 0., shadow_angle*deg);//angle
+  G4Cons* collimator_cone=new G4Cons("collimator_cone",0*mm,(cone_size/2)*mm, 0*mm, (cone_size*3/2)*mm,(4./2)*mm, 0., shadow_angle*deg);//angle
   G4RotationMatrix* cone_rotation = new G4RotationMatrix(0*CLHEP::deg,180*CLHEP::deg,0*CLHEP::deg);
   G4VSolid* substractsolid_det_pre = new G4SubtractionSolid("CdTecollimator_pre", cylinderDet, collimator_cone, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
   G4VSolid* substractsolid_det = new G4SubtractionSolid("CdTecollimator", substractsolid_det_pre, collimator_cone, cone_rotation, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
 
 
-  G4ThreeVector pos_det_1 = G4ThreeVector(0, -(det_dy/2+det_dis)*mm, (sample_dis+sample_dz/2)*mm);
+  G4ThreeVector pos_det_1 = G4ThreeVector(0, -(det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
   G4RotationMatrix* angle_det_1 = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
-  G4ThreeVector pos_collimator_1 = G4ThreeVector(0, -(det_dy/2+det_dis-colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+  G4ThreeVector pos_collimator_1 = G4ThreeVector(0, -(det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
   G4RotationMatrix* angle_collimator_1 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
 
-  G4ThreeVector pos_det_2 = G4ThreeVector(0, (det_dy/2+det_dis)*mm, (sample_dis+sample_dz/2)*mm);
+  G4ThreeVector pos_det_2 = G4ThreeVector(0, (det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
   G4RotationMatrix* angle_det_2 = new G4RotationMatrix(0*CLHEP::deg,180*CLHEP::deg,0*CLHEP::deg);
-  G4ThreeVector pos_collimator_2 = G4ThreeVector(0, (det_dy/2+det_dis-colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+  G4ThreeVector pos_collimator_2 = G4ThreeVector(0, (det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
   G4RotationMatrix* angle_collimator_2 = new G4RotationMatrix(0*CLHEP::deg,270*CLHEP::deg,0*CLHEP::deg);
 
   G4LogicalVolume* DetLog_1 = new G4LogicalVolume(solidDet,det_mater,"CdTe1");           //its name
@@ -165,6 +165,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(angle_det_2,pos_det_2,DetLog_2,"CdTe2",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_collimator_1,pos_collimator_1,DetColliLog_1,"CdTeCollimator1",logicWorld,false,0,checkOverlaps);
   new G4PVPlacement(angle_collimator_2,pos_collimator_2,DetColliLog_2,"CdTeCollimator2",logicWorld,false,0,checkOverlaps);
+
+//  G4LogicalVolume* DetColliLog_test = new G4LogicalVolume(collimator_cone,collimator_mater,"testtest");           
+//  G4ThreeVector pos_collimator_test = G4ThreeVector(0, 0*mm, 200*mm);
+//  new G4PVPlacement(angle_collimator_2,pos_collimator_test,DetColliLog_test,"testtest",logicWorld,false,0,checkOverlaps);
 
   // Set Detector as scoring volume
   fScoringVolume = DetLog_1;

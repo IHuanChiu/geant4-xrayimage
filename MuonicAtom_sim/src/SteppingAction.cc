@@ -108,9 +108,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //  std::cout << particleName   << "  pdgID : " << abs(pdgID) << " Particle ID : " << step->GetTrack()->GetTrackID() << " ParentID : " << aTrack->GetParentID()  << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << Time << " Z : " << TrackPosition.z() <<  " energy : " << aTrack->GetKineticEnergy() << std::endl;
 
   // =========== store muon hit position ===============    
-  if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+  if(abs(pdgID) == 13){// note: before touch physic volume, pdgID is random number
 //  if((particleName == "mu-" || particleName == "mu+") && ParentID == 0){
-
+    if(ParentID != 0) return;
     TrackPosition     = aTrack->GetPosition();//aTrack->GetPolarization();
     Time              = aTrack->GetGlobalTime()/CLHEP::microsecond;
     KineticEnergy     = aTrack->GetKineticEnergy()/CLHEP::MeV;
@@ -193,8 +193,25 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          myRootOutput->SetEndKineticEnergyInWorld(KineticEnergy);            
 //       }
     }//volume end
+     if (aTrack->GetPosition().z()/CLHEP::mm > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
+  else{
 
+  // ============= Designated Position of The Particles ===================
+  if(abs(pdgID) != 22 && abs(pdgID) != 11)              aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+  if(aTrack->GetPosition().z()/CLHEP::mm < 0 )          aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+  if(fabs(aTrack->GetPosition().x()/CLHEP::mm) > 15 )   aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+  if((aTrack->GetPosition().z()/CLHEP::mm - 30.5) > 15) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+
+//  if(aTrack->GetPosition().y() >= 0){
+//     Solidangle_Width = (109+2.7-aTrack->GetPosition().y()/CLHEP::mm)*(1.5/2.7);
+//     plane_width = std::sqrt((aTrack->GetPosition().x()/CLHEP::mm - 0)*(aTrack->GetPosition().x()/CLHEP::mm - 0) + (aTrack->GetPosition().z()/CLHEP::mm - 30.5)*(aTrack->GetPosition().z()/CLHEP::mm - 30.5));
+//     if(plane_width > Solidangle_Width) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+//  }else{
+//     Solidangle_Width = (aTrack->GetPosition().y()/CLHEP::mm+109+2.7)*(1.5/2.7);
+//     plane_width = std::sqrt((aTrack->GetPosition().x()/CLHEP::mm - 0)*(aTrack->GetPosition().x()/CLHEP::mm - 0) + (aTrack->GetPosition().z()/CLHEP::mm - 30.5)*(aTrack->GetPosition().z()/CLHEP::mm - 30.5));
+//     if(plane_width > Solidangle_Width) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+//  }
 
   // =========== store detector info. ===============    
   if (VolumeMap[CurrentVolumeName] >= DetNumber){//detector only
@@ -228,6 +245,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
      myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
 
   }// only CdTe detector
+
+  }//other particles end
 
 }
 

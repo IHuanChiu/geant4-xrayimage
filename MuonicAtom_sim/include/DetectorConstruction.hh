@@ -67,10 +67,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double det_dx = 30; 
     G4double det_dy = 2;
     G4double det_dz = 30;
-//    G4double det_dis = 109;
-    G4double det_dis = 59;
-    G4double colli_dis = 20;
+    G4double det_dis = 30;// dis between colli. & det
+    G4double colli_dis = 109;//dis between colli. & sample
     G4double angle = 45;
+    G4double cone_size = 3;
 
     G4double shadow_front = 15;
     G4double shadow_depth = 50;

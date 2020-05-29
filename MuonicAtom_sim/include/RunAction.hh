@@ -34,6 +34,7 @@
 #include "globals.hh"
 #include "RootOutput.hh"
 
+class G4Timer;
 class G4Run;
 
 /// Run action class
@@ -57,6 +58,7 @@ class RunAction : public G4UserRunAction
 
   private:
 
+    G4Timer* timer;
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
 

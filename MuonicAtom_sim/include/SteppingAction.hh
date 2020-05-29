@@ -107,6 +107,9 @@ class SteppingAction : public G4UserSteppingAction
     G4String CurrentVolumeName;
     G4String CurrentProcess;
     G4bool SignalType; 
+
+    G4double Solidangle_Width;
+    G4double plane_width;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
