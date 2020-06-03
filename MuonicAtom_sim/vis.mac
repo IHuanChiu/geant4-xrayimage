@@ -119,8 +119,12 @@
 #/vis/geometry/set/colour Collimator7 0 0 0.5 1.0 .7
 #/vis/geometry/set/colour Collimator8 0 0 0.5 1.0 .7
 #/vis/geometry/set/colour Collimator9 0 0 0.5 1.0 .7
+/vis/geometry/set/colour CdTe0 0 1 0 0 .9
 /vis/geometry/set/colour CdTe1 0 1 0 0 .9
 /vis/geometry/set/colour CdTe2 0 1 0 0 .9
+/vis/geometry/set/colour CdTe3 0 1 0 0 .9
+/vis/geometry/set/colour CdTe4 0 1 0 0 .9
+/vis/geometry/set/colour CdTe5 0 1 0 0 .9
 #/vis/geometry/set/colour Shadow 0 1 1 0 .5
 #/vis/geometry/set/colour Shadow2 0 0 1 0 .2
 /vis/geometry/set/colour Shelf 0 0 1 0 .7

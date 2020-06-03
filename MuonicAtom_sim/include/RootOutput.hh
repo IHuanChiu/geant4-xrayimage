@@ -46,7 +46,7 @@ class RootOutput{
           Track_Process  = tr_process;
     }
 
-    static const int numberOfvolume = 2; 
+    static const int numberOfvolume = 6; 
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -93,7 +93,7 @@ class RootOutput{
     void SetInitialEletronParameters(G4double x,G4double y,G4double z, G4double px,G4double py,G4double pz){
          eInitX = x;eInitY = y;eInitZ = z;eInitpX = px;eInitpY = py;eInitpZ = pz;}
     void SetEnergyDepositInVolume(G4int id, G4String name, G4double energy);
-    void SetParticlePositionInVolume(G4int id, G4int x, G4int y , G4int z){
+    void SetParticlePositionInVolume(G4int id, G4double x, G4double y , G4double z){
          Position_x[id] = x; Position_y[id] = y; Position_z[id] = z;
          }
 
@@ -147,10 +147,10 @@ class RootOutput{
     std::string Track_Process;
 
     Int_t nDet;
-    Double_t Ngamma[10]; 
-    Double_t Neletron[10]; 
-    Double_t Nneutron[10];
-    Double_t Nother[10];
+    Double_t Ngamma[numberOfvolume]; 
+    Double_t Neletron[numberOfvolume]; 
+    Double_t Nneutron[numberOfvolume];
+    Double_t Nother[numberOfvolume];
 
     Int_t runID;
     Int_t eventID;

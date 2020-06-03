@@ -79,13 +79,13 @@ int main(int argc,char** argv)
 
   // Physics list
 //  G4PhysListFactory factory;  
-  G4VModularPhysicsList* physicsList = new QBBC;
+//  G4VModularPhysicsList* physicsList = new QBBC;
 //  G4VModularPhysicsList* physicsList = factory.GetReferencePhysList("FTFP_BERT_LIV");	
-  physicsList->SetVerboseLevel(1);
+//  physicsList->SetVerboseLevel(1);
 
-  runManager->SetUserInitialization(physicsList);//official PhysicsList
+//  runManager->SetUserInitialization(physicsList);//official PhysicsList
 
-//  runManager->SetUserInitialization(new PhysicsList);//own PhysicsList
+  runManager->SetUserInitialization(new PhysicsList);//own PhysicsList
 
 
   //print list

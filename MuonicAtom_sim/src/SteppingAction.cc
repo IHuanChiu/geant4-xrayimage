@@ -56,9 +56,13 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  VolumeMap["CdTe2"] = 7;
-  VolumeMap["CdTe1"] = 6; 
-  DetNumber = VolumeMap["CdTe1"];
+  VolumeMap["CdTe5"] = 11;
+  VolumeMap["CdTe4"] = 10;
+  VolumeMap["CdTe3"] = 9;
+  VolumeMap["CdTe2"] = 8;
+  VolumeMap["CdTe1"] = 7;
+  VolumeMap["CdTe0"] = 6; 
+  DetNumber = VolumeMap["CdTe0"];
 
   VolumeMap["Target1"] = 5;
   VolumeMap["Target2"] = 4;
@@ -193,15 +197,14 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          myRootOutput->SetEndKineticEnergyInWorld(KineticEnergy);            
 //       }
     }//volume end
-     if (aTrack->GetPosition().z()/CLHEP::mm > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+     if (aTrack->GetPosition().z()/CLHEP::mm > 45) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+     if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
   else{
 
   // ============= Designated Position of The Particles ===================
-  if(abs(pdgID) != 22 && abs(pdgID) != 11)              aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-  if(aTrack->GetPosition().z()/CLHEP::mm < 0 )          aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-  if(fabs(aTrack->GetPosition().x()/CLHEP::mm) > 15 )   aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-  if((aTrack->GetPosition().z()/CLHEP::mm - 30.5) > 15) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+  if(aTrack->GetPosition().z()/CLHEP::mm < 0 || aTrack->GetPosition().z()/CLHEP::mm > 60) 
+     aTrack->SetTrackStatus(fKillTrackAndSecondaries);
 
 //  if(aTrack->GetPosition().y() >= 0){
 //     Solidangle_Width = (109+2.7-aTrack->GetPosition().y()/CLHEP::mm)*(1.5/2.7);
@@ -240,7 +243,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
      // *** energy deposite & position of the first particle ***
      if(!particleHitCdTe){
         if(aTrack->GetDefinition()->GetParticleName() == "gamma") particleHitCdTe = true;//first position of gamma
-        myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm, aTrack->GetPosition().y()/CLHEP::mm, aTrack->GetPosition().z()/CLHEP::mm);
+        myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm+0.0, aTrack->GetPosition().y()/CLHEP::mm+0.0, aTrack->GetPosition().z()/CLHEP::mm);
      }
      myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
 

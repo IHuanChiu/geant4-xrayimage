@@ -41,56 +41,56 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
    rootTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
    rootTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
-   rootTree->Branch("muCdTeTime",&muCdTeTime,"muCdTeTime[6]/D");
-   rootTree->Branch("muCdTeKineticEnergy",&muCdTeKineticEnergy,"muCdTeKineticEnergy[6]/D");
-   rootTree->Branch("muCdTePolX",&muCdTePolX,"muCdTePolX[6]/D");
-   rootTree->Branch("muCdTePolY",&muCdTePolY,"muCdTePolY[6]/D");
-   rootTree->Branch("muCdTePolZ",&muCdTePolZ,"muCdTePolZ[6]/D");
-   rootTree->Branch("muCdTeEndTime",&muCdTeEndTime,"muCdTeEndTime[6]/D");
-   rootTree->Branch("muCdTeEndKineticEnergy",&muCdTeEndKineticEnergy,"muCdTeEndKineticEnergy[6]/D");
-   rootTree->Branch("muCdTeEndPolX",&muCdTeEndPolX,"muCdTeEndPolX[6]/D");
-   rootTree->Branch("muCdTeEndPolY",&muCdTeEndPolY,"muCdTeEndPolY[6]/D");
-   rootTree->Branch("muCdTeEndPolZ",&muCdTeEndPolZ,"muCdTeEndPolZ[6]/D");
-   rootTree->Branch("muCollimatorTime",&muCollimatorTime,"muCollimatorTime/D");
-   rootTree->Branch("muCollimatorKineticEnergy",&muCollimatorKineticEnergy,"muCollimatorKineticEnergy/D");
-   rootTree->Branch("muCollimatorPolX",&muCollimatorPolX,"muCollimatorPolX/D");
-   rootTree->Branch("muCollimatorPolY",&muCollimatorPolY,"muCollimatorPolY/D");
-   rootTree->Branch("muCollimatorPolZ",&muCollimatorPolZ,"muCollimatorPolZ/D");
-   rootTree->Branch("muCollimatorEndTime",&muCollimatorEndTime,"muCollimatorEndTime/D");
-   rootTree->Branch("muCollimatorEndKineticEnergy",&muCollimatorEndKineticEnergy,"muCollimatorEndKineticEnergy/D");
-   rootTree->Branch("muCollimatorEndPolX",&muCollimatorEndPolX,"muCollimatorEndPolX/D");
-   rootTree->Branch("muCollimatorEndPolY",&muCollimatorEndPolY,"muCollimatorEndPolY/D");
-   rootTree->Branch("muCollimatorEndPolZ",&muCollimatorEndPolZ,"muCollimatorEndPolZ/D");
-   rootTree->Branch("muShadowTime",&muShadowTime,"muShadowTime/D");
-   rootTree->Branch("muShadowKineticEnergy",&muShadowKineticEnergy,"muShadowKineticEnergy/D");
-   rootTree->Branch("muShadowPolX",&muShadowPolX,"muShadowPolX/D");
-   rootTree->Branch("muShadowPolY",&muShadowPolY,"muShadowPolY/D");
-   rootTree->Branch("muShadowPolZ",&muShadowPolZ,"muShadowPolZ/D");
-   rootTree->Branch("muShadowEndTime",&muShadowEndTime,"muShadowEndTime/D");
-   rootTree->Branch("muShadowEndKineticEnergy",&muShadowEndKineticEnergy,"muShadowEndKineticEnergy/D");
-   rootTree->Branch("muShadowEndPolX",&muShadowEndPolX,"muShadowEndPolX/D");
-   rootTree->Branch("muShadowEndPolY",&muShadowEndPolY,"muShadowEndPolY/D");
-   rootTree->Branch("muShadowEndPolZ",&muShadowEndPolZ,"muShadowEndPolZ/D");
-   rootTree->Branch("muKaptonTime",&muKaptonTime,"muKaptonTime/D");
-   rootTree->Branch("muKaptonKineticEnergy",&muKaptonKineticEnergy,"muKaptonKineticEnergy/D");
-   rootTree->Branch("muKaptonPolX",&muKaptonPolX,"muKaptonPolX/D");
-   rootTree->Branch("muKaptonPolY",&muKaptonPolY,"muKaptonPolY/D");
-   rootTree->Branch("muKaptonPolZ",&muKaptonPolZ,"muKaptonPolZ/D");
-   rootTree->Branch("muKaptonEndTime",&muKaptonEndTime,"muKaptonEndTime/D");
-   rootTree->Branch("muKaptonEndKineticEnergy",&muKaptonEndKineticEnergy,"muKaptonEndKineticEnergy/D");
-   rootTree->Branch("muKaptonEndPolX",&muKaptonEndPolX,"muKaptonEndPolX/D");
-   rootTree->Branch("muKaptonEndPolY",&muKaptonEndPolY,"muKaptonEndPolY/D");
-   rootTree->Branch("muKaptonEndPolZ",&muKaptonEndPolZ,"muKaptonEndPolZ/D");
-   rootTree->Branch("muWorldTime",&muWorldTime,"muWorldTime/D");
-   rootTree->Branch("muWorldKineticEnergy",&muWorldKineticEnergy,"muWorldKineticEnergy/D");
-   rootTree->Branch("muWorldPolX",&muWorldPolX,"muWorldPolX/D");
-   rootTree->Branch("muWorldPolY",&muWorldPolY,"muWorldPolY/D");
-   rootTree->Branch("muWorldPolZ",&muWorldPolZ,"muWorldPolZ/D");
-   rootTree->Branch("muWorldEndTime",&muWorldEndTime,"muWorldEndTime/D");
-   rootTree->Branch("muWorldEndKineticEnergy",&muWorldEndKineticEnergy,"muWorldEndKineticEnergy/D");
-   rootTree->Branch("muWorldEndPolX",&muWorldEndPolX,"muWorldEndPolX/D");
-   rootTree->Branch("muWorldEndPolY",&muWorldEndPolY,"muWorldEndPolY/D");
-   rootTree->Branch("muWorldEndPolZ",&muWorldEndPolZ,"muWorldEndPolZ/D");
+//   rootTree->Branch("muCdTeTime",&muCdTeTime,"muCdTeTime[6]/D");
+//   rootTree->Branch("muCdTeKineticEnergy",&muCdTeKineticEnergy,"muCdTeKineticEnergy[6]/D");
+//   rootTree->Branch("muCdTePolX",&muCdTePolX,"muCdTePolX[6]/D");
+//   rootTree->Branch("muCdTePolY",&muCdTePolY,"muCdTePolY[6]/D");
+//   rootTree->Branch("muCdTePolZ",&muCdTePolZ,"muCdTePolZ[6]/D");
+//   rootTree->Branch("muCdTeEndTime",&muCdTeEndTime,"muCdTeEndTime[6]/D");
+//   rootTree->Branch("muCdTeEndKineticEnergy",&muCdTeEndKineticEnergy,"muCdTeEndKineticEnergy[6]/D");
+//   rootTree->Branch("muCdTeEndPolX",&muCdTeEndPolX,"muCdTeEndPolX[6]/D");
+//   rootTree->Branch("muCdTeEndPolY",&muCdTeEndPolY,"muCdTeEndPolY[6]/D");
+//   rootTree->Branch("muCdTeEndPolZ",&muCdTeEndPolZ,"muCdTeEndPolZ[6]/D");
+//   rootTree->Branch("muCollimatorTime",&muCollimatorTime,"muCollimatorTime/D");
+//   rootTree->Branch("muCollimatorKineticEnergy",&muCollimatorKineticEnergy,"muCollimatorKineticEnergy/D");
+//   rootTree->Branch("muCollimatorPolX",&muCollimatorPolX,"muCollimatorPolX/D");
+//   rootTree->Branch("muCollimatorPolY",&muCollimatorPolY,"muCollimatorPolY/D");
+//   rootTree->Branch("muCollimatorPolZ",&muCollimatorPolZ,"muCollimatorPolZ/D");
+//   rootTree->Branch("muCollimatorEndTime",&muCollimatorEndTime,"muCollimatorEndTime/D");
+//   rootTree->Branch("muCollimatorEndKineticEnergy",&muCollimatorEndKineticEnergy,"muCollimatorEndKineticEnergy/D");
+//   rootTree->Branch("muCollimatorEndPolX",&muCollimatorEndPolX,"muCollimatorEndPolX/D");
+//   rootTree->Branch("muCollimatorEndPolY",&muCollimatorEndPolY,"muCollimatorEndPolY/D");
+//   rootTree->Branch("muCollimatorEndPolZ",&muCollimatorEndPolZ,"muCollimatorEndPolZ/D");
+//   rootTree->Branch("muShadowTime",&muShadowTime,"muShadowTime/D");
+//   rootTree->Branch("muShadowKineticEnergy",&muShadowKineticEnergy,"muShadowKineticEnergy/D");
+//   rootTree->Branch("muShadowPolX",&muShadowPolX,"muShadowPolX/D");
+//   rootTree->Branch("muShadowPolY",&muShadowPolY,"muShadowPolY/D");
+//   rootTree->Branch("muShadowPolZ",&muShadowPolZ,"muShadowPolZ/D");
+//   rootTree->Branch("muShadowEndTime",&muShadowEndTime,"muShadowEndTime/D");
+//   rootTree->Branch("muShadowEndKineticEnergy",&muShadowEndKineticEnergy,"muShadowEndKineticEnergy/D");
+//   rootTree->Branch("muShadowEndPolX",&muShadowEndPolX,"muShadowEndPolX/D");
+//   rootTree->Branch("muShadowEndPolY",&muShadowEndPolY,"muShadowEndPolY/D");
+//   rootTree->Branch("muShadowEndPolZ",&muShadowEndPolZ,"muShadowEndPolZ/D");
+//   rootTree->Branch("muKaptonTime",&muKaptonTime,"muKaptonTime/D");
+//   rootTree->Branch("muKaptonKineticEnergy",&muKaptonKineticEnergy,"muKaptonKineticEnergy/D");
+//   rootTree->Branch("muKaptonPolX",&muKaptonPolX,"muKaptonPolX/D");
+//   rootTree->Branch("muKaptonPolY",&muKaptonPolY,"muKaptonPolY/D");
+//   rootTree->Branch("muKaptonPolZ",&muKaptonPolZ,"muKaptonPolZ/D");
+//   rootTree->Branch("muKaptonEndTime",&muKaptonEndTime,"muKaptonEndTime/D");
+//   rootTree->Branch("muKaptonEndKineticEnergy",&muKaptonEndKineticEnergy,"muKaptonEndKineticEnergy/D");
+//   rootTree->Branch("muKaptonEndPolX",&muKaptonEndPolX,"muKaptonEndPolX/D");
+//   rootTree->Branch("muKaptonEndPolY",&muKaptonEndPolY,"muKaptonEndPolY/D");
+//   rootTree->Branch("muKaptonEndPolZ",&muKaptonEndPolZ,"muKaptonEndPolZ/D");
+//   rootTree->Branch("muWorldTime",&muWorldTime,"muWorldTime/D");
+//   rootTree->Branch("muWorldKineticEnergy",&muWorldKineticEnergy,"muWorldKineticEnergy/D");
+//   rootTree->Branch("muWorldPolX",&muWorldPolX,"muWorldPolX/D");
+//   rootTree->Branch("muWorldPolY",&muWorldPolY,"muWorldPolY/D");
+//   rootTree->Branch("muWorldPolZ",&muWorldPolZ,"muWorldPolZ/D");
+//   rootTree->Branch("muWorldEndTime",&muWorldEndTime,"muWorldEndTime/D");
+//   rootTree->Branch("muWorldEndKineticEnergy",&muWorldEndKineticEnergy,"muWorldEndKineticEnergy/D");
+//   rootTree->Branch("muWorldEndPolX",&muWorldEndPolX,"muWorldEndPolX/D");
+//   rootTree->Branch("muWorldEndPolY",&muWorldEndPolY,"muWorldEndPolY/D");
+//   rootTree->Branch("muWorldEndPolZ",&muWorldEndPolZ,"muWorldEndPolZ/D");
    rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
    rootTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
    rootTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
@@ -99,12 +99,12 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
    rootTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
    rootTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
-   rootTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
-   rootTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
-   rootTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
-   rootTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
-   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
-   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
+//   rootTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
+//   rootTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
+//   rootTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
+//   rootTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
+//   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
+//   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
    // ===== detector info. =====
    rootTree->Branch("Det_nMax",&Det_nMax,"Det_nMax/I");
@@ -120,11 +120,11 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("energyDep_gamma_bkg",eDep_gamma_bkg,"energyDep_gamma_bkg[Det_nMax]/D");
 //   rootTree->Branch("energyDep_other_bkg",eDep_other_bkg,"energyDep_other_bkg[Det_nMax]/D");
 
-   rootTree->Branch("nDet",nDet,"nDet/I");
-   rootTree->Branch("Ngamma",Ngamma,"Ngamma[nDet]/D");
-   rootTree->Branch("Neletron",Neletron,"Neletron[nDet]/D");
-   rootTree->Branch("Nneutron",Nneutron,"Nneutron[nDet]/D");
-   rootTree->Branch("Nother",Nother,"Nother[nDet]/D");
+//   rootTree->Branch("nDet",nDet,"nDet/I");
+//   rootTree->Branch("Ngamma",Ngamma,"Ngamma[nDet]/D");
+//   rootTree->Branch("Neletron",Neletron,"Neletron[nDet]/D");
+//   rootTree->Branch("Nneutron",Nneutron,"Nneutron[nDet]/D");
+//   rootTree->Branch("Nother",Nother,"Nother[nDet]/D");
 
    // ===== track info. =====
    TrackTree->Branch("det_ID", &det_ID, "det_ID/I");
@@ -165,7 +165,7 @@ void RootOutput::FillParticle() {
 //}
 
 void RootOutput::ScannParticleHitVolume(G4int id, G4String name){
-   nDet = 2;
+   nDet = numberOfvolume;
    if(name == "gamma"){ Ngamma[id]++;
    }else if(name == "e+" || name == "e-"){ Neletron[id]++;
    }else if(name == "neutron" || name == "anti_neutron"){ Nneutron[id]++;
@@ -174,7 +174,7 @@ void RootOutput::ScannParticleHitVolume(G4int id, G4String name){
 }
 
 void RootOutput::SetEnergyDepositInVolume(G4int id, G4String particleName, G4double energy){  
-  Det_nMax = 2; // find max id (number of detectors)
+  Det_nMax = numberOfvolume; // find max id (number of detectors)
   eDep[id] +=  energy;
   if (particleName=="e-" || particleName == "e+") { eDep_e[id] +=  energy;
   }else if(particleName == "gamma"){ eDep_gamma[id] += energy;

@@ -98,7 +98,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,(kapton_radiu)*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, (-5+1)*mm);//check beam position
+  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, (10+1)*mm);//check beam position
   G4LogicalVolume* KaptonLog =
        new G4LogicalVolume(kapton_tubs,         //its solid
                            solid_kapton,          //its material
@@ -120,10 +120,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
     G4Orb* solid_ball_L = new G4Orb("Ball", (1.27/2.)*cm);
     G4Orb* solid_ball_S = new G4Orb("samllBall", (0.635/2)*cm);
-    G4ThreeVector pos_sample1 = G4ThreeVector((0+5)*mm, (0+5)*mm, (sample_dis+3+sample_dz/2)*mm);//front
-    G4ThreeVector pos_sample2 = G4ThreeVector((0-5)*mm, (0+5)*mm, (sample_dis-3+sample_dz/2)*mm);//back
-    G4ThreeVector pos_sample3 = G4ThreeVector((0+5)*mm, (0-5)*mm, (sample_dis+sample_dz/2)*mm);
-    G4ThreeVector pos_sample4 = G4ThreeVector((0-5)*mm, (0-5)*mm, (sample_dis+sample_dz/2)*mm);
+    G4ThreeVector pos_sample1 = G4ThreeVector((0+(14.14/2))*mm, (0+(14.14/2))*mm, (sample_dis+5+sample_dz/2)*mm);//L back
+    G4ThreeVector pos_sample2 = G4ThreeVector((0-(14.14/2))*mm, (0+(14.14/2))*mm, (sample_dis-11+sample_dz/2)*mm);//S front
+    G4ThreeVector pos_sample3 = G4ThreeVector((0+(14.14/2))*mm, (0-(14.14/2))*mm, (sample_dis-8+sample_dz/2)*mm);//S back
+    G4ThreeVector pos_sample4 = G4ThreeVector((0-(14.14/2))*mm, (0-(14.14/2))*mm, (sample_dis-10+sample_dz/2)*mm);//L front
     G4LogicalVolume* TargetLog1 = new G4LogicalVolume(solid_ball_L,solid_target,"Target1"); 
     G4LogicalVolume* TargetLog2 = new G4LogicalVolume(solid_ball_L,solid_target,"Target2"); 
     G4LogicalVolume* TargetLog3 = new G4LogicalVolume(solid_ball_S,solid_target,"Target3"); 
@@ -146,25 +146,84 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* substractsolid_det = new G4SubtractionSolid("CdTecollimator", substractsolid_det_pre, collimator_cone, cone_rotation, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
 
 
-  G4ThreeVector pos_det_1 = G4ThreeVector(0, -(det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
-  G4RotationMatrix* angle_det_1 = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
-  G4ThreeVector pos_collimator_1 = G4ThreeVector(0, -(det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
-  G4RotationMatrix* angle_collimator_1 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+  G4double det_y = det_dy/2+det_dis+colli_dis;
+  G4double colli_y = det_dy/2+colli_dis;
+  G4double rota_angle = 60;
+//  G4ThreeVector pos_det_1 = G4ThreeVector(0, -(det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+//  G4RotationMatrix* angle_det_1 = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+//  G4ThreeVector pos_collimator_1 = G4ThreeVector(0, -(det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+//  G4RotationMatrix* angle_collimator_1 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+//
+//  G4ThreeVector pos_det_2 = G4ThreeVector(0, (det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+//  G4RotationMatrix* angle_det_2 = new G4RotationMatrix(0*CLHEP::deg,180*CLHEP::deg,0*CLHEP::deg);
+//  G4ThreeVector pos_collimator_2 = G4ThreeVector(0, (det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
+//  G4RotationMatrix* angle_collimator_2 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+//
+//  G4LogicalVolume* DetLog_1 = new G4LogicalVolume(solidDet,det_mater,"CdTe1");           //its name
+//  G4LogicalVolume* DetLog_2 = new G4LogicalVolume(solidDet,det_mater,"CdTe2");           //its name
+//  G4LogicalVolume* DetColliLog_1 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator1");           
+//  G4LogicalVolume* DetColliLog_2 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator2");           
+//
+//  new G4PVPlacement(angle_det_1,pos_det_1,DetLog_1,"CdTe1",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(angle_det_2,pos_det_2,DetLog_2,"CdTe2",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(angle_collimator_1,pos_collimator_1,DetColliLog_1,"CdTeCollimator1",logicWorld,false,0,checkOverlaps);
+//  new G4PVPlacement(angle_collimator_2,pos_collimator_2,DetColliLog_2,"CdTeCollimator2",logicWorld,false,0,checkOverlaps);
 
-  G4ThreeVector pos_det_2 = G4ThreeVector(0, (det_dy/2+det_dis+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
-  G4RotationMatrix* angle_det_2 = new G4RotationMatrix(0*CLHEP::deg,180*CLHEP::deg,0*CLHEP::deg);
-  G4ThreeVector pos_collimator_2 = G4ThreeVector(0, (det_dy/2+colli_dis)*mm, (sample_dis+sample_dz/2)*mm);
-  G4RotationMatrix* angle_collimator_2 = new G4RotationMatrix(0*CLHEP::deg,270*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_det_0 = G4ThreeVector(det_y*std::sin(0*rota_angle*CLHEP::deg)*mm, det_y*std::cos(0*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_0 = new G4RotationMatrix(-0*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_0 = G4ThreeVector(colli_y*std::sin(0*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(0*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_0 = new G4RotationMatrix(-(0*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
 
+  G4ThreeVector pos_det_1 = G4ThreeVector(det_y*std::sin(1*rota_angle*CLHEP::deg)*mm, det_y*std::cos(1*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_1 = new G4RotationMatrix(-1*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_1 = G4ThreeVector(colli_y*std::sin(1*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(1*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_1 = new G4RotationMatrix(-(1*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+
+  G4ThreeVector pos_det_2 = G4ThreeVector(det_y*std::sin(2*rota_angle*CLHEP::deg)*mm, det_y*std::cos(2*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_2 = new G4RotationMatrix(-2*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_2 = G4ThreeVector(colli_y*std::sin(2*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(2*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_2 = new G4RotationMatrix(-(2*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+
+  G4ThreeVector pos_det_3 = G4ThreeVector(det_y*std::sin(3*rota_angle*CLHEP::deg)*mm, det_y*std::cos(3*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_3 = new G4RotationMatrix(-3*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_3 = G4ThreeVector(colli_y*std::sin(3*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(3*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_3 = new G4RotationMatrix(-(3*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+
+  G4ThreeVector pos_det_4 = G4ThreeVector(det_y*std::sin(4*rota_angle*CLHEP::deg)*mm, det_y*std::cos(4*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_4 = new G4RotationMatrix(-4*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_4 = G4ThreeVector(colli_y*std::sin(4*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(4*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_4 = new G4RotationMatrix(-(4*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+
+  G4ThreeVector pos_det_5 = G4ThreeVector(det_y*std::sin(5*rota_angle*CLHEP::deg)*mm, det_y*std::cos(5*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_det_5 = new G4RotationMatrix(-5*rota_angle*CLHEP::deg,0*CLHEP::deg,0*CLHEP::deg);
+  G4ThreeVector pos_collimator_5 = G4ThreeVector(colli_y*std::sin(5*rota_angle*CLHEP::deg)*mm, colli_y*std::cos(5*rota_angle*CLHEP::deg)*mm, (sample_dis+sample_dz/2)*mm);
+  G4RotationMatrix* angle_collimator_5 = new G4RotationMatrix(-(5*rota_angle)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
+
+  G4LogicalVolume* DetLog_0 = new G4LogicalVolume(solidDet,det_mater,"CdTe0");           //its name
   G4LogicalVolume* DetLog_1 = new G4LogicalVolume(solidDet,det_mater,"CdTe1");           //its name
   G4LogicalVolume* DetLog_2 = new G4LogicalVolume(solidDet,det_mater,"CdTe2");           //its name
+  G4LogicalVolume* DetLog_3 = new G4LogicalVolume(solidDet,det_mater,"CdTe3");           //its name
+  G4LogicalVolume* DetLog_4 = new G4LogicalVolume(solidDet,det_mater,"CdTe4");           //its name
+  G4LogicalVolume* DetLog_5 = new G4LogicalVolume(solidDet,det_mater,"CdTe5");           //its name
+  G4LogicalVolume* DetColliLog_0 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator0");           
   G4LogicalVolume* DetColliLog_1 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator1");           
   G4LogicalVolume* DetColliLog_2 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator2");           
+  G4LogicalVolume* DetColliLog_3 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator3");           
+  G4LogicalVolume* DetColliLog_4 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator4");           
+  G4LogicalVolume* DetColliLog_5 = new G4LogicalVolume(substractsolid_det,collimator_mater,"CdTeCollimator5");           
 
+  new G4PVPlacement(angle_det_0,pos_det_0,DetLog_0,"CdTe0",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_det_1,pos_det_1,DetLog_1,"CdTe1",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_det_2,pos_det_2,DetLog_2,"CdTe2",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(angle_det_3,pos_det_3,DetLog_3,"CdTe3",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(angle_det_4,pos_det_4,DetLog_4,"CdTe4",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(angle_det_5,pos_det_5,DetLog_5,"CdTe5",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(angle_collimator_0,pos_collimator_0,DetColliLog_0,"CdTeCollimator0",logicWorld,false,0,checkOverlaps);
   new G4PVPlacement(angle_collimator_1,pos_collimator_1,DetColliLog_1,"CdTeCollimator1",logicWorld,false,0,checkOverlaps);
   new G4PVPlacement(angle_collimator_2,pos_collimator_2,DetColliLog_2,"CdTeCollimator2",logicWorld,false,0,checkOverlaps);
+  new G4PVPlacement(angle_collimator_3,pos_collimator_3,DetColliLog_3,"CdTeCollimator3",logicWorld,false,0,checkOverlaps);
+  new G4PVPlacement(angle_collimator_4,pos_collimator_4,DetColliLog_4,"CdTeCollimator4",logicWorld,false,0,checkOverlaps);
+  new G4PVPlacement(angle_collimator_5,pos_collimator_5,DetColliLog_5,"CdTeCollimator5",logicWorld,false,0,checkOverlaps);
 
 //  G4LogicalVolume* DetColliLog_test = new G4LogicalVolume(collimator_cone,collimator_mater,"testtest");           
 //  G4ThreeVector pos_collimator_test = G4ThreeVector(0, 0*mm, 200*mm);

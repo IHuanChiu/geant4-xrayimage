@@ -64,6 +64,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
     G4double t0, tSigma;
     G4double p, pSigma;
+    G4double radius = 2.2;
     G4double p0 = 30;
     G4double mom_error = 0.10;
     G4double dir_error = 0.01;//angle range : 0~2*pi
