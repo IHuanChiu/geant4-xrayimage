@@ -186,9 +186,11 @@ void RootOutput::SetEnergyDepositInVolume(G4int id, G4String particleName, G4dou
 
 void RootOutput::SetParticlePositionInVolume(G4int id, G4double x, G4double y , G4double z){
      // xy for plane of detector; z for depth
-     int currentstep = id;     
-     Position_x[id] = x*std::cos(id*(-60)*CLHEP::deg) + y*std::sin(id*(-60)*CLHEP::deg); 
-     Position_y[id] = x*(-std::sin(id*(-60)*CLHEP::deg)) + y*std::cos(id*(-60)*CLHEP::deg); 
+     int currentstep = id;
+      
+
+     Position_x[id] = x*std::cos(id*) + y*std::sin(); 
+     Position_y[id] = x*(-std::sin()) + y*std::cos(); 
      Position_z[id] = z;
 }
 
