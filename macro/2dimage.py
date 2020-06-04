@@ -42,11 +42,15 @@ def plot(args):
     cv  = createRatioCanvas("cv", 2400, 1600)
 
     cv.Divide(3,2)
+    SetMyPalette("AD")     
     for i in range(6):
        cv.cd(i+1).SetRightMargin(0.18)
        ecut = TCut("Position_x[{0}] != -1000 && Position_z[{0}]!= -1000 && ((energyDep[{0}]*1000 > {1} && energyDep[{0}]*1000 < {2}) || (energyDep[{0}]*1000 > {3} && energyDep[{0}]*1000 < {4}))".format(i,emin,emax, emin2, emax2))
-       tree.Draw("Position_x[{0}]:(Position_z[{0}]-30.5) >> h_{0}(64,-16,16,64,-16,16)".format(i),ecut,"colz")
-    SetMyPalette("RB")     
+       tree.Draw("Position_x[{0}]:(Position_z[{0}]-30.5) >> h_{0}(64,-16,16,64,-16,16)".format(i),ecut,"")
+       hist = gDirectory.Get("h_{0}".format(i))
+       hist.GetXaxis().SetTitle("X[mm]")
+       hist.GetYaxis().SetTitle("Y[mm]")
+       hist.Draw("colz")
     cv.Print("./figs/quick_2dimage.pdf")
 
     cv2  = createRatioCanvas("cv2", 2400, 1600)

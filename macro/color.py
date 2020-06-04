@@ -31,11 +31,11 @@ def SetMyPalette( color = 'Bird', alpha = 1.0 ):
         pass
     if 'AD' in color:
         ### White & ligh Blue & Deep Red ###
-        NCont = 5
-        Stops = np.array([0.00, 0.35, 0.65, 0.85, 1.00])
-        Red   = np.array([1.00, 0.00, 0.00, 0.0, 0.35])
-        Green = np.array([0.00, 0.00, 1.00, 0.35, 0.65])
-        Blue  = np.array([1.00, 1.00, 0.00, 0.85, 1.0])
+        NCont = 999
+        Stops = np.array([0.00, 0.2, 0.5, 0.8, 1.00])
+        Red   = np.array([1.0, 0.8, 0.0, 1.0, 1.0])
+        Green = np.array([1.0, 0.8, 0.0, 0.3, 0.0])
+        Blue  = np.array([1.0, 1.0, 1.0, 0.3, 0.0])
         NRGBs =len(Stops)
         ColorTable = ROOT.TColor.CreateGradientColorTable(NRGBs, Stops, Red, Green, Blue, NCont, alpha)
         pass
