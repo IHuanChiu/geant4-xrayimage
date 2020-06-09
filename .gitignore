@@ -1,5 +1,4 @@
 copy.sh
-mu_build
-stop_build
+*_build
 macro/root
 macro/data

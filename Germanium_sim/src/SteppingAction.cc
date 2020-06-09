@@ -116,27 +116,31 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     eIoni :    eletron ionization
    //     "brems":    Bremsstrahlung
   
+  //track cut
+  if (aTrack->GetPosition().z()/CLHEP::mm > 250) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
 
   // =========== store muon hit position ===============    
   if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
 
     myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
 
-    if (VolumeMap[CurrentVolumeName] == 1){//kapton
-       if(!muhitKaptonInThisEvent){
-          muhitKaptonInThisEvent = true;
-          myRootOutput->SetInitPolInKapton(TrackPosition);
-          myRootOutput->SetInitMomInKapton(TrackMomentum);
-          myRootOutput->SetInitTimeInKapton(Time);
-          myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
-       }else{
-          myRootOutput->SetEndPolInKapton(TrackPosition);
-          myRootOutput->SetEndMomInKapton(TrackMomentum);
-          myRootOutput->SetEndTimeInKapton(Time);            
-          myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
-       }
-
-    }else if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
+//    if (VolumeMap[CurrentVolumeName] == 1){//kapton
+//       if(!muhitKaptonInThisEvent){
+//          muhitKaptonInThisEvent = true;
+//          myRootOutput->SetInitPolInKapton(TrackPosition);
+//          myRootOutput->SetInitMomInKapton(TrackMomentum);
+//          myRootOutput->SetInitTimeInKapton(Time);
+//          myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
+//       }else{
+//          myRootOutput->SetEndPolInKapton(TrackPosition);
+//          myRootOutput->SetEndMomInKapton(TrackMomentum);
+//          myRootOutput->SetEndTimeInKapton(Time);            
+//          myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
+//       }
+//
+//    }else if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
+    if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
+    
        if (!muhitSampleInThisEvent) {//start point
           muhitSampleInThisEvent = true;
           myRootOutput->SetInitPolInSample(TrackPosition);
@@ -176,12 +180,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     }//volume end
 
     //global info.
-    G4StepPoint* preStepPoint = step->GetPreStepPoint();
-    G4StepPoint* postStepPoint = step->GetPostStepPoint();
-    G4ThreeVector preStepPosition = preStepPoint->GetPosition();
-    G4ThreeVector postStepPosition = postStepPoint->GetPosition();
-    myRootOutput->SetDecayPolGlo(postStepPosition);
-    myRootOutput->SetDecayTimeGlo(Time);
+//    G4StepPoint* preStepPoint = step->GetPreStepPoint();
+//    G4StepPoint* postStepPoint = step->GetPostStepPoint();
+//    G4ThreeVector preStepPosition = preStepPoint->GetPosition();
+//    G4ThreeVector postStepPosition = postStepPoint->GetPosition();
+//    myRootOutput->SetDecayPolGlo(postStepPosition);
+//    myRootOutput->SetDecayTimeGlo(Time);
     
   }//muon end
 
@@ -191,47 +195,50 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //     if(aTrack->GetCurrentStepNumber() == 1){//muMinusCaptureAtRest gamma is from step 3~5
      if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){// not muon && not same particle
         ParticleID = aTrack->GetTrackID();
-        if(aTrack->GetDefinition()->GetParticleName() == "gamma"){   
-                  ngammaHitVolume++;
-        }else if(aTrack->GetDefinition()->GetParticleName() == "e+" || aTrack->GetDefinition()->GetParticleName() == "e-"){   
-                  neletronHitVolume++;
-        }else if(aTrack->GetDefinition()->GetParticleName() == "neutron" || aTrack->GetDefinition()->GetParticleName() == "anti_neutron"){ 
-                  nneutronHitVolume++;
-        }else{    
-                  notherHitVolume++;} 
-        myRootOutput->SetnParticleHitVolume(VolumeMap[CurrentVolumeName], 
-                                            ngammaHitVolume, 
-                                            neletronHitVolume, 
-                                            nneutronHitVolume,
-                                            notherHitVolume);
+
+//        if(aTrack->GetDefinition()->GetParticleName() == "gamma"){   
+//                  ngammaHitVolume++;
+//        }else if(aTrack->GetDefinition()->GetParticleName() == "e+" || aTrack->GetDefinition()->GetParticleName() == "e-"){   
+//                  neletronHitVolume++;
+//        }else if(aTrack->GetDefinition()->GetParticleName() == "neutron" || aTrack->GetDefinition()->GetParticleName() == "anti_neutron"){ 
+//                  nneutronHitVolume++;
+//        }else{    
+//                  notherHitVolume++;} 
+//        myRootOutput->SetnParticleHitVolume(VolumeMap[CurrentVolumeName], 
+//                                            ngammaHitVolume, 
+//                                            neletronHitVolume, 
+//                                            nneutronHitVolume,
+//                                            notherHitVolume);
 
         Kinetic_e     = aTrack->GetKineticEnergy()/CLHEP::MeV;
         Total_e       = aTrack->GetTotalEnergy()/CLHEP::MeV;
         det_x         = TrackPosition.x();
         det_y         = TrackPosition.y();
         det_z         = TrackPosition.z();
+        if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
+        }else{ trackprocess = "None";}
 
         myRootOutput->StoreTrack(0, pdgID, //detector_index is N/A
                                  KineticEnergy, Total_e, step->GetTotalEnergyDeposit(), 
-                                 det_x, det_y, det_z, aTrack->GetGlobalTime()/CLHEP::microsecond);
+                                 det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
         myRootOutput->FillParticle();
      }//first particle
 
 
     // Store Event Signal
-    if(aTrack->GetCreatorProcess() != 0 && aTrack->GetCreatorProcess()->GetProcessName() == "muMinusCaptureAtRest"){
-     if(!muhitSampleInThisEvent){ muhitSampleInThisEvent = true; egamma_hittime = Time;}
-     if(aTrack->GetDefinition()->GetParticleName() == "gamma"){ currentType =1;
-     }else if(aTrack->GetDefinition()->GetParticleName() == "e-"){ currentType =2;
-     }else{currentType =3;}
-    }
-
-    if(currentType != 0) EnergyDeposit += step->GetTotalEnergyDeposit();
-    if(currentType == 1) EnergyDeposit_gamma += step->GetTotalEnergyDeposit();
-    if(currentType == 2) EnergyDeposit_e += step->GetTotalEnergyDeposit();
-    if(currentType == 3) EnergyDeposit_other += step->GetTotalEnergyDeposit(); 
-
-    myRootOutput->SetDetectorInfo(EnergyDeposit, EnergyDeposit_e, EnergyDeposit_gamma, EnergyDeposit_other, egamma_hittime);
+//    if(aTrack->GetCreatorProcess() != 0 && aTrack->GetCreatorProcess()->GetProcessName() == "muMinusCaptureAtRest"){
+//     if(!muhitSampleInThisEvent){ muhitSampleInThisEvent = true; egamma_hittime = Time;}
+//     if(aTrack->GetDefinition()->GetParticleName() == "gamma"){ currentType =1;
+//     }else if(aTrack->GetDefinition()->GetParticleName() == "e-"){ currentType =2;
+//     }else{currentType =3;}
+//    }
+//
+//    if(currentType != 0) EnergyDeposit += step->GetTotalEnergyDeposit();
+//    if(currentType == 1) EnergyDeposit_gamma += step->GetTotalEnergyDeposit();
+//    if(currentType == 2) EnergyDeposit_e += step->GetTotalEnergyDeposit();
+//    if(currentType == 3) EnergyDeposit_other += step->GetTotalEnergyDeposit(); 
+//
+//    myRootOutput->SetDetectorInfo(EnergyDeposit, EnergyDeposit_e, EnergyDeposit_gamma, EnergyDeposit_other, egamma_hittime);
 
    }//in target
 

@@ -34,15 +34,16 @@ class RootOutput{
 
     void SetRunID          (G4int id) {runID = id;};
     void SetEventID        (G4int id) {eventID = id;};
-    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double energy_dep, G4double x, G4double y, G4double z, G4double time) { 
+    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double energy_dep, G4double x, G4double y, G4double z, G4String tr_name, G4String tr_process) { 
           pdgId = pdgid; 
           TotalE = energy_total; 
           KineticE = energy_kin; 
-          DepositeE = energy_dep; 
+          DepositE = energy_dep; 
           Det_X = x; 
           Det_Y = y; 
           Det_Z = z; 
-          Hit_Time = time;
+          Track_Name  = tr_name;
+          Track_Process  = tr_process;
     }
 
     static const int numberOfvolume = 10; 
@@ -142,13 +143,14 @@ class RootOutput{
     Double_t eDep_gamma;
     Double_t eDep_other;
     Double_t egamma_hit_time;
-    std::string hitparticle;
+    std::string Track_Name;
+    std::string Track_Process;
 
     Int_t Hit_Volume;
     Int_t Stop_Volume;
     Double_t KineticE;
     Double_t TotalE;
-    Double_t DepositeE;
+    Double_t DepositE;
     Int_t    pdgId;
     Double_t Det_X;
     Double_t Det_Y;
@@ -168,6 +170,7 @@ class RootOutput{
    // === public class to catch info. === 
   public:
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
+    void SetEventInfo (G4String particlename, G4double edep);
     void SetRunTime (G4double time) {RunTime = time;}
     
                                                                                                                      

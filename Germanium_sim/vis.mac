@@ -52,10 +52,9 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add mu-
-/vis/filtering/trajectories/particleFilter-0/add e-
-/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add mu-
+#/vis/filtering/trajectories/particleFilter-0/add e-
 #
 # To invert the above, drawing all particles except gammas,
 # keep the above two lines but also add:
@@ -102,32 +101,27 @@
 #/vis/scene/add/text 0 -6 12 cm 25 7 1 CdTe
 # Attach text to one corner of Shape2, with a small, fixed offset
 #/vis/set/textColour black
-#/vis/scene/add/text 6 12 2 cm 25 7 1 Shadow
+#/vis/scene/add/text 6 12 2 cm 25 7 1 Target
 #
 # To get nice view
 # Make the "World" box invisible
 /vis/geometry/set/visibility World 0 false
 # "Envelope" is transparent blue to represent water
 /vis/geometry/set/colour Envelope 0 1 1 1 .3
-#/vis/geometry/set/colour Collimator0 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator1 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator2 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator3 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator4 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator5 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator6 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator7 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator8 0 0 0.5 1.0 .7
-#/vis/geometry/set/colour Collimator9 0 0 0.5 1.0 .7
-/vis/geometry/set/colour CdTe0 0 1 0 0 .5
-/vis/geometry/set/colour CdTe1 0 1 0 0 .5
-/vis/geometry/set/colour CdTe2 0 1 0 0 .5
-/vis/geometry/set/colour CdTe3 0 1 0 0 .5
-/vis/geometry/set/colour CdTe4 0 1 0 0 .5
-/vis/geometry/set/colour CdTe5 0 1 0 0 .5
-#/vis/geometry/set/colour Shadow 0 1 1 0 .5
-#/vis/geometry/set/colour Shadow2 0 0 1 0 .2
-/vis/geometry/set/colour Shelf 0 0 1 0 .7
+/vis/geometry/set/colour Collimator0 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator1 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator2 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator3 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator4 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator5 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator6 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator7 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator8 0 0 0.5 1.0 .7
+/vis/geometry/set/colour Collimator9 0 0 0.5 1.0 .7
+/vis/geometry/set/colour CdTe 0 1 0 0 .9
+/vis/geometry/set/colour CdTeUp 0 1 0 0 .9
+/vis/geometry/set/colour Target 0 0 1 1 .9
+/vis/geometry/set/colour Shelf 0 1 0 0 .7
 /vis/geometry/set/colour KaptonTubs 0 0.8 1 0 .3
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
@@ -139,10 +133,10 @@
 
 # trajectories color
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow 
-/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+/vis/modeling/trajectories/drawByParticleID-0/set gamma magenta 
+/vis/modeling/trajectories/drawByParticleID-0/set e+ yellow
 /vis/modeling/trajectories/drawByParticleID-0/set e- green
-/vis/modeling/trajectories/drawByParticleID-0/set neutron gray
+/vis/modeling/trajectories/drawByParticleID-0/set neutron blue
 /vis/modeling/trajectories/drawByParticleID-0/set mu+ red
 /vis/modeling/trajectories/drawByParticleID-0/set mu- red
 

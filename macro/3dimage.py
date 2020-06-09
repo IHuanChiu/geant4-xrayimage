@@ -66,7 +66,7 @@ def plot(args):
        h2list.append(hist)
     
 
-    h3d_t = ROOT.TH3D("solid_t","solid_t",32,-16,16,32,-16,16,32,-16,16)
+    h3d_t = ROOT.TH3D("solid_t_{}".format(args.cut),"solid_t_{}".format(args.cut),32,-16,16,32,-16,16,32,-16,16)
     h3d_t.SetXTitle("x")
     h3d_t.SetYTitle("y")
     h3d_t.SetZTitle("z")
@@ -102,22 +102,26 @@ def plot(args):
     cv  = createRatioCanvas("cv", 1600, 1600)
     SetMyPalette("AD")     
     h3d_t.Draw("BOX2Z")
-    cv.Print("./figs/quick_3dimage.pdf")
+    cv.Print("./figs/quick_3dimage_cut{}.pdf".format(args.cut))
 
 
     log().info("Storing images...")
-    fout = ROOT.TFile( "root/simulation_3dimage.root", 'recreate' )
-    fout.cd()
-    for _h2 in h2list:
-       _h2.Write()
+    if args.input3Dhist is None:
+       fout = ROOT.TFile( "root/simulation_3dimage.root", 'recreate' )
+       fout.cd()
+       for _h2 in h2list:
+          _h2.Write()
+       h3d.Write()
+    else:
+       fout = ROOT.TFile( "root/simulation_3dimage.root", 'update' )      
+       fout.cd()
     h3d_t.Write()
-    h3d.Write()
     fout.Write()
 
 if __name__ == '__main__' : 
   parser = argparse.ArgumentParser(description='Process some integers.')
   parser.add_argument("-i", "--input", type=str, default="./data/Output_200M.root", help="Input File Name")
-  parser.add_argument("-c", "--cut", type=int, default = 200, help="count cut for 3D image" )
+  parser.add_argument("-c", "--cut", type=int, default = 300, help="count cut for 3D image" )
   parser.add_argument("-p", "--input3Dhist", type=str, default=None, help="Input 3D file")
   args = parser.parse_args()
 
