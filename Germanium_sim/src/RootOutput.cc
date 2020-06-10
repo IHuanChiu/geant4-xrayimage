@@ -125,6 +125,14 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
    rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
+   rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
+   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");  
+   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
+   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
+   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
+   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
+   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
+
    // ===== detector info. =====
 //   rootTree->Branch("energyDep",&eDep,"energyDep/D");
 //   rootTree->Branch("energyDep_e",&eDep_e,"energyDep_e/D");

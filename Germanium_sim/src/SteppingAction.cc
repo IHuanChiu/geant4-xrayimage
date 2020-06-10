@@ -82,6 +82,15 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   egamma_hittime = -1000; 
   egammahitSampleInThisEvent = false;
   currentType = 0;
+  for (int i = 0; i< nhitMax_indetector; i++){
+     ahit_edep[i] = 0.;
+     ahit_time_start[i] = 0.;
+     ahit_time_end[i] = 0.; 
+     ahit_nsteps[i] = 0;
+     ahit_pdgid[i] = 0;
+  }
+  nSignals=0;//number of signal particles
+  IsSameSignal = false;//same signal, depend on time resolution of detector
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -124,21 +133,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
 
-//    if (VolumeMap[CurrentVolumeName] == 1){//kapton
-//       if(!muhitKaptonInThisEvent){
-//          muhitKaptonInThisEvent = true;
-//          myRootOutput->SetInitPolInKapton(TrackPosition);
-//          myRootOutput->SetInitMomInKapton(TrackMomentum);
-//          myRootOutput->SetInitTimeInKapton(Time);
-//          myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
-//       }else{
-//          myRootOutput->SetEndPolInKapton(TrackPosition);
-//          myRootOutput->SetEndMomInKapton(TrackMomentum);
-//          myRootOutput->SetEndTimeInKapton(Time);            
-//          myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
-//       }
-//
-//    }else if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
     if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
     
        if (!muhitSampleInThisEvent) {//start point
@@ -189,26 +183,39 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     
   }//muon end
 
-  // =========== store other particle ===============    
    if(VolumeMap[CurrentVolumeName] == 3){//count number of particles
 
-//     if(aTrack->GetCurrentStepNumber() == 1){//muMinusCaptureAtRest gamma is from step 3~5
+     // =========== store signal particle in detector ===============    
+     for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
+        if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
+           IsSameSignal       = true;
+           ahit_edep[j]       += step->GetTotalEnergyDeposit();
+           ahit_time_end[j]   = Time;   
+           ahit_nsteps[j]++;
+           ahit_length[j]     += step->GetStepLength();
+        }else{
+           IsSameSignal = false;
+        }
+     }
+
+     if(!IsSameSignal){//define a new signal
+        ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
+        ahit_time_start[nSignals] = Time;
+        ahit_time_end[nSignals]   = Time;
+        ahit_nsteps[nSignals]     = 1;     
+        ahit_length[nSignals]     = step->GetStepLength();
+        ahit_pdgid[nSignals]      = pdgID; 
+        nSignals++;
+     }
+
+     myRootOutput->SetnMaxHit(nSignals);//set n signal
+     for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
+       myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i]); //fill to root
+     } 
+
+     // =========== all particles in detector ==============
      if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){// not muon && not same particle
         ParticleID = aTrack->GetTrackID();
-
-//        if(aTrack->GetDefinition()->GetParticleName() == "gamma"){   
-//                  ngammaHitVolume++;
-//        }else if(aTrack->GetDefinition()->GetParticleName() == "e+" || aTrack->GetDefinition()->GetParticleName() == "e-"){   
-//                  neletronHitVolume++;
-//        }else if(aTrack->GetDefinition()->GetParticleName() == "neutron" || aTrack->GetDefinition()->GetParticleName() == "anti_neutron"){ 
-//                  nneutronHitVolume++;
-//        }else{    
-//                  notherHitVolume++;} 
-//        myRootOutput->SetnParticleHitVolume(VolumeMap[CurrentVolumeName], 
-//                                            ngammaHitVolume, 
-//                                            neletronHitVolume, 
-//                                            nneutronHitVolume,
-//                                            notherHitVolume);
 
         Kinetic_e     = aTrack->GetKineticEnergy()/CLHEP::MeV;
         Total_e       = aTrack->GetTotalEnergy()/CLHEP::MeV;
@@ -224,21 +231,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         myRootOutput->FillParticle();
      }//first particle
 
-
-    // Store Event Signal
-//    if(aTrack->GetCreatorProcess() != 0 && aTrack->GetCreatorProcess()->GetProcessName() == "muMinusCaptureAtRest"){
-//     if(!muhitSampleInThisEvent){ muhitSampleInThisEvent = true; egamma_hittime = Time;}
-//     if(aTrack->GetDefinition()->GetParticleName() == "gamma"){ currentType =1;
-//     }else if(aTrack->GetDefinition()->GetParticleName() == "e-"){ currentType =2;
-//     }else{currentType =3;}
-//    }
-//
-//    if(currentType != 0) EnergyDeposit += step->GetTotalEnergyDeposit();
-//    if(currentType == 1) EnergyDeposit_gamma += step->GetTotalEnergyDeposit();
-//    if(currentType == 2) EnergyDeposit_e += step->GetTotalEnergyDeposit();
-//    if(currentType == 3) EnergyDeposit_other += step->GetTotalEnergyDeposit(); 
-//
-//    myRootOutput->SetDetectorInfo(EnergyDeposit, EnergyDeposit_e, EnergyDeposit_gamma, EnergyDeposit_other, egamma_hittime);
 
    }//in target
 

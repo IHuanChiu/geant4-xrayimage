@@ -30,6 +30,7 @@ class RootOutput{
     void EndOfRunAction();
     void FillEvent();
     void FillParticle();
+    void FillSignal();
     void ClearAllRootVariables();
 
     void SetRunID          (G4int id) {runID = id;};
@@ -167,11 +168,28 @@ class RootOutput{
     Double_t RunTime;
     char RootOutputFileName[200];
 
+    Int_t nSignals;
+    Int_t hit_id;
+    Double_t hit_energy[100];
+    Double_t hit_timestart[100];
+    Double_t hit_timeend[100];
+    Int_t hit_nsteps[100];
+    Double_t hit_length[100];
+    Int_t hit_pdgId[100];
+
    // === public class to catch info. === 
   public:
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
-    void SetEventInfo (G4String particlename, G4double edep);
+    void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
+    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId){
+       hit_energy[id] = energy; 
+       hit_timestart[id] = time_start; 
+       hit_timeend[id] = time_end; 
+       hit_nsteps[id] = nsteps; 
+       hit_length[id] = length; 
+       hit_pdgId[id] = pdgId;
+    }
     
                                                                                                                      
 };

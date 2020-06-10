@@ -58,6 +58,8 @@ class SteppingAction : public G4UserSteppingAction
     static const int numberOfvolume = 10;
     void InitializeInBeginningOfEvent();
 
+    static const int nhitMax_indetector = 100;
+
   private:
     static SteppingAction* pointer;
     RootOutput* myRootOutput;
@@ -114,6 +116,18 @@ class SteppingAction : public G4UserSteppingAction
     G4double egamma_hittime; 
     G4int detector_index;
     G4String CurrentVolumeName;
+
+    //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
+    G4double GeTimeResolution = 0.002;//2ns ~ 12ns range
+    G4bool IsSameSignal;
+
+    G4double ahit_edep[nhitMax_indetector];
+    G4double ahit_time_start[nhitMax_indetector];
+    G4double ahit_time_end[nhitMax_indetector];
+    G4int ahit_nsteps[nhitMax_indetector];
+    G4double ahit_length[nhitMax_indetector];
+    G4int ahit_pdgid[nhitMax_indetector];
+    G4int nSignals;//number of signal particles
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
