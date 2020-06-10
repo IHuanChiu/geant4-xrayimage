@@ -30,7 +30,6 @@ class RootOutput{
     void EndOfRunAction();
     void FillEvent();
     void FillParticle();
-    void FillSignal();
     void ClearAllRootVariables();
 
     void SetRunID          (G4int id) {runID = id;};

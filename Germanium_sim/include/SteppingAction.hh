@@ -116,6 +116,7 @@ class SteppingAction : public G4UserSteppingAction
     G4double egamma_hittime; 
     G4int detector_index;
     G4String CurrentVolumeName;
+    G4double muRnage;
 
     //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
     G4double GeTimeResolution = 0.002;//2ns ~ 12ns range

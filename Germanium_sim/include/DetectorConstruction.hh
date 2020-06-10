@@ -44,34 +44,24 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
     
   private:
-    //old collimator
-//    G4double shape_depth_1 = 20;
-//    G4double shape_depth_2 = 20;
-//    G4double shape_depth_3 = 30;
-//    G4double shape_depth_4 = 30;
-//    G4double gap_dis = 10;
-//    G4double thick   = 15;
-//    G4double step    = 10;//step must smaller than thick
-//    G4double duplicate = 5;
-    G4double kapton_radiu = 35;
+    G4double kapton_radius = 139.8/2;
     G4double kapton_thick = 0.1;
-    G4double dis = 50;
 
-//    G4double det_dx = 30; 
-//    G4double det_dy = 2;
-//    G4double det_dz = 30;
-//    G4double det_dis = 30;
-//    G4double angle = 45;
+    G4double gas_radius_1 = 267/2.;
+    G4double gas_radius_2 = 139.8/2.;
+    G4double gas_radius_3 = 139.8/2.;
+    G4double gas_thick_1 = 296; 
+    G4double gas_thick_2 = 27.5;
+    G4double gas_thick_3 = 432;
 
-//    G4double shelf_dx = 30;
-//    G4double shelf_dy = 30;
-//    G4double shelf_dz = 5;
-//
-//    G4double sample_dis = 30;    
-//    G4double sample_dx = 4.5;
-//    G4double sample_dy = 6;
-//    G4double sample_dz = 1;
-//    G4double sample_angle = 45;
+    G4double Ge_radius = 5.6418958354/2.;
+    G4double Ge_thick = 10.;
+    G4double Ge_dis = 60.;
+
+  public:
+    G4double sample_radius = 5/2.;
+    G4double sample_thick = 1.;
+    G4double sample_center = gas_thick_3/2+gas_thick_2+gas_thick_1;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

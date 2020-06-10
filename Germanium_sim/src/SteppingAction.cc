@@ -58,10 +58,7 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  ReNumber = 7;
-  VolumeMap["Shelf"] = 2;
-  VolumeMap["Target"] = 3;
-  VolumeMap["KaptonTubs"] = 1;
+  VolumeMap["Sample"] = 1;
   VolumeMap["World"] = 0;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
@@ -126,14 +123,13 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     "brems":    Bremsstrahlung
   
   //track cut
-  if (aTrack->GetPosition().z()/CLHEP::mm > 250) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
 
   // =========== store muon hit position ===============    
   if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
 
     myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
 
-    if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
+    if(VolumeMap[CurrentVolumeName] == 1){//sample
     
        if (!muhitSampleInThisEvent) {//start point
           muhitSampleInThisEvent = true;
@@ -146,21 +142,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
           myRootOutput->SetEndMomInSample(TrackMomentum);
           myRootOutput->SetEndTimeInSample(Time);            
           myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
-       }
-
-
-    }else if (VolumeMap[CurrentVolumeName] == 3){//shadow
-       if(!muhitTargetInThisEvent){
-          muhitTargetInThisEvent = true;
-          myRootOutput->SetInitPolInTarget(TrackPosition);
-          myRootOutput->SetInitMomInTarget(TrackMomentum);
-          myRootOutput->SetInitTimeInTarget(Time);
-          myRootOutput->SetInitKineticEnergyInTarget(KineticEnergy);
-       }else{
-          myRootOutput->SetEndPolInTarget(TrackPosition);
-          myRootOutput->SetEndMomInTarget(TrackMomentum);
-          myRootOutput->SetEndTimeInTarget(Time);            
-          myRootOutput->SetEndKineticEnergyInTarget(KineticEnergy);            
        }
 
     }else{//world
@@ -181,6 +162,13 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    myRootOutput->SetDecayPolGlo(postStepPosition);
 //    myRootOutput->SetDecayTimeGlo(Time);
     
+    if (aTrack->GetPosition().z()/CLHEP::mm > 550) { 
+        aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+    }
+//    }else{
+//        muRnage = std::sqrt((aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm) + (aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm));
+//        if((muRnage > myRootOutput->sample_radius+10)) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+//    }
   }//muon end
 
    if(VolumeMap[CurrentVolumeName] == 3){//count number of particles
