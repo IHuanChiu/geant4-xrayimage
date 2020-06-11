@@ -169,7 +169,9 @@ void RootOutput::EndOfRunAction() {
 }
 
 void RootOutput::FillEvent() {
-  rootTree->Fill();
+  double total_E = 0;
+  for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
+  if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
 }
 
 void RootOutput::FillParticle() {

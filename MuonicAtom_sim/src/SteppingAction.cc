@@ -245,9 +245,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         if(aTrack->GetDefinition()->GetParticleName() == "gamma") particleHitCdTe = true;//first position of gamma
         myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm+0.0, aTrack->GetPosition().y()/CLHEP::mm+0.0, aTrack->GetPosition().z()/CLHEP::mm);
      }
-     if (aTrack->GetCreatorProcess() != 0){
-       if(step->GetTotalEnergyDeposit() != 0) std::cout << " name : " << aTrack->GetDefinition()->GetParticleName() << " Kinetic_e : " << aTrack->GetKineticEnergy()/CLHEP::MeV << " deposit  : " << step->GetTotalEnergyDeposit()/CLHEP::MeV  << " Process : " << aTrack->GetCreatorProcess()->GetProcessName() << std::endl;
-     }
      myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
 
   }// only CdTe detector

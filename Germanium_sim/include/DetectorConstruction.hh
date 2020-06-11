@@ -58,9 +58,15 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double Ge_thick = 10.;
     G4double Ge_dis = 60.;
 
+    G4double Stand_x = 95;
+    G4double Stand_y = 95;
+    G4double Stand_z = 5;
+
   public:
-    G4double sample_radius = 5/2.;
-    G4double sample_thick = 1.;
+    G4double sample_radius_SiO2 = 5/2.;
+    G4double sample_thick_SiO2 = 1.;
+    G4double sample_radius_C = 0.6595452979136459;
+    G4double sample_thick_C = 0.5;
     G4double sample_center = gas_thick_3/2+gas_thick_2+gas_thick_1;
 };
 

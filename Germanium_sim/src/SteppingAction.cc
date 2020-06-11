@@ -58,7 +58,11 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  VolumeMap["Sample"] = 1;
+  VolumeMap["Sample_C"] = 1;
+  VolumeMap["Sample_SiO2"] = 1;
+  VolumeMap["GeTubs_1"] = 2;
+  VolumeMap["GeTubs_2"] = 3;
+  VolumeMap["GeTubs_3"] = 4;
   VolumeMap["World"] = 0;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
@@ -105,7 +109,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   ParentID      = aTrack->GetParentID();
   Time          = aTrack->GetGlobalTime()/CLHEP::microsecond;
   KineticEnergy = aTrack->GetKineticEnergy()/CLHEP::MeV;
-
 
 //    std::cout << aTrack->GetDefinition()->GetParticleName()   << "  pdgID : " << abs(pdgID) << " ParticleID : " << aTrack->GetTrackID() << " ParentID : " <<  aTrack->GetParentID() << " step number : " << aTrack->GetCurrentStepNumber() << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << aTrack->GetGlobalTime()/CLHEP::microsecond << " Z : " << TrackPosition.z() 
 //   << " kin energy : " << aTrack->GetKineticEnergy() <<  " total energy : " << aTrack->GetTotalEnergy()/CLHEP::MeV  <<  " dep energy : " << step->GetTotalEnergyDeposit() 
@@ -162,7 +165,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    myRootOutput->SetDecayPolGlo(postStepPosition);
 //    myRootOutput->SetDecayTimeGlo(Time);
     
-    if (aTrack->GetPosition().z()/CLHEP::mm > 550) { 
+    if (aTrack->GetPosition().z()/CLHEP::mm > 750) { 
         aTrack->SetTrackStatus(fKillTrackAndSecondaries);
     }
 //    }else{
@@ -171,56 +174,53 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    }
   }//muon end
 
-   if(VolumeMap[CurrentVolumeName] == 3){//count number of particles
+  if(VolumeMap[CurrentVolumeName] >= 2){//count number of particles
+    // =========== store signal particle in detector ===============    
+    for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
+       if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
+          IsSameSignal       = true;
+          ahit_edep[j]       += step->GetTotalEnergyDeposit();
+          ahit_time_end[j]   = Time;   
+          ahit_nsteps[j]++;
+          ahit_length[j]     += step->GetStepLength();
+       }else{
+          IsSameSignal = false;
+       }
+    }
 
-     // =========== store signal particle in detector ===============    
-     for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
-        if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
-           IsSameSignal       = true;
-           ahit_edep[j]       += step->GetTotalEnergyDeposit();
-           ahit_time_end[j]   = Time;   
-           ahit_nsteps[j]++;
-           ahit_length[j]     += step->GetStepLength();
-        }else{
-           IsSameSignal = false;
-        }
-     }
+    if(!IsSameSignal){//define a new signal
+       ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
+       ahit_time_start[nSignals] = Time;
+       ahit_time_end[nSignals]   = Time;
+       ahit_nsteps[nSignals]     = 1;     
+       ahit_length[nSignals]     = step->GetStepLength();
+       ahit_pdgid[nSignals]      = pdgID; 
+       nSignals++;
+    }
 
-     if(!IsSameSignal){//define a new signal
-        ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
-        ahit_time_start[nSignals] = Time;
-        ahit_time_end[nSignals]   = Time;
-        ahit_nsteps[nSignals]     = 1;     
-        ahit_length[nSignals]     = step->GetStepLength();
-        ahit_pdgid[nSignals]      = pdgID; 
-        nSignals++;
-     }
+    myRootOutput->SetnMaxHit(nSignals);//set n signal
+    for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
+      myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i]); //fill to root
+    } 
 
-     myRootOutput->SetnMaxHit(nSignals);//set n signal
-     for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-       myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i]); //fill to root
-     } 
+    // =========== all particles in detector ==============
+    if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){// not muon && not same particle
+       ParticleID = aTrack->GetTrackID();
 
-     // =========== all particles in detector ==============
-     if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){// not muon && not same particle
-        ParticleID = aTrack->GetTrackID();
+       Kinetic_e     = aTrack->GetKineticEnergy()/CLHEP::MeV;
+       Total_e       = aTrack->GetTotalEnergy()/CLHEP::MeV;
+       det_x         = TrackPosition.x();
+       det_y         = TrackPosition.y();
+       det_z         = TrackPosition.z();
+       if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
+       }else{ trackprocess = "None";}
 
-        Kinetic_e     = aTrack->GetKineticEnergy()/CLHEP::MeV;
-        Total_e       = aTrack->GetTotalEnergy()/CLHEP::MeV;
-        det_x         = TrackPosition.x();
-        det_y         = TrackPosition.y();
-        det_z         = TrackPosition.z();
-        if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
-        }else{ trackprocess = "None";}
-
-        myRootOutput->StoreTrack(0, pdgID, //detector_index is N/A
-                                 KineticEnergy, Total_e, step->GetTotalEnergyDeposit(), 
-                                 det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
-        myRootOutput->FillParticle();
-     }//first particle
-
-
-   }//in target
+       myRootOutput->StoreTrack(0, pdgID, //detector_index is N/A
+                                KineticEnergy, Total_e, step->GetTotalEnergyDeposit(), 
+                                det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
+       myRootOutput->FillParticle();
+    }//first particle
+  }//in Ge
 
   // get track
 //  preStep       = step->GetPreStepPoint();
