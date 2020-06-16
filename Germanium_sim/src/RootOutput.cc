@@ -158,6 +158,9 @@ void RootOutput::BeginOfRunAction() {
    TrackTree->Branch("Track_Process",&Track_Process);
 //   TrackTree->Branch("Hit_Time",&Hit_Time,"Hit_Time/D");
 
+   h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
+   for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,var_name[i-1]); 
+
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
 
@@ -165,6 +168,7 @@ void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
   TrackTree->Write();
+  h1_process->Write();
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
 }
