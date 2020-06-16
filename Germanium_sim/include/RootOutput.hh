@@ -175,19 +175,21 @@ class RootOutput{
     Int_t hit_nsteps[100];
     Double_t hit_length[100];
     Int_t hit_pdgId[100];
+    Int_t hit_process[100];
 
    // === public class to catch info. === 
   public:
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
-    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId){
+    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
        hit_energy[id] = energy; 
        hit_timestart[id] = time_start; 
        hit_timeend[id] = time_end; 
        hit_nsteps[id] = nsteps; 
        hit_length[id] = length; 
        hit_pdgId[id] = pdgId;
+       hit_process[id] = name_id;
     }
     
                                                                                                                      

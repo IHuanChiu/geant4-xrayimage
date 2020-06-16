@@ -132,6 +132,7 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
    rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
    rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
+   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
 
    // ===== detector info. =====
 //   rootTree->Branch("energyDep",&eDep,"energyDep/D");

@@ -38,7 +38,7 @@
 #include "Randomize.hh"
 #include "RunAction.hh"
 
-G4int PrimaryGeneratorAction::fractionOfEletronParticles = 10;
+G4int PrimaryGeneratorAction::fractionOfEletronParticles = 5;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
@@ -113,28 +113,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //     "MyCode0002",JustWarning,msg);
 //  }
 
-  // default particle kinematic
-  pSigma = p0*mom_error;
-  p = G4RandGauss::shoot(p0,pSigma)*MeV;
-
-//  G4double sigma_angle = 0.01*2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double ux = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uy = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
-  G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
-  fParticleGun->SetParticleEnergy(particleEnergy);//IH 
-  //this command will show previous particle energy and current particle momentum "EACH EVENT" !!
-  //fParticleGun->SetParticleMomentum(p*MeV);//IH 
-
-//  sigma_angle = 0.01*2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double ux_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uy_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
-  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
-  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
-  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
-  //fParticleGunEle->SetParticleMomentum(p*MeV);
+  G4double sample_z0 = 500*CLHEP::mm;
+  G4double sample_x0 = 0*CLHEP::mm;
+  G4double sample_y0 = 0*CLHEP::mm;
 
   //particle incident position
   G4double radius = 2.5*CLHEP::cm;
@@ -143,9 +124,36 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double y0 = rho * std::sin(theta);
   G4double x0 = rho * std::cos(theta);
   G4double z0 = -5*CLHEP::mm;
+
+  // default particle kinematic
+  pSigma = p0*mom_error;
+  p = G4RandGauss::shoot(p0,pSigma)*MeV;
+  G4double vector_x = (sample_x0 - x0)*(1+dir_error*2*(G4UniformRand()-0.5));
+  G4double vector_y = (sample_y0 - y0)*(1+dir_error*2*(G4UniformRand()-0.5));
+  G4double vector_z = (sample_z0 - z0)*(1+dir_error*2*(G4UniformRand()-0.5));
+  
+
+  G4double ux = (vector_x/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
+           uy = (vector_y/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
+           uz = (vector_z/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z));
+  //G4double ux = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+  //         uy = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+  //         uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
+  G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
+  fParticleGun->SetParticleEnergy(particleEnergy);//IH 
+  //fParticleGun->SetParticleMomentum(p*MeV);//IH 
+
+  G4double ux_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+           uy_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
+  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
+  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
+  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
+  //fParticleGunEle->SetParticleMomentum(p*MeV);
+
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-
   fParticleGun->GeneratePrimaryVertex(anEvent);
   G4double muInitTime = fParticleGun->GetParticleTime();
 

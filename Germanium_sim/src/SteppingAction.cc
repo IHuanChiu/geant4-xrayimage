@@ -64,6 +64,13 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["GeTubs_2"] = 3;
   VolumeMap["GeTubs_3"] = 4;
   VolumeMap["World"] = 0;
+  ProcessMap["muMinusCaptureAtRest"] = 1;
+  ProcessMap["phot"] = 2;
+  ProcessMap["compt"] = 3;
+  ProcessMap["eBrem"] = 4;
+  ProcessMap["neutronInelastic"] = 5;
+  ProcessMap["muIoni"] = 6;
+  ProcessMap["conv"] = 7;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
   muhitCollimatorInThisEvent = false;
@@ -89,6 +96,7 @@ void SteppingAction::InitializeInBeginningOfEvent(){
      ahit_time_end[i] = 0.; 
      ahit_nsteps[i] = 0;
      ahit_pdgid[i] = 0;
+     ahit_process[i] = 0;
   }
   nSignals=0;//number of signal particles
   IsSameSignal = false;//same signal, depend on time resolution of detector
@@ -157,21 +165,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }
     }//volume end
 
-    //global info.
-//    G4StepPoint* preStepPoint = step->GetPreStepPoint();
-//    G4StepPoint* postStepPoint = step->GetPostStepPoint();
-//    G4ThreeVector preStepPosition = preStepPoint->GetPosition();
-//    G4ThreeVector postStepPosition = postStepPoint->GetPosition();
-//    myRootOutput->SetDecayPolGlo(postStepPosition);
-//    myRootOutput->SetDecayTimeGlo(Time);
+    if (aTrack->GetPosition().z()/CLHEP::mm > 750) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+    if (VolumeMap[CurrentVolumeName] >= 2) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
     
-    if (aTrack->GetPosition().z()/CLHEP::mm > 750) { 
-        aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-    }
-//    }else{
-//        muRnage = std::sqrt((aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm) + (aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm));
-//        if((muRnage > myRootOutput->sample_radius+10)) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-//    }
   }//muon end
 
   if(VolumeMap[CurrentVolumeName] >= 2){//count number of particles
@@ -195,12 +191,15 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        ahit_nsteps[nSignals]     = 1;     
        ahit_length[nSignals]     = step->GetStepLength();
        ahit_pdgid[nSignals]      = pdgID; 
+       if (aTrack->GetCreatorProcess() != 0){
+       ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
+       }else{ahit_process[nSignals] = ProcessMap["None"]; }
        nSignals++;
     }
 
     myRootOutput->SetnMaxHit(nSignals);//set n signal
     for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-      myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i]); //fill to root
+      myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
     } 
 
     // =========== all particles in detector ==============

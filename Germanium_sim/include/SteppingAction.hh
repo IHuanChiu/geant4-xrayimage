@@ -86,6 +86,7 @@ class SteppingAction : public G4UserSteppingAction
     G4StepPoint* postStep; 
     
     std::map<G4String, G4int> VolumeMap;
+    std::map<G4String, G4int> ProcessMap;
 
     G4String particleName;       
     G4ThreeVector TrackPosition;
@@ -128,6 +129,7 @@ class SteppingAction : public G4UserSteppingAction
     G4int ahit_nsteps[nhitMax_indetector];
     G4double ahit_length[nhitMax_indetector];
     G4int ahit_pdgid[nhitMax_indetector];
+    G4int ahit_process[nhitMax_indetector];
     G4int nSignals;//number of signal particles
 };
 

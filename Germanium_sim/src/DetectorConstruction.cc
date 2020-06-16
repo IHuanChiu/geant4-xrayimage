@@ -124,16 +124,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_gas_2, GasLog_2, "GasTubs_2", logicWorld, false, 0, checkOverlaps);        
   new G4PVPlacement(0, pos_gas_3, GasLog_3, "GasTubs_3", logicWorld, false, 0, checkOverlaps);        
   
-  // ***** Sample *****  
+  // ***** Sample *****
   G4Material* solid_sample_C = nist->FindOrBuildMaterial("G4_C");
   G4VSolid* sample_tubs_C = new G4Tubs("Sample_C",0*mm,(sample_radius_C)*mm,(sample_thick_C/2.)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_sample_C = G4ThreeVector(1, 1, (0)*mm);  
+  G4ThreeVector pos_sample_C = G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, (0)*mm);  
   G4LogicalVolume* SampleLog_C = new G4LogicalVolume(sample_tubs_C, solid_sample_C, "Sample_C");
   new G4PVPlacement(0, pos_sample_C, SampleLog_C, "Sample_C", GasLog_3, false, 0, checkOverlaps);
 
   G4Material* solid_sample_SiO2 = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
   G4VSolid* sample_tubs_SiO2_pre = new G4Tubs("Sample_SiO2_pre",0*mm,(sample_radius_SiO2)*mm,(sample_thick_SiO2/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* sample_tubs_SiO2 = new G4SubtractionSolid("Sample_SiO2",sample_tubs_SiO2_pre, sample_tubs_C, 0, G4ThreeVector(1.*mm, 1.* mm, 0.*mm));
+  G4VSolid* sample_tubs_SiO2 = new G4SubtractionSolid("Sample_SiO2",sample_tubs_SiO2_pre, sample_tubs_C, 0, G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, 0.*mm));
   G4ThreeVector pos_sample_SiO2 = G4ThreeVector(0, 0, (0)*mm);  
   G4LogicalVolume* SampleLog_SiO2 = new G4LogicalVolume(sample_tubs_SiO2, solid_sample_SiO2, "Sample_SiO2");
   new G4PVPlacement(0, pos_sample_SiO2, SampleLog_SiO2, "Sample_SiO2", GasLog_3, false, 0, checkOverlaps);
