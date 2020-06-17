@@ -57,7 +57,6 @@ set(MuonicAtom_SCRIPTS
   MuonicAtom.in
   MuonicAtom.out
   init_vis.mac
-  run1.mac
   vis.mac
   murun.mac
   )

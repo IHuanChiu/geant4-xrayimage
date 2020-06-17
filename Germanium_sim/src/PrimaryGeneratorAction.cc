@@ -154,8 +154,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-  fParticleGun->GeneratePrimaryVertex(anEvent);
-  G4double muInitTime = fParticleGun->GetParticleTime();
+  for (int i=0;i< nPulseBeam; i++) fParticleGun->GeneratePrimaryVertex(anEvent);
+  G4double muInitTime = fParticleGun->GetParticleTime()/CLHEP::nanosecond;
 
   long thisEventNr = (long) (anEvent->GetEventID());
   if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
@@ -164,7 +164,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     y0_e = rho_e * std::sin(theta_e);
     x0_e = rho_e * std::cos(theta_e);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-    fParticleGunEle->GeneratePrimaryVertex(anEvent);
+    for (int i=0;i< nPulseBeam; i++) fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }
   
   // Assign spin 
