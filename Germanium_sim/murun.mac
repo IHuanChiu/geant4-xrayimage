@@ -15,6 +15,7 @@
 /process/em/auger true
 /process/em/augerCascade true
 /process/em/pixe true
+# PIXE : Particle Induced X-Ray Emission
 
 #/process/em/lowestElectronEnergy 100 eV
 

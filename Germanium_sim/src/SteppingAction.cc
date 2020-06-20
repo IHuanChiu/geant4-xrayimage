@@ -131,7 +131,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       //     "brems":    Bremsstrahlung
      
      // =========== store muon hit position ===============    
-     if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+//     if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+     if(particleName == "mu-"){// note: before touch physic volume, pdgID is random number
+     //TODO check if these two lines are same
 
        if(VolumeMap[CurrentVolumeName] == 1){//sample
        
@@ -164,8 +166,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        
      }//muon end
 
-
-     if(VolumeMap[CurrentVolumeName] >= 2){//set sensitivity detectors
+     if(VolumeMap[CurrentVolumeName] >= 2 && particleName != "mu-"){//set sensitivity detectors
        // =========== store signal particle in detector ===============    
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
