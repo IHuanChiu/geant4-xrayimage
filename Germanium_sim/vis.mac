@@ -116,6 +116,9 @@
 /vis/geometry/set/colour Sample_SiO2 0 1 0.98 0.98 0.3
 /vis/geometry/set/colour Stand 0 0.749 0.67843 0.43529 1.
 /vis/geometry/set/colour StandLine 0 0.749 0.67843 0.43529 1.
+/vis/geometry/set/colour CuTubs_1 0 0.749 0.67843 0.43529 1.
+/vis/geometry/set/colour CuTubs_2 0 0.749 0.67843 0.43529 1.
+/vis/geometry/set/colour CuTubs_3 0 0.749 0.67843 0.43529 1.
 /vis/geometry/set/colour KaptonTubs 0 0.8 1 0 .6
 /vis/geometry/set/colour GeTubs_1 0 0.792 0.8824 1 1.
 /vis/geometry/set/colour GeTubs_2 0 0.792 0.8824 1 1.

@@ -182,21 +182,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Ge Cover *****
   G4Material* solid_al = nist->FindOrBuildMaterial("G4_Al");
   G4VSolid* al_tubs_main = new G4Tubs("AlDet_main",(cover_radius-cover_thick)*mm,(cover_radius)*mm,(cover_lengh/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* al_tubs_sub = new G4Tubs("AlDet_sub",0*mm,(cover_radius)*mm,(cover_thick/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* al_tubs = new G4UnionSolid("AlDet", al_tubs_main, al_tubs_sub, 0, G4ThreeVector(0.*mm, 0.* mm, (cover_lengh/2.)*mm));
+  G4VSolid* al_tubs_uni = new G4Tubs("AlDet_uni",0*mm,(cover_radius)*mm,(cover_thick/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* al_tubs = new G4UnionSolid("AlDet", al_tubs_main, al_tubs_uni, 0, G4ThreeVector(0.*mm, 0.* mm, (cover_lengh/2.)*mm));
   G4ThreeVector pos_al_1 = G4ThreeVector(cover_dis, 0, (0)*mm);//check beam position
   G4ThreeVector pos_al_2 = G4ThreeVector(0, cover_dis, (0)*mm);//check beam position
   G4ThreeVector pos_al_3 = G4ThreeVector(0, (-1*cover_dis), (0)*mm);//check beam position
   G4RotationMatrix* angle_al_1 = new G4RotationMatrix(90*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg); 
   G4RotationMatrix* angle_al_2 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
   G4RotationMatrix* angle_al_3 = new G4RotationMatrix(0*CLHEP::deg,-90*CLHEP::deg,180*CLHEP::deg); 
-  G4LogicalVolume* AlLog_1 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_1");//LogicalVolume need to be seperated!
+  G4LogicalVolume* AlLog_1 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_1");
   G4LogicalVolume* AlLog_2 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_2");
   G4LogicalVolume* AlLog_3 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_3");
   new G4PVPlacement(angle_al_1, pos_al_1, AlLog_1, "AlTubs_1", GasLog_3, false, 0, checkOverlaps);        
   new G4PVPlacement(angle_al_2, pos_al_2, AlLog_2, "AlTubs_2", GasLog_3, false, 0, checkOverlaps);        
-  new G4PVPlacement(angle_al_3, pos_al_3, AlLog_3, "AlTubs_3", GasLog_3, false, 0, checkOverlaps);        
-  
+  new G4PVPlacement(angle_al_3, pos_al_3, AlLog_3, "AlTubs_3", GasLog_3, false, 0, checkOverlaps);       
+   
+  G4VSolid* cu_tubs_cover = new G4Tubs("CuDet",(cover_radius+1)*mm,(cover_radius+1+cu_cover_thick)*mm,((cover_lengh+cover_thick)/2.)*mm,0.,2*M_PI*rad);
+  G4LogicalVolume* CuLog_1 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_1");
+  G4LogicalVolume* CuLog_2 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_2");
+  G4LogicalVolume* CuLog_3 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_3");
+  new G4PVPlacement(angle_al_1, pos_al_1, CuLog_1, "CuTubs_1", GasLog_3, false, 0, checkOverlaps);        
+  new G4PVPlacement(angle_al_2, pos_al_2, CuLog_2, "CuTubs_2", GasLog_3, false, 0, checkOverlaps);        
+  new G4PVPlacement(angle_al_3, pos_al_3, CuLog_3, "CuTubs_3", GasLog_3, false, 0, checkOverlaps);         
 
   //always return the physical World
   return physWorld;

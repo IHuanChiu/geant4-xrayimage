@@ -60,7 +60,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double cover_radius = 40;//mm
     G4double cover_thick = 10;//mm
     G4double cover_lengh = 10;//mm
-    G4double cover_dis = 60.;
+    G4double cover_dis = 60.;    
+    G4double cu_cover_thick = 0.03;
 
     G4double Ge_radius = 5.6418958354/2.;
     G4double Ge_thick = 10.;
