@@ -114,6 +114,7 @@
 /vis/geometry/set/colour ChamberTubs 0 0.3058 0.9333 0.58 .3
 /vis/geometry/set/colour Sample_C 0 0 1 1 1.
 /vis/geometry/set/colour Sample_SiO2 0 1 0.98 0.98 0.3
+/vis/geometry/set/colour Sample 0 1 0.98 0.98 0.3
 /vis/geometry/set/colour Stand 0 0.749 0.67843 0.43529 1.
 /vis/geometry/set/colour StandLine 0 0.749 0.67843 0.43529 1.
 /vis/geometry/set/colour CuTubs_1 0 0.749 0.67843 0.43529 1.

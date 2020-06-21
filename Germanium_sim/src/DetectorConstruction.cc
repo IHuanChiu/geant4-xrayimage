@@ -135,18 +135,30 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   // ***** Sample *****
   G4Material* solid_sample_C = nist->FindOrBuildMaterial("G4_C");
-  G4VSolid* sample_tubs_C = new G4Tubs("Sample_C",0*mm,(sample_radius_C)*mm,(sample_thick_C/2.)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_sample_C = G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, (0)*mm);  
-  G4LogicalVolume* SampleLog_C = new G4LogicalVolume(sample_tubs_C, solid_sample_C, "Sample_C");
-  new G4PVPlacement(0, pos_sample_C, SampleLog_C, "Sample_C", GasLog_3, false, 0, checkOverlaps);
-
   G4Material* solid_sample_SiO2 = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-  G4VSolid* sample_tubs_SiO2_pre = new G4Tubs("Sample_SiO2_pre",0*mm,(sample_radius_SiO2)*mm,(sample_thick_SiO2/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* sample_tubs_SiO2 = new G4SubtractionSolid("Sample_SiO2",sample_tubs_SiO2_pre, sample_tubs_C, 0, G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, 0.*mm));
-  G4ThreeVector pos_sample_SiO2 = G4ThreeVector(0, 0, (0)*mm);  
-  G4LogicalVolume* SampleLog_SiO2 = new G4LogicalVolume(sample_tubs_SiO2, solid_sample_SiO2, "Sample_SiO2");
-  new G4PVPlacement(0, pos_sample_SiO2, SampleLog_SiO2, "Sample_SiO2", GasLog_3, false, 0, checkOverlaps);
 
+//  G4VSolid* sample_tubs_C = new G4Tubs("Sample_C",0*mm,(sample_radius_C)*mm,(sample_thick_C/2.)*mm,0.,2*M_PI*rad);
+//  G4ThreeVector pos_sample_C = G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, (0)*mm);  
+//  G4LogicalVolume* SampleLog_C = new G4LogicalVolume(sample_tubs_C, solid_sample_C, "Sample_C");
+//  new G4PVPlacement(0, pos_sample_C, SampleLog_C, "Sample_C", GasLog_3, false, 0, checkOverlaps);
+
+//  G4VSolid* sample_tubs_SiO2_pre = new G4Tubs("Sample_SiO2_pre",0*mm,(sample_radius_SiO2)*mm,(sample_thick_SiO2/2.)*mm,0.,2*M_PI*rad);
+//  G4VSolid* sample_tubs_SiO2 = new G4SubtractionSolid("Sample_SiO2",sample_tubs_SiO2_pre, sample_tubs_C, 0, G4ThreeVector((sample_radius_SiO2/2.)*mm, (sample_radius_SiO2/2.)*mm, 0.*mm));
+//  G4ThreeVector pos_sample_SiO2 = G4ThreeVector(0, 0, (0)*mm);  
+//  G4LogicalVolume* SampleLog_SiO2 = new G4LogicalVolume(sample_tubs_SiO2, solid_sample_SiO2, "Sample_SiO2");
+//  new G4PVPlacement(0, pos_sample_SiO2, SampleLog_SiO2, "Sample_SiO2", GasLog_3, false, 0, checkOverlaps);
+
+  G4double density = 2*mg/cm3;
+  G4Material* solid_sample_SiO2_C = new G4Material(name="Sample"  , density, ncomponents=2);
+  solid_sample_SiO2_C->AddMaterial( solid_sample_SiO2,              fractionmass = 0.97);
+  solid_sample_SiO2_C->AddMaterial( solid_sample_C,              fractionmass = 0.03);
+  
+  G4VSolid* sample_box = new G4Box("Sample", (ryugu_x/2)*mm, (ryugu_y/2)*mm, (ryugu_z/2)*mm);
+  G4ThreeVector pos_sample_SiO2C = G4ThreeVector(0, 0, (0)*mm);
+  G4RotationMatrix* angle_sample = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,90*CLHEP::deg); 
+  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample_SiO2_C, "Sample");
+  new G4PVPlacement(angle_sample, pos_sample_SiO2C, SampleLog, "Sample", GasLog_3, false, 0, checkOverlaps);
+   
   // ***** Stand *****  
   G4Material* solid_stand = nist->FindOrBuildMaterial("G4_Cu");
   G4VSolid* stand_tubs_main = new G4Box("Stand_main", (Stand_x/2)*mm, (Stand_y/2)*mm, (Stand_z/2)*mm);
@@ -154,14 +166,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* stand_tubs = new G4SubtractionSolid("Stand", stand_tubs_main, stand_tubs_sub, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
   G4ThreeVector pos_stand = G4ThreeVector(0, 0, (0)*mm);
   G4LogicalVolume* StandLog = new G4LogicalVolume(stand_tubs, solid_stand, "Stand");
-  new G4PVPlacement(0, pos_stand, StandLog, "Stand", GasLog_3, false, 0, checkOverlaps);
+  new G4PVPlacement(angle_sample, pos_stand, StandLog, "Stand", GasLog_3, false, 0, checkOverlaps);
 
   G4VSolid* stand_line_main = new G4Box("Stand_line", (Stand_line_x/2)*mm, (Stand_line_y/2)*mm, (Stand_line_z/2)*mm);
   G4ThreeVector pos_standline_1 = G4ThreeVector(0, 0, (1)*mm);
   G4ThreeVector pos_standline_2 = G4ThreeVector(0, 0, (-1)*mm);
   G4LogicalVolume* StandLineLog = new G4LogicalVolume(stand_line_main, solid_stand, "StandLine");
-  new G4PVPlacement(0, pos_standline_1, StandLineLog, "StandLine", GasLog_3, false, 0, checkOverlaps);
-  new G4PVPlacement(0, pos_standline_2, StandLineLog, "StandLine", GasLog_3, false, 0, checkOverlaps);
+  new G4PVPlacement(angle_sample, pos_standline_1, StandLineLog, "StandLine", GasLog_3, false, 0, checkOverlaps);
+  new G4PVPlacement(angle_sample, pos_standline_2, StandLineLog, "StandLine", GasLog_3, false, 0, checkOverlaps);
 
   // ***** Ge *****
   G4Material* solid_ge = nist->FindOrBuildMaterial("G4_Ge");

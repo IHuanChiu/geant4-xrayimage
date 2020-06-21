@@ -60,6 +60,7 @@ SteppingAction* SteppingAction::GetInstance()
 void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["Sample_C"] = 1;
   VolumeMap["Sample_SiO2"] = 1;
+  VolumeMap["Sample"] = 1;
   VolumeMap["GeTubs_1"] = 2;
   VolumeMap["GeTubs_2"] = 3;
   VolumeMap["GeTubs_3"] = 4;

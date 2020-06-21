@@ -75,11 +75,17 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double Stand_line_y = 10;
     G4double Stand_line_z = 0.01;
 
+    G4double fractionmass;
+    G4int ncomponents;
+    G4String name;
   public:
     G4double sample_radius_SiO2 = 0.564189;//1 mm^2
     G4double sample_thick_SiO2 = 1.;//1 mm
     G4double sample_radius_C = 0.021049640;
     G4double sample_thick_C = 0.25;
+    G4double ryugu_x = 7;
+    G4double ryugu_y = 2;
+    G4double ryugu_z = 0.01;
     G4double sample_center = gas_thick_3/2+gas_thick_2+gas_thick_1;
 };
 
