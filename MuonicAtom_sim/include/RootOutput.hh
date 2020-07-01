@@ -47,6 +47,8 @@ class RootOutput{
     }
 
     static const int numberOfvolume = 6; 
+    static const int nh1bin = 10;
+    static const int nhitMax = 100;
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -98,10 +100,14 @@ class RootOutput{
     TFile* rootFile;
     TTree* rootTree;
     TTree* TrackTree;
+    TH1F*  h1_process;
 
   // === variables for tree ===
   private:
     static RootOutput* pointerToRoot;
+
+    const char *var_name[nh1bin] = {"None","muMinusCaptureAtRest","phot","compt","eBrem",
+                                    "neutronInelastic","muIoni","conv","None","None"};
 
     Double_t muSampleTime, muCdTeTime[6], muCollimatorTime, muShadowTime, muWorldTime, muKaptonTime;
     Double_t muSampleKineticEnergy, muCdTeKineticEnergy[6], muCollimatorKineticEnergy, muShadowKineticEnergy, muWorldKineticEnergy, muKaptonKineticEnergy;
@@ -144,6 +150,19 @@ class RootOutput{
     std::string Track_Name;
     std::string Track_Process;
 
+    Int_t nSignals;
+    Int_t hit_id;
+    Double_t hit_energy[nhitMax];
+    Double_t hit_timestart[nhitMax];
+    Double_t hit_timeend[nhitMax];
+    Int_t hit_nsteps[nhitMax];
+    Double_t hit_length[nhitMax];
+    Int_t hit_pdgId[nhitMax];
+    Int_t hit_process[nhitMax];
+    Double_t hit_x[nhitMax];
+    Double_t hit_y[nhitMax];
+    Double_t hit_z[nhitMax];
+
     Int_t nDet;
     Double_t Ngamma[numberOfvolume]; 
     Double_t Neletron[numberOfvolume]; 
@@ -152,12 +171,25 @@ class RootOutput{
 
     Int_t runID;
     Int_t eventID;
+    Double_t RunTime;
     char RootOutputFileName[200];
 
-   // === public class to catch info. === 
   public:
-//    void SetDetectorInfo (G4int det_id, G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other);
-                                                                                                                      
+    void SetnMaxHit (G4int nhits){nSignals = nhits;}
+    void SetRunTime (G4double time) {RunTime = time;}
+    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int _pdgid, G4int name_id, G4double x, G4double y, G4double z){
+       hit_energy[id] = energy;
+       hit_timestart[id] = time_start;
+       hit_timeend[id] = time_end;
+       hit_nsteps[id] = nsteps;
+       hit_length[id] = length;
+       hit_pdgId[id] = _pdgid;
+       hit_process[id] = name_id;
+       hit_x[id] = x;
+       hit_y[id] = y;
+       hit_z[id] = z;
+    }
+                                                                                                                    
 
 };
 

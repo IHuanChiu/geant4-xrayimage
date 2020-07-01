@@ -58,6 +58,8 @@ class SteppingAction : public G4UserSteppingAction
     static const int numberOfvolume = 10;
     void InitializeInBeginningOfEvent();
 
+    static const int nhitMax_indetector = 100;
+
   private:
     static SteppingAction* pointer;
     RootOutput* myRootOutput;
@@ -79,16 +81,18 @@ class SteppingAction : public G4UserSteppingAction
 //    G4LogicalVolume* fSampleVolume;
     G4LogicalVolume* volume;
     G4Track* aTrack;
-    G4StepPoint* preStep;
-    G4StepPoint* postStep; 
+//    G4StepPoint* preStep;
+//    G4StepPoint* postStep; 
     
     std::map<G4String, G4int> VolumeMap;
+    std::map<G4String, G4int> ProcessMap;
 
     G4String particleName;       
     G4ThreeVector TrackPosition;
     G4double Time; 
     G4double KineticEnergy; 
-    G4double kinenergy_pre; 
+    G4double TotalEnergy; 
+//    G4double kinenergy_pre; 
     G4int pdgID;                 
     G4int ParticleID;            
     G4int ParentID;             
@@ -103,13 +107,27 @@ class SteppingAction : public G4UserSteppingAction
     G4double det_pdgid;
     G4String trackprocess;
 
-    G4int detector_index;
+//    G4int detector_index;
     G4String CurrentVolumeName;
     G4String CurrentProcess;
     G4bool SignalType; 
 
-    G4double Solidangle_Width;
-    G4double plane_width;
+    // === for energy deposit ===
+    G4double CdTeTimeResolution = 0.002;//2ns
+    G4bool IsSameSignal;
+
+    G4double ahit_edep[nhitMax_indetector];
+    G4double ahit_time_start[nhitMax_indetector];
+    G4double ahit_time_end[nhitMax_indetector];
+    G4int ahit_nsteps[nhitMax_indetector];
+    G4double ahit_length[nhitMax_indetector];
+    G4double ahit_x[nhitMax_indetector];
+    G4double ahit_y[nhitMax_indetector];
+    G4double ahit_z[nhitMax_indetector];
+    G4int ahit_pdgid[nhitMax_indetector];
+    G4int ahit_process[nhitMax_indetector];
+    G4int nSignals;//number of signal particles
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

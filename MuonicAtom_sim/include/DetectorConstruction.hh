@@ -67,8 +67,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double det_dx = 30; 
     G4double det_dy = 2;
     G4double det_dz = 30;
-    G4double det_dis = 30;// dis between colli. & det
+    G4double det_dis = 74;// dis between colli. & det
     G4double colli_dis = 109;//dis between colli. & sample
+    G4double colli_dis_si = 70;//dis between colli. & sample
+    G4double colli_radiu = 37;//collimator size
     G4double angle = 45;
     G4double cone_size = 3;
 
@@ -82,6 +84,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double shadow_inner_back = 33;
     G4double shadow_outer_back = 43;
     G4double shadow_angle = 360.;
+    G4double zshield_heigh = 25.;
 
     G4double shelf_dx = 30;
     G4double shelf_dy = 30;

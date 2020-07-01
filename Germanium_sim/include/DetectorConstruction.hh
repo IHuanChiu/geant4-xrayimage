@@ -52,7 +52,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 //    G4double gas_radius_3 = 139.8/2.;
     G4double gas_radius_3 = 239.8/2.;
     G4double gas_thick_1 = 296; 
-    G4double gas_thick_2 = 27.5;
+    G4double gas_thick_2 = 15;
     G4double gas_thick_3 = 432;
 
     G4double chamber_thick = 15;//mm

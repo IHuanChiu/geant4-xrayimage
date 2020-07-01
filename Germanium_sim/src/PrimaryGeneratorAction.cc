@@ -113,13 +113,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //     "MyCode0002",JustWarning,msg);
 //  }
 
+
+  //focus point
   G4double sample_z0 = 500*CLHEP::mm;
   G4double sample_x0 = 0*CLHEP::mm;
   G4double sample_y0 = 0*CLHEP::mm;
 
   //particle incident position
-  G4double radius = 2.5*CLHEP::cm;
-  G4double rho = radius*std::sqrt(G4UniformRand());
+  G4double radius = 22*CLHEP::mm;
+//  G4double rho = radius*std::sqrt(G4UniformRand());//random
+  G4double rho = G4RandGauss::shoot(0,radius);//gauss randon, radius is position resolution
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
   G4double y0 = rho * std::sin(theta);
   G4double x0 = rho * std::cos(theta);
@@ -159,7 +162,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   long thisEventNr = (long) (anEvent->GetEventID());
   if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
-    rho_e = radius*std::sqrt(G4UniformRand());
+//    rho_e = radius*std::sqrt(G4UniformRand());//random
+    rho_e = G4RandGauss::shoot(0,radius);//gauss random
     theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
     y0_e = rho_e * std::sin(theta_e);
     x0_e = rho_e * std::cos(theta_e);

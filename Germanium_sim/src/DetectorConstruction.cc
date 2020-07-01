@@ -110,7 +110,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_kapton_2, KaptonLog, "KaptonTubs", logicWorld, false, 0, checkOverlaps);        
 
   // ***** Gas *****
-  G4double placeforkapton = 3;
+  G4double placeforkapton = 2;
   G4VSolid* gas_tubs_1 = new G4Tubs("VacuumGas",0*mm,gas_radius_1*mm,(gas_thick_1/2-placeforkapton)*mm,0.,2*M_PI*rad);
   G4VSolid* gas_tubs_2 = new G4Tubs("AirGas",0*mm,gas_radius_2*mm,(gas_thick_2/2-placeforkapton)*mm,0.,2*M_PI*rad);
   G4VSolid* gas_tubs_3 = new G4Tubs("HeGas",0*mm,gas_radius_3*mm,(gas_thick_3/2-placeforkapton)*mm,0.,2*M_PI*rad);

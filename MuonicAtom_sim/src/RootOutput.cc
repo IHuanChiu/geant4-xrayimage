@@ -51,16 +51,16 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("muCdTeEndPolX",&muCdTeEndPolX,"muCdTeEndPolX[6]/D");
 //   rootTree->Branch("muCdTeEndPolY",&muCdTeEndPolY,"muCdTeEndPolY[6]/D");
 //   rootTree->Branch("muCdTeEndPolZ",&muCdTeEndPolZ,"muCdTeEndPolZ[6]/D");
-//   rootTree->Branch("muCollimatorTime",&muCollimatorTime,"muCollimatorTime/D");
-//   rootTree->Branch("muCollimatorKineticEnergy",&muCollimatorKineticEnergy,"muCollimatorKineticEnergy/D");
-//   rootTree->Branch("muCollimatorPolX",&muCollimatorPolX,"muCollimatorPolX/D");
-//   rootTree->Branch("muCollimatorPolY",&muCollimatorPolY,"muCollimatorPolY/D");
-//   rootTree->Branch("muCollimatorPolZ",&muCollimatorPolZ,"muCollimatorPolZ/D");
-//   rootTree->Branch("muCollimatorEndTime",&muCollimatorEndTime,"muCollimatorEndTime/D");
-//   rootTree->Branch("muCollimatorEndKineticEnergy",&muCollimatorEndKineticEnergy,"muCollimatorEndKineticEnergy/D");
-//   rootTree->Branch("muCollimatorEndPolX",&muCollimatorEndPolX,"muCollimatorEndPolX/D");
-//   rootTree->Branch("muCollimatorEndPolY",&muCollimatorEndPolY,"muCollimatorEndPolY/D");
-//   rootTree->Branch("muCollimatorEndPolZ",&muCollimatorEndPolZ,"muCollimatorEndPolZ/D");
+   rootTree->Branch("muCollimatorTime",&muCollimatorTime,"muCollimatorTime/D");
+   rootTree->Branch("muCollimatorKineticEnergy",&muCollimatorKineticEnergy,"muCollimatorKineticEnergy/D");
+   rootTree->Branch("muCollimatorPolX",&muCollimatorPolX,"muCollimatorPolX/D");
+   rootTree->Branch("muCollimatorPolY",&muCollimatorPolY,"muCollimatorPolY/D");
+   rootTree->Branch("muCollimatorPolZ",&muCollimatorPolZ,"muCollimatorPolZ/D");
+   rootTree->Branch("muCollimatorEndTime",&muCollimatorEndTime,"muCollimatorEndTime/D");
+   rootTree->Branch("muCollimatorEndKineticEnergy",&muCollimatorEndKineticEnergy,"muCollimatorEndKineticEnergy/D");
+   rootTree->Branch("muCollimatorEndPolX",&muCollimatorEndPolX,"muCollimatorEndPolX/D");
+   rootTree->Branch("muCollimatorEndPolY",&muCollimatorEndPolY,"muCollimatorEndPolY/D");
+   rootTree->Branch("muCollimatorEndPolZ",&muCollimatorEndPolZ,"muCollimatorEndPolZ/D");
 //   rootTree->Branch("muShadowTime",&muShadowTime,"muShadowTime/D");
 //   rootTree->Branch("muShadowKineticEnergy",&muShadowKineticEnergy,"muShadowKineticEnergy/D");
 //   rootTree->Branch("muShadowPolX",&muShadowPolX,"muShadowPolX/D");
@@ -106,6 +106,18 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
 //   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
+   rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
+   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");
+   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
+   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
+   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
+   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
+   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
+   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
+   rootTree->Branch("Hit_x",&hit_x,"Hit_x[nSignals]/D");
+   rootTree->Branch("Hit_y",&hit_y,"Hit_y[nSignals]/D");
+   rootTree->Branch("Hit_z",&hit_z,"Hit_z[nSignals]/D");
+
    // ===== detector info. =====
    rootTree->Branch("Det_nMax",&Det_nMax,"Det_nMax/I");
    rootTree->Branch("energyDep",eDep,"energyDep[Det_nMax]/D");
@@ -115,10 +127,6 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("Position_x",Position_x,"Position_x[Det_nMax]/D");
    rootTree->Branch("Position_y",Position_y,"Position_y[Det_nMax]/D");
    rootTree->Branch("Position_z",Position_z,"Position_z[Det_nMax]/D");
-//   rootTree->Branch("energyDep_bkg",eDep_bkg,"energyDep_bkg[Det_nMax]/D");
-//   rootTree->Branch("energyDep_e_bkg",eDep_e_bkg,"energyDep_e_bkg[Det_nMax]/D");
-//   rootTree->Branch("energyDep_gamma_bkg",eDep_gamma_bkg,"energyDep_gamma_bkg[Det_nMax]/D");
-//   rootTree->Branch("energyDep_other_bkg",eDep_other_bkg,"energyDep_other_bkg[Det_nMax]/D");
 
 //   rootTree->Branch("nDet",nDet,"nDet/I");
 //   rootTree->Branch("Ngamma",Ngamma,"Ngamma[nDet]/D");
@@ -137,6 +145,10 @@ void RootOutput::BeginOfRunAction() {
    TrackTree->Branch("Track_Name",&Track_Name);
    TrackTree->Branch("Track_Process",&Track_Process);
 
+   // ===== histogram =====
+   h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
+   for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,var_name[i-1]);
+
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
 
@@ -150,7 +162,7 @@ void RootOutput::RootEndOfRunAction() {
 
 void RootOutput::FillEvent() {
   double total_E = 0;
-  for (int i = 0; i < numberOfvolume; i++) total_E+=eDep[i];
+  for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
   if(total_E != 0) rootTree->Fill();
 }
 
@@ -224,6 +236,19 @@ void RootOutput::ClearAllRootVariables() {
     Position_y[i] = -1000.;
     Position_z[i] = -1000.;
   }
+
+  for (int i = 0; i < nhitMax; i++){
+     hit_energy[i] = 0.;
+     hit_timestart[i] = 0.;
+     hit_timeend[i] = 0.;
+     hit_nsteps[i] = 0;
+     hit_length[i] = 0.;
+     hit_pdgId[i] = 0;
+     hit_process[i] = 0;
+     hit_x[i] = 0;
+     hit_y[i] = 0;
+     hit_z[i] = 0;
+    }
   
   muSampleTime = -1000; muCollimatorTime = -1000; muWorldTime = -1000; muShadowTime = -1000; muKaptonTime = -1000;
   muSampleKineticEnergy = -1000; muCollimatorKineticEnergy = -1000; muWorldKineticEnergy = -1000; muShadowKineticEnergy = -1000;

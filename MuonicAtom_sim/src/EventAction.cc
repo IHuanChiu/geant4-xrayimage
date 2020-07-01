@@ -118,10 +118,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
   myRootOutput->SetRunID(fRunManager->GetCurrentRun()->GetRunID());
   myRootOutput->SetEventID(fRunManager->GetCurrentEvent()->GetEventID());
 
-//  for(int idet = 0; idet < numberOfdetectors; idet++) {//set energy deposit for each CdTe
-//     myRootOutput->SetDetectorInfo(idet,fEdep[idet], fEdep_e[idet], fEdep_gamma[idet], fEdep_other[idet]);
-//  }
+  if(thisEventNr == 1) run_pre = std::chrono::high_resolution_clock::now();//ignore first event
+  std::chrono::high_resolution_clock::time_point run_cur = std::chrono::high_resolution_clock::now();
+  runtime  = double ( std::chrono::duration_cast<std::chrono::seconds>( run_cur - run_pre ).count() );
+  myRootOutput->SetRunTime(runtime);
   myRootOutput->FillEvent();
+  run_pre = std::chrono::high_resolution_clock::now();
 
   // time
   if (timeOfRunStart == -1000) timeOfRunStart=time(0);

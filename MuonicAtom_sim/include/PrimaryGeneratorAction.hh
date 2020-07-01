@@ -58,22 +58,32 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     void SetMuonTime(G4double val)          {t0=val;}     //P.B. 13 May 2009
     void SetMuonTimeSigma(G4double val)     {tSigma=val;} //P.B. 13 May 2009
+    G4double beam_initZ = -80;
   
   private:
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
+    G4Box* fEnvelopeBox;
     G4double t0, tSigma;
     G4double p, pSigma;
-    G4double radius = 2.2;
+
+    //focus point
+    G4double sample_z0 = 80;//mm
+    G4double sample_x0 = 0;
+    G4double sample_y0 = 0;
+    G4double radius = 30;
     G4double p0 = 30;
-    G4double mom_error = 0.10;
+    G4double mom_error = 0.10;//10%
     G4double dir_error = 0.01;//angle range : 0~2*pi
-    G4double rho_e, rho_e_a, rho_e_b;   
+    G4int nPulseBeam = 1;
+
+    G4double rho_e;   
     G4double theta_e; 
     G4double y0_e;    
     G4double x0_e;   
     G4double muon_mass, ele_mass;
-    static G4int  fractionOfEletronParticles;
+
+    static G4int  fractionOfEletronParticles;//20% eletron
 
 };
 
