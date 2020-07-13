@@ -71,11 +71,11 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double sample_z0 = 80;//mm
     G4double sample_x0 = 0;
     G4double sample_y0 = 0;
-    G4double radius = 30;
+    G4double radius = 35;
     G4double p0 = 30;
     G4double mom_error = 0.10;//10%
     G4double dir_error = 0.01;//angle range : 0~2*pi
-    G4int nPulseBeam = 1;
+    G4int nPulseBeam = 20;
 
     G4double rho_e;   
     G4double theta_e; 

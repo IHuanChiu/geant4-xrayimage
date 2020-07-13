@@ -108,6 +108,7 @@ void RootOutput::BeginOfRunAction() {
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
    rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");
+   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D");
    rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
    rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
    rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
@@ -202,6 +203,14 @@ void RootOutput::SetParticlePositionInVolume(G4int id, G4double x, G4double y , 
      Position_x[id] = x*std::cos(id*(-60)*CLHEP::deg) + y*std::sin(id*(-60)*CLHEP::deg); 
      Position_y[id] = x*(-std::sin(id*(-60)*CLHEP::deg)) + y*std::cos(id*(-60)*CLHEP::deg); 
      Position_z[id] = z;
+}
+
+void RootOutput::SetEnergyResolution (){
+   for (int i = 0; i < nSignals; i++){
+      if(hit_energy[i]*1000 > 9 && hit_energy[i]*1000 < 19){  hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],1.43);
+      }else if(hit_energy[i]*1000 > 70 && hit_energy[i]*1000 < 80){ hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],1.65);
+      }else{ hit_energy_reso[i] = hit_energy[i]; }
+   }
 }
 
 void RootOutput::ClearAllRootVariables() {

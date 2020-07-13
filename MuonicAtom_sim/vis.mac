@@ -140,7 +140,8 @@
 /vis/geometry/set/colour Plastic 0 1 1 0 0.7
 /vis/geometry/set/colour EPE 0 0.596 0.96 1 1.
 /vis/geometry/set/colour KaptonTubs 0 0.8 1 0 .3
-/vis/geometry/set/colour KaptonSample 0 0.8 1 0 .3
+/vis/geometry/set/colour AirSample 0 0.3 1 1 .3
+/vis/geometry/set/colour KaptonCover 0 0.8 1 0 .3
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

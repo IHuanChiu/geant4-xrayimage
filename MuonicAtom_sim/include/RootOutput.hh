@@ -96,6 +96,7 @@ class RootOutput{
          eInitX = x;eInitY = y;eInitZ = z;eInitpX = px;eInitpY = py;eInitpZ = pz;}
     void SetEnergyDepositInVolume(G4int id, G4String name, G4double energy);
     void SetParticlePositionInVolume(G4int id, G4double x, G4double y , G4double z);
+    void SetEnergyResolution ();
 
     TFile* rootFile;
     TTree* rootTree;
@@ -153,6 +154,7 @@ class RootOutput{
     Int_t nSignals;
     Int_t hit_id;
     Double_t hit_energy[nhitMax];
+    Double_t hit_energy_reso[nhitMax];
     Double_t hit_timestart[nhitMax];
     Double_t hit_timeend[nhitMax];
     Int_t hit_nsteps[nhitMax];

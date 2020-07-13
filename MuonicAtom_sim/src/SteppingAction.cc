@@ -211,7 +211,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //       }
        }//volume end
         if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-        if(aTrack->GetPosition().z()/CLHEP::mm > 130) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+        if(aTrack->GetPosition().z()/CLHEP::mm > 100) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
 //        if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
 
@@ -221,7 +221,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //        aTrack->SetTrackStatus(fKillTrackAndSecondaries);
    
      // =========== store detector info. ===============    
-     if (VolumeMap[CurrentVolumeName] >= DetNumber && particleName != "mu-"){//sensitivity volume
+     //if (VolumeMap[CurrentVolumeName] >= DetNumber && particleName != "mu-"){//sensitivity volume
+     if (VolumeMap[CurrentVolumeName] == 6 && particleName != "mu-"){//sensitivity volume
         // *** energy deposit info. ***
         for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
             if(std::fabs(Time-ahit_time_end[j]) < CdTeTimeResolution){ // same signal (macro second)

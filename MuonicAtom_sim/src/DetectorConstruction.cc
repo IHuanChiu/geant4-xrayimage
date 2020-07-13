@@ -114,10 +114,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking   
   
-  G4VSolid* kapton_tubs_sample = new G4Tubs("KaptonSample",0*mm,(kapton_radiu+10)*mm,(kapton_thick/20.)*mm,0.,2*M_PI*rad);
+  G4VSolid* kapton_tubs_sample = new G4Tubs("AirSample",0*mm,(kapton_radiu+10)*mm,(kapton_thick/20.)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_kapton_sample = G4ThreeVector(0, 0, (sample_dis-15)*mm);
-  G4LogicalVolume* KaptonLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "KaptonSample");       
-  new G4PVPlacement(0, pos_kapton_sample, KaptonLog_sample, "KaptonSample", logicWorld, false, 0, checkOverlaps);     
+  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "AirSample");       
+  new G4PVPlacement(0, pos_kapton_sample, AirLog_sample, "AirSample", logicWorld, false, 0, checkOverlaps);     
 
   // ***** Sample *****
   G4Material* solid_target = nist->FindOrBuildMaterial("G4_POLYPROPYLENE");//(C_2H_4)_N-Polypropylene
@@ -183,7 +183,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* Sihousing_up = new G4Tubs("Sihousing_up",26*mm,100*mm,(21/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* Sihousing_down = new G4Tubs("Sihousing_down",85*mm,100*mm,(102/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* Bewindow = new G4Tubs("Bewindow",0*mm,45*mm,(7/2.)*mm,0.,2*M_PI*rad);
-  G4Box* plastic_cover = new G4Box("plastic_cover", (60/2.)*mm, (1/2.)*mm, (60/2.)*mm);
+  G4Box* plastic_cover_pre = new G4Box("plastic_cover_pre", (60/2.)*mm, (1/2.)*mm, (60/2.)*mm);
+  G4Box* plastic_cover_sub = new G4Box("plastic_cover_sub", (30/2.)*mm, (1/2.)*mm, (30/2.)*mm);
+  G4VSolid* plastic_cover = new G4SubtractionSolid("plastic_cover", plastic_cover_pre, plastic_cover_sub, 0, G4ThreeVector(0., 0., 0.));
+  G4Box* kapton_cover = new G4Box("kapton_cover", (30/2.)*mm, (kapton_thick/2.)*mm, (30/2.)*mm);
   G4Box* epe_cover = new G4Box("epe_cover", (60/2.)*mm, (5/2.)*mm, (60/2.)*mm);
 
   // JPARC March
@@ -233,6 +236,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_be = G4ThreeVector(0*mm, (colli_dis_si+8+21+(7/2.))*mm, (sample_dis+sample_dz/2.)*mm);
   G4ThreeVector pos_epe = G4ThreeVector(0*mm, (colli_dis_si+8+21+7+2+(5/2.))*mm, (sample_dis+sample_dz/2.)*mm);
   G4ThreeVector pos_pla = G4ThreeVector(0*mm, (colli_dis_si+8+21+7+2+5+(1/2.))*mm, (sample_dis+sample_dz/2.)*mm);
+  G4ThreeVector pos_kapcover = G4ThreeVector(0*mm, (colli_dis_si+8+21+7+2+5+(1/2.))*mm, (sample_dis+sample_dz/2.)*mm);
   G4ThreeVector pos_det_si = G4ThreeVector(0*mm, (colli_dis_si+8+21+7+2+5+2+(det_dy/2.))*mm, (sample_dis+sample_dz/2.)*mm);
 
   G4LogicalVolume* DetLog_si = new G4LogicalVolume(solidDet,det_mater_si,"Si");         
@@ -241,6 +245,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* DetLog_Be = new G4LogicalVolume(Bewindow,be_mater,"Bewindow");          
   G4LogicalVolume* DetLog_epe = new G4LogicalVolume(epe_cover,epe_mater,"EPE");          
   G4LogicalVolume* DetLog_plastic = new G4LogicalVolume(plastic_cover,plastic_mater,"Plastic");          
+  G4LogicalVolume* DetLog_kapcover = new G4LogicalVolume(kapton_cover,solid_kapton,"KaptonCover");          
  
   new G4PVPlacement(angle_collimator_cdte,pos_colli_si,DetLog_colli,"Collimator",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_collimator_cdte,pos_housing_up,DetLog_housing_up,"Housing",logicWorld,false,0,checkOverlaps); 
@@ -248,6 +253,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(angle_collimator_cdte,pos_be,DetLog_Be,"Bewindow",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(0,pos_epe,DetLog_epe,"EPE",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(0,pos_pla,DetLog_plastic,"Plastic",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(0,pos_kapcover,DetLog_kapcover,"KaptonCover",logicWorld,false,0,checkOverlaps); 
 //  new G4PVPlacement(0,pos_det_si,DetLog_si,"Si",logicWorld,false,0,checkOverlaps); //TODO after finishing CdTe 
 
 
