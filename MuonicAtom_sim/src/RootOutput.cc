@@ -207,8 +207,8 @@ void RootOutput::SetParticlePositionInVolume(G4int id, G4double x, G4double y , 
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-      if(hit_energy[i]*1000 > 9 && hit_energy[i]*1000 < 19){  hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],1.43);
-      }else if(hit_energy[i]*1000 > 70 && hit_energy[i]*1000 < 80){ hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],1.65);
+      if(hit_energy[i]*1000 > 9 && hit_energy[i]*1000 < 19){  hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],0.00143);
+      }else if(hit_energy[i]*1000 > 70 && hit_energy[i]*1000 < 80){ hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],0.00165);
       }else{ hit_energy_reso[i] = hit_energy[i]; }
    }
 }
