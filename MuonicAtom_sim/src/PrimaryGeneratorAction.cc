@@ -113,7 +113,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //     "MyCode0002",JustWarning,msg);
 //  }
 
-
   G4double rho = radius*std::sqrt(G4UniformRand());//random
 //  G4double rho = G4RandGauss::shoot(0,radius);//gauss randon, radius is position resolution
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;

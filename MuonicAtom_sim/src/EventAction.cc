@@ -39,6 +39,10 @@
 #include "g4root.hh"
 #include <sys/stat.h>
 
+//set random base on real time
+#include "Randomize.hh"
+#include "time.h"
+
 G4int  EventAction::nHowOftenToPrintEvent=10000;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -134,6 +138,12 @@ void EventAction::EndOfEventAction(const G4Event* event)
     G4cout << ">>> Event " << event->GetEventID() <<". Running already for "<<curr-timeOfRunStart<<" seconds.  Present time: "<< ctime(&curr);
     G4cout.flush();
   }
+
+  // reset random
+  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+  auto tp = std::chrono::high_resolution_clock::now();
+  G4double seed = tp.time_since_epoch().count();
+  CLHEP::HepRandom::setTheSeed(seed);
 
 //  #endif
 
