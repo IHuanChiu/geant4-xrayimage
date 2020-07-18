@@ -276,7 +276,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       
               myRootOutput->StoreTrack(VolumeMap[CurrentVolumeName]-DetNumber, det_pdgid, 
                                        Kinetic_e, Total_e, 
-                                       det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
+                                       det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess, ProcessMap[trackprocess]);
               myRootOutput->FillParticle();
         }//first particle in sensitivity volume
 

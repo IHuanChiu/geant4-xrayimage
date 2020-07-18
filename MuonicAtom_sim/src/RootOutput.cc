@@ -152,6 +152,7 @@ void RootOutput::BeginOfRunAction() {
    TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
    TrackTree->Branch("Track_Name",&Track_Name);
    TrackTree->Branch("Track_Process",&Track_Process);
+   TrackTree->Branch("Track_ProcessID",&Track_ProcessID,"Track_ProcessID/I");
 
    // ===== histogram =====
    h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
@@ -170,6 +171,7 @@ void RootOutput::RootEndOfRunAction() {
   rootTree->Write();
   muonTree->Write();
   TrackTree->Write();
+  h1_process->Write();
   rootFile->Close();
   G4cout<<"RootOutput::RootEndOfRunAction() - Root tree written out."<<G4endl;
 }
@@ -243,6 +245,7 @@ void RootOutput::ClearAllRootVariables() {
   Det_X = -1000; Det_Y = -1000; Det_Z = -1000;
   Track_Name = "None";
   Track_Process = "None";
+  Track_ProcessID = 0;
 
   nDet = -1000;
   for (int j = 0; j < 10; j++){

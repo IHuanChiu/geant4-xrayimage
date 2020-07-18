@@ -75,7 +75,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double p0 = 30;
     G4double mom_error = 0.10;//10%
     G4double dir_error = 0.01;//angle range : 0~2*pi
-    G4int nPulseBeam = 1;
+    G4int nPulseBeam = 20;
 
     G4double rho_e;   
     G4double theta_e; 

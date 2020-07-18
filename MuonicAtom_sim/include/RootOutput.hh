@@ -34,7 +34,7 @@ class RootOutput{
 
     void SetRunID          (G4int id) {runID = id;};
     void SetEventID        (G4int id) {eventID = id;};
-    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double x, G4double y, G4double z,  G4String tr_name, G4String tr_process) {
+    void StoreTrack(G4int det_index, G4int pdgid, G4double energy_kin,  G4double energy_total, G4double x, G4double y, G4double z,  G4String tr_name, G4String tr_process, G4int tr_process_id) {
           det_ID = det_index;
           pdgId = pdgid; 
           TotalE = energy_total; 
@@ -44,6 +44,7 @@ class RootOutput{
           Det_Z = z; 
           Track_Name  = tr_name;
           Track_Process  = tr_process;
+          Track_ProcessID = tr_process_id;
     }
 
     static const int numberOfvolume = 6; 
@@ -151,6 +152,7 @@ class RootOutput{
     Double_t Det_Z;
     std::string Track_Name;
     std::string Track_Process;
+    Int_t Track_ProcessID;
 
     Int_t nSignals;
     Int_t hit_id;
