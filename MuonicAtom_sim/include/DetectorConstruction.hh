@@ -68,8 +68,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double det_dy = 2;
     G4double det_dz = 30;
     G4double det_dis = 74;// dis between colli. & det
-    G4double colli_dis = 109;//dis between colli. & sample
-    G4double colli_dis_si = 70;//dis between colli. & sample
+    G4double colli_dis = 109;//dis between cdte colli. & sample
+    G4double colli_dis_si = 70;//dis between si colli. & sample
     G4double colli_radiu = 37;//collimator size
     G4double angle = 45;
     G4double cone_size = 3;

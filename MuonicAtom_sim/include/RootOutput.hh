@@ -100,6 +100,7 @@ class RootOutput{
 
     TFile* rootFile;
     TTree* rootTree;
+    TTree* muonTree;
     TTree* TrackTree;
     TH1F*  h1_process;
 
@@ -175,6 +176,10 @@ class RootOutput{
     Int_t eventID;
     Double_t RunTime;
     char RootOutputFileName[200];
+
+    G4double reso_14keV;
+    G4double reso_75keV;
+    G4double reso_rate;
 
   public:
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
