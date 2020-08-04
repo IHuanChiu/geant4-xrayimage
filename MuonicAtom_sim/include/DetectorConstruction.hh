@@ -65,7 +65,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double kapton_thick = 0.1;
 
     G4double det_dx = 30; 
-    G4double det_dy = 2;
+    G4double det_dy = 0.7;
     G4double det_dz = 30;
     G4double det_dis = 74;// dis between colli. & det
     G4double colli_dis = 109;//dis between cdte colli. & sample

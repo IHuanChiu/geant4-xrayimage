@@ -18,9 +18,12 @@ void RootOutput::BeginOfRunAction() {
    CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
    auto tpo = std::chrono::high_resolution_clock::now();
    G4double output_flag = tpo.time_since_epoch().count();
-
-   sprintf(RootOutputFileName, "./Output_%d.root", output_flag);
-   rootFile = new TFile(RootOutputFileName, "recreate");
+   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+   std::stringstream ss;
+   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" );
+   auto RootOutputFileName = "./Output_"+ss.str()+".root";
+   //sprintf(RootOutputFileName, "./Output_%d.root", output_flag);
+   rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
    G4cout << " RE-create file ! " <<G4endl; 
    rootFile->cd();
 //   if(rootFile->IsZombie()) { 
