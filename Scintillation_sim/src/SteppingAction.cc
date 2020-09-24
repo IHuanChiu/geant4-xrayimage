@@ -36,9 +36,6 @@
 SteppingAction::SteppingAction(EventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction)
-//  fScoringVolume(0),
-//  fScoringVolumeUp(0),
-//  fSampleVolume(0)
 {
   pointer=this;
   myRootOutput = RootOutput::GetRootInstance();
@@ -58,12 +55,10 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  VolumeMap["Sample_C"] = 1;
-  VolumeMap["Sample_SiO2"] = 1;
   VolumeMap["Sample"] = 1;
-  VolumeMap["GeTubs_1"] = 2;
-  VolumeMap["GeTubs_2"] = 3;
-  VolumeMap["GeTubs_3"] = 4;
+  VolumeMap["GeTubs_down"] = 2;
+  VolumeMap["GeTubs_up"] = 3;
+  VolumeMap["TunnelLog"] = 4;
   VolumeMap["World"] = 0;
   ProcessMap["muMinusCaptureAtRest"] = 1;
   ProcessMap["phot"] = 2;
@@ -73,11 +68,6 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   ProcessMap["muIoni"] = 6;
   ProcessMap["conv"] = 7;
   muhitSampleInThisEvent = false;
-  muhitCdTeInThisEvent = false;
-  muhitCollimatorInThisEvent = false;
-  muhitTargetInThisEvent = false;
-  muhitKaptonInThisEvent = false;
-  muEscapeInThisEvent = false;
   ngammaHitVolume = 0;
   neletronHitVolume = 0;
   nneutronHitVolume = 0;
@@ -151,23 +141,15 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
              myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
           }
 
-       }else{//world
-          if(!muEscapeInThisEvent){
-             muEscapeInThisEvent = true;
-             myRootOutput->SetInitPolInWorld(TrackPosition);
-             myRootOutput->SetInitMomInWorld(TrackMomentum);
-             myRootOutput->SetInitTimeInWorld(Time);
-             myRootOutput->SetInitKineticEnergyInWorld(KineticEnergy);
-          }
        }//volume end
 
        if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-       if (aTrack->GetPosition().z()/CLHEP::mm > 750) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
-       if (VolumeMap[CurrentVolumeName] >= 2) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
+       if (aTrack->GetPosition().z()/CLHEP::mm > 83) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
+       if (VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
        
      }//muon end
 
-     if(VolumeMap[CurrentVolumeName] >= 2 && particleName != "mu-"){//set sensitivity detectors
+     if((VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) && particleName != "mu-"){//sensitivity detectors
        // =========== store signal particle in detector ===============    
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)

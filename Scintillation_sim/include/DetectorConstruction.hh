@@ -54,21 +54,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4double Ge_radius = 50/2.;
     G4double Ge_thick = 50.;
-    G4double Ge_dis = 1000.;
-
-    G4double cover_radius = 40;//mm
-    G4double cover_thick = 10;//mm
-    G4double cover_lengh = 10;//mm
-    G4double cover_dis = 60.;    
-    G4double cu_cover_thick = 0.03;
-
-    G4double Stand_x = 95;
-    G4double Stand_y = 95;
-    G4double Stand_z = 5;
-
-    G4double Stand_line_x = 80;
-    G4double Stand_line_y = 10;
-    G4double Stand_line_z = 0.01;
+    G4double Ge_dis = 500.;//mm
 
     G4double fractionmass;
     G4int ncomponents;
@@ -78,9 +64,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double sample_thick_SiO2 = 1.;//1 mm
     G4double sample_radius_C = 0.021049640;
     G4double sample_thick_C = 0.25;
-    G4double ryugu_x = 7;
-    G4double ryugu_y = 2;
-    G4double ryugu_z = 0.01;
+    G4double sample_size = 30;//mm
     G4double sample_center = 0;
 };
 

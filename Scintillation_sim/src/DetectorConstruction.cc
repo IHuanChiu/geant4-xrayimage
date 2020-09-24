@@ -81,7 +81,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   // Envelope parameters
   //
-  G4double env_sizeXY = 80*cm, env_sizeZ = 100*cm;//World volume
+  G4double env_sizeXY = 200*cm, env_sizeZ = 200*cm;//World volume
    
   // Option to switch on/off checking of volumes overlaps
   //
@@ -101,7 +101,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,kapton_radius*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton_ori = G4ThreeVector(0, 0, -80*mm);
+  G4ThreeVector pos_kapton_ori = G4ThreeVector(0, 0, -145*mm);
   G4LogicalVolume* KaptonLog = new G4LogicalVolume(kapton_tubs, solid_kapton, "KaptonTubs");  
   new G4PVPlacement(0, pos_kapton_ori, KaptonLog, "KaptonTubs", logicWorld, false, 0, checkOverlaps);        
 
@@ -110,24 +110,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* tunnel = new G4Tubs("Tunnel",tunnel_inner_radius*mm,tunnel_outer_radius*mm,(tunnel_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_tunnel_left = G4ThreeVector(0, 0, -1*(tunnel_dis+tunnel_thick/2)*mm);
   G4ThreeVector pos_tunnel_right = G4ThreeVector(0, 0, (tunnel_dis+tunnel_thick/2)*mm);
-  G4LogicalVolume* TunnelLog_left = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog_left");
-  G4LogicalVolume* TunnelLog_right = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog_right");
-  new G4PVPlacement(0, pos_tunnel_left, TunnelLog_left, "Tunnel", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, pos_tunnel_right, TunnelLog_right, "Tunnel", logicWorld, false, 0, checkOverlaps);
+  G4LogicalVolume* TunnelLog_left = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog");
+  G4LogicalVolume* TunnelLog_right = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog");
+  new G4PVPlacement(0, pos_tunnel_left, TunnelLog_left, "TunnelLog", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, pos_tunnel_right, TunnelLog_right, "TunnelLog", logicWorld, false, 0, checkOverlaps);
 
   // ***** Sample *****
   G4Material* solid_sample_C = nist->FindOrBuildMaterial("G4_C");
+  G4Material* solid_sample_Fe = nist->FindOrBuildMaterial("G4_Fe");
   G4Material* solid_sample_SiO2 = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
 
   G4double density = 2*mg/cm3;
-  G4Material* solid_sample_SiO2_C = new G4Material(name="Sample"  , density, ncomponents=2);
-  solid_sample_SiO2_C->AddMaterial( solid_sample_SiO2,              fractionmass = 0.97);
-  solid_sample_SiO2_C->AddMaterial( solid_sample_C,              fractionmass = 0.03);
+  G4Material* solid_sample = new G4Material(name="Sample"  , density, ncomponents=3);
+  solid_sample->AddMaterial( solid_sample_SiO2,            fractionmass = 0.80);
+  solid_sample->AddMaterial( solid_sample_C,               fractionmass = 0.10);
+  solid_sample->AddMaterial( solid_sample_Fe,              fractionmass = 0.10);
   
-  G4VSolid* sample_box = new G4Box("Sample", (ryugu_x/2)*mm, (ryugu_y/2)*mm, (ryugu_z/2)*mm);
+  G4VSolid* sample_box = new G4Box("Sample", (sample_size/2)*mm, (sample_size/2)*mm, (sample_size/2)*mm);
   G4ThreeVector pos_sample_SiO2C = G4ThreeVector(0, 0, (0)*mm);
   G4RotationMatrix* angle_sample = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,90*CLHEP::deg); 
-  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample_SiO2_C, "Sample");
+//  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample, "Sample");
+  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample_Fe, "Sample");
   new G4PVPlacement(angle_sample, pos_sample_SiO2C, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
    
   // ***** Ge *****
@@ -135,38 +138,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* ge_tubs = new G4Tubs("GeDet",0*mm,(Ge_radius)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_ge_1 = G4ThreeVector(0, -Ge_dis*mm, 0);//check beam position
   G4ThreeVector pos_ge_2 = G4ThreeVector(0, Ge_dis*mm, 0);//check beam position
-  G4RotationMatrix* angle_ge_1 = new G4RotationMatrix(90*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
+  G4RotationMatrix* angle_ge_1 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
   G4RotationMatrix* angle_ge_2 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
-  G4LogicalVolume* GeLog_1 = new G4LogicalVolume(ge_tubs, solid_ge, "GeTubs_1");//LogicalVolume need to be seperated!
-  G4LogicalVolume* GeLog_2 = new G4LogicalVolume(ge_tubs, solid_ge, "GeTubs_2");
-  new G4PVPlacement(angle_ge_1, pos_ge_1, GeLog_1, "GeTubs_1", logicWorld, false, 0, checkOverlaps);        
-  new G4PVPlacement(angle_ge_2, pos_ge_2, GeLog_2, "GeTubs_2", logicWorld, false, 0, checkOverlaps);        
-
-  // ***** Ge Cover *****
-//  G4Material* solid_al = nist->FindOrBuildMaterial("G4_Al");
-//  G4VSolid* al_tubs_main = new G4Tubs("AlDet_main",(cover_radius-cover_thick)*mm,(cover_radius)*mm,(cover_lengh/2.)*mm,0.,2*M_PI*rad);
-//  G4VSolid* al_tubs_uni = new G4Tubs("AlDet_uni",0*mm,(cover_radius)*mm,(cover_thick/2.)*mm,0.,2*M_PI*rad);
-//  G4VSolid* al_tubs = new G4UnionSolid("AlDet", al_tubs_main, al_tubs_uni, 0, G4ThreeVector(0.*mm, 0.* mm, (cover_lengh/2.)*mm));
-//  G4ThreeVector pos_al_1 = G4ThreeVector(cover_dis, 0, (0)*mm);//check beam position
-//  G4ThreeVector pos_al_2 = G4ThreeVector(0, cover_dis, (0)*mm);//check beam position
-//  G4ThreeVector pos_al_3 = G4ThreeVector(0, (-1*cover_dis), (0)*mm);//check beam position
-//  G4RotationMatrix* angle_al_1 = new G4RotationMatrix(90*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg); 
-//  G4RotationMatrix* angle_al_2 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
-//  G4RotationMatrix* angle_al_3 = new G4RotationMatrix(0*CLHEP::deg,-90*CLHEP::deg,180*CLHEP::deg); 
-//  G4LogicalVolume* AlLog_1 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_1");
-//  G4LogicalVolume* AlLog_2 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_2");
-//  G4LogicalVolume* AlLog_3 = new G4LogicalVolume(al_tubs, solid_al, "AlTubs_3");
-//  new G4PVPlacement(angle_al_1, pos_al_1, AlLog_1, "AlTubs_1", GasLog_3, false, 0, checkOverlaps);        
-//  new G4PVPlacement(angle_al_2, pos_al_2, AlLog_2, "AlTubs_2", GasLog_3, false, 0, checkOverlaps);        
-//  new G4PVPlacement(angle_al_3, pos_al_3, AlLog_3, "AlTubs_3", GasLog_3, false, 0, checkOverlaps);       
-//   
-//  G4VSolid* cu_tubs_cover = new G4Tubs("CuDet",(cover_radius+1)*mm,(cover_radius+1+cu_cover_thick)*mm,((cover_lengh+cover_thick)/2.)*mm,0.,2*M_PI*rad);
-//  G4LogicalVolume* CuLog_1 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_1");
-//  G4LogicalVolume* CuLog_2 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_2");
-//  G4LogicalVolume* CuLog_3 = new G4LogicalVolume(cu_tubs_cover, solid_stand, "CuTubs_3");
-//  new G4PVPlacement(angle_al_1, pos_al_1, CuLog_1, "CuTubs_1", GasLog_3, false, 0, checkOverlaps);        
-//  new G4PVPlacement(angle_al_2, pos_al_2, CuLog_2, "CuTubs_2", GasLog_3, false, 0, checkOverlaps);        
-//  new G4PVPlacement(angle_al_3, pos_al_3, CuLog_3, "CuTubs_3", GasLog_3, false, 0, checkOverlaps);         
+  G4LogicalVolume* GeLog_1 = new G4LogicalVolume(ge_tubs, solid_ge, "GeTubs_down");//LogicalVolume need to be seperated!
+  G4LogicalVolume* GeLog_2 = new G4LogicalVolume(ge_tubs, solid_ge, "GeTubs_up");
+  new G4PVPlacement(angle_ge_1, pos_ge_1, GeLog_1, "GeTubs_down", logicWorld, false, 0, checkOverlaps);        
+  new G4PVPlacement(angle_ge_2, pos_ge_2, GeLog_2, "GeTubs_up", logicWorld, false, 0, checkOverlaps);        
 
   //always return the physical World
   return physWorld;
