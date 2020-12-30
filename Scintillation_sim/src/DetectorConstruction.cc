@@ -100,20 +100,42 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
-  G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,kapton_radius*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton_ori = G4ThreeVector(0, 0, -145*mm);
+  G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,20*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_kapton_ori = G4ThreeVector(0, 0, -1*(tunnel_gap/2+50)*mm);
   G4LogicalVolume* KaptonLog = new G4LogicalVolume(kapton_tubs, solid_kapton, "KaptonTubs");  
   new G4PVPlacement(0, pos_kapton_ori, KaptonLog, "KaptonTubs", logicWorld, false, 0, checkOverlaps);        
 
-  // ***** Tunnel *****
+  // ***** Fe Tunnel *****
   G4Material* tunnel_fe = nist->FindOrBuildMaterial("G4_Fe"); 
   G4VSolid* tunnel = new G4Tubs("Tunnel",tunnel_inner_radius*mm,tunnel_outer_radius*mm,(tunnel_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_tunnel_left = G4ThreeVector(0, 0, -1*(tunnel_dis+tunnel_thick/2)*mm);
-  G4ThreeVector pos_tunnel_right = G4ThreeVector(0, 0, (tunnel_dis+tunnel_thick/2)*mm);
+  G4ThreeVector pos_tunnel_left = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
+  G4ThreeVector pos_tunnel_right = G4ThreeVector(0, 0, (tunnel_gap/2+tunnel_thick/2)*mm);
   G4LogicalVolume* TunnelLog_left = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog");
   G4LogicalVolume* TunnelLog_right = new G4LogicalVolume(tunnel, tunnel_fe, "TunnelLog");
   new G4PVPlacement(0, pos_tunnel_left, TunnelLog_left, "TunnelLog", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, pos_tunnel_right, TunnelLog_right, "TunnelLog", logicWorld, false, 0, checkOverlaps);
+
+  // ***** Cu Tunnel *****
+  G4Material* material_cu = nist->FindOrBuildMaterial("G4_Cu"); 
+  G4VSolid* tunnel_cu = new G4Tubs("CuTunnel",(tunnel_inner_radius-70)*mm,(tunnel_inner_radius-1)*mm,(tunnel_thick/2-28)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_cutunnel_left = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
+  G4ThreeVector pos_cutunnel_right = G4ThreeVector(0, 0, (tunnel_gap/2+tunnel_thick/2)*mm);
+  G4LogicalVolume* CuTunnelLog_left = new G4LogicalVolume(tunnel_cu, material_cu, "CuTunnelLog");
+  G4LogicalVolume* CuTunnelLog_right = new G4LogicalVolume(tunnel_cu, material_cu, "CuTunnelLog");
+  new G4PVPlacement(0, pos_cutunnel_left, CuTunnelLog_left, "CuTunnelLog", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, pos_cutunnel_right, CuTunnelLog_right, "CuTunnelLog", logicWorld, false, 0, checkOverlaps);
+
+  // ***** Pb Collimator *****
+  G4Material* material_pb = nist->FindOrBuildMaterial("G4_Pb"); 
+  G4Cons* collimator_f=new G4Cons("collimator_cone_f",20*mm,55*mm,20*mm, 95*mm,20*mm, 0.,2*M_PI*rad); 
+  G4VSolid* collimator_b=new G4Tubs("collimator_cone_b",(20)*mm,(95)*mm,(40)*mm,0.,2*M_PI*rad);//angle
+  G4ThreeVector pos_collimator_f = G4ThreeVector(0, 0, -1*(tunnel_gap/2+20)*mm);
+  G4ThreeVector pos_collimator_b = G4ThreeVector(0, 0, -1*(tunnel_gap/2+40+40)*mm);
+  G4RotationMatrix* angle_pb = new G4RotationMatrix(0*CLHEP::deg,180*CLHEP::deg,0*CLHEP::deg);
+  G4LogicalVolume* CollimatorLog_f = new G4LogicalVolume(collimator_f, material_pb, "BeamColli");
+  G4LogicalVolume* CollimatorLog_b = new G4LogicalVolume(collimator_b, material_pb, "BeamColli");
+  new G4PVPlacement(angle_pb, pos_collimator_f, CollimatorLog_f, "BeamColli", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, pos_collimator_b, CollimatorLog_b, "BeamColli", logicWorld, false, 0, checkOverlaps);
 
   // ***** Sample *****
   G4Material* solid_sample_C = nist->FindOrBuildMaterial("G4_C");
@@ -126,7 +148,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   solid_sample->AddMaterial( solid_sample_C,               fractionmass = 0.10);
   solid_sample->AddMaterial( solid_sample_Fe,              fractionmass = 0.10);
   
-  G4VSolid* sample_box = new G4Box("Sample", (sample_size/2)*mm, (sample_size/2)*mm, (sample_size/2)*mm);
+  G4VSolid* sample_box = new G4Tubs("Sample", (0)*mm,(8)*mm,(1)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_sample_SiO2C = G4ThreeVector(0, 0, (0)*mm);
   G4RotationMatrix* angle_sample = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,90*CLHEP::deg); 
 //  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample, "Sample");

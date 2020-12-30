@@ -75,7 +75,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double x0_e;   
     G4double muon_mass, ele_mass;
 
-    G4int nPulseBeam = 10;
+    G4int nPulseBeam = 1;
     static G4int  fractionOfEletronParticles;//20% eletron
 
 };

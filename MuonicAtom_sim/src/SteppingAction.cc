@@ -211,7 +211,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //       }
        }//volume end
         if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-        if(aTrack->GetPosition().z()/CLHEP::mm > 100) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
+        if(aTrack->GetPosition().z()/CLHEP::mm > 150) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
 //        if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
 

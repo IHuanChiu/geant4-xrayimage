@@ -94,14 +94,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double envSizeZ = 0;
 
   //beam shape
-  G4double radius = 5*CLHEP::mm;
+  G4double radius = 10.9*CLHEP::mm;
   G4double rho = radius*std::sqrt(G4UniformRand());//random
 //  G4double rho = G4RandGauss::shoot(0,radius);//gauss randon, radius is position resolution
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
   //beam incident position
   G4double y0 = rho * std::sin(theta);
   G4double x0 = rho * std::cos(theta);
-  G4double z0 = -150*CLHEP::mm;
+  G4double z0 = -200*CLHEP::mm;
   //focus point (position of sample)
   G4double sample_z0 = 0*CLHEP::mm;
   G4double sample_x0 = 0*CLHEP::mm;

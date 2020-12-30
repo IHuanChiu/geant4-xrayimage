@@ -140,7 +140,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Al Baton *****
   G4Material* alBaton_mater = nist->FindOrBuildMaterial("G4_Al");
   G4Box* alBaton = new G4Box("alBaton", (100/2.)*mm, (200/2.)*mm, (100/2.)*mm);
-  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 300)*mm);
+  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 100)*mm);//300 is experiment setting
   G4LogicalVolume* alBatonLog = new G4LogicalVolume(alBaton,alBaton_mater,"AlBaton");
   new G4PVPlacement(0, pos_alBaton, alBatonLog, "AlBaton", logicWorld, false,0,checkOverlaps);
 
@@ -247,14 +247,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* DetLog_plastic = new G4LogicalVolume(plastic_cover,plastic_mater,"Plastic");          
   G4LogicalVolume* DetLog_kapcover = new G4LogicalVolume(kapton_cover,solid_kapton,"KaptonCover");          
  
-  new G4PVPlacement(angle_collimator_cdte,pos_colli_si,DetLog_colli,"Collimator",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(angle_collimator_cdte,pos_housing_up,DetLog_housing_up,"Housing",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(angle_collimator_cdte,pos_housing_down,DetLog_housing_down,"Housing",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(angle_collimator_cdte,pos_be,DetLog_Be,"Bewindow",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(0,pos_epe,DetLog_epe,"EPE",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(0,pos_pla,DetLog_plastic,"Plastic",logicWorld,false,0,checkOverlaps); 
-  new G4PVPlacement(0,pos_kapcover,DetLog_kapcover,"KaptonCover",logicWorld,false,0,checkOverlaps); 
-//  new G4PVPlacement(0,pos_det_si,DetLog_si,"Si",logicWorld,false,0,checkOverlaps); //TODO after finishing CdTe 
+//  new G4PVPlacement(angle_collimator_cdte,pos_colli_si,DetLog_colli,"Collimator",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(angle_collimator_cdte,pos_housing_up,DetLog_housing_up,"Housing",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(angle_collimator_cdte,pos_housing_down,DetLog_housing_down,"Housing",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(angle_collimator_cdte,pos_be,DetLog_Be,"Bewindow",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(0,pos_epe,DetLog_epe,"EPE",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(0,pos_pla,DetLog_plastic,"Plastic",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(0,pos_kapcover,DetLog_kapcover,"KaptonCover",logicWorld,false,0,checkOverlaps); 
+//  new G4PVPlacement(0,pos_det_si,DetLog_si,"Si",logicWorld,false,0,checkOverlaps); //Si Detector 
 
 
 

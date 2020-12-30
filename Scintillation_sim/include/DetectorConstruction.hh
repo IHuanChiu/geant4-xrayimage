@@ -45,16 +45,17 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     
   private:
     G4double kapton_radius = 139.8/2;
-    G4double kapton_thick = 0.1;
+    G4double kapton_thick = 0.075;
 
-    G4double tunnel_inner_radius=370/2.;
-    G4double tunnel_outer_radius=520/2.;
-    G4double tunnel_thick=67;
-    G4double tunnel_dis=83;
+    G4double tunnel_inner_radius=200.;
+    G4double tunnel_outer_radius=330.;
+    G4double tunnel_thick=234.;
+    G4double tunnel_gap=135;
+
 
     G4double Ge_radius = 50/2.;
     G4double Ge_thick = 50.;
-    G4double Ge_dis = 500.;//mm
+    G4double Ge_dis = 1000.;//mm
 
     G4double fractionmass;
     G4int ncomponents;
