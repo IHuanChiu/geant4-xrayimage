@@ -117,7 +117,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // ***** Cu Tunnel *****
   G4Material* material_cu = nist->FindOrBuildMaterial("G4_Cu"); 
-  G4VSolid* tunnel_cu = new G4Tubs("CuTunnel",(tunnel_inner_radius-70)*mm,(tunnel_inner_radius-1)*mm,(tunnel_thick/2-28)*mm,0.,2*M_PI*rad);
+  G4VSolid* tunnel_cu_outside = new G4Tubs("CuTunnel_out",(tunnel_inner_radius-70)*mm,(tunnel_inner_radius-1)*mm,(tunnel_thick/2-28)*mm,0.,2*M_PI*rad);
+  G4VSolid* tunnel_cu_inside = new G4Tubs("CuTunnel_in",(tunnel_inner_radius-70+0.2)*mm,(tunnel_inner_radius-1-0.2)*mm,(tunnel_thick/2-28-0.2)*mm,0.,2*M_PI*rad);
+  G4VSolid* tunnel_cu = new G4SubtractionSolid("CuTunnel", tunnel_cu_outside, tunnel_cu_inside, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
   G4ThreeVector pos_cutunnel_left = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
   G4ThreeVector pos_cutunnel_right = G4ThreeVector(0, 0, (tunnel_gap/2+tunnel_thick/2)*mm);
   G4LogicalVolume* CuTunnelLog_left = new G4LogicalVolume(tunnel_cu, material_cu, "CuTunnelLog");
@@ -144,11 +146,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4double density = 2*mg/cm3;
   G4Material* solid_sample = new G4Material(name="Sample"  , density, ncomponents=3);
-  solid_sample->AddMaterial( solid_sample_SiO2,            fractionmass = 0.80);
-  solid_sample->AddMaterial( solid_sample_C,               fractionmass = 0.10);
-  solid_sample->AddMaterial( solid_sample_Fe,              fractionmass = 0.10);
+  solid_sample->AddMaterial( solid_sample_SiO2,            fractionmass = 0.00);
+  solid_sample->AddMaterial( solid_sample_C,               fractionmass = 0.05);
+  solid_sample->AddMaterial( solid_sample_Fe,              fractionmass = 0.95);
   
-  G4VSolid* sample_box = new G4Tubs("Sample", (0)*mm,(8)*mm,(1)*mm,0.,2*M_PI*rad);
+  G4VSolid* sample_box = new G4Tubs("Sample", (0)*mm,(15)*mm,(1)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_sample_SiO2C = G4ThreeVector(0, 0, (0)*mm);
   G4RotationMatrix* angle_sample = new G4RotationMatrix(0*CLHEP::deg,0*CLHEP::deg,90*CLHEP::deg); 
 //  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample, "Sample");
@@ -157,7 +159,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    
   // ***** Ge *****
   G4Material* solid_ge = nist->FindOrBuildMaterial("G4_Ge");
-  G4VSolid* ge_tubs = new G4Tubs("GeDet",0*mm,(Ge_radius)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* ge_tubs_outside = new G4Tubs("GeDet_out",0*mm,(Ge_radius)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* ge_tubs_inside = new G4Tubs("GeDet_in",0*mm,(5)*mm,(45/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* ge_tubs = new G4SubtractionSolid("CuTunnel", ge_tubs_outside, ge_tubs_inside, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
   G4ThreeVector pos_ge_1 = G4ThreeVector(0, -Ge_dis*mm, 0);//check beam position
   G4ThreeVector pos_ge_2 = G4ThreeVector(0, Ge_dis*mm, 0);//check beam position
   G4RotationMatrix* angle_ge_1 = new G4RotationMatrix(0*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg); 
