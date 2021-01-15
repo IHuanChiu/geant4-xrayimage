@@ -156,6 +156,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample, "Sample");
   G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample_Fe, "Sample");
   new G4PVPlacement(angle_sample, pos_sample_SiO2C, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
+
+
+  // ***** Scintillator *****
+  G4Material* material_sci = nist->FindOrBuildMaterial("G4_AIR");
+  G4VSolid* sci_tubs = new G4Tubs("Sci_tubs",(tunnel_inner_radius-70+0.2+6.43)*mm,(tunnel_inner_radius-70+0.2+12*2)*mm,(20)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_sci_upflow = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
+  G4ThreeVector pos_sci_downflow = G4ThreeVector(0, 0, (tunnel_gap/2+tunnel_thick/2)*mm);
+  G4LogicalVolume* SciLog_upflow = new G4LogicalVolume(sci_tubs, material_sci, "SciUPLog");
+  G4LogicalVolume* SciLog_downflow = new G4LogicalVolume(sci_tubs, material_sci, "SciDownLog");
+  new G4PVPlacement(0, pos_sci_upflow, SciLog_upflow, "SciUPLog", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, pos_sci_downflow, SciLog_downflow, "SciDownLog", logicWorld, false, 0, checkOverlaps);  
    
   // ***** Ge *****
   G4Material* solid_ge = nist->FindOrBuildMaterial("G4_Ge");

@@ -106,6 +106,7 @@ class RootOutput{
 
     TFile* rootFile;
     TTree* rootTree;
+    TTree* SciTree;
     TTree* TrackTree;
 
     TH1F*  h1_process;
@@ -185,6 +186,11 @@ class RootOutput{
     Int_t hit_pdgId[nhitMax];
     Int_t hit_process[nhitMax];
 
+    Int_t n_electrons_up;
+    Int_t n_photons_up;
+    Int_t n_electrons_down;
+    Int_t n_photons_down;
+
     G4double reso_14keV;
     G4double reso_75keV;
     G4double reso_rate;
@@ -202,6 +208,8 @@ class RootOutput{
        hit_pdgId[id] = pdgId;
        hit_process[id] = name_id;
     }
+    void CountUpSciDet (G4int n_ele, G4int n_pho) {n_electrons_up = n_ele; n_photons_up = n_pho;}
+    void CountDownSciDet (G4int n_ele, G4int n_pho) {n_electrons_down = n_ele; n_photons_down = n_pho;}
     
                                                                                                                      
 };

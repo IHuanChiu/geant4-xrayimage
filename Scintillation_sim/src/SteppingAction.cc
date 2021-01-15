@@ -58,7 +58,8 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["Sample"] = 1;
   VolumeMap["GeTubs_down"] = 2;
   VolumeMap["GeTubs_up"] = 3;
-  VolumeMap["TunnelLog"] = 4;
+  VolumeMap["SciUPLog"] = 4;
+  VolumeMap["SciDownLog"] = 5;
   VolumeMap["World"] = 0;
   ProcessMap["muMinusCaptureAtRest"] = 1;
   ProcessMap["phot"] = 2;
@@ -91,6 +92,11 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   }
   nSignals=0;//number of signal particles
   IsSameSignal = false;//same signal, depend on time resolution of detector
+  sciID=0;
+  neleHitSci_UP=0; 
+  nphotonHitSci_UP=0; 
+  neleHitSci_DOWN=0; 
+  nphotonHitSci_DOWN=0; 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -144,12 +150,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }//volume end
 
        if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-       if (aTrack->GetPosition().z()/CLHEP::mm > 83) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
+//       if (aTrack->GetPosition().z()/CLHEP::mm > 83) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
        if (VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
        
      }//muon end
 
-     if((VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) && particleName != "mu-"){//sensitivity detectors
+     if((VolumeMap[CurrentVolumeName] >= 2 || VolumeMap[CurrentVolumeName] == 3) && particleName != "mu-"){//Ge sensitivity detectors
        // =========== store signal particle in detector ===============    
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
@@ -199,7 +205,19 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
                                    det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess);
           myRootOutput->FillParticle();
        }//first particle
-     }//end : if(VolumeMap[CurrentVolumeName] >= 2)
+     }//end Ge detectors
+     
+     if(VolumeMap[CurrentVolumeName] == 4 && particleName != "mu-"){//Scintillator sensitivity detectors
+        if(abs(pdgID) == 11) neleHitSci_UP++;
+        if(abs(pdgID) == 22) nphotonHitSci_UP++;
+        myRootOutput->CountUpSciDet(neleHitSci_UP, nphotonHitSci_UP);
+     }
+     if(VolumeMap[CurrentVolumeName] == 5 && particleName != "mu-"){//Scintillator sensitivity detectors
+        if(abs(pdgID) == 11) neleHitSci_DOWN++;
+        if(abs(pdgID) == 22) nphotonHitSci_DOWN++;
+        myRootOutput->CountDownSciDet(neleHitSci_DOWN, nphotonHitSci_DOWN);
+     }
+     
 
   }// end : if (aTrack->GetDefinition())
 }

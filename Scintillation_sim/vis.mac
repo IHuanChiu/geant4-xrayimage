@@ -111,10 +111,14 @@
 /vis/geometry/set/colour KaptonTubs 0 0.8 1 0 .6
 /vis/geometry/set/colour Sample 0 0 1 0 1
 /vis/geometry/set/colour TunnelLog 0 1 0.98 0.98 0.7
-/vis/geometry/set/colour CuTunnelLog  0 0.93 0.678 0 .9
+/vis/geometry/set/colour CuTunnelLog  0 0.93 0.678 0 0.3
 /vis/geometry/set/colour BeamColli 0 0.878 0.93 0.93 0.9
 /vis/geometry/set/colour GeTubs_down 0 1 0 0 .5
 /vis/geometry/set/colour GeTubs_up 0 1 0 0 .5
+/vis/geometry/set/colour SciUPLog 0 1 0 0 1.
+/vis/geometry/set/colour SciDownLog 0 1 0 0 1.
+/vis/geometry/set/forceWireframe SciUPLog 0 true
+/vis/geometry/set/forceWireframe SciDownLog 0 true
 
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true

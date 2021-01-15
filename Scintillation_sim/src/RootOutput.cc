@@ -25,7 +25,8 @@ void RootOutput::BeginOfRunAction() {
 //    std::cout << message << std::endl;
 //   }else rootFile->cd();
 
-   rootTree = new TTree("tree","CdTe detector analysis");
+   rootTree = new TTree("tree","Ge detector");
+   SciTree = new TTree("scitree","Scintillator detector");
    TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    rootTree->Branch("eventID",&eventID,"eventID/I");
@@ -146,6 +147,10 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("Neletron",&Neletron,"Neletron/I");
 //   rootTree->Branch("Nneutron",&Nneutron,"Nneutron/I");
 //   rootTree->Branch("Nother",&Nother,"Nother/I");
+   SciTree->Branch("n_electrons_up",&n_electrons_up,"n_electrons_up/I");
+   SciTree->Branch("n_photons_up",&n_photons_up,"n_photons_up/I");
+   SciTree->Branch("n_electrons_down",&n_electrons_down,"n_electrons_down/I");
+   SciTree->Branch("n_photons_donw",&n_photons_down,"n_photons_donw/I");
 
    // ===== track info. =====
    TrackTree->Branch("pdgId",&pdgId,"pdgId/I");
@@ -173,6 +178,7 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
+  SciTree->Write();
   TrackTree->Write();
   h1_process->Write();
   rootFile->Close();
@@ -183,6 +189,7 @@ void RootOutput::FillEvent() {
   double total_E = 0;
   for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
   if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
+  SciTree->Fill();
 }
 
 void RootOutput::FillParticle() {
@@ -253,6 +260,11 @@ void RootOutput::ClearAllRootVariables() {
   muInitX = -1000; muInitY = -1000;muInitZ = -1000;muInitpX = -1000;muInitpY = -1000;muInitpZ = -1000;  
   eInitX = -1000; eInitY = -1000;eInitZ = -1000;eInitpX = -1000;eInitpY = -1000;eInitpZ = -1000;  
   muInitTime = -1000;
+
+  n_electrons_up = -100;
+  n_photons_up = -100; 
+  n_electrons_down = -100;
+  n_photons_down = -100; 
 
   for (int i = 0; i < nhitMax; i++){
    hit_energy[i] = 0.;
