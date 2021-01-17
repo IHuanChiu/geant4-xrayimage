@@ -150,7 +150,8 @@ void RootOutput::BeginOfRunAction() {
    SciTree->Branch("n_electrons_up",&n_electrons_up,"n_electrons_up/I");
    SciTree->Branch("n_photons_up",&n_photons_up,"n_photons_up/I");
    SciTree->Branch("n_electrons_down",&n_electrons_down,"n_electrons_down/I");
-   SciTree->Branch("n_photons_donw",&n_photons_down,"n_photons_donw/I");
+   SciTree->Branch("n_photons_down",&n_photons_down,"n_photons_down/I");
+   SciTree->Branch("MuonStop_VolumeID",&Stop_Volume,"MuonStop_VolumeID/I");//muon hit
 
    // ===== track info. =====
    TrackTree->Branch("pdgId",&pdgId,"pdgId/I");

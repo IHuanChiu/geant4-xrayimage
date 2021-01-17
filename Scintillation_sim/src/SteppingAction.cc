@@ -155,7 +155,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        
      }//muon end
 
-     if((VolumeMap[CurrentVolumeName] >= 2 || VolumeMap[CurrentVolumeName] == 3) && particleName != "mu-"){//Ge sensitivity detectors
+     if((VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) && particleName != "mu-"){//Ge sensitivity detectors
        // =========== store signal particle in detector ===============    
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
