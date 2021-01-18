@@ -208,12 +208,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
      }//end Ge detectors
      
      if(VolumeMap[CurrentVolumeName] == 4 && particleName != "mu-"){//Scintillator sensitivity detectors
-        if(abs(pdgID) == 11) neleHitSci_UP++;
+        if(abs(pdgID) == 11 && KineticEnergy > 0.1) neleHitSci_UP++;
         if(abs(pdgID) == 22) nphotonHitSci_UP++;
         myRootOutput->CountUpSciDet(neleHitSci_UP, nphotonHitSci_UP);
      }
      if(VolumeMap[CurrentVolumeName] == 5 && particleName != "mu-"){//Scintillator sensitivity detectors
-        if(abs(pdgID) == 11) neleHitSci_DOWN++;
+        if(abs(pdgID) == 11 && KineticEnergy > 0.1) neleHitSci_DOWN++;
         if(abs(pdgID) == 22) nphotonHitSci_DOWN++;
         myRootOutput->CountDownSciDet(neleHitSci_DOWN, nphotonHitSci_DOWN);
      }
