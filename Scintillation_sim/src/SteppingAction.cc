@@ -92,6 +92,10 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   }
   nSignals=0;//number of signal particles
   IsSameSignal = false;//same signal, depend on time resolution of detector
+  EndTimeUp=0;
+  EndTimeDown=0;
+  IsSameElectronUp = false;//same electron, depend on time resolution of detector
+  IsSameElectronDown = false;//same electron, depend on time resolution of detector
   sciID=0;
   neleHitSci_UP=0; 
   nphotonHitSci_UP=0; 
@@ -208,12 +212,28 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
      }//end Ge detectors
      
      if(VolumeMap[CurrentVolumeName] == 4 && particleName != "mu-"){//Scintillator sensitivity detectors
-        if(abs(pdgID) == 11 && KineticEnergy > 0.1) neleHitSci_UP++;
+        if(abs(pdgID) == 11 && KineticEnergy > 0.1 ){
+           if(std::fabs(Time-EndTimeUp) < SciTimeResolution){
+             IsSameElectronUp=true;
+           }else{
+             IsSameElectronUp=false;
+           }
+           EndTimeUp = Time;
+           if(!IsSameElectronUp) neleHitSci_UP++;
+        }
         if(abs(pdgID) == 22) nphotonHitSci_UP++;
         myRootOutput->CountUpSciDet(neleHitSci_UP, nphotonHitSci_UP);
      }
      if(VolumeMap[CurrentVolumeName] == 5 && particleName != "mu-"){//Scintillator sensitivity detectors
-        if(abs(pdgID) == 11 && KineticEnergy > 0.1) neleHitSci_DOWN++;
+        if(abs(pdgID) == 11 && KineticEnergy > 0.1) {
+           if(std::fabs(Time-EndTimeDown) < SciTimeResolution){
+             IsSameElectronDown=true;
+           }else{
+             IsSameElectronDown=false;
+           }
+           EndTimeDown = Time;
+           if(!IsSameElectronDown) neleHitSci_DOWN++;
+        }
         if(abs(pdgID) == 22) nphotonHitSci_DOWN++;
         myRootOutput->CountDownSciDet(neleHitSci_DOWN, nphotonHitSci_DOWN);
      }

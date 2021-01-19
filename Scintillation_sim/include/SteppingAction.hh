@@ -128,7 +128,12 @@ class SteppingAction : public G4UserSteppingAction
     //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
     G4double GeTimeResolution = 0.100;//2ns ~ 120ns range
     G4bool IsSameSignal;
+    G4double SciTimeResolution = 0.01;//2ns ~ 120ns range
+    G4bool IsSameElectronDown;
+    G4bool IsSameElectronUp;
 
+    G4double EndTimeUp;
+    G4double EndTimeDown;
     G4double ahit_edep[nhitMax_indetector];
     G4double ahit_time_start[nhitMax_indetector];
     G4double ahit_time_end[nhitMax_indetector];
