@@ -61,6 +61,7 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["SciUPLog"] = 4;
   VolumeMap["SciDownLog"] = 5;
   VolumeMap["World"] = 0;
+  VolumeMap["BeamColli"] = -1;
   ProcessMap["muMinusCaptureAtRest"] = 1;
   ProcessMap["phot"] = 2;
   ProcessMap["compt"] = 3;
