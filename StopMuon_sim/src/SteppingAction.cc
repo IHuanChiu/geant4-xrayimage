@@ -59,9 +59,11 @@ SteppingAction* SteppingAction::GetInstance()
 
 void SteppingAction::InitializeInBeginningOfEvent(){
   ReNumber = 7;
-  VolumeMap["Shelf"] = 2;
-  VolumeMap["Target"] = 3;
+//  VolumeMap["Shelf"] = 2;
+//  VolumeMap["Target"] = 3;
   VolumeMap["KaptonTubs"] = 1;
+  VolumeMap["Air5Tubs"] = 2;
+  VolumeMap["Air10Tubs"] = 3;
   VolumeMap["World"] = 0;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
@@ -180,12 +182,13 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     G4StepPoint* postStepPoint = step->GetPostStepPoint();
     G4ThreeVector preStepPosition = preStepPoint->GetPosition();
     G4ThreeVector postStepPosition = postStepPoint->GetPosition();
-    myRootOutput->SetDecayPolGlo(postStepPosition);
-    myRootOutput->SetDecayTimeGlo(Time);
+//    myRootOutput->SetDecayPolGlo(postStepPosition);
+//    myRootOutput->SetDecayTimeGlo(Time);
     
   }//muon end
 
   // =========== store other particle ===============    
+ /*
    if(VolumeMap[CurrentVolumeName] == 3){//count number of particles
 
 //     if(aTrack->GetCurrentStepNumber() == 1){//muMinusCaptureAtRest gamma is from step 3~5
@@ -234,6 +237,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     myRootOutput->SetDetectorInfo(EnergyDeposit, EnergyDeposit_e, EnergyDeposit_gamma, EnergyDeposit_other, egamma_hittime);
 
    }//in target
+// */
 
   // get track
 //  preStep       = step->GetPreStepPoint();

@@ -123,6 +123,8 @@
 /vis/geometry/set/colour Target 0 0 1 1 .9
 /vis/geometry/set/colour Shelf 0 1 0 0 .7
 /vis/geometry/set/colour KaptonTubs 0 0.8 1 0 .3
+/vis/geometry/set/colour Air5Tubs 0 1 1 1 .9
+/vis/geometry/set/colour Air10Tubs 0 1 1 1 .9
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

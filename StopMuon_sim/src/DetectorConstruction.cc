@@ -56,15 +56,31 @@ DetectorConstruction::~DetectorConstruction()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
-{  
+{ 
+   G4double A, Z;
+   // ------------------------------------------------------------------------
+   // Elements
+   // ------------------------------------------------------------------------
+   G4Element* elH  = new G4Element("Hydrogen","H",  Z=1.,  A=1.00794*g/mole);
+   G4Element* elC  = new G4Element("Carbon",  "C",  Z=6.,  A= 12.011 *g/mole);
+   G4Element* elN  = new G4Element("Nitrogen","N",  Z=7.,  A= 14.00674*g/mole);
+   G4Element* elO  = new G4Element("Oxygen",  "O",  Z=8.,  A= 15.9994*g/mole);
+   G4Element* elNa = new G4Element("Sodium",  "Na", Z=11., A= 22.989768*g/mole);
+   G4Element* elSi = new G4Element("Silicon", "Si", Z=14., A= 28.0855*g/mole);
+   G4Element* elAr = new G4Element("Argon",   "Ar", Z=18., A= 39.948*g/mole);
+   G4Element* elI  = new G4Element("Iodine",  "I",  Z=53., A= 126.90447*g/mole);
+   G4Element* elCs = new G4Element("Cesium",  "Cs", Z=55., A= 132.90543*g/mole);
+
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* elA = nist->FindOrBuildMaterial("G4_AIR"); 
   G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
+  Vacuum-> AddElement(elN, .7);
+  Vacuum-> AddElement(elO, .3);
   
   // Envelope parameters
   //
-  G4double env_sizeXY = 80*cm, env_sizeZ = 100*cm;//World volume
+  G4double env_sizeXY = 30*cm, env_sizeZ = 50*cm;//World volume
   //G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
    
@@ -85,8 +101,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* logicWorld =                         
     new G4LogicalVolume(solidWorld,          //its solid
-//                        Vacuum,           //its material
-                        world_mat,           //its material
+                        Vacuum,           //its material
+//                        world_mat,           //its material
                         "World");            //its name
                                    
   G4VPhysicalVolume* physWorld = 
@@ -263,22 +279,30 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //                    checkOverlaps);          //overlaps checking   
 //
   // ***** Kapton *****
-  G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
-  G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,(55)*mm,(0.05/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, 0.5*mm);//check beam position
-  G4LogicalVolume* KaptonLog =
-       new G4LogicalVolume(kapton_tubs,         //its solid
-                           solid_kapton,          //its material
-                           "KaptonTubs");           //its name
-  new G4PVPlacement(0,                       //no rotation
-                    pos_kapton,                    //at position
-                    KaptonLog,             //its logical volume
-                    "KaptonTubs",                //its name
-                    logicWorld,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking   
+//  G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
+//  G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_Al");
+  G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_Cu");
+  G4double kapton_thick = 0.100;//mm
+  G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,(100)*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_kapton = G4ThreeVector(0, 0, (kapton_thick/2)*mm);//check beam position
+  G4LogicalVolume* KaptonLog = new G4LogicalVolume(kapton_tubs, solid_kapton, "KaptonTubs");  
+  new G4PVPlacement(0, pos_kapton, KaptonLog, "KaptonTubs", logicWorld, false, 0,  checkOverlaps);        
 
+  // ***** Air 5cm *****
+  G4double air_thick = 0.01;//mm
+  G4VSolid* Air5_tubs = new G4Tubs("Air5Tubs",0*mm,(100)*mm,(air_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_air5 = G4ThreeVector(0, 0, (kapton_thick/2+50)*mm);
+  G4LogicalVolume* Air5Log = new G4LogicalVolume(Air5_tubs, Vacuum, "Air5Tubs");  
+  new G4PVPlacement(0, pos_air5, Air5Log, "Air5Tubs", logicWorld, false, 0,  checkOverlaps);        
+
+  // ***** Air 10cm *****
+  G4VSolid* Air10_tubs = new G4Tubs("Air10Tubs",0*mm,(100)*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_air10 = G4ThreeVector(0, 0, (kapton_thick/2+100)*mm);
+  G4LogicalVolume* Air10Log = new G4LogicalVolume(Air10_tubs, Vacuum, "Air10Tubs");  
+  new G4PVPlacement(0, pos_air10, Air10Log, "Air10Tubs", logicWorld, false, 0,  checkOverlaps);        
+
+
+   // ***** ChecK Energy *****
 //  G4Material* solid_kapton2 = nist->FindOrBuildMaterial("G4_AIR");
   G4Material* solid_kapton2 = nist->FindOrBuildMaterial("G4_Ge");
 //  G4Material* solid_kapton2 = nist->FindOrBuildMaterial("G4_Al");
@@ -286,17 +310,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* kapton_tubs2 = new G4Tubs("Target",0*mm,(100)*mm,(100/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_kapton2 = G4ThreeVector(0, 0, (60+dis+10+5+50)*mm);//check beam position
   G4LogicalVolume* KaptonLog2 =
-       new G4LogicalVolume(kapton_tubs2,         //its solid
-                           solid_kapton2,          //its material
-                           "Target");           //its name
-  new G4PVPlacement(0,                       //no rotation
-                    pos_kapton2,                    //at position
-                    KaptonLog2,             //its logical volume
-                    "Target",                //its name
-                    logicWorld,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking   
+  new G4LogicalVolume(kapton_tubs2,solid_kapton2, "Target");      
+//  new G4PVPlacement(0,pos_kapton2,KaptonLog2,"Target", logicWorld, false,0, checkOverlaps); 
   
  
    
@@ -308,18 +323,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Box* solidshelf = new G4Box("Shelf", (100/2)*mm, (100/2)*mm, (10/2)*mm);
   G4ThreeVector pos_shelf = G4ThreeVector(0, 0, (60+dis+5)*mm);  
   G4LogicalVolume* ShelfLog =
-       new G4LogicalVolume(solidshelf,         //its solid
-                           solid_shelf,          //its material
-                           "Shelf");           //its name
+  new G4LogicalVolume(solidshelf, solid_shelf, "Shelf");          
 
-  new G4PVPlacement(0,                       //no rotation
-                    pos_shelf,                    //at position
-                    ShelfLog,             //its logical volume
-                    "Shelf",                //its name
-                    logicWorld,                //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
+//  new G4PVPlacement(0,  pos_shelf, ShelfLog, "Shelf", logicWorld, false, 0, checkOverlaps);
 
    
 

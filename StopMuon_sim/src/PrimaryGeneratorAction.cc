@@ -142,7 +142,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
   G4double y0 = rho * std::sin(theta);
   G4double x0 = rho * std::cos(theta);
-  G4double z0 = -0*CLHEP::mm;
+  G4double z0 = -10*CLHEP::mm;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
