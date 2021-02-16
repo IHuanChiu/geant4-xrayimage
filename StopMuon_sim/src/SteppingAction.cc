@@ -120,9 +120,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   
 
   // =========== store muon hit position ===============    
-  if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+  //if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+  if(particleName == "mu-"){ 
 
-    myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
 
     if (VolumeMap[CurrentVolumeName] == 1){//kapton
        if(!muhitKaptonInThisEvent){
@@ -184,7 +184,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     G4ThreeVector postStepPosition = postStepPoint->GetPosition();
 //    myRootOutput->SetDecayPolGlo(postStepPosition);
 //    myRootOutput->SetDecayTimeGlo(Time);
-    
+
+    //if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);
+    myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
   }//muon end
 
   // =========== store other particle ===============    
