@@ -61,9 +61,11 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   ReNumber = 7;
 //  VolumeMap["Shelf"] = 2;
 //  VolumeMap["Target"] = 3;
-  VolumeMap["KaptonTubs"] = 1;
-  VolumeMap["Air5Tubs"] = 2;
-  VolumeMap["Air10Tubs"] = 3;
+  VolumeMap["FoilTubs1"] = 1;
+  VolumeMap["FoilTubs2"] = 2;
+  VolumeMap["AirTubs"] = 3;
+  VolumeMap["FoilTubs3"] = 4;
+  VolumeMap["Sample"] = 5;
   VolumeMap["World"] = 0;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
@@ -124,7 +126,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   if(particleName == "mu-"){ 
 
 
-    if (VolumeMap[CurrentVolumeName] == 1){//kapton
+    if (VolumeMap[CurrentVolumeName] == 1){//foil-1
        if(!muhitKaptonInThisEvent){
           muhitKaptonInThisEvent = true;
           myRootOutput->SetInitPolInKapton(TrackPosition);
@@ -138,7 +140,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
           myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
        }
 
-    }else if(VolumeMap[CurrentVolumeName] == 2){//sample or shelf
+    }else if(VolumeMap[CurrentVolumeName] == 2){//foil-2
        if (!muhitSampleInThisEvent) {//start point
           muhitSampleInThisEvent = true;
           myRootOutput->SetInitPolInSample(TrackPosition);
@@ -153,7 +155,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }
 
 
-    }else if (VolumeMap[CurrentVolumeName] == 3){//shadow
+    }else if (VolumeMap[CurrentVolumeName] == 3){//foil-3
        if(!muhitTargetInThisEvent){
           muhitTargetInThisEvent = true;
           myRootOutput->SetInitPolInTarget(TrackPosition);
@@ -167,14 +169,14 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
           myRootOutput->SetEndKineticEnergyInTarget(KineticEnergy);            
        }
 
-    }else{//world
-       if(!muEscapeInThisEvent){
-          muEscapeInThisEvent = true;
-          myRootOutput->SetInitPolInWorld(TrackPosition);
-          myRootOutput->SetInitMomInWorld(TrackMomentum);
-          myRootOutput->SetInitTimeInWorld(Time);
-          myRootOutput->SetInitKineticEnergyInWorld(KineticEnergy);
-       }
+//    }else{//world
+//       if(!muEscapeInThisEvent){
+//          muEscapeInThisEvent = true;
+//          myRootOutput->SetInitPolInWorld(TrackPosition);
+//          myRootOutput->SetInitMomInWorld(TrackMomentum);
+//          myRootOutput->SetInitTimeInWorld(Time);
+//          myRootOutput->SetInitKineticEnergyInWorld(KineticEnergy);
+//       }
     }//volume end
 
     //global info.
@@ -186,9 +188,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    myRootOutput->SetDecayTimeGlo(Time);
 
     //if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);
-    myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
+//    if(TrackMomentum.z() >=0){
+       myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
+//    }
+   
   }//muon end
-
   // =========== store other particle ===============    
  /*
    if(VolumeMap[CurrentVolumeName] == 3){//count number of particles

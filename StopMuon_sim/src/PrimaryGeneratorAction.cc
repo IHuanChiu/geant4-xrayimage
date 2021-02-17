@@ -127,37 +127,42 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //this command will show previous particle energy and current particle momentum "EACH EVENT" !!
   //fParticleGun->SetParticleMomentum(p*MeV);//IH 
 
-//  sigma_angle = 0.01*2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double ux_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uy_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
-  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
-  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
-  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
-  //fParticleGunEle->SetParticleMomentum(p*MeV);
-
   //particle incident position
+  //random
   G4double radius = 2.5*CLHEP::cm;
   G4double rho = radius*std::sqrt(G4UniformRand());
   G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
   G4double y0 = rho * std::sin(theta);
   G4double x0 = rho * std::cos(theta);
-  G4double z0 = -10*CLHEP::mm;
+  G4double z0 = -5*CLHEP::mm;
+  //gauss for x and y
+  x0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::cm;
+  y0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::cm;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
   G4double muInitTime = fParticleGun->GetParticleTime();
 
-  long thisEventNr = (long) (anEvent->GetEventID());
-  if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
-    rho_e = radius*std::sqrt(G4UniformRand());
-    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-    y0_e = rho_e * std::sin(theta_e);
-    x0_e = rho_e * std::cos(theta_e);
-    fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-    fParticleGunEle->GeneratePrimaryVertex(anEvent);
-  }
+// ***** electron *****
+////  sigma_angle = 0.01*2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//  G4double ux_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+//           uy_e = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+//           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
+//  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
+//  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
+//  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
+//  //fParticleGunEle->SetParticleMomentum(p*MeV);
+//
+//  long thisEventNr = (long) (anEvent->GetEventID());
+//  if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
+//    rho_e = radius*std::sqrt(G4UniformRand());
+//    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//    y0_e = rho_e * std::sin(theta_e);
+//    x0_e = rho_e * std::cos(theta_e);
+//    fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
+//    fParticleGunEle->GeneratePrimaryVertex(anEvent);
+//  }
   
   // Assign spin 
 //  G4double ParticleTime;
@@ -165,8 +170,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //  else if (tSigma<0) {ParticleTime = t0 + tSigma*(G4UniformRand()*2.-1.);}   //  Uniform step distribution   P.B. 13 May 2009
 //  else               {ParticleTime = t0;}           
 //  clearRootOutput->SetInitialMuonParameters(x0,y0,z0,px,py,pz,xpolaris,ypolaris,zpolaris,ParticleTime);
+
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
-  myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
+//  myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
 
 }
 

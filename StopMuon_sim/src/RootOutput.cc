@@ -148,6 +148,9 @@ void RootOutput::BeginOfRunAction() {
 //   TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
 //   TrackTree->Branch("Hit_Time",&Hit_Time,"Hit_Time/D");
 
+   // ===== hist. info. =====
+   h1_StopVol = new TH1F("h1_StopVol","Name of Volume",nh1bin,0,nh1bin);
+   for (int i=1;i<=nh1bin;i++) h1_StopVol->GetXaxis()->SetBinLabel(i,var_name[i-1]);
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
 
@@ -155,11 +158,14 @@ void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
   TrackTree->Write();
+  h1_StopVol->Write();
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
 }
 
 void RootOutput::FillEvent() {
+  if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
+//  if(Stop_Volume == 1){std::cout << " sample : " << muSampleMomZ << " kapton: " << muKaptonMomZ << " kapton end:" << muKaptonEndMomZ <<std::endl;}
   rootTree->Fill();
 }
 

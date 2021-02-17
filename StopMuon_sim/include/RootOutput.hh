@@ -46,6 +46,7 @@ class RootOutput{
     }
 
     static const int numberOfvolume = 10; 
+    static const int nh1bin = 6;
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -103,10 +104,12 @@ class RootOutput{
     TFile* rootFile;
     TTree* rootTree;
     TTree* TrackTree;
+    TH1F* h1_StopVol;
 
   // === variables for tree ===
   private:
     static RootOutput* pointerToRoot;
+    const char *var_name[nh1bin] = {"World","Foil-1","Foil-2","Air","Foil-3","Sample"};
 
     Double_t muSampleTime, muCdTeTime[6], muWorldTime, muKaptonTime, muTargetTime;
     Double_t muSampleKineticEnergy, muCdTeKineticEnergy[6], muWorldKineticEnergy, muKaptonKineticEnergy, muTargetKineticEnergy;
