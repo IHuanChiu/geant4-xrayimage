@@ -1,4 +1,6 @@
 copy.sh
-*_build
+*_build/*.root
+*_build/*/*.root
+*_build/*/*/*.root
 macro/root
 macro/data

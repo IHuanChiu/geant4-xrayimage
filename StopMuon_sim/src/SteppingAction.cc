@@ -155,7 +155,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }
 
 
-    }else if (VolumeMap[CurrentVolumeName] == 3){//foil-3
+    }else if (VolumeMap[CurrentVolumeName] == 3){//virtrul
        if(!muhitTargetInThisEvent){
           muhitTargetInThisEvent = true;
           myRootOutput->SetInitPolInTarget(TrackPosition);

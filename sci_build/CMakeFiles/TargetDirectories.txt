@@ -1,0 +1,8 @@
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/install/strip.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/install.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/list_install_components.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/MA.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/rebuild_cache.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/edit_cache.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/install/local.dir
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/sci_build/CMakeFiles/sim_MuonicAtom.dir
