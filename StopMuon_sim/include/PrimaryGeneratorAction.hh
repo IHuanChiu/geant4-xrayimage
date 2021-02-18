@@ -68,8 +68,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     G4double p0 = 27;
     G4double mom_error = 0.05;//5%
-    G4double poi_mean = 0;
-    G4double poi_sigma = 3;
+    G4double poi_mean = 0;//mm
+    G4double poi_sigma = 15;//mm
 
     G4double dir_error = 0.001;//angle error : 0.1%*2pi
 

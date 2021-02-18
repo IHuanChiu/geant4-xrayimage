@@ -136,8 +136,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double x0 = rho * std::cos(theta);
   G4double z0 = -5*CLHEP::mm;
   //gauss for x and y
-  x0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::cm;
-  y0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::cm;
+  x0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::mm;
+  y0 = G4RandGauss::shoot(poi_mean,poi_sigma)*CLHEP::mm;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
