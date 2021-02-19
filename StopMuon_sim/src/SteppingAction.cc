@@ -67,6 +67,8 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["FoilTubs3"] = 4;
   VolumeMap["Sample"] = 5;
   VolumeMap["World"] = 0;
+  VolumeMap["intermediate1"] = 0;
+  VolumeMap["intermediate2"] = 0;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
   muhitCollimatorInThisEvent = false;
@@ -122,9 +124,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   
 
   // =========== store muon hit position ===============    
-  //if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
-  if(particleName == "mu-"){ 
-
+  if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
+  //if(particleName == "mu-"){ 
 
     if (VolumeMap[CurrentVolumeName] == 1){//foil-1
        if(!muhitKaptonInThisEvent){
@@ -180,10 +181,10 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     }//volume end
 
     //global info.
-    G4StepPoint* preStepPoint = step->GetPreStepPoint();
-    G4StepPoint* postStepPoint = step->GetPostStepPoint();
-    G4ThreeVector preStepPosition = preStepPoint->GetPosition();
-    G4ThreeVector postStepPosition = postStepPoint->GetPosition();
+//    G4StepPoint* preStepPoint = step->GetPreStepPoint();
+//    G4StepPoint* postStepPoint = step->GetPostStepPoint();
+//    G4ThreeVector preStepPosition = preStepPoint->GetPosition();
+//    G4ThreeVector postStepPosition = postStepPoint->GetPosition();
 //    myRootOutput->SetDecayPolGlo(postStepPosition);
 //    myRootOutput->SetDecayTimeGlo(Time);
 
