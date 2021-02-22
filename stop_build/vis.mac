@@ -119,7 +119,9 @@
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
-#
+
+/vis/geometry/set/forceWireframe Chamber 0 true
+/vis/geometry/set/colour Chamber 0 0.756 1 0.757 0.5
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings

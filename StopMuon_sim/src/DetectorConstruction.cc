@@ -74,18 +74,31 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* elA = nist->FindOrBuildMaterial("G4_AIR"); 
-  G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
-  Vacuum-> AddElement(elN, .7);
-  Vacuum-> AddElement(elO, .3);
-  
+
+//  G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
+//  Vacuum-> AddElement(elN, .7);
+//  Vacuum-> AddElement(elO, .3);
+
+  G4double atomicNumber = 1.;
+  G4double massOfMole = 1.008*g/mole;
+  G4double density = 1.e-25*g/cm3;
+  G4double temperature = 2.73*kelvin;
+  G4double pressure = 3.e-18*pascal;
+  G4Material* Vacuum = new G4Material( "Vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure); 
+ 
   // Envelope parameters
   //
   G4double env_sizeXY = 50*cm, env_sizeZ = 60*cm;//World volume
   //G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
+  // ***** expain pressure *****
+  //std::cout << "Air : " << elA->GetPressure() << std::endl;//Output is STP, 6.32421e+08
+  //STP: 6.32421e+08 -> 101325 pascal -> 1atm 
+  //if G4Material* the_He = nist->FindOrBuildMaterial("G4_He");
+  //the_He is also 1atm
    
+
   // Option to switch on/off checking of volumes overlaps
-  //
   G4bool checkOverlaps = true;
 
   //     
@@ -277,44 +290,71 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //                    0,                       //copy number
 //                    checkOverlaps);          //overlaps checking   
 //
+
+  //
   // ***** Foil-1 *****
+  //
 //  G4Material* solid_foil1 = elA;//None
-//  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_KAPTON");
+  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_KAPTON");
 //  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Al");
-  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Cu");
+//  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Cu");
   G4double foil1_thick = 0.100;//mm
   G4VSolid* foil1_tubs = new G4Tubs("FoilTubs1",0*mm,(150)*mm,(foil1_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil1 = G4ThreeVector(0, 0, -(foil1_thick/2)*mm);//check beam position
   G4LogicalVolume* FoilLog1 = new G4LogicalVolume(foil1_tubs, solid_foil1, "FoilTubs1");  
   new G4PVPlacement(0, pos_foil1, FoilLog1, "FoilTubs1", logicWorld, false, 0,  checkOverlaps);        
 
+  //
   // ***** intermediate Air *****
+  //
   G4double inter_air_thick = 45;//mm
   G4VSolid* inter_air_tubs = new G4Tubs("intermediate1",0*mm,(180)*mm,(inter_air_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_air = G4ThreeVector(0, 0, (foil1_thick+inter_air_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog1 = new G4LogicalVolume(inter_air_tubs, elA, "intermediate1");  
   new G4PVPlacement(0, pos_inter_air, INTERLog1, "intermediate1", logicWorld, false, 0,  checkOverlaps);        
-
+  
+  //
   // ***** Foil-2 *****
+  //
 //  G4Material* solid_foil2 = elA;//None
-//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON");
+  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON");
 //  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al");
-  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Cu");
-  G4double foil2_thick = 0.020;//mm
+//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Cu");
+  G4double foil2_thick = 0.0125;//mm
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,(150)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  
   new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", logicWorld, false, 0,  checkOverlaps);        
 
+  //
   // ***** intermediate H *****
-  G4Material* solid_He = nist->FindOrBuildMaterial("G4_He");
+  //
+  //G4Material* solid_He = nist->FindOrBuildMaterial("G4_He");
+    //  or 
+  G4double He_atomicNumber = 2.;
+  G4double He_massOfMole = 4.003*g/mole;
+  G4double He_density = 0.166*g/cm3;
+  G4double He_temperature = 293.15*kelvin;
+  G4double He_pressure = (3.e-18)*pascal;//1atm
+  G4Material* solid_He = new G4Material( "My_He", He_atomicNumber, He_massOfMole, He_density, kStateGas, He_temperature, He_pressure); 
+
   G4double inter_h_thick = 200;//mm
-  G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,(180)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,(150)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_h = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog2 = new G4LogicalVolume(inter_h_tubs, solid_He, "intermediate2");  
   new G4PVPlacement(0, pos_inter_h, INTERLog2, "intermediate2", logicWorld, false, 0,  checkOverlaps);        
 
+  //
+  // ***** Chamber *****
+  //
+  G4Material* solid_chamber = nist->FindOrBuildMaterial("G4_Cu");
+  G4VSolid* chamber_tubs = new G4Tubs("Chamber",150*mm,(250)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
+  G4LogicalVolume* ChamberLog = new G4LogicalVolume(chamber_tubs, solid_chamber, "Chamber");  
+  new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
+
+  //
   // ***** Air *****
+  //
   G4double air_thick = 0.010;//mm
   G4VSolid* Air_tubs = new G4Tubs("AirTubs",0*mm,(150)*mm,(air_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_air = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+air_thick/2)*mm);

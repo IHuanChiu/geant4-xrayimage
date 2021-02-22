@@ -67,8 +67,9 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["FoilTubs3"] = 4;
   VolumeMap["Sample"] = 5;
   VolumeMap["World"] = 0;
-  VolumeMap["intermediate1"] = 0;
-  VolumeMap["intermediate2"] = 0;
+  VolumeMap["intermediate1"] = 6;
+  VolumeMap["intermediate2"] = 7;
+  VolumeMap["Chamber"] = 8;
   muhitSampleInThisEvent = false;
   muhitCdTeInThisEvent = false;
   muhitCollimatorInThisEvent = false;
