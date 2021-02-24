@@ -53,9 +53,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 //    G4double thick   = 15;
 //    G4double step    = 10;//step must smaller than thick
 //    G4double duplicate = 5;
-    G4double kapton_radiu = 35;
-    G4double kapton_thick = 0.1;
-    G4double dis = 50;
+//    G4double kapton_radiu = 35;
+//    G4double kapton_thick = 0.1;
+//    G4double dis = 50;
 
 //    G4double det_dx = 30; 
 //    G4double det_dy = 2;

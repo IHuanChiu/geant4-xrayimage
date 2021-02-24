@@ -30,8 +30,8 @@ TFile* f4= new TFile("report10_files/Output_kap75_cu10.root","read");
 
 //TFile* f1= new TFile("report10_files/Output_kap100_kap12p5.root","read");
 TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
-//TFile* f3= new TFile("report10_files/Output_kap50_kap12p5.root","read");
-//TFile* f4= new TFile("report10_files/Output_cu100_cu20_27MeV.root","read");
+TFile* f6= new TFile("report10_files/Output_al150_al25_27MeV.root","read");
+TFile* f7= new TFile("report10_files/Output_al150_al20_27MeV.root","read");
 //TFile* f5= new TFile("report10_files/Output_cu100_cu20_30MeV.root","read");
 //TFile* f6= new TFile("report10_files/Output_cu100_cu20_35MeV.root","read");
 
@@ -43,8 +43,8 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    TTree* t3 = (TTree*)f3->Get("tree");
    TTree* t4 = (TTree*)f4->Get("tree");
    TTree* t5 = (TTree*)f5->Get("tree");
-//   TTree* t6 = (TTree*)f6->Get("tree");
-//   TTree* t7 = (TTree*)f7->Get("tree");
+   TTree* t6 = (TTree*)f6->Get("tree");
+   TTree* t7 = (TTree*)f7->Get("tree");
 //   TTree* t8 = (TTree*)f8->Get("tree");
    
    TH1D*h0;
@@ -60,14 +60,14 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    TCanvas*c1=new TCanvas("aa","aa",1000,800);
    gPad->SetLeftMargin(0.15);
    
-   t0->Draw("     muInitY >>      h0(800,-80,80)");
-   t1->Draw("muTargetPolY >> h1(800,-80,80)");
-   t2->Draw("muTargetPolY >> h2(800,-80,80)");
-   t3->Draw("muTargetPolY >> h3(800,-80,80)");
-   t4->Draw("muTargetPolY >> h4(800,-80,80)");
-   t5->Draw("muTargetPolY >> h5(800,-80,80)");
-//   t6->Draw("muTargetPolX >> h6(800,-80,80)");
-//   t7->Draw("muTargetPolX >> h7(1000,-100,100)");
+   t0->Draw("     muInitX >>      h0(800,-80,80)");
+   t1->Draw("muTargetPolX >> h1(800,-80,80)");
+   t2->Draw("muTargetPolX >> h2(800,-80,80)");
+   t3->Draw("muTargetPolX >> h3(800,-80,80)");
+   t4->Draw("muTargetPolX >> h4(800,-80,80)");
+   t5->Draw("muTargetPolX >> h5(800,-80,80)");
+   t6->Draw("muTargetPolX >> h6(800,-80,80)");
+   t7->Draw("muTargetPolX >> h7(800,-80,80)");
 //   t8->Draw("muTargetPolX >> h8(1000,-100,100)");
    
    h0=(TH1D*)gDirectory->Get("h0");
@@ -76,8 +76,8 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    h3=(TH1D*)gDirectory->Get("h3");
    h4=(TH1D*)gDirectory->Get("h4");
    h5=(TH1D*)gDirectory->Get("h5");
-//   h6=(TH1D*)gDirectory->Get("h6");
-//   h7=(TH1D*)gDirectory->Get("h7");
+   h6=(TH1D*)gDirectory->Get("h6");
+   h7=(TH1D*)gDirectory->Get("h7");
 //   h8=(TH1D*)gDirectory->Get("h8");
 
    h0->SetStats(0);
@@ -86,8 +86,8 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    h3->SetStats(0);
    h4->SetStats(0);
    h5->SetStats(0);
-//   h6->SetStats(0);
-//   h7->SetStats(0);
+   h6->SetStats(0);
+   h7->SetStats(0);
 //   h8->SetStats(0);
 
    h0->SetLineColor(1);
@@ -96,8 +96,8 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    h3->SetLineColor(7);
    h4->SetLineColor(6);
    h5->SetLineColor(2);
-//   h6->SetLineColor(7);
-//   h7->SetLineColor(8);
+   h6->SetLineColor(9);
+   h7->SetLineColor(8);
 //   h8->SetLineColor(9);
 
    h0->SetTitle("");
@@ -110,8 +110,8 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
    h3->Draw("same");
    h4->Draw("same");
    h5->Draw("same");
-//   h6->Draw("same");
-//   h7->Draw("same");
+   h6->Draw("same");
+   h7->Draw("same");
 //   h8->Draw("same");
 
   TLegend* leg = new TLegend(.68,.50,.88,.88);
@@ -124,10 +124,10 @@ TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
   leg->AddEntry(h3,  "Case5",   "l");
   leg->AddEntry(h4,  "Case8",   "l");
   leg->AddEntry(h5,  "Case11",   "l");
-//  leg->AddEntry(h6,  "Case12",   "l");
-//  leg->AddEntry(h7,  "Case15",   "l");
+  leg->AddEntry(h6,  "Case16",   "l");
+  leg->AddEntry(h7,  "Case18",   "l");
 //  leg->AddEntry(h8,  "Case16",   "l");
   leg->Draw("same");
 
-   c1->SaveAs("/Users/chiu.i-huan/Desktop/compare_new_Y.pdf");
+   c1->SaveAs("/Users/chiu.i-huan/Desktop/compare_addAl_X.pdf");
 }
