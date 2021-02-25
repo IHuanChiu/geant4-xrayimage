@@ -127,8 +127,8 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
-   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D"); 
-   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); 
+   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");//MeV
+   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); //MeV
    rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
    rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
    rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
@@ -169,9 +169,8 @@ void RootOutput::BeginOfRunAction() {
    for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,var_name[i-1]);
 
    // ===== Energy resolution =====
-   reso_14keV = 0.000014*2;//14eV, 2%
-   reso_75keV = 0.000075*2;//75eV
-   reso_rate = (reso_75keV-reso_14keV)/(75-14); 
+   reso_init = 0.14896551724137927/1000.;//14keV
+   reso_rate = 0.0004827586206896556/1000.;
 
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
@@ -207,11 +206,7 @@ void RootOutput::FillParticle() {
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-      if((hit_energy[i]*1000 - 14) < 0){
-         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],reso_14keV);
-      }else{
-         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(reso_14keV + (hit_energy[i]*1000 - 14)*reso_rate));
-      }
+      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_init + hit_energy[i]*reso_rate));
    }
 }
 

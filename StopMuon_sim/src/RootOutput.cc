@@ -25,55 +25,29 @@ void RootOutput::BeginOfRunAction() {
 //    std::cout << message << std::endl;
 //   }else rootFile->cd();
 
-   rootTree = new TTree("tree","CdTe detector analysis");
+   rootTree = new TTree("tree","Germanium detector analysis");
    TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    rootTree->Branch("eventID",&eventID,"eventID/I");
    rootTree->Branch("runID",&runID,"runID/I"); 
    rootTree->Branch("RunTime",&RunTime,"RunTime/D"); 
    // ===== muon position/hit =====
-   rootTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
-   rootTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
-   rootTree->Branch("muSamplePolX",&muSamplePolX,"muSamplePolX/D");
-   rootTree->Branch("muSamplePolY",&muSamplePolY,"muSamplePolY/D");
-   rootTree->Branch("muSamplePolZ",&muSamplePolZ,"muSamplePolZ/D");
-   rootTree->Branch("muSampleMomX",&muSampleMomX,"muSampleMomX/D");
-   rootTree->Branch("muSampleMomY",&muSampleMomY,"muSampleMomY/D");
-   rootTree->Branch("muSampleMomZ",&muSampleMomZ,"muSampleMomZ/D");
-   rootTree->Branch("muSampleEndTime",&muSampleEndTime,"muSampleEndTime/D");
-   rootTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
-   rootTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
-   rootTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
-   rootTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
-   rootTree->Branch("muSampleEndMomX",&muSampleEndMomX,"muSampleEndMomX/D");
-   rootTree->Branch("muSampleEndMomY",&muSampleEndMomY,"muSampleEndMomY/D");
-   rootTree->Branch("muSampleEndMomZ",&muSampleEndMomZ,"muSampleEndMomZ/D");
-//   rootTree->Branch("muCdTeTime",&muCdTeTime,"muCdTeTime[6]/D");
-//   rootTree->Branch("muCdTeKineticEnergy",&muCdTeKineticEnergy,"muCdTeKineticEnergy[6]/D");
-//   rootTree->Branch("muCdTePolX",&muCdTePolX,"muCdTePolX[6]/D");
-//   rootTree->Branch("muCdTePolY",&muCdTePolY,"muCdTePolY[6]/D");
-//   rootTree->Branch("muCdTePolZ",&muCdTePolZ,"muCdTePolZ[6]/D");
-//   rootTree->Branch("muCdTeEndTime",&muCdTeEndTime,"muCdTeEndTime[6]/D");
-//   rootTree->Branch("muCdTeEndKineticEnergy",&muCdTeEndKineticEnergy,"muCdTeEndKineticEnergy[6]/D");
-//   rootTree->Branch("muCdTeEndPolX",&muCdTeEndPolX,"muCdTeEndPolX[6]/D");
-//   rootTree->Branch("muCdTeEndPolY",&muCdTeEndPolY,"muCdTeEndPolY[6]/D");
-//   rootTree->Branch("muCdTeEndPolZ",&muCdTeEndPolZ,"muCdTeEndPolZ[6]/D");
-   rootTree->Branch("muKaptonTime",&muKaptonTime,"muKaptonTime/D");
-   rootTree->Branch("muKaptonKineticEnergy",&muKaptonKineticEnergy,"muKaptonKineticEnergy/D");
-   rootTree->Branch("muKaptonPolX",&muKaptonPolX,"muKaptonPolX/D");
-   rootTree->Branch("muKaptonPolY",&muKaptonPolY,"muKaptonPolY/D");
-   rootTree->Branch("muKaptonPolZ",&muKaptonPolZ,"muKaptonPolZ/D");
-   rootTree->Branch("muKaptonMomX",&muKaptonMomX,"muKaptonMomX/D");
-   rootTree->Branch("muKaptonMomY",&muKaptonMomY,"muKaptonMomY/D");
-   rootTree->Branch("muKaptonMomZ",&muKaptonMomZ,"muKaptonMomZ/D");
-   rootTree->Branch("muKaptonEndTime",&muKaptonEndTime,"muKaptonEndTime/D");
-   rootTree->Branch("muKaptonEndKineticEnergy",&muKaptonEndKineticEnergy,"muKaptonEndKineticEnergy/D");
-   rootTree->Branch("muKaptonEndPolX",&muKaptonEndPolX,"muKaptonEndPolX/D");
-   rootTree->Branch("muKaptonEndPolY",&muKaptonEndPolY,"muKaptonEndPolY/D");
-   rootTree->Branch("muKaptonEndPolZ",&muKaptonEndPolZ,"muKaptonEndPolZ/D");
-   rootTree->Branch("muKaptonEndMomX",&muKaptonEndMomX,"muKaptonEndMomX/D");
-   rootTree->Branch("muKaptonEndMomY",&muKaptonEndMomY,"muKaptonEndMomY/D");
-   rootTree->Branch("muKaptonEndMomZ",&muKaptonEndMomZ,"muKaptonEndMomZ/D");
+//   rootTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
+//   rootTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
+//   rootTree->Branch("muSamplePolX",&muSamplePolX,"muSamplePolX/D");
+//   rootTree->Branch("muSamplePolY",&muSamplePolY,"muSamplePolY/D");
+//   rootTree->Branch("muSamplePolZ",&muSamplePolZ,"muSamplePolZ/D");
+//   rootTree->Branch("muSampleMomX",&muSampleMomX,"muSampleMomX/D");
+//   rootTree->Branch("muSampleMomY",&muSampleMomY,"muSampleMomY/D");
+//   rootTree->Branch("muSampleMomZ",&muSampleMomZ,"muSampleMomZ/D");
+//   rootTree->Branch("muSampleEndTime",&muSampleEndTime,"muSampleEndTime/D");
+//   rootTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
+//   rootTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
+//   rootTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
+//   rootTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
+//   rootTree->Branch("muSampleEndMomX",&muSampleEndMomX,"muSampleEndMomX/D");
+//   rootTree->Branch("muSampleEndMomY",&muSampleEndMomY,"muSampleEndMomY/D");
+//   rootTree->Branch("muSampleEndMomZ",&muSampleEndMomZ,"muSampleEndMomZ/D");
 //   rootTree->Branch("muWorldTime",&muWorldTime,"muWorldTime/D");
 //   rootTree->Branch("muWorldKineticEnergy",&muWorldKineticEnergy,"muWorldKineticEnergy/D");
 //   rootTree->Branch("muWorldPolX",&muWorldPolX,"muWorldPolX/D");
@@ -90,7 +64,54 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("muWorldEndMomX",&muWorldEndMomX,"muWorldEndMomX/D");
 //   rootTree->Branch("muWorldEndMomY",&muWorldEndMomY,"muWorldEndMomY/D");
 //   rootTree->Branch("muWorldEndMomZ",&muWorldEndMomZ,"muWorldEndMomZ/D");
-   rootTree->Branch("muTargetTime",&muTargetTime,"muTargetTime/D");
+
+   // === init. poi ===
+//   rootTree->Branch("muFoil1Time",&muFoil1Time,"muFoil1Time/D");
+   rootTree->Branch("muFoil1KineticEnergy",&muFoil1KineticEnergy,"muFoil1KineticEnergy/D");
+   rootTree->Branch("muFoil1PolX",&muFoil1PolX,"muFoil1PolX/D");
+   rootTree->Branch("muFoil1PolY",&muFoil1PolY,"muFoil1PolY/D");
+   rootTree->Branch("muFoil1PolZ",&muFoil1PolZ,"muFoil1PolZ/D");
+   rootTree->Branch("muFoil1MomX",&muFoil1MomX,"muFoil1MomX/D");
+   rootTree->Branch("muFoil1MomY",&muFoil1MomY,"muFoil1MomY/D");
+   rootTree->Branch("muFoil1MomZ",&muFoil1MomZ,"muFoil1MomZ/D");
+
+//   rootTree->Branch("muFoil2Time",&muFoil2Time,"muFoil2Time/D");
+   rootTree->Branch("muFoil2KineticEnergy",&muFoil2KineticEnergy,"muFoil2KineticEnergy/D");
+   rootTree->Branch("muFoil2PolX",&muFoil2PolX,"muFoil2PolX/D");
+   rootTree->Branch("muFoil2PolY",&muFoil2PolY,"muFoil2PolY/D");
+   rootTree->Branch("muFoil2PolZ",&muFoil2PolZ,"muFoil2PolZ/D");
+   rootTree->Branch("muFoil2MomX",&muFoil2MomX,"muFoil2MomX/D");
+   rootTree->Branch("muFoil2MomY",&muFoil2MomY,"muFoil2MomY/D");
+   rootTree->Branch("muFoil2MomZ",&muFoil2MomZ,"muFoil2MomZ/D");
+
+//   rootTree->Branch("muFoil3Time",&muFoil3Time,"muFoil3Time/D");
+   rootTree->Branch("muFoil3KineticEnergy",&muFoil3KineticEnergy,"muFoil3KineticEnergy/D");
+   rootTree->Branch("muFoil3PolX",&muFoil3PolX,"muFoil3PolX/D");
+   rootTree->Branch("muFoil3PolY",&muFoil3PolY,"muFoil3PolY/D");
+   rootTree->Branch("muFoil3PolZ",&muFoil3PolZ,"muFoil3PolZ/D");
+   rootTree->Branch("muFoil3MomX",&muFoil3MomX,"muFoil3MomX/D");
+   rootTree->Branch("muFoil3MomY",&muFoil3MomY,"muFoil3MomY/D");
+   rootTree->Branch("muFoil3MomZ",&muFoil3MomZ,"muFoil3MomZ/D");
+
+//   rootTree->Branch("muInter1Time",&muInter1Time,"muInter1Time/D");
+   rootTree->Branch("muInter1KineticEnergy",&muInter1KineticEnergy,"muInter1KineticEnergy/D");
+   rootTree->Branch("muInter1PolX",&muInter1PolX,"muInter1PolX/D");
+   rootTree->Branch("muInter1PolY",&muInter1PolY,"muInter1PolY/D");
+   rootTree->Branch("muInter1PolZ",&muInter1PolZ,"muInter1PolZ/D");
+   rootTree->Branch("muInter1MomX",&muInter1MomX,"muInter1MomX/D");
+   rootTree->Branch("muInter1MomY",&muInter1MomY,"muInter1MomY/D");
+   rootTree->Branch("muInter1MomZ",&muInter1MomZ,"muInter1MomZ/D");
+
+//   rootTree->Branch("muInter2Time",&muInter2Time,"muInter2Time/D");
+   rootTree->Branch("muInter2KineticEnergy",&muInter2KineticEnergy,"muInter2KineticEnergy/D");
+   rootTree->Branch("muInter2PolX",&muInter2PolX,"muInter2PolX/D");
+   rootTree->Branch("muInter2PolY",&muInter2PolY,"muInter2PolY/D");
+   rootTree->Branch("muInter2PolZ",&muInter2PolZ,"muInter2PolZ/D");
+   rootTree->Branch("muInter2MomX",&muInter2MomX,"muInter2MomX/D");
+   rootTree->Branch("muInter2MomY",&muInter2MomY,"muInter2MomY/D");
+   rootTree->Branch("muInter2MomZ",&muInter2MomZ,"muInter2MomZ/D");
+
+//   rootTree->Branch("muTargetTime",&muTargetTime,"muTargetTime/D");
    rootTree->Branch("muTargetKineticEnergy",&muTargetKineticEnergy,"muTargetKineticEnergy/D");
    rootTree->Branch("muTargetPolX",&muTargetPolX,"muTargetPolX/D");
    rootTree->Branch("muTargetPolY",&muTargetPolY,"muTargetPolY/D");
@@ -98,14 +119,35 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("muTargetMomX",&muTargetMomX,"muTargetMomX/D");
    rootTree->Branch("muTargetMomY",&muTargetMomY,"muTargetMomY/D");
    rootTree->Branch("muTargetMomZ",&muTargetMomZ,"muTargetMomZ/D");
-   rootTree->Branch("muTargetEndTime",&muTargetEndTime,"muTargetEndTime/D");
-   rootTree->Branch("muTargetEndKineticEnergy",&muTargetEndKineticEnergy,"muTargetEndKineticEnergy/D");
-   rootTree->Branch("muTargetEndPolX",&muTargetEndPolX,"muTargetEndPolX/D");
-   rootTree->Branch("muTargetEndPolY",&muTargetEndPolY,"muTargetEndPolY/D");
-   rootTree->Branch("muTargetEndPolZ",&muTargetEndPolZ,"muTargetEndPolZ/D");
-   rootTree->Branch("muTargetEndMomX",&muTargetEndMomX,"muTargetEndMomX/D");
-   rootTree->Branch("muTargetEndMomY",&muTargetEndMomY,"muTargetEndMomY/D");
-   rootTree->Branch("muTargetEndMomZ",&muTargetEndMomZ,"muTargetEndMomZ/D");
+
+//   rootTree->Branch("muTarget2Time",&muTarget2Time,"muTarget2Time/D");
+   rootTree->Branch("muTarget2KineticEnergy",&muTarget2KineticEnergy,"muTarget2KineticEnergy/D");
+   rootTree->Branch("muTarget2PolX",&muTarget2PolX,"muTarget2PolX/D");
+   rootTree->Branch("muTarget2PolY",&muTarget2PolY,"muTarget2PolY/D");
+   rootTree->Branch("muTarget2PolZ",&muTarget2PolZ,"muTarget2PolZ/D");
+   rootTree->Branch("muTarget2MomX",&muTarget2MomX,"muTarget2MomX/D");
+   rootTree->Branch("muTarget2MomY",&muTarget2MomY,"muTarget2MomY/D");
+   rootTree->Branch("muTarget2MomZ",&muTarget2MomZ,"muTarget2MomZ/D");
+   // === end poi ===
+   rootTree->Branch("muInter1EndPolX",&muInter1EndPolX,"muInter1EndPolX/D");
+   rootTree->Branch("muInter1EndPolY",&muInter1EndPolY,"muInter1EndPolY/D");
+   rootTree->Branch("muInter1EndPolZ",&muInter1EndPolZ,"muInter1EndPolZ/D");
+//   rootTree->Branch("muInter1EndTime",&muInter1EndTime,"muInter1EndTime/D");
+//   rootTree->Branch("muInter1EndKineticEnergy",&muInter1EndKineticEnergy,"muInter1EndKineticEnergy/D");
+//   rootTree->Branch("muInter1EndMomX",&muInter1EndMomX,"muInter1EndMomX/D");
+//   rootTree->Branch("muInter1EndMomY",&muInter1EndMomY,"muInter1EndMomY/D");
+//   rootTree->Branch("muInter1EndMomZ",&muInter1EndMomZ,"muInter1EndMomZ/D");
+
+   rootTree->Branch("muInter2EndPolX",&muInter2EndPolX,"muInter2EndPolX/D");
+   rootTree->Branch("muInter2EndPolY",&muInter2EndPolY,"muInter2EndPolY/D");
+   rootTree->Branch("muInter2EndPolZ",&muInter2EndPolZ,"muInter2EndPolZ/D");
+//   rootTree->Branch("muInter2EndTime",&muInter2EndTime,"muInter2EndTime/D");
+//   rootTree->Branch("muInter2EndKineticEnergy",&muInter2EndKineticEnergy,"muInter2EndKineticEnergy/D");
+//   rootTree->Branch("muInter2EndMomX",&muInter2EndMomX,"muInter2EndMomX/D");
+//   rootTree->Branch("muInter2EndMomY",&muInter2EndMomY,"muInter2EndMomY/D");
+//   rootTree->Branch("muInter2EndMomZ",&muInter2EndMomZ,"muInter2EndMomZ/D");
+
+   // === muon beam ===
 //   rootTree->Branch("muDecayPolX",&muDecayPolX,"muDecayPolX/D");
 //   rootTree->Branch("muDecayPolY",&muDecayPolY,"muDecayPolY/D");
 //   rootTree->Branch("muDecayPolZ",&muDecayPolZ,"muDecayPolZ/D");
@@ -165,7 +207,6 @@ void RootOutput::EndOfRunAction() {
 
 void RootOutput::FillEvent() {
   if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
-//  if(Stop_Volume == 1){std::cout << " sample : " << muSampleMomZ << " kapton: " << muKaptonMomZ << " kapton end:" << muKaptonEndMomZ <<std::endl;}
   rootTree->Fill();
 }
 
@@ -182,48 +223,56 @@ void RootOutput::SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_
 }
 
 void RootOutput::ClearAllRootVariables() {
-  Stop_Volume = -1000;
-  eDep = 0.;eDep_e = 0.; eDep_gamma = 0.; eDep_other = 0.;
-  hitparticle = "None"; 
-  egamma_hit_time = -1000.;
-  runID=-1000;
-  eventID=-1000;
-  RunTime=-1000;
-  for (int j = 0; j < 6; j++){
-   muCdTeTime[j] = -1000; muCdTePolX[j] = -1000; muCdTePolY[j] = -1000; muCdTePolZ[j] = -1000;
-   muCdTeKineticEnergy[j] = -1000; muCdTeEndKineticEnergy[j] = -1000;
-   muCdTeEndTime[j] = -1000; muCdTeEndPolZ[j] = -1000; muCdTeEndPolY[j] = -1000; muCdTeEndPolX[j]  = -1000;
-  }
-   KineticE = -1000; TotalE = -1000; DepositeE = -1000; pdgId = -1000;
-   Det_X = -1000; Det_Y = -1000; Det_Z = -1000;
-   Ngamma=-1000;
-   Neletron=-1000;
-   Nneutron=-1000;  
-   Nother=-1000;  
-  muSampleTime = -1000; muWorldTime = -1000; muKaptonTime = -1000; muTargetTime = -1000;
-  muSampleKineticEnergy = -1000; muWorldKineticEnergy = -1000;
-  muSamplePolX = -1000; muSamplePolY = -1000; muSamplePolZ = -1000; 
-  muKaptonKineticEnergy = -1000; muTargetKineticEnergy = -1000;
-  muWorldPolX = -1000; muWorldPolY = -1000; muWorldPolZ = -1000;
-  muKaptonPolX = -1000; muKaptonPolY = -1000; muKaptonPolZ = -1000;
-  muSampleEndTime = -1000; muWorldEndTime = -1000; muTargetEndTime = -1000;
-  muTargetPolX = -1000; muTargetPolY = -1000; muTargetPolZ = -1000;
-  muSampleEndKineticEnergy = -1000; muWorldEndKineticEnergy = -1000; muKaptonEndKineticEnergy = -1000; muTargetEndTime = -1000;
-  muSampleEndPolX = -1000; muSampleEndPolY = -1000; muSampleEndPolZ = -1000;
-  muWorldEndPolX = -1000; muWorldEndPolY = -1000; muWorldEndPolZ = -1000;
-  muKaptonEndPolX = -1000; muKaptonEndPolY = -1000; muKaptonEndPolZ = -1000;
-  muTargetEndPolX = -1000; muTargetEndPolY = -1000; muTargetEndPolZ = -1000;
-  muDecayPolX = -1000; muDecayPolY = -1000; muDecayPolZ = -1000; muDecayTime = -1000;
-  Hit_Time = -1000;
-  muSampleMomX = -1000; muSampleMomY = -1000; muSampleMomZ = -1000; 
-  muWorldMomX = -1000; muWorldMomY = -1000; muWorldMomZ = -1000;
-  muKaptonMomX = -1000; muKaptonMomY = -1000; muKaptonMomZ = -1000;
-  muSampleEndMomX = -1000; muSampleEndMomY = -1000; muSampleEndMomZ = -1000;
-  muWorldEndMomX = -1000; muWorldEndMomY = -1000; muWorldEndMomZ = -1000;
-  muKaptonEndMomX = -1000; muKaptonEndMomY = -1000; muKaptonEndMomZ = -1000;
-  muTargetEndMomX = -1000; muTargetEndMomY = -1000; muTargetEndMomZ = -1000;
-  muTargetMomX = -1000; muTargetMomY = -1000; muTargetMomZ = -1000;
-  muInitX = -1000; muInitY = -1000;muInitZ = -1000;muInitpX = -1000;muInitpY = -1000;muInitpZ = -1000;  
-  eInitX = -1000; eInitY = -1000;eInitZ = -1000;eInitpX = -1000;eInitpY = -1000;eInitpZ = -1000;  
-  muInitTime = -1000;
+     Stop_Volume = -1000;
+     eDep = 0.;eDep_e = 0.; eDep_gamma = 0.; eDep_other = 0.;
+     hitparticle = "None"; 
+     egamma_hit_time = -1000.;
+     runID=-1000;
+     eventID=-1000;
+     RunTime=-1000;
+
+     KineticE = -1000; TotalE = -1000; DepositeE = -1000; pdgId = -1000;
+     Det_X = -1000; Det_Y = -1000; Det_Z = -1000;
+     Ngamma=-1000;
+     Neletron=-1000;
+     Nneutron=-1000;  
+     Nother=-1000;  
+
+     muSamplePolX=-1000; muSamplePolY=-1000; muSamplePolZ=-1000;
+     muWorldPolX=-1000; muWorldPolY=-1000; muWorldPolZ=-1000;
+     muFoil1PolX=-1000; muFoil1PolY=-1000; muFoil1PolZ=-1000;
+     muFoil2PolX=-1000; muFoil2PolY=-1000; muFoil2PolZ=-1000;
+     muFoil3PolX=-1000; muFoil3PolY=-1000; muFoil3PolZ=-1000;
+     muInter1PolX=-1000; muInter1PolY=-1000; muInter1PolZ=-1000;
+     muInter2PolX=-1000; muInter2PolY=-1000; muInter2PolZ=-1000;
+     muTargetPolX=-1000; muTargetPolY=-1000; muTargetPolZ=-1000;
+     muTarget2PolX=-1000; muTarget2PolY=-1000; muTarget2PolZ=-1000;
+     muSampleMomX=-1000; muSampleMomY=-1000; muSampleMomZ=-1000;
+     muWorldMomX=-1000; muWorldMomY=-1000; muWorldMomZ=-1000;
+     muFoil1MomX=-1000; muFoil1MomY=-1000; muFoil1MomZ=-1000;
+     muFoil2MomX=-1000; muFoil2MomY=-1000; muFoil2MomZ=-1000;
+     muFoil3MomX=-1000; muFoil3MomY=-1000; muFoil3MomZ=-1000;
+     muInter1MomX=-1000; muInter1MomY=-1000; muInter1MomZ=-1000;
+     muInter2MomX=-1000; muInter2MomY=-1000; muInter2MomZ=-1000;
+     muTargetMomX=-1000; muTargetMomY=-1000; muTargetMomZ=-1000;
+     muTarget2MomX=-1000; muTarget2MomY=-1000; muTarget2MomZ=-1000;
+     muSampleTime=-1000; muWorldTime=-1000; muFoil1Time=-1000; muFoil2Time=-1000; muFoil3Time=-1000; muInter1Time=-1000; muInter2Time=-1000; muTargetTime=-1000; muTarget2Time=-1000;
+     muSampleKineticEnergy=-1000; muWorldKineticEnergy=-1000; muFoil1KineticEnergy=-1000; muFoil2KineticEnergy=-1000; muFoil3KineticEnergy=-1000; muInter1KineticEnergy=-1000; muInter2KineticEnergy=-1000; muTargetKineticEnergy=-1000; muTarget2KineticEnergy=-1000;
+
+     muSampleEndPolX=-1000; muSampleEndPolY=-1000; muSampleEndPolZ=-1000;
+     muWorldEndPolX=-1000; muWorldEndPolY=-1000; muWorldEndPolZ=-1000;
+     muInter1EndPolX=-1000; muInter1EndPolY=-1000; muInter1EndPolZ=-1000;
+     muInter2EndPolX=-1000; muInter2EndPolY=-1000; muInter2EndPolZ=-1000;
+     muSampleEndMomX=-1000; muSampleEndMomY=-1000; muSampleEndMomZ=-1000;
+     muWorldEndMomX=-1000; muWorldEndMomY=-1000; muWorldEndMomZ=-1000;
+     muInter1EndMomX=-1000; muInter1EndMomY=-1000; muInter1EndMomZ=-1000;
+     muInter2EndMomX=-1000; muInter2EndMomY=-1000; muInter2EndMomZ=-1000;
+     muSampleEndTime=-1000; muWorldEndTime=-1000; muInter1EndTime=-1000; muInter2EndTime=-1000;
+     muSampleEndKineticEnergy=-1000; muWorldEndKineticEnergy=-1000; muInter1EndKineticEnergy=-1000; muInter2EndKineticEnergy=-1000;
+
+     muDecayPolX = -1000; muDecayPolY = -1000; muDecayPolZ = -1000; muDecayTime = -1000;
+     Hit_Time = -1000;
+     muInitX = -1000; muInitY = -1000;muInitZ = -1000;muInitpX = -1000;muInitpY = -1000;muInitpZ = -1000;  
+     eInitX = -1000; eInitY = -1000;eInitZ = -1000;eInitpX = -1000;eInitpY = -1000;eInitpZ = -1000;  
+     muInitTime = -1000;
 }

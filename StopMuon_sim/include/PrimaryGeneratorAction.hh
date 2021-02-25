@@ -32,6 +32,7 @@
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 #include "RootOutput.hh"
+#include "Randomize.hh"
 
 class G4ParticleGun;
 class G4Event;
@@ -74,6 +75,10 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     G4double dir_error = 0.001;//angle error : 0.1%*2pi
 
+    G4double x0;
+    G4double y0;
+    G4double z0;
+
     G4double rho_e;   
     G4double theta_e; 
     G4double y0_e;    
@@ -81,6 +86,14 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double muon_mass, ele_mass;
     static G4int  fractionOfEletronParticles;
 
+    int SetCutforBeam(G4double poi,G4double sigma){
+       poi=G4RandGauss::shoot(poi_mean,sigma)*CLHEP::mm;
+       if (std::fabs(poi) > 60){
+        return SetCutforBeam(poi,sigma);
+       }else{
+        return poi;
+       }
+    }
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

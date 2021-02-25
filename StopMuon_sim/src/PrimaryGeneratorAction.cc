@@ -35,7 +35,6 @@
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
-#include "Randomize.hh"
 #include "RunAction.hh"
 
 G4int PrimaryGeneratorAction::fractionOfEletronParticles = 10;
@@ -129,15 +128,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   //particle incident position
   //random
-  G4double radius = 2.5*CLHEP::cm;
-  G4double rho = radius*std::sqrt(G4UniformRand());
-  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double y0 = rho * std::sin(theta);
-  G4double x0 = rho * std::cos(theta);
-  G4double z0 = -5*CLHEP::mm;
+//  G4double radius = 2.5*CLHEP::cm;
+//  G4double rho = radius*std::sqrt(G4UniformRand());
+//  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//  y0 = rho * std::sin(theta);
+//  x0 = rho * std::cos(theta);
+//  z0 = -5*CLHEP::mm;
   //gauss for x and y
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
   y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+  //temp: only for this case (cut for beam)
+  if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
+  if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 

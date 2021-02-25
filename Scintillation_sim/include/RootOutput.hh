@@ -191,8 +191,7 @@ class RootOutput{
     Int_t n_electrons_down;
     Int_t n_photons_down;
 
-    G4double reso_14keV;
-    G4double reso_75keV;
+    G4double reso_init;
     G4double reso_rate;
 
    // === public class to catch info. === 

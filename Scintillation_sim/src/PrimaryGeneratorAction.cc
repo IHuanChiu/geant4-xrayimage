@@ -94,26 +94,28 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double envSizeZ = 0;
 
   //beam shape
-  G4double radius = 10.9*CLHEP::mm;
-  G4double rho = radius*std::sqrt(G4UniformRand());//random
-//  G4double rho = G4RandGauss::shoot(0,radius);//gauss randon, radius is position resolution
-  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  //beam incident position
-  G4double y0 = rho * std::sin(theta);
-  G4double x0 = rho * std::cos(theta);
-  G4double z0 = -200*CLHEP::mm;
+//  G4double radius = 10.9*CLHEP::mm;
+//  G4double rho = radius*std::sqrt(G4UniformRand());//random
+//  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//  //beam incident position
+//  y0 = rho * std::sin(theta);
+//  x0 = rho * std::cos(theta);
+//  z0 = -200*CLHEP::mm;
   //focus point (position of sample)
-  G4double sample_z0 = 0*CLHEP::mm;
-  G4double sample_x0 = 0*CLHEP::mm;
-  G4double sample_y0 = 0*CLHEP::mm;
+//  G4double sample_z0 = 0*CLHEP::mm;
+//  G4double sample_x0 = 0*CLHEP::mm;
+//  G4double sample_y0 = 0*CLHEP::mm;
+//  G4double vector_x = (sample_x0 - x0)*(1+dir_error*2*(G4UniformRand()-0.5));
+//  G4double vector_y = (sample_y0 - y0)*(1+dir_error*2*(G4UniformRand()-0.5));
+//  G4double vector_z = (sample_z0 - z0)*(1+dir_error*2*(G4UniformRand()-0.5));
 
+  //gauss for x and y
+  x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+  y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+  z0 = -200*CLHEP::mm;
   // default particle kinematic
   pSigma = p0*mom_error;
   p = G4RandGauss::shoot(p0,pSigma)*MeV;
-  G4double vector_x = (sample_x0 - x0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  G4double vector_y = (sample_y0 - y0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  G4double vector_z = (sample_z0 - z0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  
 
   //G4double ux = (vector_x/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
   //         uy = (vector_y/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
@@ -138,11 +140,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   long thisEventNr = (long) (anEvent->GetEventID());
   if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
-    rho_e = radius*std::sqrt(G4UniformRand());//random
-//    rho_e = G4RandGauss::shoot(0,radius);//gauss random
-    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-    y0_e = rho_e * std::sin(theta_e);
-    x0_e = rho_e * std::cos(theta_e);
+    //random for x and y
+//    rho_e = radius*std::sqrt(G4UniformRand());//random
+//    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//    y0_e = rho_e * std::sin(theta_e);
+//    x0_e = rho_e * std::cos(theta_e);
+    //gauss for x and y
+    x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+    y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
     for (int i=0;i< nPulseBeam; i++) fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }

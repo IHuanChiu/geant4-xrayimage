@@ -63,11 +63,15 @@ class SteppingAction : public G4UserSteppingAction
     RootOutput* myRootOutput;
 
     G4bool muhitSampleInThisEvent;
-    G4bool muhitCdTeInThisEvent;
-    G4bool muhitCollimatorInThisEvent;
+    G4bool muhitFoil1InThisEvent;
+    G4bool muhitFoil2InThisEvent;
+    G4bool muhitFoil3InThisEvent;
+    G4bool muhitInter1InThisEvent;
+    G4bool muhitInter2InThisEvent;
     G4bool muhitTargetInThisEvent;
-    G4bool muhitKaptonInThisEvent;
+    G4bool muhitTarget2InThisEvent;
     G4bool muEscapeInThisEvent;
+
     G4bool egammahitSampleInThisEvent;
     G4int ngammaHitVolume;
     G4int neletronHitVolume;

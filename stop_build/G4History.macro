@@ -50,7 +50,9 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Sample 0 0 1 0 1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour AirTubs 0 1 0 0 1.0
+/vis/geometry/set/colour VirTubs 0 1 0 0 1.0
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour VirTubs2 0 1 0 0 1.0
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour FoilTubs1 0 1 1 1 .9
 /vis/scene/notifyHandlers

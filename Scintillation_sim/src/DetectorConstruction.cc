@@ -74,10 +74,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* elA = nist->FindOrBuildMaterial("G4_AIR"); 
-  G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
-  Vacuum-> AddElement(elN, .7);
-  Vacuum-> AddElement(elO, .3);
   G4Material* HeA = nist->FindOrBuildMaterial("G4_He"); 
+
+//  G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
+//  Vacuum-> AddElement(elN, .7);
+//  Vacuum-> AddElement(elO, .3);
+  G4double atomicNumber = 1.;
+  G4double massOfMole = 1.008*g/mole;
+  G4double vac_density = 1.e-25*g/cm3;
+  G4double temperature = 2.73*kelvin;
+  G4double pressure = 3.e-18*pascal;
+  G4Material* Vacuum = new G4Material( "Vacuum", atomicNumber, massOfMole, vac_density, kStateGas, temperature, pressure);
   
   // Envelope parameters
   //
@@ -87,25 +94,34 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4bool checkOverlaps = true;
 
+  //
   // ***** World *****
+  //
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;  
   G4Box* solidWorld = new G4Box("World",0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);      
-  G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld,elA,"World");                                       
+  //G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld,elA,"World");                                       
+  G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld,Vacuum,"World");    
   G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);       
                      
+  //
   // ***** Envelope *****
+  //
   G4Box* solidEnv = new G4Box("Envelope", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ);      
   G4LogicalVolume* logicEnv = new G4LogicalVolume(solidEnv,elA, "Envelope");    
                
+  //
   // ***** Kapton *****
+  //
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,20*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_kapton_ori = G4ThreeVector(0, 0, -1*(tunnel_gap/2+50)*mm);
   G4LogicalVolume* KaptonLog = new G4LogicalVolume(kapton_tubs, solid_kapton, "KaptonTubs");  
   new G4PVPlacement(0, pos_kapton_ori, KaptonLog, "KaptonTubs", logicWorld, false, 0, checkOverlaps);        
 
+  //
   // ***** Fe Tunnel *****
+  //
   G4Material* tunnel_fe = nist->FindOrBuildMaterial("G4_Fe"); 
   G4VSolid* tunnel = new G4Tubs("Tunnel",tunnel_inner_radius*mm,tunnel_outer_radius*mm,(tunnel_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_tunnel_left = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
@@ -115,7 +131,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_tunnel_left, TunnelLog_left, "TunnelLog", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, pos_tunnel_right, TunnelLog_right, "TunnelLog", logicWorld, false, 0, checkOverlaps);
 
+  //
   // ***** Cu Tunnel *****
+  //
   G4Material* material_cu = nist->FindOrBuildMaterial("G4_Cu"); 
   G4VSolid* tunnel_cu_outside = new G4Tubs("CuTunnel_out",(tunnel_inner_radius-70)*mm,(tunnel_inner_radius-1)*mm,(tunnel_thick/2-28)*mm,0.,2*M_PI*rad);
   G4VSolid* tunnel_cu_inside = new G4Tubs("CuTunnel_in",(tunnel_inner_radius-70+0.2)*mm,(tunnel_inner_radius-1-0.2)*mm,(tunnel_thick/2-28-0.2)*mm,0.,2*M_PI*rad);
@@ -127,7 +145,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_cutunnel_left, CuTunnelLog_left, "CuTunnelLog", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, pos_cutunnel_right, CuTunnelLog_right, "CuTunnelLog", logicWorld, false, 0, checkOverlaps);
 
+  //
   // ***** Pb Collimator *****
+  //
   G4Material* material_pb = nist->FindOrBuildMaterial("G4_Pb"); 
   G4Cons* collimator_f=new G4Cons("collimator_cone_f",20*mm,55*mm,20*mm, 95*mm,20*mm, 0.,2*M_PI*rad); 
   G4VSolid* collimator_b=new G4Tubs("collimator_cone_b",(20)*mm,(95)*mm,(40)*mm,0.,2*M_PI*rad);//angle
@@ -139,7 +159,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(angle_pb, pos_collimator_f, CollimatorLog_f, "BeamColli", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, pos_collimator_b, CollimatorLog_b, "BeamColli", logicWorld, false, 0, checkOverlaps);
 
+  //
   // ***** Sample *****
+  //
   G4Material* solid_sample_C = nist->FindOrBuildMaterial("G4_C");
   G4Material* solid_sample_Fe = nist->FindOrBuildMaterial("G4_Fe");
   G4Material* solid_sample_SiO2 = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
@@ -157,8 +179,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_box, solid_sample_Fe, "Sample");
   new G4PVPlacement(angle_sample, pos_sample_SiO2C, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
 
-
+  //
   // ***** Scintillator *****
+  //
   G4Material* material_sci = nist->FindOrBuildMaterial("G4_AIR");
   G4VSolid* sci_tubs = new G4Tubs("Sci_tubs",(tunnel_inner_radius-70+0.2+6.43)*mm,(tunnel_inner_radius-70+0.2+12*2)*mm,(20)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_sci_upflow = G4ThreeVector(0, 0, -1*(tunnel_gap/2+tunnel_thick/2)*mm);
@@ -168,7 +191,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_sci_upflow, SciLog_upflow, "SciUPLog", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, pos_sci_downflow, SciLog_downflow, "SciDownLog", logicWorld, false, 0, checkOverlaps);  
    
+  //
   // ***** Ge *****
+  //
   G4Material* solid_ge = nist->FindOrBuildMaterial("G4_Ge");
   G4VSolid* ge_tubs_outside = new G4Tubs("GeDet_out",0*mm,(Ge_radius)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* ge_tubs_inside = new G4Tubs("GeDet_in",0*mm,(5)*mm,(45/2.)*mm,0.,2*M_PI*rad);

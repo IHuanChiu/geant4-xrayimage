@@ -59,22 +59,25 @@ SteppingAction* SteppingAction::GetInstance()
 
 void SteppingAction::InitializeInBeginningOfEvent(){
   ReNumber = 7;
-//  VolumeMap["Shelf"] = 2;
-//  VolumeMap["Target"] = 3;
   VolumeMap["FoilTubs1"] = 1;
-  VolumeMap["FoilTubs2"] = 2;
-  VolumeMap["AirTubs"] = 3;
-  VolumeMap["FoilTubs3"] = 4;
-  VolumeMap["Sample"] = 5;
+  VolumeMap["intermediate1"] = 2;
+  VolumeMap["FoilTubs2"] = 3;
+  VolumeMap["intermediate2"] = 4;
+  VolumeMap["FoilTubs3"] = 5;
+  VolumeMap["Sample"] = 6;
+  VolumeMap["Chamber"] = 7;
+  VolumeMap["VirTubs"] = 8;
+  VolumeMap["VirTubs2"] = 9;
   VolumeMap["World"] = 0;
-  VolumeMap["intermediate1"] = 6;
-  VolumeMap["intermediate2"] = 7;
-  VolumeMap["Chamber"] = 8;
+
   muhitSampleInThisEvent = false;
-  muhitCdTeInThisEvent = false;
-  muhitCollimatorInThisEvent = false;
+  muhitFoil1InThisEvent = false;
+  muhitFoil2InThisEvent = false;
+  muhitFoil3InThisEvent = false;
+  muhitInter1InThisEvent = false;
+  muhitInter2InThisEvent = false;
   muhitTargetInThisEvent = false;
-  muhitKaptonInThisEvent = false;
+  muhitTarget2InThisEvent = false;
   muEscapeInThisEvent = false;
   ngammaHitVolume = 0;
   neletronHitVolume = 0;
@@ -107,12 +110,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   Time          = aTrack->GetGlobalTime()/CLHEP::microsecond;
   KineticEnergy = aTrack->GetKineticEnergy()/CLHEP::MeV;
 
-
-//    std::cout << aTrack->GetDefinition()->GetParticleName()   << "  pdgID : " << abs(pdgID) << " ParticleID : " << aTrack->GetTrackID() << " ParentID : " <<  aTrack->GetParentID() << " step number : " << aTrack->GetCurrentStepNumber() << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << aTrack->GetGlobalTime()/CLHEP::microsecond << " Z : " << TrackPosition.z() 
-//   << " kin energy : " << aTrack->GetKineticEnergy() <<  " total energy : " << aTrack->GetTotalEnergy()/CLHEP::MeV  <<  " dep energy : " << step->GetTotalEnergyDeposit() 
-//   << std::endl;
-//   if (aTrack->GetCreatorProcess() != 0) std::cout << " CreatorProcess  : " << aTrack->GetCreatorProcess()->GetProcessName() << " name : " << aTrack->GetDefinition()->GetParticleName() << " ParticleID : " << aTrack->GetTrackID() << " ParentID : " <<  aTrack->GetParentID()  << std::endl;
-
    // muMinusCaptureAtRest : Capture
    //     "compt":     Compton Scattering
    //     "rayleigh":  Rayleigh Scattering
@@ -123,52 +120,75 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     eIoni :    eletron ionization
    //     "brems":    Bremsstrahlung
   
-
   // =========== store muon hit position ===============    
   if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
   //if(particleName == "mu-"){ 
 
     if (VolumeMap[CurrentVolumeName] == 1){//foil-1
-       if(!muhitKaptonInThisEvent){
-          muhitKaptonInThisEvent = true;
-          myRootOutput->SetInitPolInKapton(TrackPosition);
-          myRootOutput->SetInitMomInKapton(TrackMomentum);
-          myRootOutput->SetInitTimeInKapton(Time);
-          myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
-       }else{
-          myRootOutput->SetEndPolInKapton(TrackPosition);
-          myRootOutput->SetEndMomInKapton(TrackMomentum);
-          myRootOutput->SetEndTimeInKapton(Time);            
-          myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
+       if(!muhitFoil1InThisEvent){
+          muhitFoil1InThisEvent = true;
+          myRootOutput->SetInitPolInFoil1(TrackPosition);
+          myRootOutput->SetInitMomInFoil1(TrackMomentum);
+          myRootOutput->SetInitTimeInFoil1(Time);
+          myRootOutput->SetInitKineticEnergyInFoil1(KineticEnergy);
        }
-
-    }else if(VolumeMap[CurrentVolumeName] == 2){//foil-2
-       if (!muhitSampleInThisEvent) {//start point
-          muhitSampleInThisEvent = true;
-          myRootOutput->SetInitPolInSample(TrackPosition);
-          myRootOutput->SetInitMomInSample(TrackMomentum);
-          myRootOutput->SetInitTimeInSample(Time);
-          myRootOutput->SetInitKineticEnergyInSample(KineticEnergy);
+    }else if (VolumeMap[CurrentVolumeName] == 2){//inter-1
+       if(!muhitInter1InThisEvent){
+          muhitInter1InThisEvent = true;
+          myRootOutput->SetInitPolInInter1(TrackPosition);
+          myRootOutput->SetInitMomInInter1(TrackMomentum);
+          myRootOutput->SetInitTimeInInter1(Time);
+          myRootOutput->SetInitKineticEnergyInInter1(KineticEnergy);
        }else{//end point 
-          myRootOutput->SetEndPolInSample(TrackPosition);
-          myRootOutput->SetEndMomInSample(TrackMomentum);
-          myRootOutput->SetEndTimeInSample(Time);            
-          myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
+          myRootOutput->SetEndPolInInter1(TrackPosition);
+          myRootOutput->SetEndMomInInter1(TrackMomentum);
+          myRootOutput->SetEndTimeInInter1(Time);            
+          myRootOutput->SetEndKineticEnergyInInter1(KineticEnergy);            
        }
-
-
-    }else if (VolumeMap[CurrentVolumeName] == 3){//virtrul
+    }else if (VolumeMap[CurrentVolumeName] == 3){//foil-2
+       if(!muhitFoil2InThisEvent){
+          muhitFoil2InThisEvent = true;
+          myRootOutput->SetInitPolInFoil2(TrackPosition);
+          myRootOutput->SetInitMomInFoil2(TrackMomentum);
+          myRootOutput->SetInitTimeInFoil2(Time);
+          myRootOutput->SetInitKineticEnergyInFoil2(KineticEnergy);
+       }
+    }else if (VolumeMap[CurrentVolumeName] == 4){//inter-2
+       if(!muhitInter2InThisEvent){
+          muhitInter2InThisEvent = true;
+          myRootOutput->SetInitPolInInter2(TrackPosition);
+          myRootOutput->SetInitMomInInter2(TrackMomentum);
+          myRootOutput->SetInitTimeInInter2(Time);
+          myRootOutput->SetInitKineticEnergyInInter2(KineticEnergy);
+       }else{//end point 
+          myRootOutput->SetEndPolInInter2(TrackPosition);
+          myRootOutput->SetEndMomInInter2(TrackMomentum);
+          myRootOutput->SetEndTimeInInter2(Time);            
+          myRootOutput->SetEndKineticEnergyInInter2(KineticEnergy);            
+       }
+    }else if (VolumeMap[CurrentVolumeName] == 5){//foil-3
+       if(!muhitFoil3InThisEvent){
+          muhitFoil3InThisEvent = true;
+          myRootOutput->SetInitPolInFoil3(TrackPosition);
+          myRootOutput->SetInitMomInFoil3(TrackMomentum);
+          myRootOutput->SetInitTimeInFoil3(Time);
+          myRootOutput->SetInitKineticEnergyInFoil3(KineticEnergy);
+       }
+    }else if (VolumeMap[CurrentVolumeName] == 8){//Vir-1
        if(!muhitTargetInThisEvent){
           muhitTargetInThisEvent = true;
           myRootOutput->SetInitPolInTarget(TrackPosition);
           myRootOutput->SetInitMomInTarget(TrackMomentum);
           myRootOutput->SetInitTimeInTarget(Time);
           myRootOutput->SetInitKineticEnergyInTarget(KineticEnergy);
-       }else{
-          myRootOutput->SetEndPolInTarget(TrackPosition);
-          myRootOutput->SetEndMomInTarget(TrackMomentum);
-          myRootOutput->SetEndTimeInTarget(Time);            
-          myRootOutput->SetEndKineticEnergyInTarget(KineticEnergy);            
+       }
+    }else if (VolumeMap[CurrentVolumeName] == 9){//vir-2
+       if(!muhitTarget2InThisEvent){
+          muhitTarget2InThisEvent = true;
+          myRootOutput->SetInitPolInTarget2(TrackPosition);
+          myRootOutput->SetInitMomInTarget2(TrackMomentum);
+          myRootOutput->SetInitTimeInTarget2(Time);
+          myRootOutput->SetInitKineticEnergyInTarget2(KineticEnergy);
        }
 
 //    }else{//world
@@ -190,9 +210,10 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    myRootOutput->SetDecayTimeGlo(Time);
 
     //if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);
-//    if(TrackMomentum.z() >=0){
-       myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-//    }
+//      if(TrackMomentum.z()/CLHEP::mm <= -1 && (std::fabs(TrackMomentum.x()/CLHEP::mm)>60 || std::fabs(TrackMomentum.y()/CLHEP::mm)>60)){
+//        aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+//       }
+      myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
    
   }//muon end
   // =========== store other particle ===============    

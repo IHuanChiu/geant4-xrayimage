@@ -295,10 +295,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Foil-1 *****
   //
 //  G4Material* solid_foil1 = elA;//None
-//  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_KAPTON");
-  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Al");
+  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_KAPTON");
+//  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Al");
 //  G4Material* solid_foil1 = nist->FindOrBuildMaterial("G4_Cu");
-  G4double foil1_thick = 0.150;//mm
+  G4double foil1_thick = 0.100;//mm
   G4VSolid* foil1_tubs = new G4Tubs("FoilTubs1",0*mm,(120/2)*mm,(foil1_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil1 = G4ThreeVector(0, 0, -(foil1_thick/2)*mm);//check beam position
   G4LogicalVolume* FoilLog1 = new G4LogicalVolume(foil1_tubs, solid_foil1, "FoilTubs1");  
@@ -327,7 +327,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", logicWorld, false, 0,  checkOverlaps);        
 
   //
-  // ***** intermediate H *****
+  // ***** intermediate He *****
   //
   G4Material* solid_He = nist->FindOrBuildMaterial("G4_He");
     // === or ===
@@ -353,26 +353,34 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
 
   //
-  // ***** Air *****
+  // ***** Virtual (in intermediate He) *****
   //
-  G4double air_thick = 0.010;//mm
-  G4VSolid* Air_tubs = new G4Tubs("AirTubs",0*mm,(150/2)*mm,(air_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_air = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+air_thick/2)*mm);
-  G4LogicalVolume* AirLog = new G4LogicalVolume(Air_tubs, solid_He, "AirTubs");  
-  new G4PVPlacement(0, pos_air, AirLog, "AirTubs", logicWorld, false, 0,  checkOverlaps);        
+  G4double vir_thick = 0.010;//mm
+  G4VSolid* Vir_tubs = new G4Tubs("VirTubs",0*mm,(150/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_vir = G4ThreeVector(0, 0, (-60)*mm);
+  G4LogicalVolume* VirLog = new G4LogicalVolume(Vir_tubs, solid_He, "VirTubs");  
+  new G4PVPlacement(0, pos_vir, VirLog, "VirTubs", INTERLog2, false, 0,  checkOverlaps);        
+
+  //
+  // ***** Virtual *****
+  //
+  G4VSolid* Vir_tubs2 = new G4Tubs("VirTubs2",0*mm,(150/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_vir2 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick/2)*mm);
+  G4LogicalVolume* VirLog2 = new G4LogicalVolume(Vir_tubs2, solid_He, "VirTubs2");  
+  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
 
   // ***** Foil-3 *****
   G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
   G4double foil3_thick = 0.005;//mm
   G4VSolid* foil3_tubs = new G4Tubs("FoilTubs3",0*mm,(2)*mm,(foil3_thick/2)*mm,0.,2*M_PI*rad);//(sample size)/2+1
-  G4ThreeVector pos_foil3 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+air_thick+1.5+(foil3_thick/2))*mm);//check beam position
+  G4ThreeVector pos_foil3 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick+1.5+(foil3_thick/2))*mm);//check beam position
   G4LogicalVolume* FoilLog3 = new G4LogicalVolume(foil3_tubs, solid_foil3, "FoilTubs3");  
   new G4PVPlacement(0, pos_foil3, FoilLog3, "FoilTubs3", logicWorld, false, 0,  checkOverlaps);        
 
   // ***** Sample *****
   G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
   G4Box* solidsample = new G4Box("Sample", (2/2)*mm, (2/2)*mm, (1.5/2)*mm);
-  G4ThreeVector pos_sample = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+air_thick+1.5+foil3_thick+0.2+2/2)*mm);  
+  G4ThreeVector pos_sample = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick+1.5+foil3_thick+0.2+2/2)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
   new G4PVPlacement(0,  pos_sample, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
 

@@ -112,7 +112,8 @@
 /vis/geometry/set/colour intermediate1 0 1 0.98 0.80 .15
 /vis/geometry/set/colour intermediate2 0 0.529 0.808 0.921 .15
 /vis/geometry/set/colour Sample 0 0 1 0 1
-/vis/geometry/set/colour AirTubs 0 1 0 0 1.0
+/vis/geometry/set/colour VirTubs 0 1 0 0 1.0
+/vis/geometry/set/colour VirTubs2 0 1 0 0 1.0
 /vis/geometry/set/colour FoilTubs1 0 1 1 1 .9
 /vis/geometry/set/colour FoilTubs2 0 1 1 1 .9
 /vis/geometry/set/colour FoilTubs3 0 1 1 1 .9

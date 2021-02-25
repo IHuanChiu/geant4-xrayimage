@@ -65,9 +65,17 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4Box* fEnvelopeBox;
     G4double t0, tSigma;
     G4double p, pSigma;
-    G4double p0 = 30;
-    G4double mom_error = 0.10;//10%
     G4double dir_error = 0.01;//angle range : 0~2*pi
+
+    G4double p0 = 30;
+    G4double mom_error = 0.05;//5%
+    G4double poi_mean = 0;//mm
+    G4double poi_sigmaX = 5;//mm
+    G4double poi_sigmaY = 25;//mm
+
+    G4double x0;
+    G4double y0;
+    G4double z0;
 
     G4double rho_e;   
     G4double theta_e; 
