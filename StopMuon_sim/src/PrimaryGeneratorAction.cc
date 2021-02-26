@@ -137,6 +137,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //gauss for x and y
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
   y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+  z0 = -5*CLHEP::mm;
   //temp: only for this case (cut for beam)
   if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
   if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);

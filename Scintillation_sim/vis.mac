@@ -113,6 +113,7 @@
 /vis/geometry/set/colour TunnelLog 0 1 0.98 0.98 0.7
 /vis/geometry/set/colour CuTunnelLog  0 0.93 0.678 0 0.3
 /vis/geometry/set/colour BeamColli 0 0.878 0.93 0.93 0.9
+/vis/geometry/set/colour GeTubs 0 1 0 0 .5
 /vis/geometry/set/colour GeTubs_down 0 1 0 0 .5
 /vis/geometry/set/colour GeTubs_up 0 1 0 0 .5
 /vis/geometry/set/colour SciUPLog 0 1 0 0 1.

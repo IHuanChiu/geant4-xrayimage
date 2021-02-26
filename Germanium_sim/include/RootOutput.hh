@@ -184,6 +184,7 @@ class RootOutput{
 
    // === public class to catch info. === 
   public:
+    void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
     void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){

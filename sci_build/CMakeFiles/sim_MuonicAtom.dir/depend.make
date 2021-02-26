@@ -1122,7 +1122,9 @@ CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/g
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Orb.icc
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4OrderedTable.hh
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PDefManager.hh
+CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PVParameterised.hh
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PVPlacement.hh
+CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PVReplica.hh
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ParameterisedNavigation.hh
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ParameterisedNavigation.icc
 CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o: /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ParticleChange.hh

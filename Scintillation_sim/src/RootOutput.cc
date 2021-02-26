@@ -170,7 +170,7 @@ void RootOutput::BeginOfRunAction() {
 
    // ===== Energy resolution =====
    reso_init = 0.14896551724137927/1000.;//14keV
-   reso_rate = 0.0004827586206896556/1000.;
+   reso_rate = 0.0006769509981851182/1000.;
 
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }

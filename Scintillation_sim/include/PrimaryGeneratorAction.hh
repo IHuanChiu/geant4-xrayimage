@@ -32,6 +32,7 @@
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 #include "RootOutput.hh"
+#include "Randomize.hh"
 
 class G4ParticleGun;
 class G4Event;
@@ -70,8 +71,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double p0 = 30;
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
-    G4double poi_sigmaX = 5;//mm
-    G4double poi_sigmaY = 25;//mm
+    G4double poi_sigmaX = 1.5;//mm
+    G4double poi_sigmaY = 20;//mm
 
     G4double x0;
     G4double y0;
@@ -85,6 +86,16 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     G4int nPulseBeam = 1;
     static G4int  fractionOfEletronParticles;//20% eletron
+
+    G4double beamrange=20;//mm, check beam collimator in DetectorConstruction.cc
+    int SetCutforBeam(G4double poi,G4double sigma){
+       poi=G4RandGauss::shoot(poi_mean,sigma)*CLHEP::mm;
+       if (std::fabs(poi) > beamrange){//check beam collimator in DetectorConstruction.cc 
+        return SetCutforBeam(poi,sigma);
+       }else{
+        return poi;
+       }
+    }
 
 };
 

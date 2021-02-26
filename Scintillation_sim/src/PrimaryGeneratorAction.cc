@@ -112,6 +112,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //gauss for x and y
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
   y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+  if (std::fabs(x0)>beamrange) x0 = SetCutforBeam(x0,poi_sigmaX);
+  if (std::fabs(y0)>beamrange) y0 = SetCutforBeam(y0,poi_sigmaY);
   z0 = -200*CLHEP::mm;
   // default particle kinematic
   pSigma = p0*mom_error;
@@ -148,6 +150,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //gauss for x and y
     x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
     y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+    if (std::fabs(x0_e)>beamrange) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
+    if (std::fabs(y0_e)>beamrange) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
     for (int i=0;i< nPulseBeam; i++) fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }

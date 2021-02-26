@@ -56,6 +56,10 @@ SteppingAction* SteppingAction::GetInstance()
 
 void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["Sample"] = 1;
+  for(int i=0; i<72;i++){
+     auto idstr = std::to_string(i);
+     VolumeMap["GeTubs"+idstr] = 2;     
+  }
   VolumeMap["GeTubs_down"] = 2;
   VolumeMap["GeTubs_up"] = 3;
   VolumeMap["SciUPLog"] = 4;
@@ -154,9 +158,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
        }//volume end
 
-       if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-       if (aTrack->GetPosition().z()/CLHEP::mm > 83) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
+       //if (aTrack->GetPosition().z()/CLHEP::mm > 83) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
        if (VolumeMap[CurrentVolumeName] == 2 || VolumeMap[CurrentVolumeName] == 3) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
+       myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
        
      }//muon end
 

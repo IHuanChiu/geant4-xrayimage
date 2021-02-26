@@ -54,10 +54,9 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour BeamColli 0 0.878 0.93 0.93 0.9
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour GeTubs 0 1 0 0 .5
 /vis/geometry/set/colour GeTubs_down 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour GeTubs_up 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour SciUPLog 0 1 0 0 1.
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour SciDownLog 0 1 0 0 1.

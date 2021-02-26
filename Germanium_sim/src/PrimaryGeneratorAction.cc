@@ -119,29 +119,36 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double sample_x0 = 0*CLHEP::mm;
   G4double sample_y0 = 0*CLHEP::mm;
 
-  //particle incident position
-  G4double radius = 22*CLHEP::mm;
-//  G4double rho = radius*std::sqrt(G4UniformRand());//random
-  G4double rho = G4RandGauss::shoot(0,radius);//gauss randon, radius is position resolution
-  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-  G4double y0 = rho * std::sin(theta);
-  G4double x0 = rho * std::cos(theta);
-  G4double z0 = -5*CLHEP::mm;
+  //particle init. position
+  // === random ===
+//  G4double radius = 22*CLHEP::mm;
+//  G4double rho = radius*std::sqrt(G4UniformRand());
+//  G4double theta = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//  y0 = rho * std::sin(theta);
+//  x0 = rho * std::cos(theta);
+//  z0 = -5*CLHEP::mm;
+  // === gauss ===
+  x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+  y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+  z0 = -5*CLHEP::mm;
+  //temp: only for this case (cut for beam)
+  if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
+  if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
 
   // default particle kinematic
   pSigma = p0*mom_error;
   p = G4RandGauss::shoot(p0,pSigma)*MeV;
-  G4double vector_x = (sample_x0 - x0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  G4double vector_y = (sample_y0 - y0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  G4double vector_z = (sample_z0 - z0)*(1+dir_error*2*(G4UniformRand()-0.5));
-  
+  //G4double vector_x = (sample_x0 - x0)*(1+dir_error*2*(G4UniformRand()-0.5)),
+  //         vector_y = (sample_y0 - y0)*(1+dir_error*2*(G4UniformRand()-0.5)),
+  //         vector_z = (sample_z0 - z0)*(1+dir_error*2*(G4UniformRand()-0.5));
+  //
+  //G4double ux = (vector_x/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
+  //         uy = (vector_y/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
+  //         uz = (vector_z/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z));
 
-  G4double ux = (vector_x/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
-           uy = (vector_y/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
-           uz = (vector_z/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z));
-  //G4double ux = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-  //         uy = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-  //         uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
+  G4double ux = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+           uy = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+           uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
   G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
   fParticleGun->SetParticleEnergy(particleEnergy);//IH
@@ -161,12 +168,19 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double muInitTime = fParticleGun->GetParticleTime()/CLHEP::nanosecond;
 
   long thisEventNr = (long) (anEvent->GetEventID());
-  if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {  
+  if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) { 
+    // === random === 
 //    rho_e = radius*std::sqrt(G4UniformRand());//random
-    rho_e = G4RandGauss::shoot(0,radius);//gauss random
-    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
-    y0_e = rho_e * std::sin(theta_e);
-    x0_e = rho_e * std::cos(theta_e);
+//    theta_e = 2*CLHEP::pi*G4UniformRand()*CLHEP::rad;
+//    y0_e = rho_e * std::sin(theta_e);
+//    x0_e = rho_e * std::cos(theta_e);
+    // === gauss ===
+    x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+    y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+    //temp: only for this case (cut for beam)
+    if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
+    if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
+
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
     for (int i=0;i< nPulseBeam; i++) fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }
