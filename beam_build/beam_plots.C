@@ -89,6 +89,12 @@ TFile* f= new TFile("Output_1.root","read");
    leg->AddEntry(hx_take,  "Exp.", "p");
    leg->AddEntry(hx,  "Sim.", "p");
    leg->Draw("same");
+   TLine* line;
+   line=new TLine(1,h0->GetRMS(),50,h1->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(50,h1->GetRMS(),80,h2->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(80,h2->GetRMS(),110,h3->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(50,1.6,80,2.6);line->SetLineColor(1);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(80,2.6,110,4.3);line->SetLineColor(1);line->SetLineStyle(2);line->Draw("pl same");
 
    c1->SaveAs("/Users/chiu.i-huan/Desktop/beamstudy_X.pdf");
 
@@ -103,5 +109,10 @@ TFile* f= new TFile("Output_1.root","read");
    leg2->AddEntry(hy_take,  "Exp.", "p");
    leg2->AddEntry(hy,  "Sim.", "p");
    leg2->Draw("same");
+   line=new TLine(1,h0_y->GetRMS(),50,h1_y->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(50,h1_y->GetRMS(),80,h2_y->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(80,h2_y->GetRMS(),110,h3_y->GetRMS());line->SetLineColor(2);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(50,12,80,15);line->SetLineColor(1);line->SetLineStyle(2);line->Draw("pl same");
+   line=new TLine(80,15,110,23);line->SetLineColor(1);line->SetLineStyle(2);line->Draw("pl same");
    c2->SaveAs("/Users/chiu.i-huan/Desktop/beamstudy_Y.pdf");
 }

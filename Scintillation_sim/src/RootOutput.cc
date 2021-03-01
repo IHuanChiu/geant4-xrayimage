@@ -107,24 +107,6 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("muTargetEndMomX",&muTargetEndMomX,"muTargetEndMomX/D");
 //   rootTree->Branch("muTargetEndMomY",&muTargetEndMomY,"muTargetEndMomY/D");
 //   rootTree->Branch("muTargetEndMomZ",&muTargetEndMomZ,"muTargetEndMomZ/D");
-   rootTree->Branch("muDecayPolX",&muDecayPolX,"muDecayPolX/D");
-   rootTree->Branch("muDecayPolY",&muDecayPolY,"muDecayPolY/D");
-   rootTree->Branch("muDecayPolZ",&muDecayPolZ,"muDecayPolZ/D");
-   rootTree->Branch("muDecayTime",&muDecayTime,"muDecayTime/D");
-   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
-   rootTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
-   rootTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
-   rootTree->Branch("muInitZ",&muInitZ,"muInitZ/D");//init muon 
-   rootTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
-   rootTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
-   rootTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
-   rootTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
-   rootTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
-   rootTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
-   rootTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
-   rootTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
-   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
-   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
    rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");//MeV
@@ -152,6 +134,25 @@ void RootOutput::BeginOfRunAction() {
    SciTree->Branch("n_electrons_down",&n_electrons_down,"n_electrons_down/I");
    SciTree->Branch("n_photons_down",&n_photons_down,"n_photons_down/I");
    SciTree->Branch("MuonStop_VolumeID",&Stop_Volume,"MuonStop_VolumeID/I");//muon hit
+
+   SciTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
+   SciTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
+   SciTree->Branch("muInitZ",&muInitZ,"muInitZ/D");//init muon 
+   SciTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
+   SciTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
+   SciTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
+   SciTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
+   SciTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
+   SciTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
+   SciTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
+   SciTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
+   SciTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
+   SciTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
+   SciTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
+//   SciTree->Branch("muDecayPolX",&muDecayPolX,"muDecayPolX/D");
+//   SciTree->Branch("muDecayPolY",&muDecayPolY,"muDecayPolY/D");
+//   SciTree->Branch("muDecayPolZ",&muDecayPolZ,"muDecayPolZ/D");
+//   SciTree->Branch("muDecayTime",&muDecayTime,"muDecayTime/D");
 
    // ===== track info. =====
    TrackTree->Branch("pdgId",&pdgId,"pdgId/I");

@@ -25,9 +25,6 @@
 /vis/scene/notifyHandlers scene-0
 /vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
 /vis/scene/notifyHandlers scene-0
-/vis/filtering/trajectories/create/particleFilter
-/vis/filtering/trajectories/particleFilter-0/add mu-
-/vis/scene/notifyHandlers scene-0
 /vis/scene/endOfEventAction accumulate -1
 /vis/set/textColour green
 /vis/set/textLayout right
@@ -56,6 +53,8 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour FoilTubs3 0 1 0 0 1.0
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour Sample 0 1 0 0 1.0
+/vis/scene/notifyHandlers
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
@@ -83,6 +82,3 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
-/run/beamOn 100
-/vis/scene/notifyHandlers scene-0
-/run/beamOn 10000

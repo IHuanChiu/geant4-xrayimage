@@ -18,23 +18,29 @@ void test_plots(){
 //   TFile* f7= new TFile("Output_cu100_al25.root","read");
 //   TFile* f8= new TFile("Output_cu100_cu20.root","read");
 
-TFile* f0= new TFile("report10_files/Output_none_none.root","read");
+TFile* f0= new TFile("Output_none_none.root","read");
+TFile* f1= new TFile("Output_none_none.root","read");
+TFile* f2= new TFile("Output_kap100_al25.root","read");
+TFile* f3= new TFile("Output_kap75_cu20.root","read");
+TFile* f4= new TFile("Output_kap75_cu10.root","read");
+TFile* f5= new TFile("Output_kap75_kap12p5.root","read");
+TFile* f6= new TFile("Output_al150_al25.root","read");
+TFile* f7= new TFile("Output_al150_al20.root","read");
 
 //TFile* f1= new TFile("Output_none_none.root","read");
-TFile* f1= new TFile("report10_files/Output_kap100_al25_cu10.root","read");
-TFile* f2= new TFile("report10_files/Output_kap100_al25_cu5.root","read");
+//TFile* f1= new TFile("report10_files/Output_kap100_al25_cu10.root","read");
+//TFile* f2= new TFile("report10_files/Output_kap100_al25_cu5.root","read");
 //TFile* f4= new TFile("Output_kap100_cu20.root","read");
-TFile* f3= new TFile("report10_files/Output_kap75_cu20.root","read");
-TFile* f4= new TFile("report10_files/Output_kap75_cu10.root","read");
+//TFile* f3= new TFile("report10_files/Output_kap75_cu20.root","read");
+//TFile* f4= new TFile("report10_files/Output_kap75_cu10.root","read");
 //TFile* f6= new TFile("Output_kap50_cu20.root","read");
 
 //TFile* f1= new TFile("report10_files/Output_kap100_kap12p5.root","read");
-TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
-TFile* f6= new TFile("report10_files/Output_al150_al25_27MeV.root","read");
-TFile* f7= new TFile("report10_files/Output_al150_al20_27MeV.root","read");
+//TFile* f5= new TFile("report10_files/Output_kap75_kap12p5.root","read");
+//TFile* f6= new TFile("report10_files/Output_al150_al25_27MeV.root","read");
+//TFile* f7= new TFile("report10_files/Output_al150_al20_27MeV.root","read");
 //TFile* f5= new TFile("report10_files/Output_cu100_cu20_30MeV.root","read");
 //TFile* f6= new TFile("report10_files/Output_cu100_cu20_35MeV.root","read");
-
 
 
    TTree* t0 = (TTree*)f0->Get("tree");
@@ -60,14 +66,14 @@ TFile* f7= new TFile("report10_files/Output_al150_al20_27MeV.root","read");
    TCanvas*c1=new TCanvas("aa","aa",1000,800);
    gPad->SetLeftMargin(0.15);
    
-   t0->Draw("     muInitX >>      h0(800,-80,80)");
-   t1->Draw("muTargetPolX >> h1(800,-80,80)");
-   t2->Draw("muTargetPolX >> h2(800,-80,80)");
-   t3->Draw("muTargetPolX >> h3(800,-80,80)");
-   t4->Draw("muTargetPolX >> h4(800,-80,80)");
-   t5->Draw("muTargetPolX >> h5(800,-80,80)");
-   t6->Draw("muTargetPolX >> h6(800,-80,80)");
-   t7->Draw("muTargetPolX >> h7(800,-80,80)");
+   t0->Draw("     muInitY >>      h0(800,-80,80)");
+   t1->Draw("muTarget2PolY >> h1(800,-80,80)");
+   t2->Draw("muTarget2PolY >> h2(800,-80,80)");
+   t3->Draw("muTarget2PolY >> h3(800,-80,80)");
+   t4->Draw("muTarget2PolY >> h4(800,-80,80)");
+   t5->Draw("muTarget2PolY >> h5(800,-80,80)");
+   t6->Draw("muTarget2PolY >> h6(800,-80,80)");
+   t7->Draw("muTarget2PolY >> h7(800,-80,80)");
 //   t8->Draw("muTargetPolX >> h8(1000,-100,100)");
    
    h0=(TH1D*)gDirectory->Get("h0");
@@ -119,15 +125,15 @@ TFile* f7= new TFile("report10_files/Output_al150_al20_27MeV.root","read");
   leg->SetLineColor(0);
   leg->SetBorderSize(0);
   leg->AddEntry(h0,  "Beam", "l");
-  leg->AddEntry(h1,  "Case2", "l");
-  leg->AddEntry(h2,  "Case3",   "l");
-  leg->AddEntry(h3,  "Case5",   "l");
-  leg->AddEntry(h4,  "Case8",   "l");
-  leg->AddEntry(h5,  "Case11",   "l");
-  leg->AddEntry(h6,  "Case16",   "l");
-  leg->AddEntry(h7,  "Case18",   "l");
+  leg->AddEntry(h1,  "Case1", "l");
+  leg->AddEntry(h2,  "Case2",   "l");
+  leg->AddEntry(h3,  "Case3",   "l");
+  leg->AddEntry(h4,  "Case4",   "l");
+  leg->AddEntry(h5,  "Case5",   "l");
+  leg->AddEntry(h6,  "Case6",   "l");
+  leg->AddEntry(h7,  "Case7",   "l");
 //  leg->AddEntry(h8,  "Case16",   "l");
   leg->Draw("same");
 
-   c1->SaveAs("/Users/chiu.i-huan/Desktop/compare_addAl_X.pdf");
+   c1->SaveAs("/Users/chiu.i-huan/Desktop/compare_chamber_Y2.pdf");
 }

@@ -320,7 +320,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON");
   G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al");
 //  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Cu");
-  G4double foil2_thick = 0.025;//mm
+  G4double foil2_thick = 0.020;//mm
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,(150/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  

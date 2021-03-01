@@ -113,6 +113,7 @@
 /vis/geometry/set/colour FoilTubs1 0 1 0 0 1.0 
 /vis/geometry/set/colour FoilTubs2 0 1 0 0 1.0 
 /vis/geometry/set/colour FoilTubs3 0 1 0 0 1.0 
+/vis/geometry/set/colour Sample 0 1 0 0 1.0 
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

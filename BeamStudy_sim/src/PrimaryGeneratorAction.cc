@@ -112,8 +112,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 //           uy = (vector_y/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z)),
 //           uz = (vector_z/std::sqrt(vector_x*vector_x + vector_y*vector_y + vector_z*vector_z));
 
-  G4double ux = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
-           uy = p*dir_error*2*(G4UniformRand()-0.5)*MeV,
+  G4double ux = p*dir_error_x*2*(G4UniformRand()-0.5)*MeV,
+           uy = p*dir_error_y*2*(G4UniformRand()-0.5)*MeV,
            uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
   G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
