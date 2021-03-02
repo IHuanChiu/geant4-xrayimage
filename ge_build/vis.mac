@@ -52,8 +52,8 @@
 #/vis/scene/add/hits
 #
 # To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add mu-
+/vis/filtering/trajectories/create/particleFilter
+/vis/filtering/trajectories/particleFilter-0/add mu-
 #/vis/filtering/trajectories/particleFilter-0/add e-
 #
 # To invert the above, drawing all particles except gammas,
@@ -127,6 +127,12 @@
 /vis/geometry/set/colour AlTubs_1 0 1 1 0 .3
 /vis/geometry/set/colour AlTubs_2 0 1 1 0 .3
 /vis/geometry/set/colour AlTubs_3 0 1 1 0 .3
+
+/vis/geometry/set/colour Shadow  0 1 1 0 0.9
+/vis/geometry/set/forceWireframe FeTubs 0 true
+/vis/geometry/set/colour FeTubs 0 0 1 0 0.7
+/vis/geometry/set/colour PbTarget 0 1 0.98 0.98 1
+/vis/geometry/set/colour GeDet 0 0.792 0.8824 1 1.
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

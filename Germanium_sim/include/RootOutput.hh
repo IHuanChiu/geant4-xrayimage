@@ -47,7 +47,8 @@ class RootOutput{
     }
 
     static const int numberOfvolume = 10; 
-    static const int nh1bin = 10; 
+    static const int nh1bin = 10;
+    static const int nhitMax = 100;
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -102,11 +103,14 @@ class RootOutput{
     void SetnParticleHitVolume(G4int ivolume, G4int ngamma, G4int neletron, G4int nneutron, G4int nother){
                                Ngamma = ngamma; Neletron = neletron; Nneutron = nneutron; Nother = nother;}
 
+    void SetEnergyResolution ();
+
     TFile* rootFile;
     TTree* rootTree;
     TTree* TrackTree;
 
     TH1F*  h1_process;
+    TH1F* h1_StopVol;
 
   // === variables for tree ===
   private:
@@ -172,15 +176,19 @@ class RootOutput{
     Double_t RunTime;
     char RootOutputFileName[200];
 
+    G4double reso_init;
+    G4double reso_rate;
+
     Int_t nSignals;
     Int_t hit_id;
-    Double_t hit_energy[100];
-    Double_t hit_timestart[100];
-    Double_t hit_timeend[100];
-    Int_t hit_nsteps[100];
-    Double_t hit_length[100];
-    Int_t hit_pdgId[100];
-    Int_t hit_process[100];
+    Double_t hit_energy[nhitMax];
+    Double_t hit_energy_reso[nhitMax];
+    Double_t hit_timestart[nhitMax];
+    Double_t hit_timeend[nhitMax];
+    Int_t hit_nsteps[nhitMax];
+    Double_t hit_length[nhitMax];
+    Int_t hit_pdgId[nhitMax];
+    Int_t hit_process[nhitMax];
 
    // === public class to catch info. === 
   public:

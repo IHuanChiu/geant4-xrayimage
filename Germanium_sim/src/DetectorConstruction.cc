@@ -92,12 +92,56 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double world_sizeZ  = 1.2*env_sizeZ;  
   G4Box* solidWorld = new G4Box("World",0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);      
   G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld,elA,"World");                                       
-  G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);       
-                     
+  G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);                            
   // ***** Envelope *****
   G4Box* solidEnv = new G4Box("Envelope", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ);      
   G4LogicalVolume* logicEnv = new G4LogicalVolume(solidEnv,elA, "Envelope");    
-               
+
+  // /* 2021/3 D2 experiment
+  G4Material* solid_common;
+  // ***** Ni Shadow *****
+  solid_common=nist->FindOrBuildMaterial("G4_Ni");
+  G4VSolid* shadow_out = new G4Box("Shadow_out", (50./2)*mm, (50./2)*mm, (1./2)*mm);
+  G4VSolid* shadow_gap = new G4Box("Shadow_gap", (10./2)*mm, (5./2)*mm, (1.1/2)*mm);
+  G4VSolid* shadow_box = new G4SubtractionSolid("Shadow", shadow_out, shadow_gap, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
+  G4ThreeVector pos_shadow = G4ThreeVector(0, 0, (1./2)*mm);
+  G4LogicalVolume* ShadowLog = new G4LogicalVolume(shadow_box, solid_common, "Shadow");
+  new G4PVPlacement(0, pos_shadow, ShadowLog, "Shadow", logicWorld, false, 0, checkOverlaps);
+  // ***** Fe Tube *****
+  solid_common=nist->FindOrBuildMaterial("G4_Fe");
+  G4double Fe_gap=5;//mm
+  G4VSolid* Fe_tubs = new G4Tubs("FeTubs",(15.-0.5)*mm,15*mm,(50./2)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_fe = G4ThreeVector(0, 0, (1+Fe_gap+15.)*mm);
+  G4LogicalVolume* FeLog = new G4LogicalVolume(Fe_tubs, solid_common, "FeTubs");
+  G4RotationMatrix* rot_fe = new G4RotationMatrix(90.*CLHEP::deg,90.*CLHEP::deg,0*CLHEP::deg);
+  new G4PVPlacement(rot_fe, pos_fe, FeLog, "FeTubs", logicWorld, false, 0, checkOverlaps);
+  // ***** Pb Target *****
+  solid_common=nist->FindOrBuildMaterial("G4_Pb");
+  G4double Pb_dis=5;//mm
+  G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (4./2)*mm, (1./2)*mm);
+  G4ThreeVector pos_pb = G4ThreeVector(0, 0, (1+Fe_gap+Pb_dis+(1./2))*mm);
+  G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Target, solid_common, "PbTarget");
+  new G4PVPlacement(0, pos_pb, PbLog, "PbTarget", logicWorld, false, 0, checkOverlaps);
+  // ***** Ge detector *****
+  solid_common=nist->FindOrBuildMaterial("G4_Ge");
+  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5./2)*mm,(5./2.)*mm,0.,2*M_PI*rad);
+  G4double ge_dis=500.;//mm
+  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
+  G4double nDets=200;
+  G4double current_angle;
+  G4ThreeVector pos_ge;
+  G4LogicalVolume* GeLog;
+  G4RotationMatrix* rot_ge;
+  for(int i=0; i<nDets;i++){
+     auto idstr = std::to_string(i);
+     current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
+     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (1+Fe_gap+1+ge_dis*std::cos(ge_angle))*mm);
+     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
+     rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
+     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
+  }
+
+  /*  2020/7 D2 experiment  
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,kapton_radius*mm,(kapton_thick/2)*mm,0.,2*M_PI*rad);
@@ -216,6 +260,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(angle_al_1, pos_al_1, CuLog_1, "CuTubs_1", GasLog_3, false, 0, checkOverlaps);        
   new G4PVPlacement(angle_al_2, pos_al_2, CuLog_2, "CuTubs_2", GasLog_3, false, 0, checkOverlaps);        
   new G4PVPlacement(angle_al_3, pos_al_3, CuLog_3, "CuTubs_3", GasLog_3, false, 0, checkOverlaps);         
+// */
 
   //always return the physical World
   return physWorld;
