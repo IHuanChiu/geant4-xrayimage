@@ -100,11 +100,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // /* 2021/3 D2 experiment
   G4Material* solid_common;
   // ***** Ni Shadow *****
-  solid_common=nist->FindOrBuildMaterial("G4_Ni");
-  G4VSolid* shadow_out = new G4Box("Shadow_out", (50./2)*mm, (50./2)*mm, (1./2)*mm);
-  G4VSolid* shadow_gap = new G4Box("Shadow_gap", (10./2)*mm, (5./2)*mm, (1.1/2)*mm);
+  G4double shadow_size=1.;//mm
+  solid_common=nist->FindOrBuildMaterial("G4_Ni");//1mm
+//  solid_common=nist->FindOrBuildMaterial("G4_Sn");//2mm
+//  solid_common=nist->FindOrBuildMaterial("G4_Al");//3mm
+  G4VSolid* shadow_out = new G4Box("Shadow_out", (50./2)*mm, (50./2)*mm, (shadow_size/2)*mm);
+  G4VSolid* shadow_gap = new G4Box("Shadow_gap", (10./2)*mm, (5./2)*mm, ((shadow_size+0.1)/2)*mm);
   G4VSolid* shadow_box = new G4SubtractionSolid("Shadow", shadow_out, shadow_gap, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
-  G4ThreeVector pos_shadow = G4ThreeVector(0, 0, (1./2)*mm);
+  G4ThreeVector pos_shadow = G4ThreeVector(0, 0, -(shadow_size/2)*mm);
   G4LogicalVolume* ShadowLog = new G4LogicalVolume(shadow_box, solid_common, "Shadow");
   new G4PVPlacement(0, pos_shadow, ShadowLog, "Shadow", logicWorld, false, 0, checkOverlaps);
   // ***** Fe Tube *****
@@ -124,10 +127,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(0, pos_pb, PbLog, "PbTarget", logicWorld, false, 0, checkOverlaps);
   // ***** Ge detector *****
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
-  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5./2)*mm,(5./2.)*mm,0.,2*M_PI*rad);
-  G4double ge_dis=500.;//mm
+  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(50./2)*mm,(50./2.)*mm,0.,2*M_PI*rad);
+  G4double ge_dis=500.+50./2.;//mm
   G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
-  G4double nDets=200;
+  G4double nDets=30;
   G4double current_angle;
   G4ThreeVector pos_ge;
   G4LogicalVolume* GeLog;
@@ -141,6 +144,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
   }
 
+  // ***** Ge detector Upstream *****
+  Ge_Det = new G4Tubs("GeDetUp",0*mm,(25./2)*mm,(15./2.)*mm,0.,2*M_PI*rad);
+  ge_dis=(40.*1.414)+15./2.;//mm
+  ge_angle=(-1)*2*CLHEP::pi*(45./360)*CLHEP::rad;
+  nDets=10;
+  for(int i=0; i<nDets;i++){
+     auto idstr = std::to_string(i);
+     current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
+     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, ((-1)*ge_dis*std::cos(ge_angle))*mm);
+     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubsUp"+idstr);
+     rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
+     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubsUp"+idstr, logicWorld, false, 0, checkOverlaps);
+  }
+  
   /*  2020/7 D2 experiment  
   // ***** Kapton *****
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");

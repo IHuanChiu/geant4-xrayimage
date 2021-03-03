@@ -67,28 +67,26 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double t0, tSigma;
     G4double p, pSigma;
 
-    G4double p0 = 30;
+    G4double p0 = 40;//MeV/c
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
     G4double poi_sigmaX = 0.5;//mm
     G4double poi_sigmaY = 7;//mm
-    G4double focus_x0 = 0;
-    G4double focus_y0 = 0;
-    G4double focus_z0 = 80;
 
-    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
-    G4double dir_error_y = 0.30;//angle error : 30%*2pi
-
-    G4double x0;
-    G4double y0;
-    G4double z0;
+    G4double dir_error_x = 0.025;//momentum direction error : 0.025*2pi
+    G4double dir_error_y = 0.30;//momentum direction error : 0.30*2pi
 
     G4double rho_e;   
     G4double theta_e; 
     G4double y0_e;    
     G4double x0_e;   
     G4double muon_mass, ele_mass;
-    static G4int  fractionOfEletronParticles;
+
+    G4double x0;
+    G4double y0;
+    G4double z0;
+    G4int nPulseBeam = 1;
+    static G4int  fractionOfEletronParticles;//20% eletron
 
     int SetCutforBeam(G4double poi,G4double sigma){
        poi=G4RandGauss::shoot(poi_mean,sigma)*CLHEP::mm;
@@ -98,6 +96,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
         return poi;
        }
     }
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

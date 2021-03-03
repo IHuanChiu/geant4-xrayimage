@@ -67,11 +67,8 @@
 /vis/geometry/set/colour AlTubs_2 0 1 1 0 .3
 /vis/geometry/set/colour AlTubs_3 0 1 1 0 .3
 /vis/geometry/set/colour Shadow 0 1 1 0 0.9
-/vis/scene/notifyHandlers
 /vis/geometry/set/forceWireframe FeTubs 0 true
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour FeTubs 0 0 1 0 0.7
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour PbTarget 0 1 0.98 0.98 1
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour GeDet 0 0.792 0.8824 1 1.

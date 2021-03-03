@@ -71,10 +71,10 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["FeTubs"] = 0;
   VolumeMap["PbTarget"] = 1;
   VolumeMap["GeDet"] = 2;
-  for(int i=0; i<300;i++){
+  for(int i=0; i<100;i++){
      auto idstr = std::to_string(i);
      VolumeMap["GeTubs"+idstr] = 2;     
-     VolumeMap["GeTubsUp"+idstr] = 3;     
+     VolumeMap["GeTubs2"+idstr] = 2;     
   }
 
   ProcessMap["muMinusCaptureAtRest"] = 1;
@@ -179,7 +179,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        
      }//muon end
 
-     if(VolumeMap[CurrentVolumeName] == 3 && particleName != "mu-"){//set sensitivity detectors
+     if(VolumeMap[CurrentVolumeName] >= 2 && particleName != "mu-"){//set sensitivity detectors
        // =========== store signal particle in detector ===============    
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
