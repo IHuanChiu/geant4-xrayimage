@@ -183,6 +183,9 @@ class RootOutput{
     Int_t hit_id;
     Double_t hit_energy[nhitMax];
     Double_t hit_energy_reso[nhitMax];
+    Double_t hit_startx[nhitMax];
+    Double_t hit_starty[nhitMax];
+    Double_t hit_startz[nhitMax];
     Double_t hit_timestart[nhitMax];
     Double_t hit_timeend[nhitMax];
     Int_t hit_nsteps[nhitMax];
@@ -195,8 +198,11 @@ class RootOutput{
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
-    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
+    void SetSignalInfo (G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
        hit_energy[id] = energy; 
+       hit_startx[id] = start_x; 
+       hit_starty[id] = start_y; 
+       hit_startz[id] = start_z; 
        hit_timestart[id] = time_start; 
        hit_timeend[id] = time_end; 
        hit_nsteps[id] = nsteps; 

@@ -100,12 +100,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // /* 2021/3 D2 experiment
   G4Material* solid_common;
   // ***** Ni Shadow *****
-  G4double shadow_size=1.;//mm
-  solid_common=nist->FindOrBuildMaterial("G4_Ni");//1mm
+  G4double shadow_size=3.;//mm
+//  solid_common=nist->FindOrBuildMaterial("G4_Ni");//1mm
 //  solid_common=nist->FindOrBuildMaterial("G4_Sn");//2mm
-//  solid_common=nist->FindOrBuildMaterial("G4_Al");//3mm
+  solid_common=nist->FindOrBuildMaterial("G4_Al");//3mm
   G4VSolid* shadow_out = new G4Box("Shadow_out", (50./2)*mm, (50./2)*mm, (shadow_size/2)*mm);
-  G4VSolid* shadow_gap = new G4Box("Shadow_gap", (10./2)*mm, (5./2)*mm, ((shadow_size+0.1)/2)*mm);
+  G4VSolid* shadow_gap = new G4Box("Shadow_gap", (15./2)*mm, (10./2)*mm, ((shadow_size+0.1)/2)*mm);
   G4VSolid* shadow_box = new G4SubtractionSolid("Shadow", shadow_out, shadow_gap, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));
   G4ThreeVector pos_shadow = G4ThreeVector(0, 0, -(shadow_size/2)*mm);
   G4LogicalVolume* ShadowLog = new G4LogicalVolume(shadow_box, solid_common, "Shadow");
@@ -121,7 +121,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Pb Target *****
   solid_common=nist->FindOrBuildMaterial("G4_Pb");
   G4double Pb_dis=5;//mm
-  G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (4./2)*mm, (1./2)*mm);
+  G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (2./2)*mm, (1./2)*mm);
   G4ThreeVector pos_pb = G4ThreeVector(0, 0, (1+Fe_gap+Pb_dis+(1./2))*mm);
   G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Target, solid_common, "PbTarget");
   new G4PVPlacement(0, pos_pb, PbLog, "PbTarget", logicWorld, false, 0, checkOverlaps);

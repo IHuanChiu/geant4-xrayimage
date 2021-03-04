@@ -105,6 +105,9 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   currentType = 0;
   for (int i = 0; i< nhitMax_indetector; i++){
      ahit_edep[i] = 0.;
+     ahit_start_x[i] = -100.;
+     ahit_start_y[i] = -100.;
+     ahit_start_z[i] = -100.;
      ahit_time_start[i] = 0.;
      ahit_time_end[i] = 0.; 
      ahit_nsteps[i] = 0;
@@ -143,6 +146,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       //     eIoni :    eletron ionization
       //     "brems":    Bremsstrahlung
      
+//    std::cout << aTrack->GetDefinition()->GetParticleName()   << "  pdgID : " << abs(pdgID) << " ParticleID : " << aTrack->GetTrackID() << " ParentID : " <<  aTrack->GetParentID() << " step number : " << aTrack->GetCurrentStepNumber() << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << aTrack->GetGlobalTime()/CLHEP::microsecond << " Z : " << TrackPosition.z() 
+//   << " kin energy : " << aTrack->GetKineticEnergy() <<  " total energy : " << aTrack->GetTotalEnergy()/CLHEP::MeV  <<  " dep energy : " << step->GetTotalEnergyDeposit() 
+//   << std::endl;
+//   if (aTrack->GetCreatorProcess() != 0) std::cout << " CreatorProcess  : " << aTrack->GetCreatorProcess()->GetProcessName() << " name : " << aTrack->GetDefinition()->GetParticleName() << " ParticleID : " << aTrack->GetTrackID() << " ParentID : " <<  aTrack->GetParentID()  << std::endl;
+
      // =========== store muon hit position ===============    
      if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
 //     if(particleName == "mu-"){// note: before touch physic volume, pdgID is random number
@@ -173,6 +181,14 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          }
        }//volume end
 
+       //global info.
+       G4StepPoint* preStepPoint = step->GetPreStepPoint();
+       G4StepPoint* postStepPoint = step->GetPostStepPoint();
+       G4ThreeVector preStepPosition = preStepPoint->GetPosition();
+       G4ThreeVector postStepPosition = postStepPoint->GetPosition();
+       myRootOutput->SetDecayPolGlo(postStepPosition);
+       myRootOutput->SetDecayTimeGlo(Time);
+
        myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
        if (aTrack->GetPosition().z()/CLHEP::mm > 50) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//escape muon
        if (VolumeMap[CurrentVolumeName] >= 2) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//muon hit Ge
@@ -195,6 +211,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
        if(!IsSameSignal){//define a new signal
           ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
+          ahit_start_x[nSignals] = TrackPosition.x();
+          ahit_start_y[nSignals] = TrackPosition.y();
+          ahit_start_z[nSignals] = TrackPosition.z();
           ahit_time_start[nSignals] = Time;
           ahit_time_end[nSignals]   = Time;
           ahit_nsteps[nSignals]     = 1;     
@@ -209,7 +228,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
        myRootOutput->SetnMaxHit(nSignals);//set n signal
        for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-         myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
+         myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
        } 
 
        // =========== all particles in detector ==============

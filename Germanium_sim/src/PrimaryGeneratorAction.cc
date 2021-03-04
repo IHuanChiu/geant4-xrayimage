@@ -90,8 +90,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
 
-  G4double envSizeXY = 0;
-  G4double envSizeZ = 0;
+  // === set pulse ===
+  for (int i=0;i< nPulseBeam; i++){
 
   // === default particle kinematic ===
   pSigma = p0*mom_error;
@@ -115,7 +115,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
   fParticleGun->SetParticleEnergy(particleEnergy);//IH
   
-  for (int i=0;i< nPulseBeam; i++) fParticleGun->GeneratePrimaryVertex(anEvent);
+  fParticleGun->GeneratePrimaryVertex(anEvent);
   G4double muInitTime = fParticleGun->GetParticleTime()/CLHEP::nanosecond;
 
   // === electron ===
@@ -134,11 +134,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
     //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-    for (int i=0;i< nPulseBeam; i++) fParticleGunEle->GeneratePrimaryVertex(anEvent);
+    fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }
   
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
   myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
+  }//end set pulse
 
 }
 

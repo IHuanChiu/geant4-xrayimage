@@ -127,6 +127,9 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
    rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D"); 
    rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); //MeV 
+   rootTree->Branch("Hit_Start_X",&hit_startx,"Hit_Start_X[nSignals]/D");
+   rootTree->Branch("Hit_Start_Y",&hit_starty,"Hit_Start_Y[nSignals]/D");
+   rootTree->Branch("Hit_Start_Z",&hit_startz,"Hit_Start_Z[nSignals]/D");
    rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
    rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
    rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
@@ -257,6 +260,9 @@ void RootOutput::ClearAllRootVariables() {
   for (int i = 0; i < nhitMax; i++){
    hit_energy[i] = 0.;
    hit_energy_reso[i] = 0.;
+   hit_startx[i] = 0.;
+   hit_starty[i] = 0.;
+   hit_startz[i] = 0.;
    hit_timestart[i] = 0.;
    hit_timeend[i] = 0.;
    hit_nsteps[i] = 0;

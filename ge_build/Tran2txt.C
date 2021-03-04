@@ -4,7 +4,7 @@
 
 void Tran2txt(){
 
- TString fname="Output_202103exp_Sn_1M.root";
+ TString fname="Output_202103expfornt_Sn_1M.root";
 
  TFile* f = new TFile(fname);
  TString phaDataName(fname.ReplaceAll(".root", ".dat"));
