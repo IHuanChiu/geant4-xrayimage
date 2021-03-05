@@ -164,11 +164,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
              myRootOutput->SetInitMomInSample(TrackMomentum);
              myRootOutput->SetInitTimeInSample(Time);
              myRootOutput->SetInitKineticEnergyInSample(KineticEnergy);
-//          }else{//end point 
-//             myRootOutput->SetEndPolInSample(TrackPosition);
-//             myRootOutput->SetEndMomInSample(TrackMomentum);
-//             myRootOutput->SetEndTimeInSample(Time);            
-//             myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
+          }else{//end point 
+             myRootOutput->SetEndPolInSample(TrackPosition);
+             myRootOutput->SetEndMomInSample(TrackMomentum);
+             myRootOutput->SetEndTimeInSample(Time);            
+             myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
           }
 
 //       }else{//world

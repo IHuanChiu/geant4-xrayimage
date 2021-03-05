@@ -120,7 +120,7 @@ class SteppingAction : public G4UserSteppingAction
     G4double muRnage;
 
     //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
-    G4double GeTimeResolution = 5;//5ms range
+    G4double GeTimeResolution = 40000;//5ms, 1s for 25 counts range
     G4bool IsSameSignal;
 
     G4double ahit_edep[nhitMax_indetector];

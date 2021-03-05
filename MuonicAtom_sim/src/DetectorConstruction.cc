@@ -62,7 +62,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* elA = nist->FindOrBuildMaterial("G4_AIR"); 
-  G4Material* Vacuum= new G4Material( "Vacuum", CLHEP::universe_mean_density, 2 );//no possible for real vacuum
+  G4double atomicNumber = 1.;
+  G4double massOfMole = 1.008*g/mole;
+  G4double density = 1.e-25*g/cm3;
+  G4double temperature = 2.73*kelvin;
+  G4double pressure = 3.e-18*pascal;
+  G4Material* Vacuum = new G4Material( "Vacuum", atomicNumber, massOfMole, density, kStateGas, temperature, pressure);
+  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
   
   // Option to switch on/off checking of volumes overlaps
   G4bool checkOverlaps = true;
@@ -73,30 +79,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double env_sizeXY = 80*cm, env_sizeZ = 100*cm;//World volume
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
   
-  G4Box* solidWorld =    
-    new G4Box("World",                       //its name
-       0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
-      
-  G4LogicalVolume* logicWorld =                         
-    new G4LogicalVolume(solidWorld,          //its solid
-//                        Vacuum,           //its material
-                        world_mat,           //its material
-                        "World");            //its name
-                                   
-  G4VPhysicalVolume* physWorld = 
-    new G4PVPlacement(0,                     //no rotation
-                      G4ThreeVector(),       //at (0,0,0)
-                      logicWorld,            //its logical volume
-                      "World",               //its name
-                      0,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
+  G4Box* solidWorld = new G4Box("World", 0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);
+  G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "World");
+  G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps); 
                      
 
+  //     
   // ***** Kapton *****
+  //     
   PrimaryGeneratorAction * prime = new PrimaryGeneratorAction;
   G4Material* solid_kapton = nist->FindOrBuildMaterial("G4_KAPTON");
   G4VSolid* kapton_tubs = new G4Tubs("KaptonTubs",0*mm,(kapton_radiu)*mm,(kapton_thick/2.)*mm,0.,2*M_PI*rad);
@@ -114,37 +105,44 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking   
   
-  G4VSolid* kapton_tubs_sample = new G4Tubs("AirSample",0*mm,(kapton_radiu+10)*mm,(kapton_thick/20.)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_kapton_sample = G4ThreeVector(0, 0, (sample_dis-15)*mm);
-  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "AirSample");       
+  G4VSolid* kapton_tubs_sample = new G4Tubs("AirSample",0*mm,(kapton_radiu+10)*mm,(200/2.)*mm,0.,2*M_PI*rad);
+  G4ThreeVector pos_kapton_sample = G4ThreeVector(0, 0, (sample_dis)*mm);
+  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,Vacuum, "AirSample");       
+//  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "AirSample");       
   new G4PVPlacement(0, pos_kapton_sample, AirLog_sample, "AirSample", logicWorld, false, 0, checkOverlaps);     
 
+  //     
   // ***** Sample *****
+  //     
   G4Material* solid_target = nist->FindOrBuildMaterial("G4_POLYPROPYLENE");//(C_2H_4)_N-Polypropylene
 
   G4Orb* solid_ball_L = new G4Orb("Ball", (1.27/2.)*cm);
   G4Orb* solid_ball_S = new G4Orb("samllBall", (0.635/2.)*cm);
-  G4ThreeVector pos_sample1 = G4ThreeVector((0+(14.14/2.))*mm, (0+(14.14/2.))*mm, (sample_dis+5+sample_dz/2.)*mm);//L back
-  G4ThreeVector pos_sample2 = G4ThreeVector((0-(14.14/2.))*mm, (0+(14.14/2.))*mm, (sample_dis-9+sample_dz/2.)*mm);//S front
-  G4ThreeVector pos_sample3 = G4ThreeVector((0+(14.14/2.))*mm, (0-(14.14/2.))*mm, (sample_dis-6+sample_dz/2.)*mm);//S back
-  G4ThreeVector pos_sample4 = G4ThreeVector((0-(14.14/2.))*mm, (0-(14.14/2.))*mm, (sample_dis-2+sample_dz/2.)*mm);//L front
+  G4ThreeVector pos_sample1 = G4ThreeVector((0+(14.14/2.))*mm, (0+(14.14/2.))*mm, (0+5+sample_dz/2.)*mm);//L back
+  G4ThreeVector pos_sample2 = G4ThreeVector((0-(14.14/2.))*mm, (0+(14.14/2.))*mm, (0-9+sample_dz/2.)*mm);//S front
+  G4ThreeVector pos_sample3 = G4ThreeVector((0+(14.14/2.))*mm, (0-(14.14/2.))*mm, (0-6+sample_dz/2.)*mm);//S back
+  G4ThreeVector pos_sample4 = G4ThreeVector((0-(14.14/2.))*mm, (0-(14.14/2.))*mm, (0-2+sample_dz/2.)*mm);//L front
   G4LogicalVolume* TargetLog1 = new G4LogicalVolume(solid_ball_L,solid_target,"Target1"); 
   G4LogicalVolume* TargetLog2 = new G4LogicalVolume(solid_ball_L,solid_target,"Target2"); 
   G4LogicalVolume* TargetLog3 = new G4LogicalVolume(solid_ball_S,solid_target,"Target3"); 
   G4LogicalVolume* TargetLog4 = new G4LogicalVolume(solid_ball_S,solid_target,"Target4"); 
-  new G4PVPlacement(0, pos_sample1, TargetLog1, "Target1", logicWorld, false,0,checkOverlaps);
-  new G4PVPlacement(0, pos_sample4, TargetLog2, "Target2", logicWorld, false,0,checkOverlaps);
-  new G4PVPlacement(0, pos_sample2, TargetLog3, "Target3", logicWorld, false,0,checkOverlaps);
-  new G4PVPlacement(0, pos_sample3, TargetLog4, "Target4", logicWorld, false,0,checkOverlaps);
+  new G4PVPlacement(0, pos_sample1, TargetLog1, "Target1", AirLog_sample, false,0,checkOverlaps);
+  new G4PVPlacement(0, pos_sample4, TargetLog2, "Target2", AirLog_sample, false,0,checkOverlaps);
+  new G4PVPlacement(0, pos_sample2, TargetLog3, "Target3", AirLog_sample, false,0,checkOverlaps);
+  new G4PVPlacement(0, pos_sample3, TargetLog4, "Target4", AirLog_sample, false,0,checkOverlaps);
 
+  //     
   // ***** Al Baton *****
+  //     
   G4Material* alBaton_mater = nist->FindOrBuildMaterial("G4_Al");
   G4Box* alBaton = new G4Box("alBaton", (100/2.)*mm, (200/2.)*mm, (100/2.)*mm);
-  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 100)*mm);//300 is experiment setting
+  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 200)*mm);//300 is experiment setting
   G4LogicalVolume* alBatonLog = new G4LogicalVolume(alBaton,alBaton_mater,"AlBaton");
   new G4PVPlacement(0, pos_alBaton, alBatonLog, "AlBaton", logicWorld, false,0,checkOverlaps);
 
+  //     
   // ***** CdTe *****
+  //     
   G4double det_y = det_dy/2+det_dis+colli_dis;
   G4double colli_y = det_dy/2+colli_dis;
   G4double rota_angle = 60;
@@ -174,7 +172,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* shield_down_4 = new G4Tubs("shield_down_4",(colli_radiu-6-2-1-6)*mm,(colli_radiu-6-2-1)*mm,(zshield_heigh/2.)*mm,0.,2*M_PI*rad);
 
   G4VSolid* Albox = new G4Box("Albox",(50/2.)*mm, (0.1/2.)*mm, (50/2.)*mm);
-
+  G4VSolid* Alboxdown1 = new G4Box("AlboxDown1",(60/2.)*mm, (40/2.)*mm, (60/2.)*mm);
+  G4VSolid* Alboxdown2 = new G4Box("AlboxDown2",(60/2.-10)*mm, (40/2.)*mm, (60/2.-10)*mm);
+  G4VSolid* Alboxdown = new G4SubtractionSolid("AlboxDown",Alboxdown1, Alboxdown2, 0, G4ThreeVector(0.*mm, 10.* mm, 0.*mm));
 
   G4Material* plastic_mater = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
   G4Material* epe_mater = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
@@ -190,7 +190,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Box* epe_cover = new G4Box("epe_cover", (60/2.)*mm, (5/2.)*mm, (60/2.)*mm);
 
   // JPARC March
+  //     
   // CdTe pos.
+  //     
   G4ThreeVector pos_det_cdte = G4ThreeVector(0*mm, -det_y*mm, (sample_dis+sample_dz/2.)*mm);
 
   G4ThreeVector pos_collimator_cdte = G4ThreeVector(0*mm, -colli_y*mm, (sample_dis+sample_dz/2.)*mm);
@@ -206,6 +208,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_shield_down_4 = G4ThreeVector(0*mm, (-colli_y-4.1-(4)-(zshield_heigh/2.))*mm, (sample_dis+sample_dz/2.)*mm);
 
   G4ThreeVector pos_albox = G4ThreeVector(0*mm, (-det_y+20)*mm, (sample_dis+sample_dz/2.)*mm);
+  G4ThreeVector pos_alboxdown = G4ThreeVector(0*mm, (-det_y-10)*mm, (sample_dis+sample_dz/2.)*mm);
 
   G4LogicalVolume* DetLog = new G4LogicalVolume(solidDet,det_mater,"CdTe");          
   G4LogicalVolume* DetLog_colli = new G4LogicalVolume(substractsolid_det,collimator_mater,"Collimator");          
@@ -217,6 +220,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* DetLog_shield_down_3 = new G4LogicalVolume(shield_down_3,shield_mater_3,"shield_cu");          
   G4LogicalVolume* DetLog_shield_down_4 = new G4LogicalVolume(shield_down_4,shield_mater_4,"shield_al");          
   G4LogicalVolume* DetLog_Albox = new G4LogicalVolume(Albox,shield_mater_4,"Albox");          
+  G4LogicalVolume* DetLog_AlboxDown = new G4LogicalVolume(Alboxdown,shield_mater_4,"AlboxDown");          
 
   new G4PVPlacement(0,pos_det_cdte,DetLog,"CdTe",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_collimator_cdte,pos_collimator_cdte,DetLog_colli,"Collimator",logicWorld,false,0,checkOverlaps); 
@@ -228,8 +232,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(angle_collimator_cdte,pos_shield_down_3,DetLog_shield_down_3,"shield_cu",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(angle_collimator_cdte,pos_shield_down_4,DetLog_shield_down_4,"shield_al",logicWorld,false,0,checkOverlaps); 
   new G4PVPlacement(0,pos_albox,DetLog_Albox,"Albox",logicWorld,false,0,checkOverlaps); 
+  new G4PVPlacement(0,pos_alboxdown,DetLog_AlboxDown,"AlboxDown",logicWorld,false,0,checkOverlaps); 
 
+  //     
   // Si pos.
+  //     
   G4ThreeVector pos_colli_si = G4ThreeVector(0*mm, (colli_dis_si+(8/2.))*mm, (sample_dis+sample_dz/2.)*mm);
   G4ThreeVector pos_housing_up = G4ThreeVector(0*mm, (colli_dis_si+8+(21/2.))*mm, (sample_dis+sample_dz/2.)*mm);
   G4ThreeVector pos_housing_down = G4ThreeVector(0*mm, (colli_dis_si+8+21+(102/2.))*mm, (sample_dis+sample_dz/2.)*mm);

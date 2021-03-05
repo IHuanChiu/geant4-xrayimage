@@ -85,6 +85,10 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour KaptonCover 0 0.8 1 0 .3
 /vis/scene/notifyHandlers
+/vis/geometry/set/colour AlboxDown 0 1 1 1 0.3
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Albox 0 1 1 1 0.3
+/vis/scene/notifyHandlers
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

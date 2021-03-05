@@ -64,9 +64,10 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["CdTe0"] = 6; 
   VolumeMap["CdTe"] = 6; 
   VolumeMap["Si"] = 7; 
-  DetNumber = VolumeMap["CdTe0"];
+  DetNumber = 6;
 
   VolumeMap["AlBaton"] = 4;
+  VolumeMap["AlBatonDown"] = 4;
   VolumeMap["Target1"] = 3;
   VolumeMap["Target2"] = 3;
   VolumeMap["Target3"] = 3;
@@ -149,31 +150,32 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //          myRootOutput->SetEndKineticEnergyInCdTe(detector_index,KineticEnergy);            
    //       }
    
-       if (VolumeMap[CurrentVolumeName] == 1){//kapton
-          if(!muhitKaptonInThisEvent){
-             muhitKaptonInThisEvent = true;
-             myRootOutput->SetInitPolInKapton(TrackPosition);
-             myRootOutput->SetInitTimeInKapton(Time);
-             myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
-          }else{
-             myRootOutput->SetEndPolInKapton(TrackPosition);
-             myRootOutput->SetEndTimeInKapton(Time);            
-             myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
-          }
-   
-       }else if (VolumeMap[CurrentVolumeName] == 2){//kapton in frond of sample
-          if(!muhitCollimatorInThisEvent){
-             muhitCollimatorInThisEvent = true;
-             myRootOutput->SetInitPolInCollimator(TrackPosition);
-             myRootOutput->SetInitTimeInCollimator(Time);
-             myRootOutput->SetInitKineticEnergyInCollimator(KineticEnergy);
-          }else{
-             myRootOutput->SetEndPolInCollimator(TrackPosition);
-             myRootOutput->SetEndTimeInCollimator(Time);            
-             myRootOutput->SetEndKineticEnergyInCollimator(KineticEnergy);            
-          }
-   
-       }else if(CurrentVolumeName.find("Target") != std::string::npos){//sample
+//       if (VolumeMap[CurrentVolumeName] == 1){//kapton
+//          if(!muhitKaptonInThisEvent){
+//             muhitKaptonInThisEvent = true;
+//             myRootOutput->SetInitPolInKapton(TrackPosition);
+//             myRootOutput->SetInitTimeInKapton(Time);
+//             myRootOutput->SetInitKineticEnergyInKapton(KineticEnergy);
+//          }else{
+//             myRootOutput->SetEndPolInKapton(TrackPosition);
+//             myRootOutput->SetEndTimeInKapton(Time);            
+//             myRootOutput->SetEndKineticEnergyInKapton(KineticEnergy);            
+//          }
+//   
+//       }else if (VolumeMap[CurrentVolumeName] == 2){//kapton in frond of sample
+//          if(!muhitCollimatorInThisEvent){
+//             muhitCollimatorInThisEvent = true;
+//             myRootOutput->SetInitPolInCollimator(TrackPosition);
+//             myRootOutput->SetInitTimeInCollimator(Time);
+//             myRootOutput->SetInitKineticEnergyInCollimator(KineticEnergy);
+//          }else{
+//             myRootOutput->SetEndPolInCollimator(TrackPosition);
+//             myRootOutput->SetEndTimeInCollimator(Time);            
+//             myRootOutput->SetEndKineticEnergyInCollimator(KineticEnergy);            
+//          }
+//   
+//       }else if(CurrentVolumeName.find("Target") != std::string::npos){//sample
+       if(CurrentVolumeName.find("Target") != std::string::npos){//sample
           if (!muhitSampleInThisEvent) {//start point
              muhitSampleInThisEvent = true;
              myRootOutput->SetInitPolInSample(TrackPosition);
@@ -210,8 +212,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //          myRootOutput->SetEndKineticEnergyInWorld(KineticEnergy);            
    //       }
        }//volume end
-        if(KineticEnergy == 0) myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-        if(aTrack->GetPosition().z()/CLHEP::mm > 150) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
+
+        myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
+        if(aTrack->GetPosition().z()/CLHEP::mm > 250) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
 //        if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
 

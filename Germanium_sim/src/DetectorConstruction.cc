@@ -100,10 +100,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // /* 2021/3 D2 experiment
   G4Material* solid_common;
   // ***** Ni Shadow *****
-  G4double shadow_size=3.;//mm
-//  solid_common=nist->FindOrBuildMaterial("G4_Ni");//1mm
+  G4double shadow_size=1.;//mm
+  solid_common=nist->FindOrBuildMaterial("G4_Ni");//1mm
 //  solid_common=nist->FindOrBuildMaterial("G4_Sn");//2mm
-  solid_common=nist->FindOrBuildMaterial("G4_Al");//3mm
+//  solid_common=nist->FindOrBuildMaterial("G4_Al");//3mm
   G4VSolid* shadow_out = new G4Box("Shadow_out", (50./2)*mm, (50./2)*mm, (shadow_size/2)*mm);
   G4VSolid* shadow_gap = new G4Box("Shadow_gap", (15./2)*mm, (10./2)*mm, ((shadow_size+0.1)/2)*mm);
   G4VSolid* shadow_box = new G4SubtractionSolid("Shadow", shadow_out, shadow_gap, 0, G4ThreeVector(0.*cm, 0.* cm, 0.*cm));

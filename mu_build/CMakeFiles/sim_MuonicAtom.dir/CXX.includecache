@@ -35,6 +35,8 @@ globals.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/globals.hh
 RootOutput.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
+Randomize.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/Randomize.hh
 
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
 CLHEP/Units/PhysicalConstants.h
