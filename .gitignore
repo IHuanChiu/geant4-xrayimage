@@ -3,5 +3,6 @@ copy.sh
 *_build/*/*.root
 *_build/*/*/*.root
 */CMakeFiles
+*/CMakeFiles/*
 macro/root
 macro/data

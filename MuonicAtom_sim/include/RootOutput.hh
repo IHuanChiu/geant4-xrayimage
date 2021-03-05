@@ -179,6 +179,8 @@ class RootOutput{
     Double_t RunTime;
     char RootOutputFileName[200];
 
+    G4double reso_par0;
+    G4double reso_par1;
     G4double reso_14keV;
     G4double reso_75keV;
     G4double reso_rate;

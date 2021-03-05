@@ -130,15 +130,14 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("Hit_z",&hit_z,"Hit_z[nSignals]/D");
 
    // ===== detector info. =====
-   rootTree->Branch("Det_nMax",&Det_nMax,"Det_nMax/I");
-   rootTree->Branch("energyDep",eDep,"energyDep[Det_nMax]/D");
-   rootTree->Branch("energyDep_e",eDep_e,"energyDep_e[Det_nMax]/D");
-   rootTree->Branch("energyDep_gamma",eDep_gamma,"energyDep_gamma[Det_nMax]/D");
-   rootTree->Branch("energyDep_other",eDep_other,"energyDep_other[Det_nMax]/D");
-   rootTree->Branch("Position_x",Position_x,"Position_x[Det_nMax]/D");
-   rootTree->Branch("Position_y",Position_y,"Position_y[Det_nMax]/D");
-   rootTree->Branch("Position_z",Position_z,"Position_z[Det_nMax]/D");
-
+//   rootTree->Branch("Det_nMax",&Det_nMax,"Det_nMax/I");
+//   rootTree->Branch("energyDep",eDep,"energyDep[Det_nMax]/D");
+//   rootTree->Branch("energyDep_e",eDep_e,"energyDep_e[Det_nMax]/D");
+//   rootTree->Branch("energyDep_gamma",eDep_gamma,"energyDep_gamma[Det_nMax]/D");
+//   rootTree->Branch("energyDep_other",eDep_other,"energyDep_other[Det_nMax]/D");
+//   rootTree->Branch("Position_x",Position_x,"Position_x[Det_nMax]/D");
+//   rootTree->Branch("Position_y",Position_y,"Position_y[Det_nMax]/D");
+//   rootTree->Branch("Position_z",Position_z,"Position_z[Det_nMax]/D");
 //   rootTree->Branch("nDet",nDet,"nDet/I");
 //   rootTree->Branch("Ngamma",Ngamma,"Ngamma[nDet]/D");
 //   rootTree->Branch("Neletron",Neletron,"Neletron[nDet]/D");
@@ -162,6 +161,8 @@ void RootOutput::BeginOfRunAction() {
    for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,var_name[i-1]);
 
    // ===== Energy resolution =====
+   reso_par0=1.96466/1000.;//keV
+   reso_par1=0.0115327/1000.;//keV
    reso_14keV = 0.00143;
    reso_75keV = 0.00165;
    reso_rate = (0.00165-0.00143)/(75-14);
@@ -226,11 +227,7 @@ void RootOutput::SetParticlePositionInVolume(G4int id, G4double x, G4double y , 
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-      if((hit_energy[i]*1000 - 14) < 0){
-         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],0.00143);
-      }else{
-         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(0.00143 + (hit_energy[i]*1000 - 14)*reso_rate));
-      }
+      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_par0 + hit_energy[i]*reso_par1));
    }
 }
 

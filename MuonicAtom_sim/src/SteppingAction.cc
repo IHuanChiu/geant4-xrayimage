@@ -56,15 +56,13 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  VolumeMap["CdTe5"] = 11;
-  VolumeMap["CdTe4"] = 10;
-  VolumeMap["CdTe3"] = 9;
-  VolumeMap["CdTe2"] = 8;
-  VolumeMap["CdTe1"] = 7;
-  VolumeMap["CdTe0"] = 6; 
+  DetNumber = 6;
+  for(int i=0; i<10;i++){
+     auto idstr = std::to_string(i);
+     VolumeMap["CdTe"+idstr] = DetNumber+i;     
+  }
   VolumeMap["CdTe"] = 6; 
   VolumeMap["Si"] = 7; 
-  DetNumber = 6;
 
   VolumeMap["AlBaton"] = 4;
   VolumeMap["AlBatonDown"] = 4;
@@ -175,7 +173,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          }
 //   
 //       }else if(CurrentVolumeName.find("Target") != std::string::npos){//sample
-       if(CurrentVolumeName.find("Target") != std::string::npos){//sample
+//       if(CurrentVolumeName.find("Target") != std::string::npos){//sample
+       if(VolumeMap[CurrentVolumeName] == 3){//sample
           if (!muhitSampleInThisEvent) {//start point
              muhitSampleInThisEvent = true;
              myRootOutput->SetInitPolInSample(TrackPosition);
@@ -214,7 +213,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }//volume end
 
         myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-        if(aTrack->GetPosition().z()/CLHEP::mm > 250) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
+        if(aTrack->GetPosition().z()/CLHEP::mm > 350) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
 //        if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
 
@@ -225,7 +224,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    
      // =========== store detector info. ===============    
      //if (VolumeMap[CurrentVolumeName] >= DetNumber && particleName != "mu-"){//sensitivity volume
-     if (VolumeMap[CurrentVolumeName] == 6 && particleName != "mu-"){//sensitivity volume
+     if (VolumeMap[CurrentVolumeName] >= 6 && particleName != "mu-"){//sensitivity volume
         // *** energy deposit info. ***
         for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
             if(std::fabs(Time-ahit_time_end[j]) < CdTeTimeResolution){ // same signal (macro second)
@@ -246,9 +245,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             ahit_nsteps[nSignals]     = 1;
             ahit_length[nSignals]     = step->GetStepLength();
             ahit_pdgid[nSignals]      = pdgID;
-            ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
-            ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
-            ahit_z[nSignals]          = aTrack->GetPosition().z()/CLHEP::mm;
+            if (VolumeMap[CurrentVolumeName] == 6){//TODO only store the position of one detector
+               ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
+               ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
+               ahit_z[nSignals]          = aTrack->GetPosition().z()/CLHEP::mm;
+            }
             if (aTrack->GetCreatorProcess() != 0){
             ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
             }else{ahit_process[nSignals] = ProcessMap["None"]; }
