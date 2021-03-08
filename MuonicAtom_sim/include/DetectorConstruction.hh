@@ -46,6 +46,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
     G4LogicalVolume* GetSampleVolume() const { return fSampleVolume; }
 
+    G4int nDets;
+    G4double sample_dis = 30;    
+    G4double sample_dx = 4.5;
+    G4double sample_dy = 6;
+    G4double sample_dz = 1;
+    G4double sample_angle = 45;
+
   protected:
     G4LogicalVolume*  fScoringVolume;
     G4LogicalVolume*  fScoringVolumeUp;
@@ -90,11 +97,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4double shelf_dy = 30;
     G4double shelf_dz = 5;
 
-    G4double sample_dis = 30;    
-    G4double sample_dx = 4.5;
-    G4double sample_dy = 6;
-    G4double sample_dz = 1;
-    G4double sample_angle = 45;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

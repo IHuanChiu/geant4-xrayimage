@@ -36,6 +36,7 @@
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
+#include "DetectorConstruction.hh"
 
 #include "RootOutput.hh"
 
@@ -116,6 +117,7 @@ class SteppingAction : public G4UserSteppingAction
     G4double CdTeTimeResolution = 0.002;//2ns
     G4bool IsSameSignal;
 
+    G4int idet;
     G4double ahit_edep[nhitMax_indetector];
     G4double ahit_time_start[nhitMax_indetector];
     G4double ahit_time_end[nhitMax_indetector];

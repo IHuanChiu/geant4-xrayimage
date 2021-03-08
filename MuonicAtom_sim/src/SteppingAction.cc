@@ -100,13 +100,18 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   ParentID = 0;
   CurrentProcess = "";
   SignalType = 0;
+
   for (int i = 0; i< nhitMax_indetector; i++){
      ahit_edep[i] = 0.;
      ahit_time_start[i] = 0.;
      ahit_time_end[i] = 0.;
      ahit_nsteps[i] = 0;
+     ahit_length[i] = 0;
      ahit_pdgid[i] = 0;
      ahit_process[i] = 0;
+     ahit_x[i] = -100;
+     ahit_y[i] = -100;
+     ahit_z[i] = -100;
   }
   nSignals=0;//number of signal particles
   IsSameSignal = false;//same signal, depend on time resolution of detector
@@ -213,7 +218,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }//volume end
 
         myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-        if(aTrack->GetPosition().z()/CLHEP::mm > 350) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
+        if(aTrack->GetPosition().z()/CLHEP::mm > 450) aTrack->SetTrackStatus(fKillTrackAndSecondaries);//kill muon beam
 //        if (sqrt((aTrack->GetPosition().y()/CLHEP::mm)*(aTrack->GetPosition().y()/CLHEP::mm) + (aTrack->GetPosition().x()/CLHEP::mm)*(aTrack->GetPosition().x()/CLHEP::mm)) > 60) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
   }//muon end
 
@@ -245,11 +250,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             ahit_nsteps[nSignals]     = 1;
             ahit_length[nSignals]     = step->GetStepLength();
             ahit_pdgid[nSignals]      = pdgID;
-            if (VolumeMap[CurrentVolumeName] == 6){//TODO only store the position of one detector
-               ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
-               ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
-               ahit_z[nSignals]          = aTrack->GetPosition().z()/CLHEP::mm;
-            }
+            ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
+            ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
+            ahit_z[nSignals]          = (aTrack->GetPosition().z()/CLHEP::mm)-(30+1/2.);//CdTe to 0
             if (aTrack->GetCreatorProcess() != 0){
             ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
             }else{ahit_process[nSignals] = ProcessMap["None"]; }
@@ -257,7 +260,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             nSignals++;
          }
   
-         myRootOutput->SetnMaxHit(nSignals);//set n signal
+         myRootOutput->SetnMaxHit(nSignals);//set n signal 
          for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
            myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i], ahit_x[i], ahit_y[i], ahit_z[i]); //fill to root
          }

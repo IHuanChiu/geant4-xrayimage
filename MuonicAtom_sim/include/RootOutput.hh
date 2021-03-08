@@ -5,6 +5,7 @@
 #include "globals.hh"
 #include "G4ThreeVector.hh"
 #include "EventAction.hh"
+#include "DetectorConstruction.hh"
 
 //  ROOT
 #include "TFile.h"
@@ -155,7 +156,6 @@ class RootOutput{
     Int_t Track_ProcessID;
 
     Int_t nSignals;
-    Int_t hit_id;
     Double_t hit_energy[nhitMax];
     Double_t hit_energy_reso[nhitMax];
     Double_t hit_timestart[nhitMax];
@@ -168,7 +168,6 @@ class RootOutput{
     Double_t hit_y[nhitMax];
     Double_t hit_z[nhitMax];
 
-    Int_t nDet;
     Double_t Ngamma[numberOfvolume]; 
     Double_t Neletron[numberOfvolume]; 
     Double_t Nneutron[numberOfvolume];
@@ -181,6 +180,8 @@ class RootOutput{
 
     G4double reso_par0;
     G4double reso_par1;
+    G4double init_14keV;
+    G4double init_75keV;
     G4double reso_14keV;
     G4double reso_75keV;
     G4double reso_rate;

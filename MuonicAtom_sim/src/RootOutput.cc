@@ -37,16 +37,6 @@ void RootOutput::BeginOfRunAction() {
    TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    // ===== muon position/hit =====
-   muonTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
-   muonTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
-   muonTree->Branch("muSamplePolX",&muSamplePolX,"muSamplePolX/D");
-   muonTree->Branch("muSamplePolY",&muSamplePolY,"muSamplePolY/D");
-   muonTree->Branch("muSamplePolZ",&muSamplePolZ,"muSamplePolZ/D");
-   muonTree->Branch("muSampleEndTime",&muSampleEndTime,"muSampleEndTime/D");
-   muonTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
-   muonTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
-   muonTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
-   muonTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
 //   muonTree->Branch("muCdTeTime",&muCdTeTime,"muCdTeTime[6]/D");
 //   muonTree->Branch("muCdTeKineticEnergy",&muCdTeKineticEnergy,"muCdTeKineticEnergy[6]/D");
 //   muonTree->Branch("muCdTePolX",&muCdTePolX,"muCdTePolX[6]/D");
@@ -115,19 +105,30 @@ void RootOutput::BeginOfRunAction() {
    // ===== info. with energy deposit =====
    rootTree->Branch("eventID",&eventID,"eventID/I");
    rootTree->Branch("runID",&runID,"runID/I"); 
+   rootTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
+   rootTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
+   rootTree->Branch("muSamplePolX",&muSamplePolX,"muSamplePolX/D");
+   rootTree->Branch("muSamplePolY",&muSamplePolY,"muSamplePolY/D");
+   rootTree->Branch("muSamplePolZ",&muSamplePolZ,"muSamplePolZ/D");
+   rootTree->Branch("muSampleEndTime",&muSampleEndTime,"muSampleEndTime/D");
+   rootTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
+   rootTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
+   rootTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
+   rootTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
+   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
-   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");
-   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D");
-   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
-   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
-   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
-   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
-   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
-   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
-   rootTree->Branch("Hit_x",&hit_x,"Hit_x[nSignals]/D");
-   rootTree->Branch("Hit_y",&hit_y,"Hit_y[nSignals]/D");
-   rootTree->Branch("Hit_z",&hit_z,"Hit_z[nSignals]/D");
+   rootTree->Branch("Hit_Energy",hit_energy,"Hit_Energy[nSignals]/D");
+   rootTree->Branch("Hit_Energy_Reso",hit_energy_reso,"Hit_Energy_Reso[nSignals]/D");
+   rootTree->Branch("Hit_Time_Start",hit_timestart,"Hit_Time_Start[nSignals]/D");
+   rootTree->Branch("Hit_Time_End",hit_timeend,"Hit_Time_End[nSignals]/D");
+   rootTree->Branch("Hit_Nsteps",hit_nsteps,"Hit_Nsteps[nSignals]/I");
+   rootTree->Branch("Hit_Length",hit_length,"Hit_Length[nSignals]/D");
+   rootTree->Branch("Hit_pdgId",hit_pdgId,"Hit_pdgId[nSignals]/I");
+   rootTree->Branch("Hit_ProcessID",hit_process,"Hit_ProcessID[nSignals]/I");
+   rootTree->Branch("Hit_x",hit_x,"Hit_x[nSignals]/D");
+   rootTree->Branch("Hit_y",hit_y,"Hit_y[nSignals]/D");
+   rootTree->Branch("Hit_z",hit_z,"Hit_z[nSignals]/D");
 
    // ===== detector info. =====
 //   rootTree->Branch("Det_nMax",&Det_nMax,"Det_nMax/I");
@@ -163,9 +164,12 @@ void RootOutput::BeginOfRunAction() {
    // ===== Energy resolution =====
    reso_par0=1.96466/1000.;//keV
    reso_par1=0.0115327/1000.;//keV
-   reso_14keV = 0.00143;
-   reso_75keV = 0.00165;
-   reso_rate = (0.00165-0.00143)/(75-14);
+
+   init_14keV = 13.7528;
+   init_75keV = 74.5883;
+   reso_14keV = 0.00125936;//13.7528keV
+   reso_75keV = 0.00184267;//74.5883keV
+   reso_rate = (reso_75keV-reso_14keV)/(init_75keV-init_14keV);// MeV/keV
 
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
@@ -200,7 +204,6 @@ void RootOutput::FillParticle() {
 //}
 
 void RootOutput::ScannParticleHitVolume(G4int id, G4String name){
-   nDet = numberOfvolume;
    if(name == "gamma"){ Ngamma[id]++;
    }else if(name == "e+" || name == "e-"){ Neletron[id]++;
    }else if(name == "neutron" || name == "anti_neutron"){ Nneutron[id]++;
@@ -227,8 +230,17 @@ void RootOutput::SetParticlePositionInVolume(G4int id, G4double x, G4double y , 
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_par0 + hit_energy[i]*reso_par1));
+      if(hit_energy[i]*1000< init_14keV){
+         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],reso_14keV);
+      }else if (hit_energy[i]*1000 > 100){
+         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(reso_14keV + (hit_energy[i]*1000 - init_14keV)*reso_rate*10));
+      }else{
+         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(reso_14keV + (hit_energy[i]*1000 - init_14keV)*reso_rate));
+      }
    }
+//   for (int i = 0; i < nSignals; i++){
+//      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_par0 + hit_energy[i]*reso_par1));
+//   }
 }
 
 void RootOutput::ClearAllRootVariables() {
@@ -247,7 +259,6 @@ void RootOutput::ClearAllRootVariables() {
   Track_Process = "None";
   Track_ProcessID = 0;
 
-  nDet = -1000;
   for (int j = 0; j < 10; j++){
    Ngamma[j]=0;
    Neletron[j]=0;
@@ -271,11 +282,11 @@ void RootOutput::ClearAllRootVariables() {
      hit_timeend[i] = 0.;
      hit_nsteps[i] = 0;
      hit_length[i] = 0.;
-     hit_pdgId[i] = 0;
-     hit_process[i] = 0;
-     hit_x[i] = 0;
-     hit_y[i] = 0;
-     hit_z[i] = 0;
+     hit_pdgId[i] = -100;
+     hit_process[i] = -100;
+     hit_x[i] = -100;
+     hit_y[i] = -100;
+     hit_z[i] = -100;
     }
   
   muSampleTime = -1000; muCollimatorTime = -1000; muWorldTime = -1000; muShadowTime = -1000; muKaptonTime = -1000;

@@ -47,6 +47,8 @@ G4ThreeVector.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/G4ThreeVector.hh
 EventAction.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/EventAction.hh
+DetectorConstruction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/DetectorConstruction.hh
 TFile.h
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/TFile.h
 TTree.h

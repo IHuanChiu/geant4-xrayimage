@@ -607,6 +607,7 @@ CMakeFiles/sim_MuonicAtom.dir/MuonicAtom.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trkdefs.hh
 CMakeFiles/sim_MuonicAtom.dir/src/ActionInitialization.cc.o
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/ActionInitialization.hh
+ /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/DetectorConstruction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/EventAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/PrimaryGeneratorAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
@@ -947,6 +948,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/ActionInitialization.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.icc
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTrajectory.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserActionInitialization.hh
+ /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserDetectorConstruction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserEventInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserTrackInformation.hh
@@ -1366,6 +1368,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/DetectorConstruction.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trajectoryControl.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trkdefs.hh
 CMakeFiles/sim_MuonicAtom.dir/src/EventAction.cc.o
+ /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/DetectorConstruction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/EventAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RunAction.hh
@@ -1761,6 +1764,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/EventAction.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.icc
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTrajectory.hh
+ /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserDetectorConstruction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserEventInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserTrackInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VVolumeMaterialScanner.hh
@@ -2521,6 +2525,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/PhysicsList.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/tls.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trkdefs.hh
 CMakeFiles/sim_MuonicAtom.dir/src/PrimaryGeneratorAction.cc.o
+ /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/DetectorConstruction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/EventAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/PrimaryGeneratorAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
@@ -2875,6 +2880,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/PrimaryGeneratorAction.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.icc
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTrajectory.hh
+ /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserDetectorConstruction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserEventInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserPrimaryGeneratorAction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserTrackInformation.hh
@@ -2900,6 +2906,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/PrimaryGeneratorAction.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trajectoryControl.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/trkdefs.hh
 CMakeFiles/sim_MuonicAtom.dir/src/RootOutput.cc.o
+ /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/DetectorConstruction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/EventAction.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/include/RootOutput.hh
  /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/MuonicAtom_sim/src/RootOutput.cc
@@ -3229,6 +3236,7 @@ CMakeFiles/sim_MuonicAtom.dir/src/RootOutput.cc.o
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.icc
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTrajectory.hh
+ /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserDetectorConstruction.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserEventInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VUserTrackInformation.hh
  /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VVolumeMaterialScanner.hh

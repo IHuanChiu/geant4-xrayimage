@@ -76,9 +76,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //     
   // World
   //
-  G4double env_sizeXY = 80*cm, env_sizeZ = 100*cm;//World volume
-  G4double world_sizeXY = 1.2*env_sizeXY;
-  G4double world_sizeZ  = 1.2*env_sizeZ;
+  G4double world_sizeXY = 80*cm;//World volume
+  G4double world_sizeZ  = 120*cm;//World volume
   
   G4Box* solidWorld = new G4Box("World", 0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);
   G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "World");
@@ -107,8 +106,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   G4VSolid* kapton_tubs_sample = new G4Tubs("AirSample",0*mm,(kapton_radiu+10)*mm,(200/2.)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_kapton_sample = G4ThreeVector(0, 0, (sample_dis)*mm);
-//  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,Vacuum, "AirSample");       
-  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "AirSample");       
+  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,Vacuum, "AirSample");       
+//  G4LogicalVolume* AirLog_sample = new G4LogicalVolume(kapton_tubs_sample,elA, "AirSample");       
   new G4PVPlacement(0, pos_kapton_sample, AirLog_sample, "AirSample", logicWorld, false, 0, checkOverlaps);     
 
   //     
@@ -135,8 +134,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Al Baton *****
   //     
   G4Material* alBaton_mater = nist->FindOrBuildMaterial("G4_Al");
-  G4Box* alBaton = new G4Box("alBaton", (100/2.)*mm, (200/2.)*mm, (100/2.)*mm);
-  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 300)*mm);//300 is experiment setting
+  G4Box* alBaton = new G4Box("alBaton", (65/2.)*mm, (150/2.)*mm, (65/2.)*mm);
+  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 380)*mm);//300 is experiment setting
   G4LogicalVolume* alBatonLog = new G4LogicalVolume(alBaton,alBaton_mater,"AlBaton");
   new G4PVPlacement(0, pos_alBaton, alBatonLog, "AlBaton", logicWorld, false,0,checkOverlaps);
 
@@ -235,7 +234,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
    //  *** multi CdTe ***
   G4double current_angle;
-  G4double nDets=8;
+  nDets=8;
   G4RotationMatrix* angle_albox;
   G4RotationMatrix* angle_shadow_cdte;
   for (int i=0; i < nDets; i++){
