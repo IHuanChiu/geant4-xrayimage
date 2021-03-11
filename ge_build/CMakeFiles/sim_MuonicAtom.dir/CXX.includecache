@@ -116,41 +116,55 @@ SteppingAction.hh
 RootOutput.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RootOutput.hh
 
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/EventAction.cc
-EventAction.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/EventAction.hh
-RunAction.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RunAction.hh
-RootOutput.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RootOutput.hh
-SteppingAction.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/SteppingAction.hh
-G4Run.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4Run.hh
-G4Event.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4Event.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/PrimaryGeneratorAction.cc
+PrimaryGeneratorAction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/PrimaryGeneratorAction.hh
+G4LogicalVolumeStore.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4LogicalVolumeStore.hh
+G4LogicalVolume.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4LogicalVolume.hh
+G4Box.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4Box.hh
 G4RunManager.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4RunManager.hh
-G4SDManager.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4SDManager.hh
-G4HCofThisEvent.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4HCofThisEvent.hh
-G4UnitsTable.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4UnitsTable.hh
-g4root.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/g4root.hh
-sys/stat.h
--
+G4ParticleGun.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4ParticleGun.hh
+G4ParticleTable.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4ParticleTable.hh
+G4ParticleDefinition.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4ParticleDefinition.hh
+G4SystemOfUnits.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4SystemOfUnits.hh
+Randomize.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/Randomize.hh
+RunAction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RunAction.hh
 
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/SteppingAction.cc
-SteppingAction.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/SteppingAction.hh
-EventAction.hh
-/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/EventAction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RunAction.cc
+RunAction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RunAction.hh
+PrimaryGeneratorAction.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/PrimaryGeneratorAction.hh
 DetectorConstruction.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/DetectorConstruction.hh
+G4RunManager.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4RunManager.hh
+G4Run.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4Run.hh
+G4AccumulableManager.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4AccumulableManager.hh
+G4LogicalVolumeStore.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4LogicalVolumeStore.hh
+G4LogicalVolume.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4LogicalVolume.hh
+G4UnitsTable.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4UnitsTable.hh
+G4SystemOfUnits.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/G4SystemOfUnits.hh
 RootOutput.hh
 /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/RootOutput.hh
+g4root.hh
+/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/Germanium_sim/src/g4root.hh
 
 /Users/chiu.i-huan/local/root/pro/include/Bytes.h
 Rtypes.h
@@ -974,6 +988,16 @@ CLHEP/Vector/ThreeVector.h
 CLHEP/Geometry/BasicVector3D.h
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/CLHEP/Geometry/BasicVector3D.h
 
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/Plane3D.h
+iosfwd
+-
+CLHEP/Geometry/Point3D.h
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/CLHEP/Geometry/Point3D.h
+CLHEP/Geometry/Normal3D.h
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/CLHEP/Geometry/Normal3D.h
+CLHEP/Geometry/Transform3D.h
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/CLHEP/Geometry/Transform3D.h
+
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/CLHEP/Geometry/Point3D.h
 iosfwd
 -
@@ -1404,6 +1428,20 @@ G4Accumulable.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Accumulable.icc
 
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AccumulableManager.hh
+G4Accumulable.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Accumulable.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+map
+-
+vector
+-
+G4AccumulableManager.icc
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AccumulableManager.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AccumulableManager.icc
+
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AffineTransform.hh
 G4Types.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
@@ -1524,13 +1562,39 @@ G4BlockingList.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4BlockingList.icc
 
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ClassificationOfNewTrack.hh
-
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4CollectionNameVector.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4BoundingEnvelope.hh
 vector
 -
+geomdefs.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/geomdefs.hh
+G4ThreeVector.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ThreeVector.hh
+G4VoxelLimits.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelLimits.hh
+G4Transform3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Transform3D.hh
+G4Point3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Point3D.hh
+G4Plane3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Plane3D.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Box.hh
+G4UBox.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UBox.hh
+G4CSGSolid.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4CSGSolid.hh
+G4Polyhedron.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Polyhedron.hh
+G4Box.icc
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Box.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Box.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4CSGSolid.hh
+G4VSolid.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSolid.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ClassificationOfNewTrack.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4DCofThisEvent.hh
 globals.hh
@@ -1808,12 +1872,6 @@ G4VHitsCollection.hh
 vector
 -
 
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4HCtable.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
-vector
--
-
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4HnInformation.hh
 globals.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
@@ -1891,6 +1949,14 @@ G4LogicalVolume.icc
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LogicalVolume.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LogicalVolume.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LogicalVolumeStore.hh
+vector
+-
+G4LogicalVolume.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LogicalVolume.hh
+G4VStoreNotifier.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VStoreNotifier.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LorentzVector.hh
 globals.hh
@@ -2077,6 +2143,12 @@ G4Navigator.icc
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Navigator.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Navigator.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Normal3D.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+CLHEP/Geometry/Normal3D.h
+-
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4NormalNavigation.hh
 iomanip
@@ -2299,6 +2371,30 @@ G4PhysicsVector.icc
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PhysicsVector.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PhysicsVectorType.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Plane3D.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+G4Point3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Point3D.hh
+G4Normal3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Normal3D.hh
+CLHEP/Geometry/Plane3D.h
+-
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Point3D.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+CLHEP/Geometry/Point3D.h
+-
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Polyhedron.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+HepPolyhedron.h
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/HepPolyhedron.h
+G4Visible.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Visible.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4PrimaryParticle.hh
 globals.hh
@@ -2530,26 +2626,6 @@ globals.hh
 G4EventManager.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4EventManager.hh
 
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SDManager.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
-G4SDStructure.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SDStructure.hh
-G4HCtable.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4HCtable.hh
-G4VSDFilter.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSDFilter.hh
-vector
--
-
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SDStructure.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
-G4VSensitiveDetector.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSensitiveDetector.hh
-vector
--
-
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SandiaTable.hh
 G4OrderedTable.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4OrderedTable.hh
@@ -2563,14 +2639,6 @@ vector
 -
 CLHEP/Units/PhysicalConstants.h
 -
-
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SensitiveVolumeList.hh
-vector
--
-G4LogicalVolume.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4LogicalVolume.hh
-G4VPhysicalVolume.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VPhysicalVolume.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SmartTrackStack.hh
 G4StackedTrack.hh
@@ -2753,6 +2821,10 @@ G4String.icc
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4String.icc
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4String.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SystemOfUnits.hh
+CLHEP/Units/SystemOfUnits.h
+-
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4THitsCollection.hh
 G4VHitsCollection.hh
@@ -3076,6 +3148,38 @@ complex
 tls.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/tls.hh
 
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UAdapter.hh
+G4ThreeVector.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ThreeVector.hh
+G4VSolid.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSolid.hh
+G4AffineTransform.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AffineTransform.hh
+G4VoxelLimits.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelLimits.hh
+G4VGraphicsScene.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VGraphicsScene.hh
+G4Polyhedron.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Polyhedron.hh
+G4VisExtent.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VisExtent.hh
+G4BoundingEnvelope.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4BoundingEnvelope.hh
+G4AutoLock.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4AutoLock.hh
+base/Global.h
+-
+base/Vector3D.h
+-
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UBox.hh
+G4UAdapter.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UAdapter.hh
+volumes/UnplacedBox.h
+-
+G4Polyhedron.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Polyhedron.hh
+
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UIcommand.hh
 G4UIparameter.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4UIparameter.hh
@@ -3224,6 +3328,12 @@ G4BaseFileManager.hh
 globals.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
 
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VGraphicsScene.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+G4Transform3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Transform3D.hh
+
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VH1Manager.hh
 globals.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
@@ -3248,17 +3358,11 @@ vector
 memory
 -
 
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VHit.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
-vector
--
-map
--
-
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VHitsCollection.hh
 globals.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VNotifier.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VNtupleManager.hh
 G4BaseAnalysisManager.hh
@@ -3364,34 +3468,6 @@ globals.hh
 vector
 -
 
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VReadOutGeometry.hh
-G4SensitiveVolumeList.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4SensitiveVolumeList.hh
-G4Step.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Step.hh
-G4TouchableHistory.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4TouchableHistory.hh
-
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSDFilter.hh
-globals.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
-
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSensitiveDetector.hh
-G4VHit.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VHit.hh
-G4Step.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Step.hh
-G4HCofThisEvent.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4HCofThisEvent.hh
-G4VReadOutGeometry.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VReadOutGeometry.hh
-G4TouchableHistory.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4TouchableHistory.hh
-G4CollectionNameVector.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4CollectionNameVector.hh
-G4VSDFilter.hh
-/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSDFilter.hh
-
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VSolid.hh
 G4Types.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
@@ -3425,6 +3501,10 @@ G4ForceCondition.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ForceCondition.hh
 G4GPILSelection.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4GPILSelection.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VStoreNotifier.hh
+G4VNotifier.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VNotifier.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VTouchable.hh
 G4Types.hh
@@ -3468,6 +3548,36 @@ globals.hh
 G4Types.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
 
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VisExtent.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+G4Point3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Point3D.hh
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Visible.hh
+globals.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/globals.hh
+iostream
+-
+G4Visible.icc
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Visible.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Visible.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelLimits.hh
+G4Types.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
+geomdefs.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/geomdefs.hh
+G4ThreeVector.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4ThreeVector.hh
+assert.h
+-
+G4VoxelLimits.icc
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelLimits.icc
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelLimits.icc
+
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4VoxelNavigation.hh
 geomdefs.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/geomdefs.hh
@@ -3507,6 +3617,16 @@ G4Types.hh
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
 iostream
 -
+
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/HepPolyhedron.h
+G4Types.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Types.hh
+G4Point3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Point3D.hh
+G4Normal3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Normal3D.hh
+G4Transform3D.hh
+/usr/local/Cellar/geant4/10.5.1/include/Geant4/G4Transform3D.hh
 
 /usr/local/Cellar/geant4/10.5.1/include/Geant4/Randomize.hh
 CLHEP/Random/Randomize.h

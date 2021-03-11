@@ -71,10 +71,12 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double p0 = 30;//MeV/c
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
-    G4double poi_sigmaX = 0.5;//mm
+//    G4double poi_sigmaX = 0.5;//mm
+    G4double poi_sigmaX = 7;//mm, for no air
     G4double poi_sigmaY = 7;//mm
 
-    G4double dir_error_x = 0.025;//momentum direction error : 0.025*2pi
+//    G4double dir_error_x = 0.025;//momentum direction error : 0.025*2pi
+    G4double dir_error_x = 0.2;//for no air
     G4double dir_error_y = 0.30;//momentum direction error : 0.30*2pi
 
     G4double rho_e;   

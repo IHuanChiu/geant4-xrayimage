@@ -295,6 +295,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* inter_air_tubs = new G4Tubs("intermediate",0*mm,(200/2)*mm,(inter_air_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_air = G4ThreeVector(0, 0, (inter_air_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog = new G4LogicalVolume(inter_air_tubs, elA, "intermediate");  
+//  G4LogicalVolume* INTERLog = new G4LogicalVolume(inter_air_tubs, Vacuum, "intermediate");  
   new G4PVPlacement(0, pos_inter_air, INTERLog, "intermediate", logicWorld, false, 0,  checkOverlaps);       
   G4cout << elA << G4endl;
 
@@ -302,35 +303,35 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Foil-0 *****
   //
   G4VSolid* foil0_tubs = new G4Tubs("FoilTubs0",0*mm,(180/2)*mm,(0.01/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_foil0 = G4ThreeVector(0, 0, -(58)*mm);//check beam position
+  G4ThreeVector pos_foil0 = G4ThreeVector(0, 0, -(58)*mm);//check beam position, 2mm
   G4LogicalVolume* FoilLog0 = new G4LogicalVolume(foil0_tubs, elA, "FoilTubs0");  
   new G4PVPlacement(0, pos_foil0, FoilLog0, "FoilTubs0", INTERLog, false, 0,  checkOverlaps);        
   //
   // ***** Foil-1 *****
   //
   G4VSolid* foil1_tubs = new G4Tubs("FoilTubs1",0*mm,(180/2)*mm,(0.01/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_foil1 = G4ThreeVector(0, 0, -(10)*mm);//check beam position
+  G4ThreeVector pos_foil1 = G4ThreeVector(0, 0, -(10)*mm);//check beam position, 50mm
   G4LogicalVolume* FoilLog1 = new G4LogicalVolume(foil1_tubs, elA, "FoilTubs1");  
   new G4PVPlacement(0, pos_foil1, FoilLog1, "FoilTubs1", INTERLog, false, 0,  checkOverlaps);        
   //
   // ***** Foil-2 *****
   //
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,(180/2)*mm,(0.01/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, 20*mm);//check beam position
+  G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, 20*mm);//check beam position, 80mm
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, elA, "FoilTubs2");  
   new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", INTERLog, false, 0,  checkOverlaps);        
   //
   // ***** Foil-3 *****
   //
   G4VSolid* foil3_tubs = new G4Tubs("FoilTubs3",0*mm,(180/2)*mm,(0.01/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_foil3 = G4ThreeVector(0, 0, 50*mm);//check beam position
+  G4ThreeVector pos_foil3 = G4ThreeVector(0, 0, 50*mm);//check beam position, 110mm
   G4LogicalVolume* FoilLog3 = new G4LogicalVolume(foil3_tubs, elA, "FoilTubs3");  
   new G4PVPlacement(0, pos_foil3, FoilLog3, "FoilTubs3", INTERLog, false, 0,  checkOverlaps);        
   //
   // ***** Sample poi *****
   //
   G4VSolid* sample_tubs = new G4Tubs("Sample",0*mm,(180/2)*mm,(0.01/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_sample = G4ThreeVector(0, 0, 250*mm);//check beam position
+  G4ThreeVector pos_sample = G4ThreeVector(0, 0, 250*mm);//check beam position, 250mm
   G4LogicalVolume* SampleLog = new G4LogicalVolume(sample_tubs, elA, "Sample");  
   new G4PVPlacement(0, pos_sample, SampleLog, "Sample", logicWorld, false, 0,  checkOverlaps);        
 

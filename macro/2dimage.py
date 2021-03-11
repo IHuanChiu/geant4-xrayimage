@@ -11,7 +11,9 @@ __license__   = "GPL http://www.gnu.org/licenses/gpl.html"
 
 import sys,os,random,math,ROOT
 from ROOT import TFile, TTree, TCut
-from ROOT import gROOT, AddressOf, gPad, gDirectory
+from ROOT import gROOT, AddressOf, gPad, gDirectory, gStyle
+from root_numpy import hist2array, array2hist, tree2array
+import numpy as np
 ROOT.gROOT.SetBatch(1)
 import argparse
 import math
@@ -38,8 +40,8 @@ def plot(args):
     f = ROOT.TFile(args.input)   
     tree = f.Get("tree")
     nbin=32
-    if tree.GetEntries() > 50000: nbin=128
-    elif tree.GetEntries() > 10000: nbin=64
+    if tree.GetEntries() > 500000: nbin=128
+    elif tree.GetEntries() > 100000: nbin=64
     else:nbin=32
 
     ecut_base=TCut("Hit_y < {}".format(-180))
@@ -48,14 +50,25 @@ def plot(args):
    
     tree.Draw("Hit_z:Hit_x >> h_s({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_s,"")
     tree.Draw("Hit_z:Hit_x >> h_b({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_b,"")
-    h_s,h_b=gDirectory.Get("h_s"),gDirectory.Get("h_b")
+    _h_s,_h_b=gDirectory.Get("h_s"),gDirectory.Get("h_b")
+
+    h_s=_h_s.Clone()
+    _array=hist2array(_h_s)
+    _array[np.where(_array == 0)]=0.001
+    array2hist(_array,h_s)
+    h_b=_h_b.Clone()
+    _arrayb=hist2array(_h_b)
+    _arrayb[np.where(_arrayb == 0)]=0.001
+    array2hist(_arrayb,h_b)
+
     h_s.GetXaxis().SetTitle("X[mm]")
     h_s.GetYaxis().SetTitle("Y[mm]")
     h_b.GetXaxis().SetTitle("X[mm]")
     h_b.GetYaxis().SetTitle("Y[mm]")
 
     cvs  = createRatioCanvas("cvs", 1200, 1000)
-    SetMyPalette("AD")
+#    SetMyPalette("AD")
+    gStyle.SetPalette(62)
     h_s.Draw("colz")
     name=args.input 
     name=name.replace(".root","_2d_s.pdf")
@@ -63,7 +76,8 @@ def plot(args):
     cvs.Print(name)
 
     cvb  = createRatioCanvas("cvb", 1200, 1000)
-    SetMyPalette("AD")
+#    SetMyPalette("AD")
+    gStyle.SetPalette(62)
     h_b.Draw("colz")
     name=name.replace("_2d_s.pdf","_2d_b.pdf")
     cvb.Print(name)

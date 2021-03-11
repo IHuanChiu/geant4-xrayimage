@@ -47,7 +47,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* GetSampleVolume() const { return fSampleVolume; }
 
     G4int nDets;
-    G4double sample_dis = 30;    
+    G4double sample_dis = 30;//20 is experiment setting 
     G4double sample_dx = 4.5;
     G4double sample_dy = 6;
     G4double sample_dz = 1;

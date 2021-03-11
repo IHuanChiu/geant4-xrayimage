@@ -38,7 +38,7 @@ def plot(args):
     f = ROOT.TFile(args.input)   
     tree = f.Get("tree")
 
-    cv  = createRatioCanvas("cv", 1000, 800)
+    cv  = createRatioCanvas("cv", 1500, 800)
 
     ecut_s = TCut("Stop_VolumeID == {}".format(3))#sample
     ecut_b = TCut("Stop_VolumeID == {}".format(4))#Al

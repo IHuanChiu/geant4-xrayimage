@@ -232,8 +232,6 @@ void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
       if(hit_energy[i]*1000< init_14keV){
          hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],reso_14keV);
-      }else if (hit_energy[i]*1000 > 100){
-         hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(reso_14keV + (hit_energy[i]*1000 - init_14keV)*reso_rate*10));
       }else{
          hit_energy_reso[i] = G4RandGauss::shoot(hit_energy[i],(reso_14keV + (hit_energy[i]*1000 - init_14keV)*reso_rate));
       }
