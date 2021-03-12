@@ -3,7 +3,7 @@
 #include <sstream>
 
 void Tran2txt(){
- TString fname="Output_202103Expfront_Sn_1M.root";
+ TString fname="report12_files/Output_202103Expback_Ni_1M.root";
 
  TFile* f = new TFile(fname);
  TString phaDataName(fname.ReplaceAll(".root", ".dat"));
