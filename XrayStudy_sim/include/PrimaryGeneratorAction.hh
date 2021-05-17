@@ -67,7 +67,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double t0, tSigma;
     G4double p, pSigma;
 
-    G4double p0 = 40;//MeV/c
+    G4double p0 = 35;//MeV/c
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
     G4double poi_sigmaX = 0.5;//mm

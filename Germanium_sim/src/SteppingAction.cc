@@ -58,19 +58,10 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-
-  VolumeMap["Sample_C"] = 1;
-  VolumeMap["Sample_SiO2"] = 1;
-  VolumeMap["Sample"] = 1;
-  VolumeMap["GeTubs_1"] = 2;
-  VolumeMap["GeTubs_2"] = 3;
-  VolumeMap["GeTubs_3"] = 4;
   VolumeMap["World"] = -2;
-
   VolumeMap["Shadow"] = -1;
   VolumeMap["FeTubs"] = 0;
   VolumeMap["PbTarget"] = 1;
-  VolumeMap["GeDet"] = 2;
   for(int i=0; i<300;i++){
      auto idstr = std::to_string(i);
      VolumeMap["GeTubs"+idstr] = 2;     
@@ -156,11 +147,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
              myRootOutput->SetInitMomInSample(TrackMomentum);
              myRootOutput->SetInitTimeInSample(Time);
              myRootOutput->SetInitKineticEnergyInSample(KineticEnergy);
-//          }else{//end point 
-//             myRootOutput->SetEndPolInSample(TrackPosition);
-//             myRootOutput->SetEndMomInSample(TrackMomentum);
-//             myRootOutput->SetEndTimeInSample(Time);            
-//             myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
+          }else{//end point 
+             myRootOutput->SetEndPolInSample(TrackPosition);
+             myRootOutput->SetEndMomInSample(TrackMomentum);
+             myRootOutput->SetEndTimeInSample(Time);            
+             myRootOutput->SetEndKineticEnergyInSample(KineticEnergy);            
           }
 
 //       }else{//world

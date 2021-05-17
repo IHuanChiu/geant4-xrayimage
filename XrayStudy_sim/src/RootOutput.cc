@@ -206,7 +206,8 @@ void RootOutput::SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_init + hit_energy[i]*reso_rate));
+//      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_init + hit_energy[i]*reso_rate));
+      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(0.152/1000. + (hit_energy[i]-0.024)*0.0010545454545454547));
    }
 }
 

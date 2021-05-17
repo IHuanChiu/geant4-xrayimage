@@ -120,6 +120,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   new G4PVPlacement(rot_fe, pos_fe, FeLog, "FeTubs", logicWorld, false, 0, checkOverlaps);
   // ***** Pb Target *****
   solid_common=nist->FindOrBuildMaterial("G4_Pb");
+//  solid_common=nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
   G4double Pb_dis=5;//mm
   G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (2./2)*mm, (1./2)*mm);
   G4ThreeVector pos_pb = G4ThreeVector(0, 0, (1+Fe_gap+Pb_dis+(1./2))*mm);

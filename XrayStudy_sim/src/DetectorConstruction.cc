@@ -104,11 +104,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // /* 2021/3 D2 experiment
   G4Material* solid_common;
   // ***** Pb Target *****
-  solid_common=nist->FindOrBuildMaterial("G4_C");
-//  solid_common=nist->FindOrBuildMaterial("G4_Al");
+//  solid_common=nist->FindOrBuildMaterial("G4_C");
+  solid_common=nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
   G4double Pb_dis=5;//mm
 //  G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (4./2)*mm, (1./2)*mm);
-  G4VSolid* Pb_Target = new G4Box("PbTarget",(50./2)*mm, (50./2)*mm, (5./2)*mm);
+  G4VSolid* Pb_Target = new G4Box("PbTarget",(50./2)*mm, (50./2)*mm, (10./2)*mm);
   G4ThreeVector pos_pb = G4ThreeVector(0, 0, 0*mm);
   G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Target, solid_common, "PbTarget");
   new G4PVPlacement(0, pos_pb, PbLog, "PbTarget", logicWorld, false, 0, checkOverlaps);
