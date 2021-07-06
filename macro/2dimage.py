@@ -48,8 +48,8 @@ def plot(args):
     ecut_s = TCut("Stop_VolumeID == {}".format(3))#sample
     ecut_b = TCut("Stop_VolumeID == {}".format(4))#Al
    
-    tree.Draw("Hit_z:Hit_x >> h_s({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_s,"")
-    tree.Draw("Hit_z:Hit_x >> h_b({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_b,"")
+    tree.Draw("-Hit_z:Hit_x >> h_s({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_s,"")
+    tree.Draw("-Hit_z:Hit_x >> h_b({0},-16,16,{1},-16,16)".format(nbin,nbin),ecut_base+ecut_b,"")
     _h_s,_h_b=gDirectory.Get("h_s"),gDirectory.Get("h_b")
 
     h_s=_h_s.Clone()

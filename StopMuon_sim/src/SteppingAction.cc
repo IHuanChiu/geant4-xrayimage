@@ -69,6 +69,10 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["VirTubs"] = 8;
   VolumeMap["VirTubs2"] = 9;
   VolumeMap["World"] = 0;
+  for(int i=0; i<10;i++){
+     auto idstr = std::to_string(i);
+     VolumeMap["GeTubs"+idstr] = -1;     
+  }
 
   muhitSampleInThisEvent = false;
   muhitFoil1InThisEvent = false;
@@ -217,6 +221,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    
   }//muon end
   // =========== store other particle ===============    
+
  /*
    if(VolumeMap[CurrentVolumeName] == 3){//count number of particles
 

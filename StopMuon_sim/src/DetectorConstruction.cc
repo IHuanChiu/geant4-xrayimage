@@ -348,7 +348,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // ***** Chamber *****
   //
   G4Material* solid_chamber = nist->FindOrBuildMaterial("G4_Cu");
-  G4VSolid* chamber_tubs = new G4Tubs("Chamber",(150/2)*mm,(150/2+20)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* chamber_tubs = new G4Tubs("Chamber",(150/2)*mm,(150/2+10)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4LogicalVolume* ChamberLog = new G4LogicalVolume(chamber_tubs, solid_chamber, "Chamber");  
   new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
 
@@ -383,6 +383,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick+1.5+foil3_thick+0.2+2/2)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
   new G4PVPlacement(0,  pos_sample, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
+
+  // ***** Ge detector *****
+  G4Material* solid_common;
+  solid_common=nist->FindOrBuildMaterial("G4_Ge");
+  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(5./2.)*mm,0.,2*M_PI*rad);
+  G4double ge_dis=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick+1.5+foil3_thick+0.2+2/2);//mm; same with pos. of sample
+  G4double ge_sample_dis=150/2+10+5; // same with chamber thinkness+5mm
+//  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
+  G4double nDets=6;
+  G4double current_angle;
+  G4ThreeVector pos_ge;
+  G4LogicalVolume* GeLog;
+  G4RotationMatrix* rot_ge;
+  for(int i=0; i<nDets;i++){
+     auto idstr = std::to_string(i);
+     current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
+//     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (ge_dis*std::cos(ge_angle))*mm);
+     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis)*mm);
+     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
+     rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
+     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
+  }
 
 
   //always return the physical World

@@ -245,7 +245,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      angle_shadow_cdte = new G4RotationMatrix(i*(360./nDets)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
      angle_collimator_cdte = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,90*CLHEP::deg,0*CLHEP::deg);
 
-     pos_det_cdte = G4ThreeVector(det_y*std::sin(current_angle)*mm, det_y*-1*std::cos(current_angle)*mm, (sample_dis+sample_dz/2.)*mm);
+     pos_det_cdte = G4ThreeVector((-det_y)*std::sin(current_angle)*mm, (-det_y)*-1*std::cos(current_angle)*mm, (sample_dis+sample_dz/2.)*mm);
      pos_collimator_cdte = G4ThreeVector(colli_y*std::sin(current_angle)*mm, -colli_y*(-1*std::cos(current_angle))*mm, (sample_dis+sample_dz/2.)*mm);
      pos_shield_up_1 = G4ThreeVector((-colli_y-4.1-(2/2.))*std::sin(current_angle)*mm, (-colli_y-4.1-(2/2.))*(-1*std::cos(current_angle))*mm, (sample_dis+sample_dz/2.)*mm);
      pos_shield_up_2 = G4ThreeVector((-colli_y-4.1-(2+0.3/2.))*std::sin(current_angle)*mm, (-colli_y-4.1-(2+0.3/2.))*(-1*std::cos(current_angle))*mm, (sample_dis+sample_dz/2.)*mm);
