@@ -44,15 +44,15 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Envelope 0 1 1 1 .3
 /vis/geometry/set/colour CdTeUp 0 1 0 0 .9
-/vis/geometry/set/colour intermediate1 0 1 0.98 0.80 .15
+/vis/geometry/set/colour intermediate1 0 1 0.98 0.80 .1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour intermediate2 0 0.529 0.808 0.921 .15
+/vis/geometry/set/colour intermediate2 0 0.529 0.808 0.921 .1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Sample 0 0 1 0 1
+/vis/geometry/set/colour Sample 0 1 0 0 1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour VirTubs 0 1 0 0 1.0
+/vis/geometry/set/colour VirTubs 0 0 1 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour VirTubs2 0 1 0 0 1.0
+/vis/geometry/set/colour VirTubs2 0 0 1 0 0.5
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour FoilTubs1 0 1 1 1 .9
 /vis/scene/notifyHandlers
@@ -63,8 +63,6 @@
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
-/vis/geometry/set/forceWireframe Chamber 0 true
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour Chamber 0 0.756 1 0.757 0.5
 /vis/scene/notifyHandlers
 /vis/viewer/set/autoRefresh true
@@ -89,3 +87,5 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
+/run/beamOn 100
+/vis/scene/notifyHandlers scene-0
