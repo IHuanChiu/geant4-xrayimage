@@ -126,6 +126,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   std::chrono::high_resolution_clock::time_point run_cur = std::chrono::high_resolution_clock::now();
   runtime  = double ( std::chrono::duration_cast<std::chrono::seconds>( run_cur - run_pre ).count() );
   myRootOutput->SetRunTime(runtime);
+  myRootOutput->SetEnergyResolution();
   myRootOutput->FillEvent();
   run_pre = std::chrono::high_resolution_clock::now();
 

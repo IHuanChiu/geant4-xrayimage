@@ -1,4 +1,4 @@
-# Install script for directory: /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/StopMuon_sim
+# Install script for directory: /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/RyuguMuon_sim
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build/sim_MuonicAtom")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build/sim_MuonicAtom")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/sim_MuonicAtom" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/sim_MuonicAtom")
     execute_process(COMMAND /usr/bin/install_name_tool
@@ -58,5 +58,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

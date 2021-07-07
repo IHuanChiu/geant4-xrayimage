@@ -47,6 +47,7 @@ class RootOutput{
 
     static const int numberOfvolume = 10; 
     static const int nh1bin = 10;
+    static const int nhitMax = 100;
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -121,15 +122,22 @@ class RootOutput{
     void SetnParticleHitVolume(G4int ivolume, G4int ngamma, G4int neletron, G4int nneutron, G4int nother){
                                Ngamma = ngamma; Neletron = neletron; Nneutron = nneutron; Nother = nother;}
 
+    void SetEnergyResolution ();
+
     TFile* rootFile;
     TTree* rootTree;
+    TTree* muonTree;
     TTree* TrackTree;
+
+    TH1F*  h1_process;
     TH1F* h1_StopVol;
 
   // === variables for tree ===
   private:
     static RootOutput* pointerToRoot;
     const char *var_name[nh1bin] = {"World","Foil-1","Intermediate1","Foil-2","intermediate2","Foil-3","Sample","Chamber","Virtual1","Virtua2"};
+    const char *pro_name[nh1bin] = {"None","muMinusCaptureAtRest","phot","compt","eBrem",
+                                    "neutronInelastic","muIoni","conv","None","None"};
 
     Double_t muSamplePolX, muSamplePolY, muSamplePolZ;
     Double_t muWorldPolX, muWorldPolY, muWorldPolZ;
@@ -196,10 +204,37 @@ class RootOutput{
     Double_t RunTime;
     char RootOutputFileName[200];
 
+    Int_t nSignals;
+    Int_t hit_id;
+    Double_t hit_energy[nhitMax];
+    Double_t hit_energy_reso[nhitMax];
+    Double_t hit_startx[nhitMax];
+    Double_t hit_starty[nhitMax];
+    Double_t hit_startz[nhitMax];
+    Double_t hit_timestart[nhitMax];
+    Double_t hit_timeend[nhitMax];
+    Int_t hit_nsteps[nhitMax];
+    Double_t hit_length[nhitMax];
+    Int_t hit_pdgId[nhitMax];
+    Int_t hit_process[nhitMax];
+
    // === public class to catch info. === 
   public:
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetRunTime (G4double time) {RunTime = time;}
+    void SetnMaxHit (G4int nhits){nSignals = nhits;}
+    void SetSignalInfo (G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
+       hit_energy[id] = energy;
+       hit_startx[id] = start_x;
+       hit_starty[id] = start_y;
+       hit_startz[id] = start_z;
+       hit_timestart[id] = time_start;
+       hit_timeend[id] = time_end;
+       hit_nsteps[id] = nsteps;
+       hit_length[id] = length;
+       hit_pdgId[id] = pdgId;
+       hit_process[id] = name_id;
+    }
     
                                                                                                                      
 };

@@ -57,10 +57,10 @@ RM = /usr/local/Cellar/cmake/3.20.0/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/StopMuon_sim
+CMAKE_SOURCE_DIR = /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/RyuguMuon_sim
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build
+CMAKE_BINARY_DIR = /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/local/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build/CMakeFiles /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build/CMakeFiles /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/stop_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ryugu_build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -283,54 +283,6 @@ src/EventAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/EventAction.cc.s
 .PHONY : src/EventAction.cc.s
 
-src/MuDecayChannel.o: src/MuDecayChannel.cc.o
-.PHONY : src/MuDecayChannel.o
-
-# target to build an object file
-src/MuDecayChannel.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannel.cc.o
-.PHONY : src/MuDecayChannel.cc.o
-
-src/MuDecayChannel.i: src/MuDecayChannel.cc.i
-.PHONY : src/MuDecayChannel.i
-
-# target to preprocess a source file
-src/MuDecayChannel.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannel.cc.i
-.PHONY : src/MuDecayChannel.cc.i
-
-src/MuDecayChannel.s: src/MuDecayChannel.cc.s
-.PHONY : src/MuDecayChannel.s
-
-# target to generate assembly for a file
-src/MuDecayChannel.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannel.cc.s
-.PHONY : src/MuDecayChannel.cc.s
-
-src/MuDecayChannelWithSpin.o: src/MuDecayChannelWithSpin.cc.o
-.PHONY : src/MuDecayChannelWithSpin.o
-
-# target to build an object file
-src/MuDecayChannelWithSpin.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannelWithSpin.cc.o
-.PHONY : src/MuDecayChannelWithSpin.cc.o
-
-src/MuDecayChannelWithSpin.i: src/MuDecayChannelWithSpin.cc.i
-.PHONY : src/MuDecayChannelWithSpin.i
-
-# target to preprocess a source file
-src/MuDecayChannelWithSpin.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannelWithSpin.cc.i
-.PHONY : src/MuDecayChannelWithSpin.cc.i
-
-src/MuDecayChannelWithSpin.s: src/MuDecayChannelWithSpin.cc.s
-.PHONY : src/MuDecayChannelWithSpin.s
-
-# target to generate assembly for a file
-src/MuDecayChannelWithSpin.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/MuDecayChannelWithSpin.cc.s
-.PHONY : src/MuDecayChannelWithSpin.cc.s
-
 src/PhysicsList.o: src/PhysicsList.cc.o
 .PHONY : src/PhysicsList.o
 
@@ -451,198 +403,6 @@ src/SteppingAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/SteppingAction.cc.s
 .PHONY : src/SteppingAction.cc.s
 
-src/musrErrorMessage.o: src/musrErrorMessage.cc.o
-.PHONY : src/musrErrorMessage.o
-
-# target to build an object file
-src/musrErrorMessage.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrErrorMessage.cc.o
-.PHONY : src/musrErrorMessage.cc.o
-
-src/musrErrorMessage.i: src/musrErrorMessage.cc.i
-.PHONY : src/musrErrorMessage.i
-
-# target to preprocess a source file
-src/musrErrorMessage.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrErrorMessage.cc.i
-.PHONY : src/musrErrorMessage.cc.i
-
-src/musrErrorMessage.s: src/musrErrorMessage.cc.s
-.PHONY : src/musrErrorMessage.s
-
-# target to generate assembly for a file
-src/musrErrorMessage.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrErrorMessage.cc.s
-.PHONY : src/musrErrorMessage.cc.s
-
-src/musrMuEnergyLossLandau.o: src/musrMuEnergyLossLandau.cc.o
-.PHONY : src/musrMuEnergyLossLandau.o
-
-# target to build an object file
-src/musrMuEnergyLossLandau.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuEnergyLossLandau.cc.o
-.PHONY : src/musrMuEnergyLossLandau.cc.o
-
-src/musrMuEnergyLossLandau.i: src/musrMuEnergyLossLandau.cc.i
-.PHONY : src/musrMuEnergyLossLandau.i
-
-# target to preprocess a source file
-src/musrMuEnergyLossLandau.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuEnergyLossLandau.cc.i
-.PHONY : src/musrMuEnergyLossLandau.cc.i
-
-src/musrMuEnergyLossLandau.s: src/musrMuEnergyLossLandau.cc.s
-.PHONY : src/musrMuEnergyLossLandau.s
-
-# target to generate assembly for a file
-src/musrMuEnergyLossLandau.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuEnergyLossLandau.cc.s
-.PHONY : src/musrMuEnergyLossLandau.cc.s
-
-src/musrMuFormation.o: src/musrMuFormation.cc.o
-.PHONY : src/musrMuFormation.o
-
-# target to build an object file
-src/musrMuFormation.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuFormation.cc.o
-.PHONY : src/musrMuFormation.cc.o
-
-src/musrMuFormation.i: src/musrMuFormation.cc.i
-.PHONY : src/musrMuFormation.i
-
-# target to preprocess a source file
-src/musrMuFormation.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuFormation.cc.i
-.PHONY : src/musrMuFormation.cc.i
-
-src/musrMuFormation.s: src/musrMuFormation.cc.s
-.PHONY : src/musrMuFormation.s
-
-# target to generate assembly for a file
-src/musrMuFormation.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuFormation.cc.s
-.PHONY : src/musrMuFormation.cc.s
-
-src/musrMuScatter.o: src/musrMuScatter.cc.o
-.PHONY : src/musrMuScatter.o
-
-# target to build an object file
-src/musrMuScatter.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuScatter.cc.o
-.PHONY : src/musrMuScatter.cc.o
-
-src/musrMuScatter.i: src/musrMuScatter.cc.i
-.PHONY : src/musrMuScatter.i
-
-# target to preprocess a source file
-src/musrMuScatter.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuScatter.cc.i
-.PHONY : src/musrMuScatter.cc.i
-
-src/musrMuScatter.s: src/musrMuScatter.cc.s
-.PHONY : src/musrMuScatter.s
-
-# target to generate assembly for a file
-src/musrMuScatter.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuScatter.cc.s
-.PHONY : src/musrMuScatter.cc.s
-
-src/musrMuonium.o: src/musrMuonium.cc.o
-.PHONY : src/musrMuonium.o
-
-# target to build an object file
-src/musrMuonium.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuonium.cc.o
-.PHONY : src/musrMuonium.cc.o
-
-src/musrMuonium.i: src/musrMuonium.cc.i
-.PHONY : src/musrMuonium.i
-
-# target to preprocess a source file
-src/musrMuonium.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuonium.cc.i
-.PHONY : src/musrMuonium.cc.i
-
-src/musrMuonium.s: src/musrMuonium.cc.s
-.PHONY : src/musrMuonium.s
-
-# target to generate assembly for a file
-src/musrMuonium.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrMuonium.cc.s
-.PHONY : src/musrMuonium.cc.s
-
-src/musrParameters.o: src/musrParameters.cc.o
-.PHONY : src/musrParameters.o
-
-# target to build an object file
-src/musrParameters.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrParameters.cc.o
-.PHONY : src/musrParameters.cc.o
-
-src/musrParameters.i: src/musrParameters.cc.i
-.PHONY : src/musrParameters.i
-
-# target to preprocess a source file
-src/musrParameters.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrParameters.cc.i
-.PHONY : src/musrParameters.cc.i
-
-src/musrParameters.s: src/musrParameters.cc.s
-.PHONY : src/musrParameters.s
-
-# target to generate assembly for a file
-src/musrParameters.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrParameters.cc.s
-.PHONY : src/musrParameters.cc.s
-
-src/musrPhysicsList.o: src/musrPhysicsList.cc.o
-.PHONY : src/musrPhysicsList.o
-
-# target to build an object file
-src/musrPhysicsList.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrPhysicsList.cc.o
-.PHONY : src/musrPhysicsList.cc.o
-
-src/musrPhysicsList.i: src/musrPhysicsList.cc.i
-.PHONY : src/musrPhysicsList.i
-
-# target to preprocess a source file
-src/musrPhysicsList.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrPhysicsList.cc.i
-.PHONY : src/musrPhysicsList.cc.i
-
-src/musrPhysicsList.s: src/musrPhysicsList.cc.s
-.PHONY : src/musrPhysicsList.s
-
-# target to generate assembly for a file
-src/musrPhysicsList.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/musrPhysicsList.cc.s
-.PHONY : src/musrPhysicsList.cc.s
-
-src/yields.o: src/yields.cc.o
-.PHONY : src/yields.o
-
-# target to build an object file
-src/yields.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/yields.cc.o
-.PHONY : src/yields.cc.o
-
-src/yields.i: src/yields.cc.i
-.PHONY : src/yields.i
-
-# target to preprocess a source file
-src/yields.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/yields.cc.i
-.PHONY : src/yields.cc.i
-
-src/yields.s: src/yields.cc.s
-.PHONY : src/yields.s
-
-# target to generate assembly for a file
-src/yields.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/yields.cc.s
-.PHONY : src/yields.cc.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -669,12 +429,6 @@ help:
 	@echo "... src/EventAction.o"
 	@echo "... src/EventAction.i"
 	@echo "... src/EventAction.s"
-	@echo "... src/MuDecayChannel.o"
-	@echo "... src/MuDecayChannel.i"
-	@echo "... src/MuDecayChannel.s"
-	@echo "... src/MuDecayChannelWithSpin.o"
-	@echo "... src/MuDecayChannelWithSpin.i"
-	@echo "... src/MuDecayChannelWithSpin.s"
 	@echo "... src/PhysicsList.o"
 	@echo "... src/PhysicsList.i"
 	@echo "... src/PhysicsList.s"
@@ -690,30 +444,6 @@ help:
 	@echo "... src/SteppingAction.o"
 	@echo "... src/SteppingAction.i"
 	@echo "... src/SteppingAction.s"
-	@echo "... src/musrErrorMessage.o"
-	@echo "... src/musrErrorMessage.i"
-	@echo "... src/musrErrorMessage.s"
-	@echo "... src/musrMuEnergyLossLandau.o"
-	@echo "... src/musrMuEnergyLossLandau.i"
-	@echo "... src/musrMuEnergyLossLandau.s"
-	@echo "... src/musrMuFormation.o"
-	@echo "... src/musrMuFormation.i"
-	@echo "... src/musrMuFormation.s"
-	@echo "... src/musrMuScatter.o"
-	@echo "... src/musrMuScatter.i"
-	@echo "... src/musrMuScatter.s"
-	@echo "... src/musrMuonium.o"
-	@echo "... src/musrMuonium.i"
-	@echo "... src/musrMuonium.s"
-	@echo "... src/musrParameters.o"
-	@echo "... src/musrParameters.i"
-	@echo "... src/musrParameters.s"
-	@echo "... src/musrPhysicsList.o"
-	@echo "... src/musrPhysicsList.i"
-	@echo "... src/musrPhysicsList.s"
-	@echo "... src/yields.o"
-	@echo "... src/yields.i"
-	@echo "... src/yields.s"
 .PHONY : help
 
 
