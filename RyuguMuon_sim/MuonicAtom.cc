@@ -30,7 +30,6 @@
 
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
-#include "musrPhysicsList.hh"
 #include "ActionInitialization.hh"
 
 #ifdef G4MULTITHREADED
@@ -87,8 +86,6 @@ int main(int argc,char** argv)
 //  runManager->SetUserInitialization(physicsList);
 
   runManager->SetUserInitialization(new PhysicsList);//okada PhysicsList
-
-//  runManager->SetUserInitialization(new musrPhysicsList);//musr PhysicsList
 
     
   // Create Root class for storing the output of the Geant simulation
