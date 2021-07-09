@@ -2,6 +2,8 @@
 #define PhysicsList_h 1
 
 #include "G4VModularPhysicsList.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4ProcessManager.hh"
 #include "globals.hh"
 
 class G4VPhysicsConstructor;
@@ -14,6 +16,7 @@ public:
   
   virtual void ConstructParticle();
   virtual void ConstructProcess();
+  virtual void ConstructAdditionalProcess();
   void SetVerboseLevel(G4int);
 
 private:
@@ -22,6 +25,10 @@ private:
   G4VPhysicsConstructor*    decMuonicPhysicsList;
   G4VPhysicsConstructor*    raddecayList;
   std::vector<G4VPhysicsConstructor*> hadronPhys;
+
+  G4ProcessManager* pManager;//IH
+  G4ParticleDefinition* particleDefinition;//IH
+  G4String stringParticleName;//IH
 };
 
 

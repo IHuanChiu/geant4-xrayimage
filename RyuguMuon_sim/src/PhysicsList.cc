@@ -9,8 +9,6 @@
 #include "G4VPhysicsConstructor.hh"
 
 #include "G4DecayPhysics.hh"
-#include "G4MuonicAtomDecayPhysics.hh"//IH
-#include "G4StoppingPhysics.hh"//IH
 #include "G4RadioactiveDecayPhysics.hh"
 
 #include "G4EmStandardPhysics.hh"
@@ -50,8 +48,26 @@
 #include "G4IonFluctuations.hh"
 #include "G4IonParametrisedLossModel.hh"
 #include "G4ParallelWorldPhysics.hh"
+
+//IH
+#include "G4MuonicAtomDecayPhysics.hh"//IH
+#include "G4StoppingPhysics.hh"//IH
 //Muonic Atom (check decay and stopping for G4MuonicAtomDecayPhysics and G4MuonMinusAtomicCapture)
 //https://gitlab.physik.uni-kiel.de/geant4/geant4/-/tree/6aa23be5171b125c3363b5a4cfa00a57e524598b/source/physics_lists/constructors
+#include "G4OpAbsorption.hh"
+#include "G4OpRayleigh.hh"
+#include "G4OpBoundaryProcess.hh"
+#include "G4OpWLS.hh"
+#include "G4OpticalPhysics.hh"
+#include "G4ComptonScattering.hh"
+#include "G4GammaConversion.hh"
+#include "G4PhotoElectricEffect.hh"
+#include "G4RayleighScattering.hh"
+#include "G4eMultipleScattering.hh"
+#include "G4eIonisation.hh"
+#include "G4eBremsstrahlung.hh"
+#include "G4eplusAnnihilation.hh"
+#include "G4CoulombScattering.hh"
 
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
@@ -92,6 +108,37 @@ void PhysicsList::ConstructParticle()
   emPhysicsList  -> ConstructParticle();
 }
 
+//IH
+void PhysicsList::ConstructAdditionalProcess()
+{
+  stringParticleName = "gamma";
+  particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
+  pManager = particleDefinition->GetProcessManager();
+  pManager->AddDiscreteProcess(new G4PhotoElectricEffect);
+  pManager->AddDiscreteProcess(new G4ComptonScattering);
+  pManager->AddDiscreteProcess(new G4GammaConversion);
+  pManager->AddDiscreteProcess(new G4RayleighScattering);
+  G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
+
+  stringParticleName = "e-";
+  particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
+  pManager = particleDefinition->GetProcessManager();
+  pManager->AddDiscreteProcess(new G4eMultipleScattering);
+//  pManager->AddDiscreteProcess(new G4eIonisation);
+  pManager->AddDiscreteProcess(new G4eBremsstrahlung);
+  G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
+
+  stringParticleName = "e+";
+  particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
+  pManager = particleDefinition->GetProcessManager();
+  pManager->AddDiscreteProcess(new G4eMultipleScattering);
+//  pManager->AddDiscreteProcess(new G4eIonisation);
+  pManager->AddDiscreteProcess(new G4eBremsstrahlung);
+  pManager->AddDiscreteProcess(new G4eplusAnnihilation);
+  G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
+
+}
+
 void PhysicsList::ConstructProcess()
 {
   AddTransportation();
@@ -100,10 +147,12 @@ void PhysicsList::ConstructProcess()
   decMuonicPhysicsList->ConstructProcess();
 //  raddecayList->ConstructProcess();
 
+  ConstructAdditionalProcess();//IH
+
   // Hadron
-  hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());
+//  hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter
   hadronPhys.push_back( new G4EmExtraPhysics());
-  hadronPhys.push_back( new G4HadronElasticPhysics());
+//  hadronPhys.push_back( new G4HadronElasticPhysics());
   hadronPhys.push_back( new G4StoppingPhysics());
   hadronPhys.push_back( new G4IonBinaryCascadePhysics());
   hadronPhys.push_back( new G4NeutronTrackingCut());
