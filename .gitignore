@@ -1,9 +1,13 @@
 copy.sh
-*_build/*.root
-*_build/*/*.root
-*_build/*/*/*.root
+Makefile
+*.pdf
+*.root
+*.in
+*.out
 */CMakeFiles
 */CMakeFiles/*
+*.cmake
+*.macro
 macro/root
 macro/data
 macro/figs/*
