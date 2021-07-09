@@ -16,7 +16,7 @@
 /process/em/augerCascade true
 /process/em/pixe true
 
-#/process/em/lowestElectronEnergy 100 eV
+/process/em/lowestElectronEnergy 100 eV
 
 #command be shown on screen
 /control/verbose 2

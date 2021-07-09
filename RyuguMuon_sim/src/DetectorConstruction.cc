@@ -384,12 +384,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
 
   // ***** Sample *****
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al");
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe");
-  G4double sample_thick = 1.5;//mm
+  G4double sample_thick;
+  G4double sample_width;
+  // === SiO2 ===
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=25; sample_thick=1.0;
+  // === Al ===
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm
+  // === Fe ===
+  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm
+  // === Ti ===
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm
+
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,40*CLHEP::deg,90*CLHEP::deg);
-  G4Box* solidsample = new G4Box("Sample", (10/2)*mm, (10/2)*mm, (sample_thick/2)*mm);
+  G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
   new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);

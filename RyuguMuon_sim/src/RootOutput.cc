@@ -214,8 +214,8 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
-  muonTree->Write();
-  TrackTree->Write();
+//  muonTree->Write();//check beam profile (file size will be huge)
+//  TrackTree->Write();
   h1_StopVol->Write();
   h1_process->Write();
   rootFile->Close();
@@ -227,7 +227,7 @@ void RootOutput::FillEvent() {
   double total_E = 0;
   for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
   if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
-  muonTree->Fill();
+//  muonTree->Fill();// check beam profile (file size will be huge)
 }
 
 void RootOutput::FillParticle() {

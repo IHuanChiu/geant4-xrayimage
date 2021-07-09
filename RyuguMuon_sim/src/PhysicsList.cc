@@ -9,7 +9,8 @@
 #include "G4VPhysicsConstructor.hh"
 
 #include "G4DecayPhysics.hh"
-#include "G4StoppingPhysics.hh"
+#include "G4MuonicAtomDecayPhysics.hh"//IH
+#include "G4StoppingPhysics.hh"//IH
 #include "G4RadioactiveDecayPhysics.hh"
 
 #include "G4EmStandardPhysics.hh"
@@ -49,6 +50,8 @@
 #include "G4IonFluctuations.hh"
 #include "G4IonParametrisedLossModel.hh"
 #include "G4ParallelWorldPhysics.hh"
+//Muonic Atom (check decay and stopping for G4MuonicAtomDecayPhysics and G4MuonMinusAtomicCapture)
+//https://gitlab.physik.uni-kiel.de/geant4/geant4/-/tree/6aa23be5171b125c3363b5a4cfa00a57e524598b/source/physics_lists/constructors
 
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
@@ -61,14 +64,17 @@ PhysicsList::PhysicsList()
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
-  //raddecayList = new G4RadioactiveDecayPhysics();
+  //raddecayList = new G4RadioactiveDecayPhysics();//take huge time
+  // Muonic Atom decay   
+  decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
 
 PhysicsList::~PhysicsList()
 {
   delete emPhysicsList;
   delete decPhysicsList;
-  //delete raddecayList;
+  delete decMuonicPhysicsList;
+  delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
   }
@@ -82,6 +88,7 @@ void PhysicsList::SetVerboseLevel(G4int i)
 void PhysicsList::ConstructParticle()
 {
   decPhysicsList -> ConstructParticle();
+  decMuonicPhysicsList -> ConstructParticle();
   emPhysicsList  -> ConstructParticle();
 }
 
@@ -90,7 +97,8 @@ void PhysicsList::ConstructProcess()
   AddTransportation();
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
-  //raddecayList->ConstructProcess();
+  decMuonicPhysicsList->ConstructProcess();
+//  raddecayList->ConstructProcess();
 
   // Hadron
   hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());
