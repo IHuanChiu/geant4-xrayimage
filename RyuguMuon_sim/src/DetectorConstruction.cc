@@ -418,24 +418,35 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // ***** Ge detector *****
   G4Material* solid_common;
+  G4Material* solid_window;
+//  G4Material* solid_cover;
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
+  solid_window=nist->FindOrBuildMaterial("G4_Be");
+//  solid_cover=nist->FindOrBuildMaterial("G4_Al");
   G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(5./2.)*mm,0.,2*M_PI*rad);
-  G4double ge_dis=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
-  G4double ge_sample_dis=165.2/2+1+5./2.; // same with chamber thinkness+5mm
+  G4VSolid* Be_Window = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
+//  G4VSolid* Cover_Tubes = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
+  G4double ge_dis_Z=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
+  G4double ge_sample_dis=165.2/2+5./2.+1; // dis. of chamber thinkness from surface of Ge + 1mm
+  G4double window_sample_dis=165.2/2+0.025/2.+0.5; // dis. of chamber thinkness from surface of Ge + 1mm
 //  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
   G4double nDets=6;
   G4double current_angle;
   G4ThreeVector pos_ge;
+  G4ThreeVector pos_be;
   G4LogicalVolume* GeLog;
+  G4LogicalVolume* BeLog;
   G4RotationMatrix* rot_ge;
   for(int i=0; i<nDets;i++){
      auto idstr = std::to_string(i);
      current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
-//     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (ge_dis*std::cos(ge_angle))*mm);
-     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis)*mm);
+     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
+     pos_be = G4ThreeVector(window_sample_dis*std::sin(current_angle)*mm, window_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
      GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
+     BeLog = new G4LogicalVolume(Be_Window, solid_window, "BeTubs"+idstr);
      rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_be, BeLog, "BeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
   }
 
 

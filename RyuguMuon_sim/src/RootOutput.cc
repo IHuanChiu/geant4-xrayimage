@@ -226,7 +226,7 @@ void RootOutput::FillEvent() {
   if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
   double total_E = 0;
   for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
-  if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
+  if(total_E*1000 > 3) rootTree->Fill();//only fill event with energy deposit larger than 3keV base on features of HPGe
 //  muonTree->Fill();// check beam profile (file size will be huge)
 }
 

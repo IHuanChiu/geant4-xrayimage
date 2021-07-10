@@ -44,6 +44,7 @@ def plot(args):
     treestand = fstand.Get("tree")
     nbins = 800
     maxenergy = 200 #keV
+    ScaleByMaxBin = True
 
     treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
     tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),"Stop_VolumeID == 6","") # Stop_VolumeID = 6 is specified signal from sample
@@ -52,8 +53,13 @@ def plot(args):
     h0_sim.GetXaxis().SetTitle("Energy[kev]")
     h0_sim.GetYaxis().SetTitle("Counts (/0.25keV)")
 
-    h0_stand.Scale(1./h0_stand.GetEntries())
-    h0_sim.Scale(1./h0_sim.GetEntries())
+    if ScaleByMaxBin:
+       h0_stand.Scale(1./h0_stand.GetMaximum())#scale with MaxBin
+       h0_sim.Scale(1./h0_sim.GetMaximum())
+    else: 
+       h0_stand.Scale(1./h0_stand.GetEntries())
+       h0_sim.Scale(1./h0_sim.GetEntries())
+
     if h0_stand.GetMaximum() > h0_sim.GetMaximum():
        h0_stand.SetMaximum(h0_stand.GetMaximum()*1.2)  
     else: 
@@ -63,8 +69,12 @@ def plot(args):
     h0_sim.SetLineColorAlpha(2,0.7)
     h0_stand.SetLineColorAlpha(1,0.9)
     h0_stand.SetMarkerColor(1)
-    h0_stand.DrawNormalized("hist")
-    h0_sim.DrawNormalized("same hist")
+    if ScaleByMaxBin:
+       h0_stand.Draw("hist")
+       h0_sim.Draw("same hist")
+    else:
+       h0_stand.DrawNormalized("hist")
+       h0_sim.DrawNormalized("same hist")
     leg=ROOT.TLegend(.60,.70,.80,.85)
     leg.AddEntry(h0_stand,  "Exp.", "l");
     leg.AddEntry(h0_sim,  "Sim.", "l");
@@ -97,15 +107,25 @@ def plot(args):
     h0_stand_1.GetYaxis().SetTitle("Counts (/0.25keV)")
     h0_stand_2.GetYaxis().SetTitle("Counts (/0.25keV)")
     h0_stand_3.GetYaxis().SetTitle("Counts (/0.25keV)")
-
-    h0_stand_0.Scale(1./h0_stand_0.GetEntries())
-    h0_stand_1.Scale(1./h0_stand_1.GetEntries())
-    h0_stand_2.Scale(1./h0_stand_2.GetEntries())
-    h0_stand_3.Scale(1./h0_stand_3.GetEntries())
-    h0_sim_0.Scale(1./h0_sim_0.GetEntries())
-    h0_sim_1.Scale(1./h0_sim_1.GetEntries())
-    h0_sim_2.Scale(1./h0_sim_2.GetEntries())
-    h0_sim_3.Scale(1./h0_sim_3.GetEntries())
+    
+    if not ScaleByMaxBin:
+       h0_stand_0.Scale(1./h0_stand_0.GetEntries())
+       h0_stand_1.Scale(1./h0_stand_1.GetEntries())
+       h0_stand_2.Scale(1./h0_stand_2.GetEntries())
+       h0_stand_3.Scale(1./h0_stand_3.GetEntries())
+       h0_sim_0.Scale(1./h0_sim_0.GetEntries())
+       h0_sim_1.Scale(1./h0_sim_1.GetEntries())
+       h0_sim_2.Scale(1./h0_sim_2.GetEntries())
+       h0_sim_3.Scale(1./h0_sim_3.GetEntries())
+    else:
+       h0_stand_0.Scale(1./h0_stand_0.GetMaximum())
+       h0_stand_1.Scale(1./h0_stand_1.GetMaximum())
+       h0_stand_2.Scale(1./h0_stand_2.GetMaximum())
+       h0_stand_3.Scale(1./h0_stand_3.GetMaximum())
+       h0_sim_0.Scale(1./h0_sim_0.GetMaximum())
+       h0_sim_1.Scale(1./h0_sim_1.GetMaximum())
+       h0_sim_2.Scale(1./h0_sim_2.GetMaximum())
+       h0_sim_3.Scale(1./h0_sim_3.GetMaximum())
     if h0_stand_0.GetMaximum() > h0_sim_0.GetMaximum(): h0_stand_0.SetMaximum(h0_stand_0.GetMaximum()*1.2)  
     else: h0_stand_0.SetMaximum(h0_sim_0.GetMaximum()*1.2)
     if h0_stand_1.GetMaximum() > h0_sim_1.GetMaximum(): h0_stand_1.SetMaximum(h0_stand_1.GetMaximum()*1.2)  
@@ -126,22 +146,40 @@ def plot(args):
 
     cv2  = createRatioCanvas("cv2", 2400, 1600)
     cv2.Divide(2,2)
-    cv2.cd(1)
-    h0_stand_0.DrawNormalized("hist")
-    h0_sim_0.DrawNormalized("same hist")
-    leg.Draw("same");
-    cv2.cd(2)
-    h0_stand_1.DrawNormalized("hist")
-    h0_sim_1.DrawNormalized("same hist")
-    leg.Draw("same");
-    cv2.cd(3)
-    h0_stand_2.DrawNormalized("hist")
-    h0_sim_2.DrawNormalized("same hist")
-    leg.Draw("same");
-    cv2.cd(4)
-    h0_stand_3.DrawNormalized("hist")
-    h0_sim_3.DrawNormalized("same hist")
-    leg.Draw("same");
+    if not ScaleByMaxBin:
+       cv2.cd(1)
+       h0_stand_0.DrawNormalized("hist")
+       h0_sim_0.DrawNormalized("same hist")
+       leg.Draw("same");
+       cv2.cd(2)
+       h0_stand_1.DrawNormalized("hist")
+       h0_sim_1.DrawNormalized("same hist")
+       leg.Draw("same");
+       cv2.cd(3)
+       h0_stand_2.DrawNormalized("hist")
+       h0_sim_2.DrawNormalized("same hist")
+       leg.Draw("same");
+       cv2.cd(4)
+       h0_stand_3.DrawNormalized("hist")
+       h0_sim_3.DrawNormalized("same hist")
+       leg.Draw("same");
+    else:
+       cv2.cd(1)
+       h0_stand_0.Draw("hist")
+       h0_sim_0.Draw("same hist")
+       leg.Draw("same");
+       cv2.cd(2)
+       h0_stand_1.Draw("hist")
+       h0_sim_1.Draw("same hist")
+       leg.Draw("same");
+       cv2.cd(3)
+       h0_stand_2.Draw("hist")
+       h0_sim_2.Draw("same hist")
+       leg.Draw("same");
+       cv2.cd(4)
+       h0_stand_3.Draw("hist")
+       h0_sim_3.Draw("same hist")
+       leg.Draw("same");
 
     name=name.replace("_SIMvsEXP.pdf","_SIMvsEXP_sep.pdf")
     cv2.Print(name)
@@ -149,7 +187,7 @@ def plot(args):
 if __name__ == '__main__' : 
   parser = argparse.ArgumentParser(description='Process some integers.')
   parser.add_argument("input", type=str, default="./20151112_00009_001.root", help="Input File Name")
-  parser.add_argument("-a", "--atom", type=str, default = "Al", help="Al or Fe or Ti" )
+  parser.add_argument("-a", "--atom", type=str, default = "Fe", help="Al or Fe or Ti" )
   args = parser.parse_args()
 
   plot( args )

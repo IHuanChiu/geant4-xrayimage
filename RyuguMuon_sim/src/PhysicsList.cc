@@ -68,6 +68,7 @@
 #include "G4eBremsstrahlung.hh"
 #include "G4eplusAnnihilation.hh"
 #include "G4CoulombScattering.hh"
+//#include "HadronPhysicsLHEP.hh"
 
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
@@ -120,11 +121,12 @@ void PhysicsList::ConstructAdditionalProcess()
   pManager->AddDiscreteProcess(new G4RayleighScattering);
   G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
 
+//Multiple scattering, ionization and bremsstrahlung processes should always be used together,
   stringParticleName = "e-";
   particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
   pManager = particleDefinition->GetProcessManager();
   pManager->AddDiscreteProcess(new G4eMultipleScattering);
-//  pManager->AddDiscreteProcess(new G4eIonisation);
+  pManager->AddDiscreteProcess(new G4eIonisation);
   pManager->AddDiscreteProcess(new G4eBremsstrahlung);
   G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
 
@@ -132,7 +134,7 @@ void PhysicsList::ConstructAdditionalProcess()
   particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
   pManager = particleDefinition->GetProcessManager();
   pManager->AddDiscreteProcess(new G4eMultipleScattering);
-//  pManager->AddDiscreteProcess(new G4eIonisation);
+  pManager->AddDiscreteProcess(new G4eIonisation);
   pManager->AddDiscreteProcess(new G4eBremsstrahlung);
   pManager->AddDiscreteProcess(new G4eplusAnnihilation);
   G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
@@ -153,6 +155,7 @@ void PhysicsList::ConstructProcess()
 //  hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter
   hadronPhys.push_back( new G4EmExtraPhysics());
 //  hadronPhys.push_back( new G4HadronElasticPhysics());
+//  hadronPhys.push_back( new HadronPhysicsLHEP());// IH: https://www.slac.stanford.edu/comp/physics/geant4/slac_physics_lists/ilc/LHEPlistdoc.html
   hadronPhys.push_back( new G4StoppingPhysics());
   hadronPhys.push_back( new G4IonBinaryCascadePhysics());
   hadronPhys.push_back( new G4NeutronTrackingCut());
