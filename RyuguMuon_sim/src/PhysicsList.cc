@@ -50,8 +50,12 @@
 #include "G4ParallelWorldPhysics.hh"
 
 //IH
-#include "G4MuonicAtomDecayPhysics.hh"//IH
-#include "G4StoppingPhysics.hh"//IH
+#include "G4MuonicAtomDecayPhysics.hh"
+#include "G4MuMultipleScattering.hh"
+#include "G4MuIonisation.hh"
+#include "G4MuBremsstrahlung.hh"
+#include "G4MuPairProduction.hh"
+#include "G4StoppingPhysics.hh"
 //Muonic Atom (check decay and stopping for G4MuonicAtomDecayPhysics and G4MuonMinusAtomicCapture)
 //https://gitlab.physik.uni-kiel.de/geant4/geant4/-/tree/6aa23be5171b125c3363b5a4cfa00a57e524598b/source/physics_lists/constructors
 #include "G4OpAbsorption.hh"
@@ -69,6 +73,7 @@
 #include "G4eplusAnnihilation.hh"
 #include "G4CoulombScattering.hh"
 //#include "HadronPhysicsLHEP.hh"
+//https://www.slac.stanford.edu/comp/physics/geant4/slac_physics_lists/ilc/LHEPlistdoc.html
 
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
@@ -77,13 +82,17 @@ PhysicsList::PhysicsList()
   SetVerboseLevel(0);
 
   // EM
+//  emPhysicsList = new G4EmStandardPhysics();
+//  emPhysicsList = new G4EmStandardPhysics_option1();
+//  emPhysicsList = new G4EmStandardPhysics_option2();
+//  emPhysicsList = new G4EmStandardPhysics_option3();
   emPhysicsList = new G4EmStandardPhysics_option4();
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
   //raddecayList = new G4RadioactiveDecayPhysics();//take huge time
   // Muonic Atom decay   
-  decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
+   decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
 
 PhysicsList::~PhysicsList()
@@ -105,7 +114,7 @@ void PhysicsList::SetVerboseLevel(G4int i)
 void PhysicsList::ConstructParticle()
 {
   decPhysicsList -> ConstructParticle();
-  decMuonicPhysicsList -> ConstructParticle();
+//  decMuonicPhysicsList -> ConstructParticle();
   emPhysicsList  -> ConstructParticle();
 }
 
@@ -126,7 +135,7 @@ void PhysicsList::ConstructAdditionalProcess()
   particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
   pManager = particleDefinition->GetProcessManager();
   pManager->AddDiscreteProcess(new G4eMultipleScattering);
-  pManager->AddDiscreteProcess(new G4eIonisation);
+//  pManager->AddDiscreteProcess(new G4eIonisation);//take huge time
   pManager->AddDiscreteProcess(new G4eBremsstrahlung);
   G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
 
@@ -134,10 +143,18 @@ void PhysicsList::ConstructAdditionalProcess()
   particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
   pManager = particleDefinition->GetProcessManager();
   pManager->AddDiscreteProcess(new G4eMultipleScattering);
-  pManager->AddDiscreteProcess(new G4eIonisation);
+//  pManager->AddDiscreteProcess(new G4eIonisation);//take huge time
   pManager->AddDiscreteProcess(new G4eBremsstrahlung);
   pManager->AddDiscreteProcess(new G4eplusAnnihilation);
   G4cout<<"PhysicsList: Defining addional processes for "<<stringParticleName<<G4endl;
+
+  stringParticleName = "mu-";
+  particleDefinition = G4ParticleTable::GetParticleTable() -> FindParticle(stringParticleName);
+  pManager = particleDefinition->GetProcessManager();
+  pManager->AddDiscreteProcess(new G4MuMultipleScattering());
+//  pManager->AddDiscreteProcess(new G4MuIonisation());
+  pManager->AddDiscreteProcess(new G4MuBremsstrahlung());
+  pManager->AddDiscreteProcess(new G4MuPairProduction());
 
 }
 
@@ -146,16 +163,15 @@ void PhysicsList::ConstructProcess()
   AddTransportation();
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
-  decMuonicPhysicsList->ConstructProcess();
+  decMuonicPhysicsList->ConstructProcess();//IH
 //  raddecayList->ConstructProcess();
 
   ConstructAdditionalProcess();//IH
 
   // Hadron
-//  hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter
+  hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter
   hadronPhys.push_back( new G4EmExtraPhysics());
-//  hadronPhys.push_back( new G4HadronElasticPhysics());
-//  hadronPhys.push_back( new HadronPhysicsLHEP());// IH: https://www.slac.stanford.edu/comp/physics/geant4/slac_physics_lists/ilc/LHEPlistdoc.html
+  hadronPhys.push_back( new G4HadronElasticPhysics());
   hadronPhys.push_back( new G4StoppingPhysics());
   hadronPhys.push_back( new G4IonBinaryCascadePhysics());
   hadronPhys.push_back( new G4NeutronTrackingCut());

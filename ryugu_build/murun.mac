@@ -16,6 +16,8 @@
 /process/em/augerCascade true
 /process/em/pixe true
 
+#/run/setCutForAGivenParticle e- 0.01 mm
+
 /process/em/lowestElectronEnergy 100 eV
 
 #command be shown on screen

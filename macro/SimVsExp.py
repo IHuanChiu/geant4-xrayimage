@@ -45,6 +45,7 @@ def plot(args):
     nbins = 800
     maxenergy = 200 #keV
     ScaleByMaxBin = True
+    stand_scale, sim_scale = 0., 0.
 
     treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
     tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),"Stop_VolumeID == 6","") # Stop_VolumeID = 6 is specified signal from sample
@@ -54,11 +55,13 @@ def plot(args):
     h0_sim.GetYaxis().SetTitle("Counts (/0.25keV)")
 
     if ScaleByMaxBin:
-       h0_stand.Scale(1./h0_stand.GetMaximum())#scale with MaxBin
-       h0_sim.Scale(1./h0_sim.GetMaximum())
+       stand_scale, sim_scale = 1./h0_stand.GetMaximum(), 1./h0_sim.GetMaximum()# scale with MaxBin
     else: 
-       h0_stand.Scale(1./h0_stand.GetEntries())
-       h0_sim.Scale(1./h0_sim.GetEntries())
+       stand_scale, sim_scale = 1./h0_stand.GetEntries(), 1./h0_sim.GetEntries()# scale with MaxBin
+#    stand_scale, sim_scale = 1./3., 1.# my test
+
+    h0_stand.Scale(stand_scale)
+    h0_sim.Scale(sim_scale)
 
     if h0_stand.GetMaximum() > h0_sim.GetMaximum():
        h0_stand.SetMaximum(h0_stand.GetMaximum()*1.2)  
@@ -108,24 +111,32 @@ def plot(args):
     h0_stand_2.GetYaxis().SetTitle("Counts (/0.25keV)")
     h0_stand_3.GetYaxis().SetTitle("Counts (/0.25keV)")
     
-    if not ScaleByMaxBin:
-       h0_stand_0.Scale(1./h0_stand_0.GetEntries())
-       h0_stand_1.Scale(1./h0_stand_1.GetEntries())
-       h0_stand_2.Scale(1./h0_stand_2.GetEntries())
-       h0_stand_3.Scale(1./h0_stand_3.GetEntries())
-       h0_sim_0.Scale(1./h0_sim_0.GetEntries())
-       h0_sim_1.Scale(1./h0_sim_1.GetEntries())
-       h0_sim_2.Scale(1./h0_sim_2.GetEntries())
-       h0_sim_3.Scale(1./h0_sim_3.GetEntries())
-    else:
-       h0_stand_0.Scale(1./h0_stand_0.GetMaximum())
-       h0_stand_1.Scale(1./h0_stand_1.GetMaximum())
-       h0_stand_2.Scale(1./h0_stand_2.GetMaximum())
-       h0_stand_3.Scale(1./h0_stand_3.GetMaximum())
-       h0_sim_0.Scale(1./h0_sim_0.GetMaximum())
-       h0_sim_1.Scale(1./h0_sim_1.GetMaximum())
-       h0_sim_2.Scale(1./h0_sim_2.GetMaximum())
-       h0_sim_3.Scale(1./h0_sim_3.GetMaximum())
+#    if not ScaleByMaxBin:
+#       h0_stand_0.Scale(1./h0_stand_0.GetEntries())
+#       h0_stand_1.Scale(1./h0_stand_1.GetEntries())
+#       h0_stand_2.Scale(1./h0_stand_2.GetEntries())
+#       h0_stand_3.Scale(1./h0_stand_3.GetEntries())
+#       h0_sim_0.Scale(1./h0_sim_0.GetEntries())
+#       h0_sim_1.Scale(1./h0_sim_1.GetEntries())
+#       h0_sim_2.Scale(1./h0_sim_2.GetEntries())
+#       h0_sim_3.Scale(1./h0_sim_3.GetEntries())
+#    else:
+#       h0_stand_0.Scale(1./h0_stand_0.GetMaximum())
+#       h0_stand_1.Scale(1./h0_stand_1.GetMaximum())
+#       h0_stand_2.Scale(1./h0_stand_2.GetMaximum())
+#       h0_stand_3.Scale(1./h0_stand_3.GetMaximum())
+#       h0_sim_0.Scale(1./h0_sim_0.GetMaximum())
+#       h0_sim_1.Scale(1./h0_sim_1.GetMaximum())
+#       h0_sim_2.Scale(1./h0_sim_2.GetMaximum())
+#       h0_sim_3.Scale(1./h0_sim_3.GetMaximum())
+    h0_stand_0.Scale(stand_scale)
+    h0_stand_1.Scale(stand_scale)
+    h0_stand_2.Scale(stand_scale)
+    h0_stand_3.Scale(stand_scale)
+    h0_sim_0.Scale(sim_scale)
+    h0_sim_1.Scale(sim_scale)
+    h0_sim_2.Scale(sim_scale)
+    h0_sim_3.Scale(sim_scale)
     if h0_stand_0.GetMaximum() > h0_sim_0.GetMaximum(): h0_stand_0.SetMaximum(h0_stand_0.GetMaximum()*1.2)  
     else: h0_stand_0.SetMaximum(h0_sim_0.GetMaximum()*1.2)
     if h0_stand_1.GetMaximum() > h0_sim_1.GetMaximum(): h0_stand_1.SetMaximum(h0_stand_1.GetMaximum()*1.2)  
