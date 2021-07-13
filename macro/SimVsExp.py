@@ -42,42 +42,51 @@ def plot(args):
     fstand = ROOT.TFile(standname+args.atom+".root")
     tree = f.Get("tree")
     treestand = fstand.Get("tree")
-    nbins = 800
+    nbins = 1600
     maxenergy = 200 #keV
-    ScaleByMaxBin = True
-    stand_scale, sim_scale = 0., 0.
+
+#    ScaleType = "MaxBin"
+#    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
+#    ScaleType = "Nor"
+#    cut = TCut("1") 
+    ScaleType = "Nmuon"
+    cut = TCut("1")
+    muonStopNumberData=3183024.6
+    h0_test=f.Get("h1_StopVol")
+    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
+    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
 
     treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),"Stop_VolumeID == 6","") # Stop_VolumeID = 6 is specified signal from sample
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),cut,"")
     h0_stand, h0_sim = gDirectory.Get("h0_stand"), gDirectory.Get("h0_sim")
-
     h0_sim.GetXaxis().SetTitle("Energy[kev]")
     h0_sim.GetYaxis().SetTitle("Counts (/0.25keV)")
 
-    if ScaleByMaxBin:
+    stand_scale, sim_scale = 0., 0.
+    if ScaleType == "MaxBin":
        stand_scale, sim_scale = 1./h0_stand.GetMaximum(), 1./h0_sim.GetMaximum()# scale with MaxBin
+    elif ScaleType == "Nmuon": 
+       stand_scale, sim_scale = 1., (muonStopNumberData/muonStopNumberSim)# scale with MaxBin
     else: 
        stand_scale, sim_scale = 1./h0_stand.GetEntries(), 1./h0_sim.GetEntries()# scale with MaxBin
-#    stand_scale, sim_scale = 1./3., 1.# my test
-
     h0_stand.Scale(stand_scale)
     h0_sim.Scale(sim_scale)
 
     if h0_stand.GetMaximum() > h0_sim.GetMaximum():
-       h0_stand.SetMaximum(h0_stand.GetMaximum()*1.2)  
+       h0_stand.SetMaximum(h0_stand.GetMaximum()*1.15)  
     else: 
-       h0_stand.SetMaximum(h0_sim.GetMaximum()*1.2)
+       h0_stand.SetMaximum(h0_sim.GetMaximum()*1.15)
 
     cv  = createRatioCanvas("cv", 1600, 1200)
     h0_sim.SetLineColorAlpha(2,0.7)
     h0_stand.SetLineColorAlpha(1,0.9)
     h0_stand.SetMarkerColor(1)
-    if ScaleByMaxBin:
-       h0_stand.Draw("hist")
-       h0_sim.Draw("same hist")
-    else:
+    if ScaleType == "Nor":
        h0_stand.DrawNormalized("hist")
        h0_sim.DrawNormalized("same hist")
+    else:
+       h0_stand.Draw("hist")
+       h0_sim.Draw("same hist")
     leg=ROOT.TLegend(.60,.70,.80,.85)
     leg.AddEntry(h0_stand,  "Exp.", "l");
     leg.AddEntry(h0_sim,  "Sim.", "l");
@@ -87,18 +96,19 @@ def plot(args):
     name=name.replace(".root","_SIMvsEXP.pdf")
     cv.Print(name)
 
-    # === Separation === 
-    treestand.Draw("energy >> h0_stand_0({0},{1},{2})".format(nbins/2,maxenergy*0/4,maxenergy*1/4))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_0({0},{1},{2})".format(nbins/2,maxenergy*0/4,maxenergy*1/4),"Stop_VolumeID == 6","") 
+    # === Separation ===
+    #stand_scale, sim_scale = stand_scale*2, sim_scale*2
+    treestand.Draw("energy >> h0_stand_0({0},{1},{2})".format(nbins/4,maxenergy*0/4,maxenergy*1/4))
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_0({0},{1},{2})".format(nbins/4,maxenergy*0/4,maxenergy*1/4),cut,"") 
     h0_stand_0, h0_sim_0 = gDirectory.Get("h0_stand_0"), gDirectory.Get("h0_sim_0")
-    treestand.Draw("energy >> h0_stand_1({0},{1},{2})".format(nbins/2,maxenergy*1/4,maxenergy*2/4))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_1({0},{1},{2})".format(nbins/2,maxenergy*1/4,maxenergy*2/4),"Stop_VolumeID == 6","") 
+    treestand.Draw("energy >> h0_stand_1({0},{1},{2})".format(nbins/4,maxenergy*1/4,maxenergy*2/4))
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_1({0},{1},{2})".format(nbins/4,maxenergy*1/4,maxenergy*2/4),cut,"") 
     h0_stand_1, h0_sim_1 = gDirectory.Get("h0_stand_1"), gDirectory.Get("h0_sim_1")
-    treestand.Draw("energy >> h0_stand_2({0},{1},{2})".format(nbins/2,maxenergy*2/4,maxenergy*3/4))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_2({0},{1},{2})".format(nbins/2,maxenergy*2/4,maxenergy*3/4),"Stop_VolumeID == 6","") 
+    treestand.Draw("energy >> h0_stand_2({0},{1},{2})".format(nbins/4,maxenergy*2/4,maxenergy*3/4))
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_2({0},{1},{2})".format(nbins/4,maxenergy*2/4,maxenergy*3/4),cut,"") 
     h0_stand_2, h0_sim_2 = gDirectory.Get("h0_stand_2"), gDirectory.Get("h0_sim_2")
-    treestand.Draw("energy >> h0_stand_3({0},{1},{2})".format(nbins/2,maxenergy*3/4,maxenergy*4/4))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_3({0},{1},{2})".format(nbins/2,maxenergy*3/4,maxenergy*4/4),"Stop_VolumeID == 6","") 
+    treestand.Draw("energy >> h0_stand_3({0},{1},{2})".format(nbins/4,maxenergy*3/4,maxenergy*4/4))
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim_3({0},{1},{2})".format(nbins/4,maxenergy*3/4,maxenergy*4/4),cut,"") 
     h0_stand_3, h0_sim_3 = gDirectory.Get("h0_stand_3"), gDirectory.Get("h0_sim_3")
 
 
@@ -111,24 +121,6 @@ def plot(args):
     h0_stand_2.GetYaxis().SetTitle("Counts (/0.25keV)")
     h0_stand_3.GetYaxis().SetTitle("Counts (/0.25keV)")
     
-#    if not ScaleByMaxBin:
-#       h0_stand_0.Scale(1./h0_stand_0.GetEntries())
-#       h0_stand_1.Scale(1./h0_stand_1.GetEntries())
-#       h0_stand_2.Scale(1./h0_stand_2.GetEntries())
-#       h0_stand_3.Scale(1./h0_stand_3.GetEntries())
-#       h0_sim_0.Scale(1./h0_sim_0.GetEntries())
-#       h0_sim_1.Scale(1./h0_sim_1.GetEntries())
-#       h0_sim_2.Scale(1./h0_sim_2.GetEntries())
-#       h0_sim_3.Scale(1./h0_sim_3.GetEntries())
-#    else:
-#       h0_stand_0.Scale(1./h0_stand_0.GetMaximum())
-#       h0_stand_1.Scale(1./h0_stand_1.GetMaximum())
-#       h0_stand_2.Scale(1./h0_stand_2.GetMaximum())
-#       h0_stand_3.Scale(1./h0_stand_3.GetMaximum())
-#       h0_sim_0.Scale(1./h0_sim_0.GetMaximum())
-#       h0_sim_1.Scale(1./h0_sim_1.GetMaximum())
-#       h0_sim_2.Scale(1./h0_sim_2.GetMaximum())
-#       h0_sim_3.Scale(1./h0_sim_3.GetMaximum())
     h0_stand_0.Scale(stand_scale)
     h0_stand_1.Scale(stand_scale)
     h0_stand_2.Scale(stand_scale)
@@ -157,7 +149,7 @@ def plot(args):
 
     cv2  = createRatioCanvas("cv2", 2400, 1600)
     cv2.Divide(2,2)
-    if not ScaleByMaxBin:
+    if ScaleType == "Nor":
        cv2.cd(1)
        h0_stand_0.DrawNormalized("hist")
        h0_sim_0.DrawNormalized("same hist")

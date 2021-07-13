@@ -26,7 +26,7 @@ void RootOutput::BeginOfRunAction() {
 //   }else rootFile->cd();
 
    rootTree = new TTree("tree","Germanium detector analysis");
-   TrackTree = new TTree("tracktree","Germanium simulation for particles");
+//   TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    rootTree->Branch("eventID",&eventID,"eventID/I");
    rootTree->Branch("runID",&runID,"runID/I"); 
@@ -111,7 +111,7 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
-  TrackTree->Write();
+//  TrackTree->Write();
   h1_StopVol->Write();
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;

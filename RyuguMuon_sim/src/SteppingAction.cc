@@ -221,7 +221,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     }//volume end
 
       myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-      if(aTrack->GetPosition().z()/CLHEP::mm > 300) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
+//      if(aTrack->GetPosition().z()/CLHEP::mm > 400) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
    
   }//muon end
   // =========== store other particle ===============    

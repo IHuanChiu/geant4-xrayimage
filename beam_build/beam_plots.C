@@ -1,6 +1,6 @@
 void beam_plots(){
 
-TFile* f= new TFile("Output_1.root","read");
+TFile* f= new TFile("Output_0713_SigXY_0p5_7_errXY_0p025_0p2.root","read");
 
    TTree* t = (TTree*)f->Get("tree");
    

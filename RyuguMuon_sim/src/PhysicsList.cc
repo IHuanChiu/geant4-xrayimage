@@ -114,7 +114,7 @@ void PhysicsList::SetVerboseLevel(G4int i)
 void PhysicsList::ConstructParticle()
 {
   decPhysicsList -> ConstructParticle();
-//  decMuonicPhysicsList -> ConstructParticle();
+  decMuonicPhysicsList -> ConstructParticle();//IH
   emPhysicsList  -> ConstructParticle();
 }
 
