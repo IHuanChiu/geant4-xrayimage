@@ -118,7 +118,8 @@
 /vis/geometry/set/colour FoilTubs2 0 1 1 0 0.5
 /vis/geometry/set/colour FoilTubs3 0 1 1 1 1
 #/vis/geometry/set/colour BeWindowTubs 0 0 0.756 1 0.757 1
-/vis/geometry/set/colour BeWindowTubs 0 1 0 0 .9
+/vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
+/vis/geometry/set/colour Cover 0 1 0 0 .9
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

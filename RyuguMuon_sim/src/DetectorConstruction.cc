@@ -292,6 +292,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //                    checkOverlaps);          //overlaps checking   
 //
 
+  G4double covor_thick = 0.3;// cu cover for chamber mm
   //
   // ***** Foil-1 *****
   //
@@ -322,7 +323,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al");
 //  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Cu");
   G4double foil2_thick = 0.020;//mm
-  G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,(150/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,((150-covor_thick)/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  
   new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", logicWorld, false, 0,  checkOverlaps);        
@@ -340,7 +341,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //G4Material* solid_He = new G4Material( "My_He", He_atomicNumber, He_massOfMole, He_density, kStateGas, He_temperature, He_pressure); 
 
   G4double inter_h_thick = 450;//mm
-  G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,(150/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,((150-covor_thick)/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_h = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog2 = new G4LogicalVolume(inter_h_tubs, solid_He, "intermediate2");  
   new G4PVPlacement(0, pos_inter_h, INTERLog2, "intermediate2", logicWorld, false, 0,  checkOverlaps);        
@@ -348,10 +349,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // ***** Chamber *****
   //
-  G4Material* solid_chamber = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* solid_chamber = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");//SUS304
+  G4Material* solid_chamber_cover = nist->FindOrBuildMaterial("G4_Cu");
   G4Material* solid_chamber_window = nist->FindOrBuildMaterial("G4_Be");
-  G4VSolid* chamber_tubs = new G4Tubs("Chamber_ori",(150/2)*mm,(165.2/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
 
+  G4VSolid* chamber_tubs = new G4Tubs("Chamber_ori",(150/2)*mm,(165.2/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* chamber_cover = new G4Tubs("Cover_ori",((150-covor_thick)/2)*mm,(150/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4VSolid* Chamber_Hole = new G4Tubs("ChamberHole",0*mm,(25/2)*mm,(20/2)*mm,0.,2*M_PI*rad);
   G4VSolid* Chamber_Window = new G4Tubs("ChamberHole",0*mm,(23/2)*mm,(6/2)*mm,0.,2*M_PI*rad);
   G4double hole_dis=75+(15.2/2); 
@@ -366,19 +369,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      pos_hole = G4ThreeVector(hole_dis*std::sin(current_angle_hole)*mm, hole_dis*std::cos(current_angle_hole)*mm, (5)*mm);
      rot_hole = new G4RotationMatrix((-i*(360./nHoles)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      chamber_tubs = new G4SubtractionSolid("Chamber", chamber_tubs, Chamber_Hole, rot_hole, pos_hole);
+     chamber_cover = new G4SubtractionSolid("Cover", chamber_cover, Chamber_Hole, rot_hole, pos_hole);
 
      pos_window_chamber = G4ThreeVector((hole_dis-8/2.)*std::sin(current_angle_hole)*mm, (hole_dis-8/2.)*std::cos(current_angle_hole)*mm, ((foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)+5)*mm);
      BeWindowLog = new G4LogicalVolume(Chamber_Window, solid_chamber_window, "BeWindowTubs");
      new G4PVPlacement(rot_hole, pos_window_chamber, BeWindowLog, "BeWindowTubs", logicWorld, false, 0, checkOverlaps);
   }
   G4LogicalVolume* ChamberLog = new G4LogicalVolume(chamber_tubs, solid_chamber, "Chamber");  
+  G4LogicalVolume* CoverLog = new G4LogicalVolume(chamber_cover, solid_chamber_cover, "Cover");  
   new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_inter_h, CoverLog, "Cover", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** Virtual (in intermediate He) *****
   //
   G4double vir_thick = 0.010;//mm
-  G4VSolid* Vir_tubs = new G4Tubs("VirTubs",0*mm,(150/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* Vir_tubs = new G4Tubs("VirTubs",0*mm,((150-covor_thick)/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_vir = G4ThreeVector(0, 0, (-190)*mm);
   G4LogicalVolume* VirLog = new G4LogicalVolume(Vir_tubs, solid_He, "VirTubs");  
   new G4PVPlacement(0, pos_vir, VirLog, "VirTubs", INTERLog2, false, 0,  checkOverlaps);        
@@ -386,7 +392,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // ***** Virtual (not used) *****
   //
-  G4VSolid* Vir_tubs2 = new G4Tubs("VirTubs2",0*mm,(150/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* Vir_tubs2 = new G4Tubs("VirTubs2",0*mm,((150-covor_thick)/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_vir2 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick/2)*mm);
   G4LogicalVolume* VirLog2 = new G4LogicalVolume(Vir_tubs2, solid_He, "VirTubs2");  
 //  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
@@ -441,16 +447,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4Material* solid_common;
   G4Material* solid_window;
+  G4double Ge_thick = 10;//mm
 //  G4Material* solid_cover;
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
   solid_window=nist->FindOrBuildMaterial("G4_Be");
 //  solid_cover=nist->FindOrBuildMaterial("G4_Al");
-  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(5./2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* Be_Window = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
 //  G4VSolid* Cover_Tubes = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
   G4double ge_dis_Z=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
-  G4double ge_sample_dis=165.2/2+5./2.+1; // dis. of chamber thinkness from surface of Ge + 1mm
-  G4double window_sample_dis=165.2/2+0.025/2.+0.5; // dis. of chamber thinkness from surface of Ge + 1mm
+  G4double ge_sample_dis=165.2/2+Ge_thick/2.+1; // dis. of chamber thinkness from surface of Ge + 1mm
+  G4double window_sample_dis=165.2/2+0.025/2.+0.5; // dis. of chamber thinkness of window + 0.5mm
 //  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
   G4double nDets=6;
   G4double current_angle;

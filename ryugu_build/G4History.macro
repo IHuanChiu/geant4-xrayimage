@@ -60,7 +60,9 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour FoilTubs3 0 1 1 1 1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour BeWindowTubs 0 1 0 0 .9
+/vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Cover 0 1 0 0 .9
 /vis/scene/notifyHandlers
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
@@ -91,5 +93,3 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
-/run/beamOn 100
-/vis/scene/notifyHandlers scene-0

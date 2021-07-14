@@ -46,7 +46,7 @@ class RootOutput{
     }
 
     static const int numberOfvolume = 10; 
-    static const int nh1bin = 10;
+    static const int nh1bin = 15;
     static const int nhitMax = 100;
 
     //-100 is for escape muon; -1000 is not hit muon
@@ -135,9 +135,9 @@ class RootOutput{
   // === variables for tree ===
   private:
     static RootOutput* pointerToRoot;
-    const char *var_name[nh1bin] = {"World","Foil-1","Intermediate1","Foil-2","intermediate2","Foil-3","Sample","Chamber","Virtual1","Virtua2"};
+    const char *var_name[nh1bin] = {"World","Foil-1","Intermediate1","Foil-2","intermediate2","Foil-3","Sample","Chamber","Virtual1","Virtua2","BeWindowTubs", "Holder","None","None","None"};
     const char *pro_name[nh1bin] = {"None","muMinusCaptureAtRest","phot","compt","eBrem",
-                                    "neutronInelastic","muIoni","conv","None","None"};
+                                    "neutronInelastic","muIoni","conv","None","None","None","None","None","None","None"};
 
     Double_t muSamplePolX, muSamplePolY, muSamplePolZ;
     Double_t muWorldPolX, muWorldPolY, muWorldPolZ;

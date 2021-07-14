@@ -45,16 +45,20 @@ def plot(args):
     nbins = 1600
     maxenergy = 200 #keV
 
-#    ScaleType = "MaxBin"
-#    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
+    ScaleType = "MaxBin"
+#    cut = TCut("1") # Stop_VolumeID = 6 is specified signal from sample
+    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
+
 #    ScaleType = "Nor"
 #    cut = TCut("1") 
-    ScaleType = "Nmuon"
-    cut = TCut("1")
-    muonStopNumberData=3183024.6
-    h0_test=f.Get("h1_StopVol")
-    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
-    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
+
+#    ScaleType = "Nmuon"
+#    cut = TCut("1")
+#    muonStopNumberData=3183024.6#Fe(4-3)
+#    muonStopNumberData=6897255.3#Al(3-2)
+#    h0_test=f.Get("h1_StopVol")
+#    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
+#    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
 
     treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
     tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),cut,"")
@@ -190,7 +194,7 @@ def plot(args):
 if __name__ == '__main__' : 
   parser = argparse.ArgumentParser(description='Process some integers.')
   parser.add_argument("input", type=str, default="./20151112_00009_001.root", help="Input File Name")
-  parser.add_argument("-a", "--atom", type=str, default = "Fe", help="Al or Fe or Ti" )
+  parser.add_argument("-a", "--atom", type=str, default = "Al", help="Al or Fe or Ti" )
   args = parser.parse_args()
 
   plot( args )
