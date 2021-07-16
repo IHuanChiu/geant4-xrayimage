@@ -46,8 +46,8 @@ def plot(args):
     maxenergy = 200 #keV
 
     ScaleType = "MaxBin"
-#    cut = TCut("1") # Stop_VolumeID = 6 is specified signal from sample
-    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
+    cut = TCut("1") # Stop_VolumeID = 6 is specified signal from sample
+#    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
 
 #    ScaleType = "Nor"
 #    cut = TCut("1") 

@@ -115,8 +115,8 @@ class SteppingAction : public G4UserSteppingAction
     G4double det_pdgid;
 
    //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
-//    G4double GeTimeResolution = 5;//1ms range
-    G4double GeTimeResolution = 0.01;//test 10 ns = 0.01 ms
+    G4double GeTimeResolution = 1;//1 ms (Time resolution for GL0110)
+//    G4double GeTimeResolution = 0.01;//test 10 ns = 0.01 ms
     G4bool IsSameSignal;
 
     G4double ahit_edep[nhitMax_indetector];

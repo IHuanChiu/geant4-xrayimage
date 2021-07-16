@@ -119,7 +119,9 @@
 /vis/geometry/set/colour FoilTubs3 0 1 1 1 1
 #/vis/geometry/set/colour BeWindowTubs 0 0 0.756 1 0.757 1
 /vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
-/vis/geometry/set/colour Cover 0 1 0 0 .9
+/vis/geometry/set/colour BeTubs 0 1 1 0 .9
+/vis/geometry/set/colour PbTubs 0 0 1 0 .9
+/vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
@@ -132,8 +134,9 @@
 
 # trajectories color
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/set gamma magenta 
-/vis/modeling/trajectories/drawByParticleID-0/set e+ yellow
+#/vis/modeling/trajectories/drawByParticleID-0/set gamma magenta 
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
+/vis/modeling/trajectories/drawByParticleID-0/set e+ green
 /vis/modeling/trajectories/drawByParticleID-0/set e- green
 /vis/modeling/trajectories/drawByParticleID-0/set neutron blue
 /vis/modeling/trajectories/drawByParticleID-0/set mu+ red
