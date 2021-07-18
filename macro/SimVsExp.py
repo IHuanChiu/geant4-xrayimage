@@ -49,16 +49,16 @@ def plot(args):
 #    cut = TCut("1") # Stop_VolumeID = 6 is specified signal from sample
 #    cut = TCut("Stop_VolumeID == 6") # Stop_VolumeID = 6 is specified signal from sample
 
-#    ScaleType = "Nor"
-#    cut = TCut("1") 
+    ScaleType = "Nor"
+    cut = TCut("1") 
 
-    ScaleType = "Nmuon"
-    cut = TCut("1")
-    #muonStopNumberData=3183024.6#Fe(4-3)
-    muonStopNumberData=6897255.3#Al(3-2)
-    h0_test=f.Get("h1_StopVol")
-    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
-    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
+#    ScaleType = "Nmuon"
+#    cut = TCut("1")
+#    #muonStopNumberData=3183024.6#Fe(4-3)
+#    muonStopNumberData=6897255.3#Al(3-2)
+#    h0_test=f.Get("h1_StopVol")
+#    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
+#    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
 
     treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
     tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),cut,"")

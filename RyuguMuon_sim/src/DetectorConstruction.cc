@@ -320,8 +320,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double foil2_thick;
 //  G4Material* solid_foil2 = elA;//None
-//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON"); foil2_thick = 0.05;//mm
   G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al"); foil2_thick = 0.0125;//mm
+//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON"); foil2_thick = 0.05;//mm
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,((150-covor_thick)/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  
@@ -350,7 +350,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4Material* solid_chamber = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");//SUS304
   G4Material* solid_chamber_cover = nist->FindOrBuildMaterial("G4_Cu");
-//  G4Material* solid_chamber_cover = nist->FindOrBuildMaterial("G4_C");
   G4Material* solid_chamber_window = nist->FindOrBuildMaterial("G4_Be");
 
   G4VSolid* chamber_tubs = new G4Tubs("Chamber_ori",(150/2)*mm,(165.2/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
@@ -403,25 +402,29 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_thick;
   G4double sample_width;
   // === Al ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
   // === Fe ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
   // === Ti ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
   // === Cu ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.5;//25*25*1.0 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (?)
   // === S ===
-  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.85;//phi13*1.0 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.85;//phi13*0.85 mm
   // === C ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.86;//phi13*1.0 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=0.86;//phi13*0.86 mm
   // === SiO2 ===
 //  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=0.51;
+  // === CaO ===
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=25 ; sample_thick=1; //25*25*1 mm (?)
   // === Ni ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
+  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
   // === Mg ===
 //  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.8;
-  // === CaO ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.51;
+  // === BN ===
+  //TODO
+  // === NaCl ===
+  //TODO
 
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,40*CLHEP::deg,90*CLHEP::deg);
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
@@ -449,7 +452,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double holder_thick = 3;//mm
   G4Material* solid_holder = nist->FindOrBuildMaterial("G4_Cu");
-//  G4Material* solid_holder = nist->FindOrBuildMaterial("G4_C");
 //  G4VSolid* holder_tubs = new G4Tubs("Holder",(148.8/2-6.7)*mm,(148.8/2)*mm,(holder_thick/2)*mm,(0)*rad,(2*M_PI)-2*(0.5*M_PI-0.3761)*rad);
 //  G4ThreeVector pos_holder = G4ThreeVector(0, -(148.8/2*std::sin(0.3761)), (5)*mm);  
   G4VSolid* holder_tubs = new G4Tubs("Holder",(138.8/2-6.7)*mm,(138.8/2)*mm,(holder_thick/2)*mm,(-0.3761)*rad,(M_PI+0.3761*2)*rad);
