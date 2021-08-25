@@ -47,7 +47,8 @@ class RootOutput{
 
     static const int numberOfvolume = 10; 
     static const int nh1bin = 15;
-    static const int nhitMax = 100;
+    static const int nhitMax = 10;
+    static const int nDets = 6;
 
     //-100 is for escape muon; -1000 is not hit muon
     void SetInitPolInSample(G4ThreeVector pol){muSamplePolX=pol.x(); muSamplePolY=pol.y(); muSamplePolZ=pol.z();}
@@ -204,8 +205,9 @@ class RootOutput{
     Double_t RunTime;
     char RootOutputFileName[200];
 
+    Double_t InitEnergy;
     Int_t nSignals;
-    Int_t hit_id;
+    Int_t Det_ID[nhitMax];
     Double_t hit_energy[nhitMax];
     Double_t hit_energy_reso[nhitMax];
     Double_t hit_startx[nhitMax];
@@ -223,7 +225,9 @@ class RootOutput{
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetRunTime (G4double time) {RunTime = time;}
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
-    void SetSignalInfo (G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
+    void SetnInitEnergy (G4double gamma_e){InitEnergy = gamma_e;}
+    void SetSignalInfo (G4int det_id, G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
+       Det_ID[id]=det_id+1;
        hit_energy[id] = energy;
        hit_startx[id] = start_x;
        hit_starty[id] = start_y;
@@ -235,8 +239,6 @@ class RootOutput{
        hit_pdgId[id] = pdgId;
        hit_process[id] = name_id;
     }
-    
-                                                                                                                     
 };
 
 #endif

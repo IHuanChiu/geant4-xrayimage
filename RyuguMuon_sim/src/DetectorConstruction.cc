@@ -92,7 +92,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_AIR");
   // ***** expain pressure *****
-  //std::cout << "Air : " << elA->GetPressure() << std::endl;//Output is STP, 6.32421e+08
   //STP: 6.32421e+08 -> 101325 pascal -> 1atm 
   //if G4Material* the_He = nist->FindOrBuildMaterial("G4_He");
   //the_He is also 1atm
@@ -355,7 +354,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* chamber_tubs = new G4Tubs("Chamber_ori",(150/2)*mm,(165.2/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4VSolid* chamber_cover = new G4Tubs("Cover_ori",((150-covor_thick)/2)*mm,(150/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4VSolid* Chamber_Hole = new G4Tubs("ChamberHole",0*mm,(25/2)*mm,(20/2)*mm,0.,2*M_PI*rad);
-  G4VSolid* Chamber_Window = new G4Tubs("ChamberHole",0*mm,(23/2)*mm,(6/2)*mm,0.,2*M_PI*rad);
+  G4VSolid* Chamber_Window = new G4Tubs("BeWindow",0*mm,(23/2)*mm,(1./2)*mm,0.,2*M_PI*rad);
   G4double hole_dis=75+(15.2/2); 
   G4double current_angle_hole;
   G4ThreeVector pos_hole;
@@ -402,42 +401,42 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_thick;
   G4double sample_width;
   // === Al ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
+  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
   // === Fe ===
 //  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
   // === Ti ===
 //  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
   // === Cu ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (?)
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.3;//25*25*0.3 mm 
   // === S ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.85;//phi13*0.85 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.98;//phi13*0.85 mm
   // === C ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=0.86;//phi13*0.86 mm
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=1;//phi13*1 mm
   // === SiO2 ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=0.51;
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=2;
   // === CaO ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=25 ; sample_thick=1; //25*25*1 mm (?)
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.6; 
   // === Ni ===
-  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
   // === Mg ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.8;
+//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
   // === BN ===
-  //TODO
+  //TODO sample_thick=1.27;
   // === NaCl ===
-  //TODO
+  //TODO sample_thick=3;
 
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,40*CLHEP::deg,90*CLHEP::deg);
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
-  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
+//  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
 
 
   //
   // ***** Foil-3 (Cu cover) *****
   //
-  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
-//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
+//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
   G4double foil3_thick = 0.005;//mm
 //  G4Box* foil3_tubs = new G4Box("FoilTubs3", (138.4/2)*mm, (10/2)*mm, (foil3_thick/2)*mm);
   G4Box* foil3_tubs = new G4Box("FoilTubs3", ((138.4-10)/2)*mm, (20/2)*mm, (foil3_thick/2)*mm);
@@ -452,6 +451,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double holder_thick = 3;//mm
   G4Material* solid_holder = nist->FindOrBuildMaterial("G4_Cu");
+//  G4Material* solid_holder = nist->FindOrBuildMaterial("G4_Fe");
 //  G4VSolid* holder_tubs = new G4Tubs("Holder",(148.8/2-6.7)*mm,(148.8/2)*mm,(holder_thick/2)*mm,(0)*rad,(2*M_PI)-2*(0.5*M_PI-0.3761)*rad);
 //  G4ThreeVector pos_holder = G4ThreeVector(0, -(148.8/2*std::sin(0.3761)), (5)*mm);  
   G4VSolid* holder_tubs = new G4Tubs("Holder",(138.8/2-6.7)*mm,(138.8/2)*mm,(holder_thick/2)*mm,(-0.3761)*rad,(M_PI+0.3761*2)*rad);
@@ -466,15 +466,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* solid_window;
   G4Material* soild_shadow;
   G4double Ge_thick = 10;//mm
-  G4double Pb_thick = 2;//mm
+  G4double Sn_thick = 3;//mm
 //  G4Material* solid_cover;
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
   solid_window=nist->FindOrBuildMaterial("G4_Be");
-  soild_shadow=nist->FindOrBuildMaterial("G4_Pb");
+  soild_shadow=nist->FindOrBuildMaterial("G4_Sn");
 //  solid_cover=nist->FindOrBuildMaterial("G4_Al");
   G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* Be_Window = new G4Tubs("BeWin",0*mm,(5.641895835477563+1)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* Pb_Shadow = new G4Tubs("PbShadow",(5.641895835477563+1+0.2)*mm,(5.641895835477563+1+0.2+(Pb_thick/2.))*mm,(Ge_thick/2.+1)*mm,0.,2*M_PI*rad);
+  G4VSolid* Sn_Shadow = new G4Tubs("SnShadow",(5.641895835477563+1+0.2)*mm,(5.641895835477563+1+0.2+(Sn_thick/2.))*mm,(Ge_thick/2.+1)*mm,0.,2*M_PI*rad);
 //  G4VSolid* Cover_Tubes = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
   G4double ge_dis_Z=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
   G4double window_sample_dis=165.2/2+0.025/2.+3; // dis. of chamber suface to window (chamber size + thinkness of window + 3 mm)
@@ -486,18 +486,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_be;
   G4LogicalVolume* GeLog;
   G4LogicalVolume* BeLog = new G4LogicalVolume(Be_Window, solid_window, "BeTubs");
-  G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Shadow, soild_shadow, "PbTubs");;
+  G4LogicalVolume* SnLog = new G4LogicalVolume(Sn_Shadow, soild_shadow, "SnTubs");;
   G4RotationMatrix* rot_ge;
-  for(int i=0; i<nDets;i++){
+  for(int i=1; i<nDets+1;i++){
      auto idstr = std::to_string(i);
      current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
      pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
      pos_be = G4ThreeVector(window_sample_dis*std::sin(current_angle)*mm, window_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
-     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
+     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);//GeTubs1~GeTubs6
      rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(rot_ge, pos_be, BeLog, "BeTubs", logicWorld, false, 0, checkOverlaps);
-     new G4PVPlacement(rot_ge, pos_ge, PbLog, "PbTubs", logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_ge, SnLog, "SnTubs", logicWorld, false, 0, checkOverlaps);
   }
 
 

@@ -64,7 +64,7 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour BeTubs 0 1 1 0 .9
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour PbTubs 0 0 1 0 .9
+/vis/geometry/set/colour SnTubs 0 0 1 0 .9
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
 /vis/scene/notifyHandlers

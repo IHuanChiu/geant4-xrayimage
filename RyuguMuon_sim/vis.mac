@@ -120,7 +120,7 @@
 #/vis/geometry/set/colour BeWindowTubs 0 0 0.756 1 0.757 1
 /vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
 /vis/geometry/set/colour BeTubs 0 1 1 0 .9
-/vis/geometry/set/colour PbTubs 0 0 1 0 .9
+/vis/geometry/set/colour SnTubs 0 0 1 0 .9
 /vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true

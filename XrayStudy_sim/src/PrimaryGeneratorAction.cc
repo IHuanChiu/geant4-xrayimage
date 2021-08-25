@@ -135,7 +135,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
     //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-    fParticleGunEle->GeneratePrimaryVertex(anEvent);
+//    fParticleGunEle->GeneratePrimaryVertex(anEvent);
   }
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
   myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);

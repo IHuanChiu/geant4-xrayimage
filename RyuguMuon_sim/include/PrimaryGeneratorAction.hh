@@ -63,6 +63,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
+    G4ParticleGun*  fParticleGunGamma; // pointer a to G4 gun class
     G4Box* fEnvelopeBox;
     G4double t0, tSigma;
     G4double p, pSigma;
@@ -72,27 +73,33 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double poi_mean = 0;//mm
 
     //takeshita setting
-//    G4double poi_sigmaX = 0.5;//mm
-//    G4double poi_sigmaY = 7;//mm
-//    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
-//    G4double dir_error_y = 0.30;//angle error : 30%*2pi
+    G4double poi_sigmaX = 0.5;//mm
+    G4double poi_sigmaY = 7;//mm
+    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
+    G4double dir_error_y = 0.30;//angle error : 30%*2pi
 
     //test setting
-    G4double poi_sigmaX = 0.3;//mm
-    G4double poi_sigmaY = 2;//mm
-    G4double dir_error_x = 0.01;//direction error 
-    G4double dir_error_y = 0.02;
+//    G4double poi_sigmaX = 0.3;//mm
+//    G4double poi_sigmaY = 2;//mm
+//    G4double dir_error_x = 0.01;//direction error 
+//    G4double dir_error_y = 0.02;
 
     G4double x0;
     G4double y0;
     G4double z0;
+    G4double ux_ga, uy_ga, uz_ga;
 
     G4double rho_e;   
     G4double theta_e; 
     G4double y0_e;    
     G4double x0_e;   
-    G4double muon_mass, ele_mass;
+    G4double muon_mass, ele_mass, gamma_mass;
     static G4int  fractionOfEletronParticles;
+
+    G4double x0_ga;
+    G4double y0_ga;
+    G4double z0_ga;
+    G4int seed;
 
     int SetCutforBeam(G4double poi,G4double sigma){
        poi=G4RandGauss::shoot(poi_mean,sigma)*CLHEP::mm;

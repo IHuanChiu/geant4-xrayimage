@@ -167,7 +167,9 @@ void RootOutput::BeginOfRunAction() {
 //   muonTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele
 
    // ===== detector info. =====
+   rootTree->Branch("InitEnergy",&InitEnergy,"InitEnergy/D");//nsiganle in a event
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
+   rootTree->Branch("Det_ID",&Det_ID,"Det_ID[nSignals]/I");//nsiganle in a event
    rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D");
    rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); //MeV
    rootTree->Branch("Hit_Start_X",&hit_startx,"Hit_Start_X[nSignals]/D");
@@ -244,9 +246,13 @@ void RootOutput::SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-//      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(reso_init + hit_energy[i]*reso_rate));
-      hit_energy_reso[i]= G4RandGauss::shoot(hit_energy[i],(0.152/1000. + (hit_energy[i]-0.024)*0.0010545454545454547));
-   }
+//      hit_energy_reso[j][i]= G4RandGauss::shoot(hit_energy[j][i],(reso_init + hit_energy[j][i]*reso_rate));
+      if(hit_energy[i] != 0){
+         hit_energy_reso[i]=G4RandGauss::shoot(hit_energy[i],(0.152/1000. + (hit_energy[i]-0.024)*0.0010545454545454547));
+      }else{
+         hit_energy_reso[i]=hit_energy[i];
+      }
+   }//loop signals in det.
 }
 
 void RootOutput::ClearAllRootVariables() {
@@ -303,7 +309,9 @@ void RootOutput::ClearAllRootVariables() {
      eInitX = -1000; eInitY = -1000;eInitZ = -1000;eInitpX = -1000;eInitpY = -1000;eInitpZ = -1000;  
      muInitTime = -1000;
 
+     InitEnergy=0.;
      for (int i = 0; i < nhitMax; i++){
+      Det_ID[i]=0;
       hit_energy[i] = 0.;
       hit_energy_reso[i] = 0.;
       hit_startx[i] = 0.;

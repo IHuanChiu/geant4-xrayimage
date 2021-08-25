@@ -71,10 +71,10 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   VolumeMap["BeWindowTubs"] = 10;
   VolumeMap["Holder"] = 11;
   VolumeMap["World"] = 0;
-  for(int i=0; i<10;i++){
+  for(int i=1; i<6+1;i++){
      auto idstr = std::to_string(i);
-     VolumeMap["GeTubs"+idstr] = -1;     
-     VolumeMap["BeTubs"+idstr] = -2;     
+     VolumeMap["BeTubs"+idstr] = -1;     
+     VolumeMap["GeTubs"+idstr] = -1-i;     
   }
   ProcessMap["muMinusCaptureAtRest"] = 1;
   ProcessMap["phot"] = 2;
@@ -114,6 +114,7 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   }
   nSignals=0;//number of signal particles
   IsSameSignal = false;//same signal, depend on time resolution of detector
+  IsFirstStep = true;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -141,8 +142,15 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     muIoni :    muon ionization
    //     eIoni :    eletron ionization
    //     "brems":    Bremsstrahlung
-  
-  // =========== store muon hit position ===============    
+
+  // =========== ONLY for gamma source ===============   
+  if (IsFirstStep && pdgID == 22){ 
+//    std::cout << "pdgID : " << pdgID << " KineticEnergy : " << KineticEnergy << std::endl;
+    myRootOutput->SetnInitEnergy(KineticEnergy);//set n signal
+    IsFirstStep = false;
+  }
+
+  // =========== store muon hit position ===============   
   if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
   //if(particleName == "mu-"){ 
 
@@ -229,7 +237,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   }//muon end
   // =========== store other particle ===============    
 // /*
-     if(VolumeMap[CurrentVolumeName] == -1 && particleName != "mu-"){//set sensitivity detectors
+     if(VolumeMap[CurrentVolumeName] < -1 && particleName != "mu-"){//set sensitivity detectors
        // =========== store signal particle in detector ===============
        for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
           if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
@@ -244,6 +252,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }
 
        if(!IsSameSignal){//define a new signal
+          det_id=(VolumeMap[CurrentVolumeName]+2)*(-1);//which detector is this signal in? CH 0~5 
           ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
           ahit_start_x[nSignals] = TrackPosition.x();
           ahit_start_y[nSignals] = TrackPosition.y();
@@ -261,7 +270,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
        }
        myRootOutput->SetnMaxHit(nSignals);//set n signal
        for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-         myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
+         myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
        }
      }//end Ge detector
 // */ 

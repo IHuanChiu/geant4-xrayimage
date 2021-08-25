@@ -59,6 +59,7 @@ class SteppingAction : public G4UserSteppingAction
     void InitializeInBeginningOfEvent();
 
     static const int nhitMax_indetector = 100;
+    static const int ndets = 6;
 
   private:
     static SteppingAction* pointer;
@@ -113,11 +114,12 @@ class SteppingAction : public G4UserSteppingAction
     G4double det_y;
     G4double det_z;
     G4double det_pdgid;
-
+ 
    //from http://www0.mi.infn.it/~wieland/paper_wieland/NIMA_Timing.pdf
     G4double GeTimeResolution = 1;//1 ms (Time resolution for GL0110)
 //    G4double GeTimeResolution = 0.01;//test 10 ns = 0.01 ms
     G4bool IsSameSignal;
+    G4bool IsFirstStep;
 
     G4double ahit_edep[nhitMax_indetector];
     G4double ahit_start_x[nhitMax_indetector];
@@ -130,6 +132,7 @@ class SteppingAction : public G4UserSteppingAction
     G4int ahit_pdgid[nhitMax_indetector];
     G4int ahit_process[nhitMax_indetector];
     G4int nSignals;//number of signal particles
+    G4int det_id;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
