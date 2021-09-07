@@ -140,157 +140,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //                        env_mat,             //its material
 //                        "Envelope");         //its name
                
-
-  // ***** New Collimators *****
-//  G4Material* shape_cover_mat = nist->FindOrBuildMaterial("G4_Pb");
-//  G4Material* shape_cover_mat = nist->FindOrBuildMaterial("G4_Cu");
-//  G4Tubs* Cylinder0 = new G4Tubs("Cylinder0",(5.0/2)*CLHEP::mm,(10.0/2)*CLHEP::mm,(4./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder1 = new G4Tubs("Cylinder1",(10.0/2)*CLHEP::mm,(20.0/2)*CLHEP::mm,(5./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder2 = new G4Tubs("Cylinder2",(10.0/2)*CLHEP::mm,(24.0/2)*CLHEP::mm,(9./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder3 = new G4Tubs("Cylinder3",(10.0/2)*CLHEP::mm,(34.0/2)*CLHEP::mm,(6./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder4 = new G4Tubs("Cylinder4",(20.0/2)*CLHEP::mm,(34.0/2)*CLHEP::mm,(8./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder5 = new G4Tubs("Cylinder5",(20.0/2)*CLHEP::mm,(44.0/2)*CLHEP::mm,(8./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder6 = new G4Tubs("Cylinder6",(30.0/2)*CLHEP::mm,(44.0/2)*CLHEP::mm,(6./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder7 = new G4Tubs("Cylinder7",(30.0/2)*CLHEP::mm,(60.0/2)*CLHEP::mm,(8./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder8 = new G4Tubs("Cylinder8",(30.0/2)*CLHEP::mm,(54.6/2)*CLHEP::mm,(2./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//  G4Tubs* Cylinder9 = new G4Tubs("Cylinder9",(40.0/2)*CLHEP::mm,(54.6/2)*CLHEP::mm,(16./2)*CLHEP::mm,0.*CLHEP::deg,360.*CLHEP::deg);
-//
-//  G4ThreeVector pos_cover0 = G4ThreeVector(0, 0, -(4./2)*mm);
-//  G4ThreeVector pos_cover1 = G4ThreeVector(0, 0, -(5./2)*mm);
-//  G4ThreeVector pos_cover2 = G4ThreeVector(0, 0, -(5+(9./2))*mm);
-//  G4ThreeVector pos_cover3 = G4ThreeVector(0, 0, -(14.+(6./2))*mm);
-//  G4ThreeVector pos_cover4 = G4ThreeVector(0, 0, -(20.+(8./2))*mm);
-//  G4ThreeVector pos_cover5 = G4ThreeVector(0, 0, -(28.+(8./2))*mm);
-//  G4ThreeVector pos_cover6 = G4ThreeVector(0, 0, -(36.+(6./2))*mm);
-//  G4ThreeVector pos_cover7 = G4ThreeVector(0, 0, -(42.+(8./2))*mm);
-//  G4ThreeVector pos_cover8 = G4ThreeVector(0, 0, -(50.+(2./2))*mm);
-//  G4ThreeVector pos_cover9 = G4ThreeVector(0, 0, -(52.+(16./2))*mm);
-//
-//  G4LogicalVolume* CollimatorLog0 =
-//       new G4LogicalVolume(Cylinder0,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator0");           //its name
-//  G4LogicalVolume* CollimatorLog1 =
-//       new G4LogicalVolume(Cylinder1,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator1");           //its name
-//  G4LogicalVolume* CollimatorLog2 =
-//       new G4LogicalVolume(Cylinder2,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator2");           //its name
-//  G4LogicalVolume* CollimatorLog3 =
-//       new G4LogicalVolume(Cylinder3,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator3");           //its name
-//  G4LogicalVolume* CollimatorLog4 =
-//       new G4LogicalVolume(Cylinder4,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator4");           //its name
-//  G4LogicalVolume* CollimatorLog5 =
-//       new G4LogicalVolume(Cylinder5,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator5");           //its name
-//  G4LogicalVolume* CollimatorLog6 =
-//       new G4LogicalVolume(Cylinder6,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator6");           //its name
-//  G4LogicalVolume* CollimatorLog7 =
-//       new G4LogicalVolume(Cylinder7,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator7");           //its name
-//  G4LogicalVolume* CollimatorLog8 =
-//       new G4LogicalVolume(Cylinder8,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator8");           //its name
-//  G4LogicalVolume* CollimatorLog9 =
-//       new G4LogicalVolume(Cylinder9,         //its solid
-//                           shape_cover_mat,          //its material
-//                           "Collimator9");           //its name
-//
-////  new G4PVPlacement(0,                       //no rotation
-////                    pos_cover0,                    //at position
-////                    CollimatorLog0,             //its logical volume
-////                    "Collimator0",                //its name
-////                    logicWorld,                //its mother  volume
-////                    false,                   //no boolean operation
-////                    0,                       //copy number
-////                    checkOverlaps);          //overlaps checking
-//
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover1,                    //at position
-//                    CollimatorLog1,             //its logical volume
-//                    "Collimator1",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking
-//
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover2,                    //at position
-//                    CollimatorLog2,             //its logical volume
-//                    "Collimator2",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover3,                    //at position
-//                    CollimatorLog3,             //its logical volume
-//                    "Collimator3",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover4,                    //at position
-//                    CollimatorLog4,             //its logical volume
-//                    "Collimator4",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover5,                    //at position
-//                    CollimatorLog5,             //its logical volume
-//                    "Collimator5",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking   
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover6,                    //at position
-//                    CollimatorLog6,             //its logical volume
-//                    "Collimator6",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking   
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover7,                    //at position
-//                    CollimatorLog7,             //its logical volume
-//                    "Collimator7",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking   
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover8,                    //at position
-//                    CollimatorLog8,             //its logical volume
-//                    "Collimator8",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking   
-//  new G4PVPlacement(0,                       //no rotation
-//                    pos_cover9,                    //at position
-//                    CollimatorLog9,             //its logical volume
-//                    "Collimator9",                //its name
-//                    logicWorld,                //its mother  volume
-//                    false,                   //no boolean operation
-//                    0,                       //copy number
-//                    checkOverlaps);          //overlaps checking   
-//
-
   G4double covor_thick = 0.3;// cu cover for chamber mm
   //
   // ***** Foil-1 *****
@@ -393,7 +242,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* Vir_tubs2 = new G4Tubs("VirTubs2",0*mm,((150-covor_thick)/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_vir2 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick/2)*mm);
   G4LogicalVolume* VirLog2 = new G4LogicalVolume(Vir_tubs2, solid_He, "VirTubs2");  
-//  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** Sample *****
@@ -429,7 +278,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
-//  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
+  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
 
 
   //
@@ -465,38 +314,44 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* solid_common;
   G4Material* solid_window;
   G4Material* soild_shadow;
+  G4Material* solid_cover; 
   G4double Ge_thick = 10;//mm
   G4double Sn_thick = 3;//mm
-//  G4Material* solid_cover;
+  G4double SS_thick = 2;//mm
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
   solid_window=nist->FindOrBuildMaterial("G4_Be");
   soild_shadow=nist->FindOrBuildMaterial("G4_Sn");
-//  solid_cover=nist->FindOrBuildMaterial("G4_Al");
+  solid_cover=nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
   G4VSolid* Be_Window = new G4Tubs("BeWin",0*mm,(5.641895835477563+1)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* Sn_Shadow = new G4Tubs("SnShadow",(5.641895835477563+1+0.2)*mm,(5.641895835477563+1+0.2+(Sn_thick/2.))*mm,(Ge_thick/2.+1)*mm,0.,2*M_PI*rad);
-//  G4VSolid* Cover_Tubes = new G4Tubs("BeWin",0*mm,(5.641895835477563)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* Cover_Tubes = new G4Tubs("SSCover",(5.641895835477563+1+0.01)*mm,(5.641895835477563+1+0.01+SS_thick)*mm,(50/2.)*mm,0.,2*M_PI*rad);
+  G4VSolid* Sn_Shadow = new G4Tubs("SnShadow",(5.641895835477563+1+0.01+SS_thick+1.5)*mm,(5.641895835477563+1+0.01+SS_thick+Sn_thick)*mm,(Ge_thick/2.+1)*mm,0.,2*M_PI*rad);
   G4double ge_dis_Z=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
-  G4double window_sample_dis=165.2/2+0.025/2.+3; // dis. of chamber suface to window (chamber size + thinkness of window + 3 mm)
-  G4double ge_sample_dis=165.2/2+0.025+Ge_thick/2.+3+1; // dis. of Ge to window(chamber size + thinkness of window + 3 mm + 1 mm)
+  G4double window_sample_dis=165.2/2+0.025/2.+3; // dis. of chamber suface to Be window (chamber size + thinkness of window + 3 mm)
+  G4double ge_sample_dis=window_sample_dis+0.025/2.+Ge_thick/2.+0.5; // window_sample_dis + dis. of Ge to Be window(chamber size + thinkness of window + 3 mm + 1 mm)
+  G4double ss_cover_dis=window_sample_dis+0.025/2.+(50/2.);//Surface of Be window
 //  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
   G4double nDets=6;
   G4double current_angle;
   G4ThreeVector pos_ge;
   G4ThreeVector pos_be;
+  G4ThreeVector pos_ss;
   G4LogicalVolume* GeLog;
   G4LogicalVolume* BeLog = new G4LogicalVolume(Be_Window, solid_window, "BeTubs");
+  G4LogicalVolume* SSLog = new G4LogicalVolume(Cover_Tubes, solid_cover, "SSTubs");
   G4LogicalVolume* SnLog = new G4LogicalVolume(Sn_Shadow, soild_shadow, "SnTubs");;
   G4RotationMatrix* rot_ge;
   for(int i=1; i<nDets+1;i++){
      auto idstr = std::to_string(i);
      current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
-     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
+     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);//same Z for Ge, Be, and SS cover
      pos_be = G4ThreeVector(window_sample_dis*std::sin(current_angle)*mm, window_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
+     pos_ss = G4ThreeVector(ss_cover_dis*std::sin(current_angle)*mm, ss_cover_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
      GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);//GeTubs1~GeTubs6
      rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(rot_ge, pos_be, BeLog, "BeTubs", logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_ss, SSLog, "SSTubs", logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(rot_ge, pos_ge, SnLog, "SnTubs", logicWorld, false, 0, checkOverlaps);
   }
 

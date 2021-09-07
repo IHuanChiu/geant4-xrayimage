@@ -71,6 +71,8 @@
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
+/vis/geometry/set/forceWireframe SSTubs 0 true
+/vis/scene/notifyHandlers
 /vis/geometry/set/forceWireframe Chamber 0 true
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Chamber 0 0 0.529 0.808 0.921 0.5
