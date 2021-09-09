@@ -317,7 +317,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* solid_cover; 
   G4double Ge_thick = 10;//mm
   G4double Sn_thick = 3;//mm
-  G4double SS_thick = 2;//mm
+  G4double SS_thick = 0.9;//mm
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
   solid_window=nist->FindOrBuildMaterial("G4_Be");
   soild_shadow=nist->FindOrBuildMaterial("G4_Sn");
