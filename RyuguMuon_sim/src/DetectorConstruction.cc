@@ -70,6 +70,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    G4Element* elAr = new G4Element("Argon",   "Ar", Z=18., A= 39.948*g/mole);
    G4Element* elI  = new G4Element("Iodine",  "I",  Z=53., A= 126.90447*g/mole);
    G4Element* elCs = new G4Element("Cesium",  "Cs", Z=55., A= 132.90543*g/mole);
+   G4Element* elMg  = new G4Element("Magnesium", "Mg",Z=12.,A= 24.3050    *g/mole);
+   G4Element* elFe  = new G4Element("Iron",      "Fe",Z=26.,A= 55.847     *g/mole);
 
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
@@ -249,30 +251,41 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double sample_thick;
   G4double sample_width;
+  G4Material* solid_sample;
   // === Al ===
-  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
+//  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
   // === Fe ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
+//  solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
   // === Ti ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
+//  solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
   // === Cu ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.3;//25*25*0.3 mm 
+//  solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.3;//25*25*0.3 mm 
   // === S ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.98;//phi13*0.85 mm
+//  solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.98;//phi13*0.85 mm
   // === C ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=1;//phi13*1 mm
+//  solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=1;//phi13*1 mm
   // === SiO2 ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=2;
+//  solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=2;
   // === CaO ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.6; 
+//  solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.6; 
   // === Ni ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
+//  solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
   // === Mg ===
-//  G4Material* solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
+//  solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
   // === BN ===
   //TODO sample_thick=1.27;
   // === NaCl ===
   //TODO sample_thick=3;
+  // === Ryugu ===
+  sample_width=10; sample_thick=1.2;
+  double ryugu_density = 2.0*g/cm3;
+  int ncomponents;
+  int natoms;
+  solid_sample = new G4Material("Inseki", ryugu_density, ncomponents=4);
+  solid_sample->AddElement(elO, natoms=45);
+  solid_sample->AddElement(elMg, natoms=15);
+  solid_sample->AddElement(elSi, natoms=20);
+  solid_sample->AddElement(elFe, natoms=20);
 
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,40*CLHEP::deg,90*CLHEP::deg);
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
@@ -342,6 +355,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* SnLog = new G4LogicalVolume(Sn_Shadow, soild_shadow, "SnTubs");;
   G4RotationMatrix* rot_ge;
   for(int i=1; i<nDets+1;i++){
+     if (i != 2 ) continue;
      auto idstr = std::to_string(i);
      current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
      pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);//same Z for Ge, Be, and SS cover

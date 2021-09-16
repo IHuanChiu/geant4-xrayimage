@@ -109,7 +109,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
 
-  // === default particle momentum ===
+  // == default particle momentum ==
   pSigma = p0*mom_error;
   p = G4RandGauss::shoot(p0,pSigma)*MeV;
   G4double ux = p*dir_error_x*2*(G4UniformRand()-0.5)*MeV,
@@ -120,9 +120,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   fParticleGun->SetParticleEnergy(particleEnergy);//IH 
   //this command will show previous particle energy and current particle momentum "EACH EVENT" !!
   //fParticleGun->SetParticleMomentum(p*MeV);//IH 
-
-  // === particle gen. ===
-//  fParticleGun->GeneratePrimaryVertex(anEvent);
+  fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
   G4double muInitTime = fParticleGun->GetParticleTime();
 
 // ***** electron *****
@@ -141,7 +139,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
     //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-//    fParticleGunEle->GeneratePrimaryVertex(anEvent);
+    fParticleGunEle->GeneratePrimaryVertex(anEvent);// === particle gen. ===
   }
 
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
@@ -158,7 +156,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   uy_ga = 2*(G4UniformRand()-0.5)*MeV;
   uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
   fParticleGunGamma->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
-  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+//  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
 
 }
 

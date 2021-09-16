@@ -30,6 +30,8 @@
 /vis/set/textLayout right
 /vis/set/textLayout
 /vis/set/textColour
+/vis/scene/add/axes
+/vis/scene/notifyHandlers
 /vis/scene/add/eventID
 /vis/scene/notifyHandlers
 /vis/scene/add/date
