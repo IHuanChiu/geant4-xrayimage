@@ -253,7 +253,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_width;
   G4Material* solid_sample;
   // === Al ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
+  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
   // === Fe ===
 //  solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
   // === Ti ===
@@ -277,17 +277,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // === NaCl ===
   //TODO sample_thick=3;
   // === Ryugu ===
-  sample_width=10; sample_thick=1.2;
-  double ryugu_density = 2.0*g/cm3;
-  int ncomponents;
-  int natoms;
-  solid_sample = new G4Material("Inseki", ryugu_density, ncomponents=4);
-  solid_sample->AddElement(elO, natoms=45);
-  solid_sample->AddElement(elMg, natoms=15);
-  solid_sample->AddElement(elSi, natoms=20);
-  solid_sample->AddElement(elFe, natoms=20);
+//  sample_width=10; sample_thick=1.2;
+//  double ryugu_density = 2.0*g/cm3;
+//  int ncomponents;
+//  int natoms;
+//  solid_sample = new G4Material("Inseki", ryugu_density, ncomponents=4);
+//  solid_sample->AddElement(elO, natoms=45);
+//  solid_sample->AddElement(elMg, natoms=15);
+//  solid_sample->AddElement(elSi, natoms=20);
+//  solid_sample->AddElement(elFe, natoms=20);
 
-  G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,40*CLHEP::deg,90*CLHEP::deg);
+  G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-40*CLHEP::deg,90*CLHEP::deg);
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
@@ -297,8 +297,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // ***** Foil-3 (Cu cover) *****
   //
-//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
-  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
+  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
+//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
   G4double foil3_thick = 0.005;//mm
 //  G4Box* foil3_tubs = new G4Box("FoilTubs3", (138.4/2)*mm, (10/2)*mm, (foil3_thick/2)*mm);
   G4Box* foil3_tubs = new G4Box("FoilTubs3", ((138.4-10)/2)*mm, (20/2)*mm, (foil3_thick/2)*mm);
@@ -354,9 +354,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* SSLog = new G4LogicalVolume(Cover_Tubes, solid_cover, "SSTubs");
   G4LogicalVolume* SnLog = new G4LogicalVolume(Sn_Shadow, soild_shadow, "SnTubs");;
   G4RotationMatrix* rot_ge;
-  for(int i=1; i<nDets+1;i++){
-     if (i != 2 ) continue;
-     auto idstr = std::to_string(i);
+  for(int i=0; i<nDets;i++){
+     auto idstr = std::to_string(i+1);
      current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
      pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);//same Z for Ge, Be, and SS cover
      pos_be = G4ThreeVector(window_sample_dis*std::sin(current_angle)*mm, window_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);

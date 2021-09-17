@@ -60,8 +60,8 @@ def plot(args):
 #    muonStopNumberSim=h0_test.GetBinContent(7)# input muon stopping in Sample
 #    print("Rate (Data/MC):",muonStopNumberData/muonStopNumberSim)
 
-    treestand.Draw("energy >> h0_stand({0},0,{1})".format(nbins,maxenergy))
-    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},0,{1})".format(nbins,maxenergy),cut,"")
+    treestand.Draw("energy >> h0_stand({0},1,{1})".format(nbins,maxenergy+1))
+    tree.Draw("Hit_Energy_Reso*1000 >> h0_sim({0},1,{1})".format(nbins,maxenergy+1),cut,"")
     h0_stand, h0_sim = gDirectory.Get("h0_stand"), gDirectory.Get("h0_sim")
     h0_sim.GetXaxis().SetTitle("Energy[kev]")
     h0_sim.GetYaxis().SetTitle("Counts (/0.25keV)")

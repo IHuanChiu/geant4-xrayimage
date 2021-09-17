@@ -86,7 +86,8 @@ PhysicsList::PhysicsList()
 //  emPhysicsList = new G4EmStandardPhysics_option1();
 //  emPhysicsList = new G4EmStandardPhysics_option2();
 //  emPhysicsList = new G4EmStandardPhysics_option3();
-  emPhysicsList = new G4EmStandardPhysics_option4();
+//  emPhysicsList = new G4EmStandardPhysics_option4();
+  emPhysicsList = new G4EmLivermorePhysics();
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
