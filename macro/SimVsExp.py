@@ -85,6 +85,7 @@ def plot(args):
     h0_sim.SetLineColorAlpha(2,0.7)
     h0_stand.SetLineColorAlpha(1,0.9)
     h0_stand.SetMarkerColor(1)
+#    gPad.SetLogy(1)
     if ScaleType == "Nor":
        h0_stand.DrawNormalized("hist")
        h0_sim.DrawNormalized("same hist")

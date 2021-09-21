@@ -73,16 +73,16 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double poi_mean = 0;//mm
 
     //takeshita setting
-//    G4double poi_sigmaX = 0.5;//mm
-//    G4double poi_sigmaY = 7;//mm
-//    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
-//    G4double dir_error_y = 0.30;//angle error : 30%*2pi
+    G4double poi_sigmaX = 0.5;//mm
+    G4double poi_sigmaY = 7;//mm
+    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
+    G4double dir_error_y = 0.30;//angle error : 30%*2pi
 
     //test setting
-    G4double poi_sigmaX = 0.3;//mm
-    G4double poi_sigmaY = 2;//mm
-    G4double dir_error_x = 0.01;//direction error 
-    G4double dir_error_y = 0.02;
+//    G4double poi_sigmaX = 0.3;//mm
+//    G4double poi_sigmaY = 2;//mm
+//    G4double dir_error_x = 0.01;//direction error 
+//    G4double dir_error_y = 0.02;
 
     G4double x0;
     G4double y0;
