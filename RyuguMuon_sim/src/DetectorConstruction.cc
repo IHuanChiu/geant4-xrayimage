@@ -170,8 +170,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   G4double foil2_thick;
 //  G4Material* solid_foil2 = elA;//None
-//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al"); foil2_thick = 0.0125;//mm
-  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON"); foil2_thick = 0.05;//mm
+  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_Al"); foil2_thick = 0.0125;//mm
+//  G4Material* solid_foil2 = nist->FindOrBuildMaterial("G4_KAPTON"); foil2_thick = 0.05;//mm
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,((150-covor_thick)/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  
@@ -287,7 +287,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  solid_sample->AddElement(elSi, natoms=20);
 //  solid_sample->AddElement(elFe, natoms=20);
 
-  G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-40*CLHEP::deg,90*CLHEP::deg);
+  G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
   G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
@@ -297,8 +297,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // ***** Foil-3 (Cu cover) *****
   //
-//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
-  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
+  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_Cu");
+//  G4Material* solid_foil3 = nist->FindOrBuildMaterial("G4_KAPTON");
   G4double foil3_thick = 0.005;//mm
 //  G4Box* foil3_tubs = new G4Box("FoilTubs3", (138.4/2)*mm, (10/2)*mm, (foil3_thick/2)*mm);
   G4Box* foil3_tubs = new G4Box("FoilTubs3", ((138.4-10)/2)*mm, (20/2)*mm, (foil3_thick/2)*mm);
