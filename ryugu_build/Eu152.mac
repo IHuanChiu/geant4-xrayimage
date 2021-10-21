@@ -5,4 +5,4 @@
 /gun/particle ion
 /gun/ion 63 152 0 0 
 #
-/run/beamOn 20000000
+/run/beamOn 100000000
