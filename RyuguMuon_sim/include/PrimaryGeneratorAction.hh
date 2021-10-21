@@ -33,8 +33,10 @@
 #include "globals.hh"
 #include "RootOutput.hh"
 #include "Randomize.hh"
+#include "G4Ions.hh"
 
 class G4ParticleGun;
+class G4GeneralParticleSource;
 class G4Event;
 class G4Box;
 //class RunAction;
@@ -64,7 +66,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunGamma; // pointer a to G4 gun class
-    G4Box* fEnvelopeBox;
+    G4ParticleGun*  fParticleGunRI; //
+
     G4double t0, tSigma;
     G4double p, pSigma;
 
@@ -89,8 +92,6 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double z0;
     G4double ux_ga, uy_ga, uz_ga;
 
-    G4double rho_e;   
-    G4double theta_e; 
     G4double y0_e;    
     G4double x0_e;   
     G4double muon_mass, ele_mass, gamma_mass;

@@ -253,7 +253,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_width;
   G4Material* solid_sample;
   // === Al ===
-  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
+//  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
   // === Fe ===
 //  solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
   // === Ti ===
@@ -287,10 +287,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  solid_sample->AddElement(elSi, natoms=20);
 //  solid_sample->AddElement(elFe, natoms=20);
 
+//  G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
+//  G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
+
+  // === RI source ===
+  G4double isotope_plastic_radius = 12.5*mm;
+  sample_thick = 6.0*mm;
+  solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
+  G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
+  G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
+
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
-  G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
-  G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
   new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
 
 

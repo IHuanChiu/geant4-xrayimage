@@ -15,15 +15,30 @@ RootOutput* RootOutput::GetRootInstance() {
 }
 
 void RootOutput::BeginOfRunAction() {
+//   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+//   auto tpo = std::chrono::high_resolution_clock::now();
+//   G4double output_flag = tpo.time_since_epoch().count();
+//   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+//   std::stringstream ss;
+//   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" ); 
+//   auto RootOutputFileName = "./Output_"+ss.str()+".root";
+//   rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
+
    sprintf(RootOutputFileName, "./Output_%s.root", "1");
    rootFile = new TFile(RootOutputFileName, "recreate");
    G4cout << " RE-create file ! " <<G4endl; 
    rootFile->cd();
+
 //   if(rootFile->IsZombie()) { 
 //    char message[200];
 //    sprintf(message,"musrRootOutput::BeginOfRunAction() Root output file %s can not be created",RootOutputFileName);
 //    std::cout << message << std::endl;
 //   }else rootFile->cd();
+   ResponseFile = new TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ge_ResResponse.root", "read");
+   for (int i=0;i<6;i++){
+      sprintf(GeName, "graph_Ge%d", i+1);
+      gr_Ge[i]= (TGraph*)ResponseFile->Get(GeName);
+   }
 
    rootTree = new TTree("tree","Germanium detector analysis");
    muonTree = new TTree("mutree","muon beam analysis");
@@ -246,9 +261,10 @@ void RootOutput::SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_
 
 void RootOutput::SetEnergyResolution (){
    for (int i = 0; i < nSignals; i++){
-//      hit_energy_reso[j][i]= G4RandGauss::shoot(hit_energy[j][i],(reso_init + hit_energy[j][i]*reso_rate));
       if(hit_energy[i] != 0){
-         hit_energy_reso[i]=G4RandGauss::shoot(hit_energy[i],(0.152/1000. + (hit_energy[i]-0.024)*0.0010545454545454547));
+//         std::cout << " E [keV]: " << hit_energy[i]*1000. << " sigma : " << gr_Ge[Det_ID[i]-1]->Eval(hit_energy[i]*1000.)/1000. << std::endl;
+         hit_energy_reso[i]=G4RandGauss::shoot(hit_energy[i],gr_Ge[Det_ID[i]-1]->Eval(hit_energy[i]*1000.)/1000.);//unit for G4(Gr_Ge) is [MeV]([keV])
+//         hit_energy_reso[i]=G4RandGauss::shoot(hit_energy[i],(0.152/1000. + (hit_energy[i]-0.024)*0.0010545454545454547));
       }else{
          hit_energy_reso[i]=hit_energy[i];
       }

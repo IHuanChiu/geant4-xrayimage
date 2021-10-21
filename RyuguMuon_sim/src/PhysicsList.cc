@@ -9,6 +9,7 @@
 #include "G4VPhysicsConstructor.hh"
 
 #include "G4DecayPhysics.hh"
+#include "G4RadioactiveDecay.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 
 #include "G4EmStandardPhysics.hh"
@@ -72,6 +73,11 @@
 #include "G4eBremsstrahlung.hh"
 #include "G4eplusAnnihilation.hh"
 #include "G4CoulombScattering.hh"
+#include "G4IonConstructor.hh"
+#include "G4GenericIon.hh"
+#include "G4PhysicsListHelper.hh"
+#include "G4LossTableManager.hh"
+#include "G4UAtomicDeexcitation.hh"
 //#include "HadronPhysicsLHEP.hh"
 //https://www.slac.stanford.edu/comp/physics/geant4/slac_physics_lists/ilc/LHEPlistdoc.html
 
@@ -91,9 +97,9 @@ PhysicsList::PhysicsList()
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
-  //raddecayList = new G4RadioactiveDecayPhysics();//take huge time
+//  raddecayList = new G4RadioactiveDecayPhysics();//RI, take huge time
   // Muonic Atom decay   
-   decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
+  decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
 
 PhysicsList::~PhysicsList()
@@ -101,7 +107,7 @@ PhysicsList::~PhysicsList()
   delete emPhysicsList;
   delete decPhysicsList;
   delete decMuonicPhysicsList;
-  delete raddecayList;
+//  delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
   }
@@ -117,6 +123,10 @@ void PhysicsList::ConstructParticle()
   decPhysicsList -> ConstructParticle();
   decMuonicPhysicsList -> ConstructParticle();//IH
   emPhysicsList  -> ConstructParticle();
+  G4IonConstructor iConstructor;//ions IH
+  iConstructor.ConstructParticle();//ions IH
+  // pseudo-particles
+  G4Geantino::GeantinoDefinition();
 }
 
 //IH
@@ -159,15 +169,49 @@ void PhysicsList::ConstructAdditionalProcess()
 
 }
 
+void PhysicsList::ConstructRIProcess()
+{
+  G4RadioactiveDecay*  theRadioactiveDecay = new G4RadioactiveDecay();
+  G4GenericIon* ion = G4GenericIon::GenericIon();
+  auto theParticleIterator=GetParticleIterator(); //Geant4.10.3
+  theParticleIterator->reset();
+  while( (*theParticleIterator)() ){
+    G4ParticleDefinition* particle = theParticleIterator->value();
+    G4ProcessManager* pmanager = particle->GetProcessManager();
+
+    if (particle == ion) {
+  pmanager->AddProcess(theRadioactiveDecay, 0, -1, 3);
+    }
+  }
+}
+
 void PhysicsList::ConstructProcess()
 {
   AddTransportation();
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
   decMuonicPhysicsList->ConstructProcess();//IH
-//  raddecayList->ConstructProcess();
+//  raddecayList->ConstructProcess();//RI
 
-  ConstructAdditionalProcess();//IH
+  // === RI ===
+  G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
+  G4bool ARMflag = false;
+  // need to initialize atomic deexcitation
+  G4LossTableManager* man = G4LossTableManager::Instance();
+  G4VAtomDeexcitation* deex = man->AtomDeexcitation();
+  if (!deex) {
+     ///G4EmParameters::Instance()->SetFluo(true);
+     G4EmParameters::Instance()->SetAugerCascade(ARMflag);
+     deex = new G4UAtomicDeexcitation();
+     deex->InitialiseAtomicDeexcitation();
+     man->SetAtomDeexcitation(deex);
+  }
+  radioactiveDecay->SetARM(ARMflag);        //Atomic Rearangement
+  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();// register radioactiveDecay
+  ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
+
+//  ConstructAdditionalProcess();//IH
+//   ConstructRIProcess();
 
   // Hadron
   hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter

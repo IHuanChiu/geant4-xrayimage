@@ -17,6 +17,7 @@ public:
   virtual void ConstructParticle();
   virtual void ConstructProcess();
   virtual void ConstructAdditionalProcess();
+  virtual void ConstructRIProcess();
   void SetVerboseLevel(G4int);
 
 private:

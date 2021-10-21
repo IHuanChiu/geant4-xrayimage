@@ -8,6 +8,7 @@
 
 //  ROOT
 #include "TFile.h"
+#include "TGraph.h"
 #include "TTree.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -135,6 +136,9 @@ class RootOutput{
 
   // === variables for tree ===
   private:
+    TFile* ResponseFile;
+    TGraph *gr_Ge[6]; 
+    char GeName[200];
     static RootOutput* pointerToRoot;
     const char *var_name[nh1bin] = {"World","Foil-1","Intermediate1","Foil-2","intermediate2","Foil-3","Sample","Chamber","Virtual1","Virtua2","BeWindowTubs", "Holder","None","None","None"};
     const char *pro_name[nh1bin] = {"None","muMinusCaptureAtRest","phot","compt","eBrem",
