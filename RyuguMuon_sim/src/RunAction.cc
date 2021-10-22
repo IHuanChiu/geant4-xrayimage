@@ -43,8 +43,9 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction()
+RunAction::RunAction(PrimaryGeneratorAction* kin)
 : G4UserRunAction(),
+  fPrimary(kin),
   fEdep(0.),
   fEdep2(0.)
 {
@@ -81,6 +82,13 @@ RunAction::RunAction()
 RunAction::~RunAction() {}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+//G4Run* RunAction::GenerateRun()
+//{
+//  fRun = new Run();
+//  return fRun;
+//}
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void RunAction::BeginOfRunAction(const G4Run* iRun)
 { 
   G4int run_id= iRun->GetRunID();
@@ -88,6 +96,24 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->BeginOfRunAction();
+
+  // keep run condition
+  if (fPrimary) {
+    G4ParticleDefinition* particle
+      = fPrimary->GetParticleGun()->GetParticleDefinition();
+    G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
+//    iRun->SetPrimary(particle, energy);
+    G4cout << G4endl
+           << "------------UI--------------- \n"
+           << "  RI Information \n"
+           << "    Name:           " << particle->GetParticleName()        << '\n'
+           << "    Type:           " << particle->GetParticleType()        << '\n'
+           << "    Z:              " << particle->GetAtomicNumber()        << '\n'
+           << "    A:              " << particle->GetAtomicMass()          << '\n'
+           << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
+           << "------------------------------ \n"
+           << G4endl;
+  }
 
   // inform the runManager to save random number seed
   G4RunManager::GetRunManager()->SetRandomNumberStore(false);
@@ -179,6 +205,19 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
+    if (fPrimary) {
+       G4ParticleDefinition* particle = fPrimary->GetParticleGun()->GetParticleDefinition();
+       G4cout << G4endl
+              << "------------------------------ \n"
+              << "  RI Information \n"
+              << "    Name:           " << particle->GetParticleName()        << '\n'
+              << "    Type:           " << particle->GetParticleType()        << '\n'
+              << "    Z:              " << particle->GetAtomicNumber()        << '\n'
+              << "    A:              " << particle->GetAtomicMass()          << '\n'
+              << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
+              << "------------------------------ \n"
+              << G4endl;
+    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

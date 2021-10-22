@@ -3,6 +3,6 @@
 #
 /run/initialize
 /gun/particle ion
-/gun/ion 56 133 0 0 
+/gun/ion 27 57 0 0 
 #
-/run/beamOn 5000000
+/run/beamOn 100000000

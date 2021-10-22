@@ -47,7 +47,7 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
-  RunAction* runAction = new RunAction;
+  RunAction* runAction = new RunAction(0);
   SetUserAction(runAction);
 }
 
@@ -55,9 +55,10 @@ void ActionInitialization::BuildForMaster() const
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(new PrimaryGeneratorAction);
+  PrimaryGeneratorAction* primary = new PrimaryGeneratorAction();
+  SetUserAction(primary);//Set UI setting
 
-  RunAction* runAction = new RunAction;
+  RunAction* runAction = new RunAction(primary);
   SetUserAction(runAction);
   
   EventAction* eventAction = new EventAction(runAction);

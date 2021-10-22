@@ -35,6 +35,7 @@
 #include "RootOutput.hh"
 
 class G4Run;
+class PrimaryGeneratorAction;
 
 /// Run action class
 ///
@@ -45,10 +46,10 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction();
+    RunAction(PrimaryGeneratorAction* kin);
     virtual ~RunAction();
 
-    // virtual G4Run* GenerateRun();
+    //virtual G4Run* GenerateRun();
     void BeginOfRunAction(const G4Run*);
     void   EndOfRunAction(const G4Run*);
 
@@ -56,7 +57,7 @@ class RunAction : public G4UserRunAction
 //    #ifdef G4ANALYSIS_USE_ROOT
 
   private:
-
+    PrimaryGeneratorAction* fPrimary;
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
 

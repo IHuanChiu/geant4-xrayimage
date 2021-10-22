@@ -58,6 +58,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGunGamma  = new G4ParticleGun(n_particle);
   fParticleGunRI  = new G4ParticleGun(n_particle);
 
+/*
   //define input particles
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
@@ -76,7 +77,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
   fParticleGunGamma->SetParticleDefinition(gamma);
   gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
-
+// */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -102,9 +103,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
-
 // ***** muon beam *****
-
+/*
   // === particle incident position ===
   //gauss for x and y
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
@@ -163,20 +163,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
   fParticleGunGamma->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
 //  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+// */
 
 // ***** RI source *****
-//  if (fParticleGunRI->GetParticleDefinition() == G4Geantino::Geantino()) {
-//  }
-  //create vertex
-  G4int Z = 27, A = 57;
-  G4double excitEnergy = 0.*keV;
-  G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
-  fParticleGunRI->SetParticleDefinition(ion);
-  fParticleGunRI->SetParticlePosition(G4ThreeVector(0,0,275.15*CLHEP::mm));
-  fParticleGunRI->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
-  fParticleGunRI->SetParticleCharge(0.*eplus);
-  fParticleGunRI->SetParticleEnergy(0*eV);
-  fParticleGunRI->GeneratePrimaryVertex(anEvent);
+  if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
+     //if not UI : Name and type is "geantino"
+     //create vertex
+     G4int Z = 27, A = 57;
+     G4double excitEnergy = 0.*keV;
+     G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
+     fParticleGun->SetParticleDefinition(ion);
+  }
+  fParticleGun->SetParticlePosition(G4ThreeVector(0,0,275.15*CLHEP::mm));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
+  fParticleGun->SetParticleCharge(0.*eplus);
+  fParticleGun->SetParticleEnergy(0*eV);
+  fParticleGun->GeneratePrimaryVertex(anEvent);
 
 }
 

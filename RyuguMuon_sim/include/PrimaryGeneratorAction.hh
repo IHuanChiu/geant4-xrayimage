@@ -58,6 +58,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     // method to access particle gun
     const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
     const G4ParticleGun* GetParticleGunEle() const { return fParticleGunEle; }
+    const G4ParticleGun* GetParticleGunRI() const { return fParticleGunRI; }
 
     void SetMuonTime(G4double val)          {t0=val;}     //P.B. 13 May 2009
     void SetMuonTimeSigma(G4double val)     {tSigma=val;} //P.B. 13 May 2009

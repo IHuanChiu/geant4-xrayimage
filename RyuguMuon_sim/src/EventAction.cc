@@ -118,10 +118,6 @@ void EventAction::EndOfEventAction(const G4Event* event)
   myRootOutput->SetRunID(fRunManager->GetCurrentRun()->GetRunID());
   myRootOutput->SetEventID(fRunManager->GetCurrentEvent()->GetEventID());
 
-//  for(int idet = 0; idet < numberOfdetectors; idet++) {
-//     if((0.026 < fEdep_gamma[idet] && fEdep_gamma[idet] < 0.033) || (0.026 < fEdep[idet] && fEdep[idet] < 0.033))std::cout <<  " id : " << idet <<" total : " << fEdep[idet] << " Sum : " << fEdep_e[idet] + fEdep_gamma[idet] + fEdep_other[idet] << " e : " << fEdep_e[idet] << " gamma : " << fEdep_gamma[idet] << " other : " << fEdep_other[idet] << std::endl; 
-//     myRootOutput->SetDetectorInfo(idet,fEdep[idet], fEdep_e[idet], fEdep_gamma[idet], fEdep_other[idet]);//reset detector ID to ROOT 
-//  }
   if(thisEventNr == 1) run_pre = std::chrono::high_resolution_clock::now();//ignore first event
   std::chrono::high_resolution_clock::time_point run_cur = std::chrono::high_resolution_clock::now();
   runtime  = double ( std::chrono::duration_cast<std::chrono::seconds>( run_cur - run_pre ).count() );

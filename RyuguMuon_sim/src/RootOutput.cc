@@ -21,17 +21,17 @@ void RootOutput::BeginOfRunAction() {
       gr_Ge[i]= (TGraph*)ResponseFile->Get(GeName);
    }
 
-   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
-   auto tpo = std::chrono::high_resolution_clock::now();
-   G4double output_flag = tpo.time_since_epoch().count();
-   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-   std::stringstream ss;
-   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" ); 
-   auto RootOutputFileName = "./Output_"+ss.str()+".root";
-   rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
+//   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+//   auto tpo = std::chrono::high_resolution_clock::now();
+//   G4double output_flag = tpo.time_since_epoch().count();
+//   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+//   std::stringstream ss;
+//   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" ); 
+//   auto RootOutputFileName = "./Output_"+ss.str()+".root";
+//   rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
 
-//   sprintf(RootOutputFileName, "./Output_%s.root", "1");
-//   rootFile = new TFile(RootOutputFileName, "recreate");
+   sprintf(RootOutputFileName, "./Output_%s.root", "1");
+   rootFile = new TFile(RootOutputFileName, "recreate");
 
 //   if(rootFile->IsZombie()) { 
 //    char message[200];
