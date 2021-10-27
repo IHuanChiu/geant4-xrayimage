@@ -169,7 +169,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
      //if not UI : Name and type is "geantino"
      //create vertex
-     G4int Z = 27, A = 57;
+     G4int Z = 27, A = 57;//Co57
      G4double excitEnergy = 0.*keV;
      G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
      fParticleGun->SetParticleDefinition(ion);

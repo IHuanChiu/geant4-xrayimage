@@ -97,7 +97,7 @@ PhysicsList::PhysicsList()
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
-//  raddecayList = new G4RadioactiveDecayPhysics();//RI, take huge time
+  raddecayList = new G4RadioactiveDecayPhysics();//RI, take huge time
   // Muonic Atom decay   
   decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
@@ -107,7 +107,7 @@ PhysicsList::~PhysicsList()
   delete emPhysicsList;
   delete decPhysicsList;
   delete decMuonicPhysicsList;
-//  delete raddecayList;
+  delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
   }
@@ -169,29 +169,13 @@ void PhysicsList::ConstructAdditionalProcess()
 
 }
 
-void PhysicsList::ConstructRIProcess()
-{
-  G4RadioactiveDecay*  theRadioactiveDecay = new G4RadioactiveDecay();
-  G4GenericIon* ion = G4GenericIon::GenericIon();
-  auto theParticleIterator=GetParticleIterator(); //Geant4.10.3
-  theParticleIterator->reset();
-  while( (*theParticleIterator)() ){
-    G4ParticleDefinition* particle = theParticleIterator->value();
-    G4ProcessManager* pmanager = particle->GetProcessManager();
-
-    if (particle == ion) {
-  pmanager->AddProcess(theRadioactiveDecay, 0, -1, 3);
-    }
-  }
-}
-
 void PhysicsList::ConstructProcess()
 {
   AddTransportation();
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
   decMuonicPhysicsList->ConstructProcess();//IH
-//  raddecayList->ConstructProcess();//RI
+  raddecayList->ConstructProcess();//RI
 
   // === RI ===
   G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
@@ -207,11 +191,10 @@ void PhysicsList::ConstructProcess()
      man->SetAtomDeexcitation(deex);
   }
   radioactiveDecay->SetARM(ARMflag);        //Atomic Rearangement
-  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();// register radioactiveDecay
-  ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
+//  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();// register radioactiveDecay
+//  ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
 
 //  ConstructAdditionalProcess();//IH
-//   ConstructRIProcess();
 
   // Hadron
   hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());//was used to simulate the interaction of neutrons with matter

@@ -2,8 +2,8 @@
 #/run/verbose 1
 #
 /run/initialize
-#NOTE: gun setting is for fParticleGun only 
 /gun/particle ion
 /gun/ion 27 57 0 0 
 #
-/run/beamOn 20000
+#Run 203296 : 599047987 
+/run/beamOn 250000000
