@@ -1,5 +1,6 @@
 import sys,os,ROOT,time
 import heapq
+import numpy as np
 __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
 ROOT.gROOT.LoadMacro( __location__+'/AtlasStyle/AtlasStyle.C')
@@ -12,6 +13,8 @@ hr_1,hr_2,hr_3,hr_4,hr_5,hr_6=ROOT.TGraph(),ROOT.TGraph(),ROOT.TGraph(),ROOT.TGr
 
 if __name__=="__main__":
    # === counts ===
+   _print_listMC=list()
+   _print_listData=list()
    for iS in source_list:
       _name=iS
       e_list=source_list[_name]
@@ -24,9 +27,13 @@ if __name__=="__main__":
             print("E : ", ie) 
             _downh1,_uph1=h1.GetXaxis().FindBin(ie-0.5), h1.GetXaxis().FindBin(ie+0.5)
             _downh2,_uph2=h2.GetXaxis().FindBin(ie-0.5), h2.GetXaxis().FindBin(ie+0.5)
-            print("Counts (data):{:.0f}".format(h1.Integral(_downh1,_uph1)))
-            print("Counts (g4):{:.1f}".format(h2.Integral(_downh2,_uph2)))
-            print("Rate (data/g4):{}".format(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2)))
+            #print("Counts (data):{:.0f}".format(h1.Integral(_downh1,_uph1)))
+            #print("Counts (g4):{:.1f}".format(h2.Integral(_downh2,_uph2)))
+            #print("Rate (data/g4):{}".format(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2)))
+            _print_listData.append(h1.Integral(_downh1,_uph1))
+            _print_listMC.append(h2.Integral(_downh2,_uph2))
+            print("{:.0f}".format(h1.Integral(_downh1,_uph1)))
+            print("{:.1f}".format(h2.Integral(_downh2,_uph2)))
  
             if ich==1: _ratio_ch1.update({ie:(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2))})
             if ich==2: _ratio_ch2.update({ie:(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2))})
@@ -34,6 +41,16 @@ if __name__=="__main__":
             if ich==4: _ratio_ch4.update({ie:(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2))})
             if ich==5: _ratio_ch5.update({ie:(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2))})
             if ich==6: _ratio_ch6.update({ie:(h1.Integral(_downh1,_uph1)/h2.Integral(_downh2,_uph2))})
+
+   # === Latex ===
+   #print("",
+   #      "\\begin{table}[t]","\n",
+   #      "\\small", "\n",
+   #      "\\begin{center}", "\n",
+   #      "\\begin{tabular}{ p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm }", "\n",
+   #)
+   #print("",
+   #)
 
    # === plots ===
    _maxlist_ch1 = heapq.nsmallest(len(source_list["ba"])*len(source_list["co"])*len(source_list["eu"]),_ratio_ch1)

@@ -4,8 +4,8 @@
 This module provides the transformation from adc to energy.
 """
 __author__    = "I-Huan CHIU"
-__email__     = "ichiu@chem.sci.osaka-u.ac.jp"
-__created__   = "2019-11-08"
+__email__     = "ichiu@rirc.osaka-u.ac.jp"
+__created__   = "2021-11-01"
 __copyright__ = "Copyright 2019 I-Huan CHIU"
 __license__   = "GPL http://www.gnu.org/licenses/gpl.html"
 
@@ -26,12 +26,19 @@ ROOT.gROOT.LoadMacro( __location__+'/AtlasStyle/AtlasStyle.C')
 
 add_comptonsoft=False
 num_G4_sim=250000000
-num_Data_203296_Co=599047987
-num_Data_203296_Ba=180700823
-num_Data_203296_Eu=8926964400
-scale_Co=num_Data_203296_Co/num_G4_sim
-scale_Ba=num_Data_203296_Ba/num_G4_sim
-scale_Eu=num_Data_203296_Eu/num_G4_sim
+time_Co=1833
+time_Ba=3628
+time_Eu=3947
+#num_Data_Co=599047987 # 203296 
+#num_Data_Ba=180700823 # 203297
+#num_Data_Eu=8926964400 # 203299
+num_Data_Co=1222778353 #203302
+num_Data_Ba=15770190 # 203305
+num_Data_Eu=2716632871 # 203303
+scale_Co=num_Data_Co/num_G4_sim
+scale_Ba=num_Data_Ba/num_G4_sim
+scale_Eu=num_Data_Eu/num_G4_sim
+flag_doCorr=True
 
 def createRatioCanvas(Name = "cs", w = 1000, h = 800):
     cRatioCanvas = ROOT.TCanvas(Name,"",0,0,int(w),int(h))
@@ -52,12 +59,18 @@ def plot(args):
     fc_co=ROOT.TFile("./comptonsoft_data/ri_co57_simulation_specfile.root","read")
     fc_eu=ROOT.TFile("./comptonsoft_data/ri_eu152_simulation_specfile.root","read")
     
-    f_ba=ROOT.TFile("./pha_data/203297_self_Ba.root","read")
-    f_co=ROOT.TFile("./pha_data/203296_self_Co.root","read") 
-    f_eu=ROOT.TFile("./pha_data/203299_self_Eu.root","read")
-    t_ba=f_ba.Get("tree")
-    t_co=f_co.Get("tree")
-    t_eu=f_eu.Get("tree")
+#    f_ba=ROOT.TFile("./pha_data/203297_self_Ba.root","read")
+#    f_co=ROOT.TFile("./pha_data/203296_self_Co.root","read") 
+#    f_eu=ROOT.TFile("./pha_data/203299_self_Eu.root","read")
+#    t_ba=f_ba.Get("tree")
+#    t_co=f_co.Get("tree")
+#    t_eu=f_eu.Get("tree")
+    f_ba=ROOT.TFile("./edb_data/MUSE203305_01_001_000_ene.root","read")
+    f_co=ROOT.TFile("./edb_data/MUSE203302_01_001_000_ene.root","read") 
+    f_eu=ROOT.TFile("./edb_data/MUSE203303_01_001_000_ene.root","read")
+    t_ba=f_ba.Get("edbtree")
+    t_co=f_co.Get("edbtree")
+    t_eu=f_eu.Get("edbtree")
     
     fg_ba=ROOT.TFile("./G4_data/Output_Ba133_250M.root","read")
     fg_co=ROOT.TFile("./G4_data/Output_Co57_250M.root","read")
@@ -81,6 +94,24 @@ def plot(args):
     prog = ProgressBar(ntotal=num_Det*len(low_range),text="Plotting...",init_t=time.time())
     nevproc=0
     for ich in range(num_Det):
+       # corrected to livetime
+       if flag_doCorr:
+          _livetime_ba, _livetime_co, _livetime_eu = 0,0,0
+          t_ba.Draw("delta_t_det >> htemp_ba(100000,-1,1)","ch == {}".format(ich+1), "")
+          t_co.Draw("delta_t_det >> htemp_co(100000,-1,1)","ch == {}".format(ich+1), "")
+          t_eu.Draw("delta_t_det >> htemp_eu(100000,-1,1)","ch == {}".format(ich+1), "")
+          htemp_ba, htemp_co, htemp_eu = gDirectory.Get("htemp_ba"), gDirectory.Get("htemp_co"), gDirectory.Get("htemp_eu")
+          for _i in range(1,100001):
+             _livetime_ba += htemp_ba.GetBinCenter(_i)*htemp_ba.GetBinContent(_i);
+             _livetime_co += htemp_co.GetBinCenter(_i)*htemp_co.GetBinContent(_i);
+             _livetime_eu += htemp_eu.GetBinCenter(_i)*htemp_eu.GetBinContent(_i);
+          #print("CH : ",ich, " livetime  Ba : ", _livetime_ba, "real time : ", time_Ba)
+          #print("CH : ",ich, " livetime  Co : ", _livetime_co, "real time : ", time_Co)
+          #print("CH : ",ich, " livetime  Eu : ", _livetime_eu, "real time : ", time_Eu)
+          scale_Co=int(667091.3*_livetime_co/num_G4_sim)
+          scale_Ba=int(4346.8*_livetime_ba/num_G4_sim)
+          scale_Eu=int(688277.9*_livetime_eu/num_G4_sim)
+
        #for watanabe samples
        if ich+1 < num_Det:
           _index = num_Det-(ich+1)
@@ -97,9 +128,12 @@ def plot(args):
           hc_eu=fc_eu.Get("spec_det{}".format(_index))
 
           cv0.cd()
-          t_ba.Draw("energy_ori >> h_ba(6800,10,180)","detID == {}".format(ich+1),"") 
-          t_co.Draw("energy_ori >> h_co(6800,10,180)","detID == {}".format(ich+1),"") 
-          t_eu.Draw("energy_ori >> h_eu(6800,10,180)","detID == {}".format(ich+1),"") 
+#          t_ba.Draw("energy_ori >> h_ba(6800,10,180)","detID == {}".format(ich+1),"") 
+#          t_co.Draw("energy_ori >> h_co(6800,10,180)","detID == {}".format(ich+1),"") 
+#          t_eu.Draw("energy_ori >> h_eu(6800,10,180)","detID == {}".format(ich+1),"") 
+          t_ba.Draw("energy >> h_ba(6800,10,180)","ch == {}".format(ich+1),"") 
+          t_co.Draw("energy >> h_co(6800,10,180)","ch == {}".format(ich+1),"") 
+          t_eu.Draw("energy >> h_eu(6800,10,180)","ch == {}".format(ich+1),"") 
           h_ba=gDirectory.Get("h_ba")
           h_co=gDirectory.Get("h_co")
           h_eu=gDirectory.Get("h_eu")
