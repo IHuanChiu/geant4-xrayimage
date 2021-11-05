@@ -149,9 +149,9 @@ def fit(args):
     cv1.SaveAs("./outfigs/fit_ba.pdf")
     cv2.SaveAs("./outfigs/fit_co.pdf")
     cv3.SaveAs("./outfigs/fit_eu.pdf")
-    print("Ba CH1-6 => ", " p0 : ", p0_ba_list, " p1 : ", p1_ba_list)#, " livetime : ", time_ba_list)
-    print("Co CH1-6 => ", " p0 : ", p0_co_list, " p1 : ", p1_co_list)#, " livetime : ", time_co_list)
-    print("Eu CH1-6 => ", " p0 : ", p0_eu_list, " p1 : ", p1_eu_list)#, " livetime : ", time_eu_list)
+    print("Ba CH1-6 => ", " p0 : ", p0_ba_list, " p1 : ", p1_ba_list, " livetime : ", time_ba_list)
+    print("Co CH1-6 => ", " p0 : ", p0_co_list, " p1 : ", p1_co_list, " livetime : ", time_co_list)
+    print("Eu CH1-6 => ", " p0 : ", p0_eu_list, " p1 : ", p1_eu_list, " livetime : ", time_eu_list)
 
 if __name__ == '__main__' :
   parser = argparse.ArgumentParser(description='Process some integers.') 
