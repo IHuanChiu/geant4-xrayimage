@@ -332,6 +332,46 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   // ***** Ge detector *****
   //
+  // common
+  G4Material* solid_cryostat;
+  G4Material* solid_cryostatholder;
+  G4Material* solid_endcap; 
+  G4Material* solid_window; 
+  G4Material* solid_cover; 
+  G4VSolid* Ge_Det_ori;
+  G4VSolid* Ge_Det_dead;
+  G4VSolid* Ge_Det_dead_sub;
+  G4VSolid* Ge_Det_groove;
+  G4VSolid* Cryostat_Holder;
+  G4VSolid* Cover_Tubes;
+  G4VSolid* Endcap_Tubes;
+  G4VSolid* Window_Foil;
+  
+  // *** CH1 ***
+  solid_cryostat = nist->FindOrBuildMaterial("G4_Ge");
+  solid_cryostatholder = nist->FindOrBuildMaterial("G4_Cu");
+  solid_endcap = nist->FindOrBuildMaterial("G4_Al");
+  solid_window = nist->FindOrBuildMaterial("G4_Be");
+  solid_cover = nist->FindOrBuildMaterial("G4_Sn");
+  Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,(11.3/2.)*mm,(10/2.)*mm,0.,2*M_PI*rad); 
+  Ge_Det_dead = Ge_Det_ori;
+  Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((11.3-0.5*2)/2.)*mm,((10-0.5)/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
+  Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (0.5/2)*mm));
+  Ge_Det_groove = new G4Tubs("GeDet_groove",(3/2.)*mm,(5.5/2.)*mm,(1.5/2.)*mm,0.,2*M_PI*rad); 
+  Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_dead, 0, G4ThreeVector(0*mm, 0*mm, (0.5/2)*mm));
+  Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, ((5-1.5)/2)*mm));
+  Cryostat_Holder = new G4Tubs("Cryostat_Holder",(11.3/2.)*mm,((11.3/2.)+2.4)*mm,(8.7/2.)*mm,0.,2*M_PI*rad);//thinkness of holder is 2.4 mm
+  Endcap_Tubes = new G4Tubs("Endcap_Tubes",((25.4-1.6)/2.)*mm,(25.4/2.)*mm,(50/2.)*mm,0.,2*M_PI*rad);
+  Cover_Tubes = new G4Tubs("Cover_Tubes",((25.4/2.)+0.1)*mm,((25.4/2.)+0.1+3)*mm,(20/2.)*mm,0.,2*M_PI*rad);
+  Window_Foil = new G4Tubs("BeWin",0*mm,(25.4/2.)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
+  
+  // *** CH2 *** 
+  // *** CH3 *** 
+  // *** CH4 *** 
+  // *** CH5 *** 
+  // *** CH6 *** 
+
+  // *** Old setting ***
   G4Material* solid_common;
   G4Material* solid_window;
   G4Material* soild_shadow;
