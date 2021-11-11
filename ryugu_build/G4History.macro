@@ -30,8 +30,6 @@
 /vis/set/textLayout right
 /vis/set/textLayout
 /vis/set/textColour
-/vis/scene/add/axes
-/vis/scene/notifyHandlers
 /vis/scene/add/eventID
 /vis/scene/notifyHandlers
 /vis/scene/add/date
@@ -65,16 +63,19 @@
 /vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour BeTubs 0 1 1 0 .9
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour SnTubs 0 0 1 0 .9
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour TEST 0 1 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour TEST2 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour TEST6 0 1 1 0 0.5
 /vis/scene/notifyHandlers
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
 /vis/geometry/set/forceWireframe SSTubs 0 true
-/vis/scene/notifyHandlers
 /vis/geometry/set/forceWireframe Chamber 0 true
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Chamber 0 0 0.529 0.808 0.921 0.5
