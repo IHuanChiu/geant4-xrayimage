@@ -144,7 +144,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     "brems":    Bremsstrahlung
 
   // =========== ONLY for gamma source ===============   
-  if (IsFirstStep && pdgID == 22){ 
+  if (IsFirstStep){ 
 //    std::cout << "pdgID : " << pdgID << " KineticEnergy : " << KineticEnergy << std::endl;
     myRootOutput->SetnInitEnergy(KineticEnergy);//set n signal
     IsFirstStep = false;

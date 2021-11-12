@@ -49,6 +49,7 @@
 
 #include "Randomize.hh"
 #include "RootOutput.hh"
+#include "Parameters.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -73,6 +74,16 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 //#endif
 
+  //Get Parameter
+  Parameters* myParameters=nullptr;
+  if ( argc != 1 ) {
+     G4String steeringFileName=argv[1];
+     myParameters = new Parameters(steeringFileName);
+  }
+
+  // Create Root class for storing the output of the Geant simulation
+  RootOutput* myRootOutput = new RootOutput();
+
   // Set mandatory initialization classes
   //
   // Detector construction
@@ -85,11 +96,8 @@ int main(int argc,char** argv)
 //  physicsList->SetVerboseLevel(1);
 //  runManager->SetUserInitialization(physicsList);
 
-  runManager->SetUserInitialization(new PhysicsList);//okada PhysicsList
-
+  runManager->SetUserInitialization(new PhysicsList);//PhysicsList
     
-  // Create Root class for storing the output of the Geant simulation
-  RootOutput* myRootOutput = new RootOutput();
 
   // User action initialization
   runManager->SetUserInitialization(new ActionInitialization());
@@ -103,6 +111,7 @@ int main(int argc,char** argv)
 
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
+
 
   // Process macro or start UI session
   //
@@ -124,6 +133,7 @@ int main(int argc,char** argv)
   // owned and deleted by the run manager, so they should not be deleted 
   // in the main() program !
 
+  delete myParameters;
   delete myRootOutput;
   delete visManager;
   delete runManager;

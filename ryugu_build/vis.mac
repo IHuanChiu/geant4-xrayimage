@@ -138,12 +138,12 @@
 /vis/geometry/set/colour Crystal_Holder4 0 0.608 0.188 1 1
 /vis/geometry/set/colour Crystal_Holder5 0 0.608 0.188 1 1
 /vis/geometry/set/colour Crystal_Holder6 0 0.608 0.188 1 1
-/vis/geometry/set/colour Deadlayer1 0 1 0 0 1
-/vis/geometry/set/colour Deadlayer2 0 1 0 0 1 
-/vis/geometry/set/colour Deadlayer3 0 1 0 0 1 
-/vis/geometry/set/colour Deadlayer4 0 1 0 0 1 
-/vis/geometry/set/colour Deadlayer5 0 1 0 0 1 
-/vis/geometry/set/colour Deadlayer6 0 1 0 0 1 
+/vis/geometry/set/colour Deadlayer1 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer2 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer3 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer4 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer5 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer6 0 1 1 1 0.5
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

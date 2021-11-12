@@ -1,6 +1,7 @@
 #include "RootOutput.hh"
 #include "G4RunManager.hh"
 #include "G4Run.hh"
+#include "Parameters.hh"
 
 RootOutput::RootOutput() {
   TTree::SetMaxTreeSize(100000000000LL);      // Set maximum size of the tree file            
@@ -21,17 +22,33 @@ void RootOutput::BeginOfRunAction() {
       gr_Ge[i]= (TGraph*)ResponseFile->Get(GeName);
    }
 
-   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
-   auto tpo = std::chrono::high_resolution_clock::now();
-   G4double output_flag = tpo.time_since_epoch().count();
-   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-   std::stringstream ss;
-   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" ); 
+   // get parameter
+   std::stringstream ss;ss.str("test");
+   if (strcmp(Parameters::mySteeringFileName,"vis.mac")!=0){
+      char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
+      FILE *fSteeringFile=fopen(charSteeringFileName,"r");
+      char  line[501];
+      while (!feof(fSteeringFile)) {
+         fgets(line,500,fSteeringFile);
+         if ((line[0]=='#')||(line[0]=='\n')||(line[0]=='\r')) continue;
+         char tmpString0[100]="Unset", tmpString1[100]="Unset";
+         sscanf(&line[0],"%s %s",tmpString0,tmpString1);
+         if (strcmp(tmpString0,"/command/rootOutput")==0) ss << tmpString1;
+      }
+   }
    auto RootOutputFileName = "./Output_"+ss.str()+".root";
    rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
 
-//   sprintf(RootOutputFileName, "./Output_%s.root", "1");
-//   rootFile = new TFile(RootOutputFileName, "recreate");
+   //used time
+//   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+//   auto tpo = std::chrono::high_resolution_clock::now();
+//   G4double output_flag = tpo.time_since_epoch().count();
+//   auto ima_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+//   std::stringstream ss;
+//   ss << std::put_time( std::localtime(&ima_time), "%Y%m%d_%H%M%S" ); 
+//   auto RootOutputFileName = "./Output_"+ss.str()+".root";
+//   rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
+
 
 
 //   if(rootFile->IsZombie()) { 

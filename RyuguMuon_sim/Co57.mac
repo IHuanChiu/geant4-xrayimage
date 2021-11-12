@@ -1,6 +1,8 @@
 #/control/verbose 2
 #/run/verbose 1
 #
+/command/sample RI
+/command/rootOutput test 1
 /run/initialize
 /gun/particle ion
 /gun/ion 27 57 0 0 

@@ -26,6 +26,7 @@
 //
 
 #include "DetectorConstruction.hh"
+#include "Parameters.hh"
 
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -57,10 +58,33 @@ DetectorConstruction::~DetectorConstruction()
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 { 
-   G4double A, Z;
+
+   // ------------------------------------------------------------------------
+   // get parameter
+   // ------------------------------------------------------------------------
+   char tmpString0[100]="Unset", tmpString1[100]="Unset";
+   G4String SampleName="RI";
+   if (strcmp(Parameters::mySteeringFileName,"vis.mac")!=0){
+      char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
+      std::cout << "here: " << charSteeringFileName << std::endl;
+      FILE *fSteeringFile=fopen(charSteeringFileName,"r");
+      char  line[501];
+      while (!feof(fSteeringFile)) {
+         fgets(line,500,fSteeringFile);
+         std::cout << "here: " << line << std::endl;
+         if ((line[0]=='#')||(line[0]=='\n')||(line[0]=='\r')) continue;
+         sscanf(&line[0],"%s %s",tmpString0,tmpString1);//command, sample name
+         if (strcmp(tmpString0,"/command/sample")==0){ SampleName = tmpString1;
+         std::cout << "here: " << line[0] << " tmpString0 " << tmpString0 << tmpString1 << std::endl;
+         }
+      }
+   }
+   std::cout << "Sample Name: " << SampleName << std::endl;
+
    // ------------------------------------------------------------------------
    // Elements
    // ------------------------------------------------------------------------
+   G4double A, Z;
    G4Element* elH  = new G4Element("Hydrogen","H",  Z=1.,  A=1.00794*g/mole);
    G4Element* elC  = new G4Element("Carbon",  "C",  Z=6.,  A= 12.011 *g/mole);
    G4Element* elN  = new G4Element("Nitrogen","N",  Z=7.,  A= 14.00674*g/mole);
@@ -217,55 +241,53 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_thick;
   G4double sample_width;
   G4Material* solid_sample;
-  // === Al ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
-  // === Fe ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
-  // === Ti ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
-  // === Cu ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.3;//25*25*0.3 mm 
-  // === S ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.98;//phi13*0.85 mm
-  // === C ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=1;//phi13*1 mm
-  // === SiO2 ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=2;
-  // === CaO ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.6; 
-  // === Ni ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
-  // === Mg ===
-//  solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
-  // === BN ===
-  //TODO sample_thick=1.27;
-  // === NaCl ===
-  //TODO sample_thick=3;
-  // === Ryugu ===
-//  sample_width=10; sample_thick=1.2;
-//  double ryugu_density = 2.0*g/cm3;
-//  int ncomponents;
-//  int natoms;
-//  solid_sample = new G4Material("Inseki", ryugu_density, ncomponents=4);
-//  solid_sample->AddElement(elO, natoms=45);
-//  solid_sample->AddElement(elMg, natoms=15);
-//  solid_sample->AddElement(elSi, natoms=20);
-//  solid_sample->AddElement(elFe, natoms=20);
+  G4LogicalVolume* SampleLog;
 
-//  G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
-//  G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");          
-
-  // === RI source ===
-  G4double isotope_plastic_radius = 12.5*mm;
-  sample_thick = 6.0*mm;
-  solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
-  G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
-  G4LogicalVolume* SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
-
+  if(SampleName=="Al"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Al"); sample_width=25; sample_thick=1.2; //25*25*1.2 mm (change solid_foil2/3 to Kapton)
+  }else if(SampleName=="Fe"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Fe"); sample_width=25; sample_thick=0.5;//25*25*0.5 mm (change solid_foil2/3 to Kapton)
+  }else if(SampleName=="Ti"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Ti"); sample_width=25; sample_thick=1.0;//25*25*1.0 mm (change solid_foil2/3 to Kapton)
+  }else if(SampleName=="Cu"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Cu"); sample_width=25; sample_thick=0.3;//25*25*0.3 mm 
+  }else if(SampleName=="S"){
+     solid_sample = nist->FindOrBuildMaterial("G4_S"); sample_width=23; sample_thick=0.98;//phi13*0.85 mm
+  }else if(SampleName=="C"){
+     solid_sample = nist->FindOrBuildMaterial("G4_C"); sample_width=23; sample_thick=1;//phi13*1 mm
+  }else if(SampleName=="SiO2"){
+     solid_sample = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE"); sample_width=23; sample_thick=2;
+  }else if(SampleName=="CaO"){
+     solid_sample = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE"); sample_width=23 ; sample_thick=0.6; 
+  }else if(SampleName=="Ni"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Ni"); sample_width=25; sample_thick=0.2;
+  }else if(SampleName=="Mg"){
+     solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
+  }else if(SampleName=="Ryugu"){
+     sample_width=10; sample_thick=1.2;
+     double ryugu_density = 2.0*g/cm3;
+     int ncomponents;
+     int natoms;
+     solid_sample = new G4Material("Inseki", ryugu_density, ncomponents=4);
+     solid_sample->AddElement(elO, natoms=45);
+     solid_sample->AddElement(elMg, natoms=15);
+     solid_sample->AddElement(elSi, natoms=20);
+     solid_sample->AddElement(elFe, natoms=20);
+  }
+  if(SampleName!="RI"){
+     G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
+     SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
+  }else if(SampleName=="RI"){
+     // === RI source ===
+     G4double isotope_plastic_radius = 12.5*mm;
+     sample_thick = 6.0*mm;
+     solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
+     G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
+     SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
+  }
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
-
 
   //
   // ***** Foil-3 (Cu cover) *****
