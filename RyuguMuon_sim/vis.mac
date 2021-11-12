@@ -118,10 +118,32 @@
 /vis/geometry/set/colour FoilTubs2 0 1 1 0 0.5
 /vis/geometry/set/colour FoilTubs3 0 1 1 1 1
 #/vis/geometry/set/colour BeWindowTubs 0 0 0.756 1 0.757 1
-/vis/geometry/set/colour BeWindowTubs 0 1 1 1 .9
-/vis/geometry/set/colour BeTubs 0 1 1 0 .9
-/vis/geometry/set/colour SnTubs 0 0 1 0 .9
+/vis/geometry/set/colour BeWindowTubs 0 1 1 0 0.5
 /vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
+/vis/geometry/set/colour Window1 0 1 1 0 0.5
+/vis/geometry/set/colour Window2 0 1 1 0 0.5
+/vis/geometry/set/colour Window3 0 1 1 0 0.5
+/vis/geometry/set/colour Window4 0 1 1 0 0.5
+/vis/geometry/set/colour Window5 0 1 1 0 0.5
+/vis/geometry/set/colour Window6 0 1 1 0 0.5
+/vis/geometry/set/colour SnCover1 0 0 1 0 .9
+/vis/geometry/set/colour SnCover2 0 0 1 0 .9
+/vis/geometry/set/colour SnCover3 0 0 1 0 .9
+/vis/geometry/set/colour SnCover4 0 0 1 0 .9
+/vis/geometry/set/colour SnCover5 0 0 1 0 .9
+/vis/geometry/set/colour SnCover6 0 0 1 0 .9
+/vis/geometry/set/colour Crystal_Holder1 0 0.608 0.188 1 1
+/vis/geometry/set/colour Crystal_Holder2 0 0.608 0.188 1 1
+/vis/geometry/set/colour Crystal_Holder3 0 0.608 0.188 1 1
+/vis/geometry/set/colour Crystal_Holder4 0 0.608 0.188 1 1
+/vis/geometry/set/colour Crystal_Holder5 0 0.608 0.188 1 1
+/vis/geometry/set/colour Crystal_Holder6 0 0.608 0.188 1 1
+/vis/geometry/set/colour Deadlayer1 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer2 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer3 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer4 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer5 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer6 0 1 1 1 0.5
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150

@@ -127,7 +127,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* foil1_tubs = new G4Tubs("FoilTubs1",0*mm,(120/2)*mm,(foil1_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil1 = G4ThreeVector(0, 0, -(foil1_thick/2)*mm);//check beam position
   G4LogicalVolume* FoilLog1 = new G4LogicalVolume(foil1_tubs, solid_foil1, "FoilTubs1");  
-//  new G4PVPlacement(0, pos_foil1, FoilLog1, "FoilTubs1", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_foil1, FoilLog1, "FoilTubs1", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** intermediate Air *****
@@ -136,7 +136,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* inter_air_tubs = new G4Tubs("intermediate1",0*mm,(240/2)*mm,(inter_air_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_air = G4ThreeVector(0, 0, (foil1_thick+inter_air_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog1 = new G4LogicalVolume(inter_air_tubs, elA, "intermediate1");  
-//  new G4PVPlacement(0, pos_inter_air, INTERLog1, "intermediate1", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_inter_air, INTERLog1, "intermediate1", logicWorld, false, 0,  checkOverlaps);        
   
   //
   // ***** Foil-2 (chamber window) *****
@@ -148,7 +148,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* foil2_tubs = new G4Tubs("FoilTubs2",0*mm,((150-covor_thick)/2)*mm,(foil2_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_foil2 = G4ThreeVector(0, 0, (foil2_thick/2+inter_air_thick+foil1_thick)*mm);//check beam position
   G4LogicalVolume* FoilLog2 = new G4LogicalVolume(foil2_tubs, solid_foil2, "FoilTubs2");  
-//  new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_foil2, FoilLog2, "FoilTubs2", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** intermediate He *****
@@ -166,7 +166,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,((150-covor_thick)/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_inter_h = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)*mm);//check beam position
   G4LogicalVolume* INTERLog2 = new G4LogicalVolume(inter_h_tubs, solid_He, "intermediate2");  
-//  new G4PVPlacement(0, pos_inter_h, INTERLog2, "intermediate2", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_inter_h, INTERLog2, "intermediate2", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** Chamber *****
@@ -195,12 +195,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
      pos_window_chamber = G4ThreeVector((hole_dis-8/2.)*std::sin(current_angle_hole)*mm, (hole_dis-8/2.)*std::cos(current_angle_hole)*mm, ((foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)+5)*mm);
      BeWindowLog = new G4LogicalVolume(Chamber_Window, solid_chamber_window, "BeWindowTubs");
-//     new G4PVPlacement(rot_hole, pos_window_chamber, BeWindowLog, "BeWindowTubs", logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_hole, pos_window_chamber, BeWindowLog, "BeWindowTubs", logicWorld, false, 0, checkOverlaps);
   }
   G4LogicalVolume* ChamberLog = new G4LogicalVolume(chamber_tubs, solid_chamber, "Chamber");  
   G4LogicalVolume* CoverLog = new G4LogicalVolume(chamber_cover, solid_chamber_cover, "Cover");  
-//  new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
-//  new G4PVPlacement(0, pos_inter_h, CoverLog, "Cover", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_inter_h, ChamberLog, "Chamber", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_inter_h, CoverLog, "Cover", logicWorld, false, 0,  checkOverlaps);        
 
   //
   // ***** Virtual (in intermediate He) *****
@@ -209,15 +209,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* Vir_tubs = new G4Tubs("VirTubs",0*mm,((150-covor_thick)/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
   G4ThreeVector pos_vir = G4ThreeVector(0, 0, (-190)*mm);
   G4LogicalVolume* VirLog = new G4LogicalVolume(Vir_tubs, solid_He, "VirTubs");  
-//  new G4PVPlacement(0, pos_vir, VirLog, "VirTubs", INTERLog2, false, 0,  checkOverlaps);        
-
-  //
-  // ***** Virtual (not used) *****
-  //
-  G4VSolid* Vir_tubs2 = new G4Tubs("VirTubs2",0*mm,((150-covor_thick)/2)*mm,(vir_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_vir2 = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick+vir_thick/2)*mm);
-  G4LogicalVolume* VirLog2 = new G4LogicalVolume(Vir_tubs2, solid_He, "VirTubs2");  
-//  new G4PVPlacement(0, pos_vir2, VirLog2, "VirTubs2", logicWorld, false, 0,  checkOverlaps);        
+  new G4PVPlacement(0, pos_vir, VirLog, "VirTubs", INTERLog2, false, 0,  checkOverlaps);        
 
   //
   // ***** Sample *****
@@ -272,7 +264,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
-//  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
+  new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
 
 
   //
@@ -286,8 +278,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_foil3_1 = G4ThreeVector(0, 0, 5+(foil3_thick/2+sample_thick/2)/std::cos((40/360.)*2*CLHEP::pi)*mm);//check beam position
   G4ThreeVector pos_foil3_2 = G4ThreeVector(0, 0, 5-(foil3_thick/2+sample_thick/2)/std::cos((40/360.)*2*CLHEP::pi)*mm);//check beam position
   G4LogicalVolume* FoilLog3 = new G4LogicalVolume(foil3_tubs, solid_foil3, "FoilTubs3");  
-//  new G4PVPlacement(rot_sample, pos_foil3_1, FoilLog3, "FoilTubs3", INTERLog2, false, 0,  checkOverlaps);        
-//  new G4PVPlacement(rot_sample, pos_foil3_2, FoilLog3, "FoilTubs3", INTERLog2, false, 0,  checkOverlaps);        
+  new G4PVPlacement(rot_sample, pos_foil3_1, FoilLog3, "FoilTubs3", INTERLog2, false, 0,  checkOverlaps);        
+  new G4PVPlacement(rot_sample, pos_foil3_2, FoilLog3, "FoilTubs3", INTERLog2, false, 0,  checkOverlaps);        
 
   //
   // ***** Holder *****
@@ -300,12 +292,34 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* holder_tubs = new G4Tubs("Holder",(138.8/2-6.7)*mm,(138.8/2)*mm,(holder_thick/2)*mm,(-0.3761)*rad,(M_PI+0.3761*2)*rad);
   G4ThreeVector pos_holder = G4ThreeVector(0, 0, (5)*mm);  
   G4LogicalVolume* HolderLog = new G4LogicalVolume(holder_tubs, solid_holder, "Holder");          
-//  new G4PVPlacement(rot_sample,  pos_holder, HolderLog, "Holder", INTERLog2, false, 0, checkOverlaps);
+  new G4PVPlacement(rot_sample,  pos_holder, HolderLog, "Holder", INTERLog2, false, 0, checkOverlaps);
 
   //
   // ***** Ge detector *****
   //
   // common
+  G4double Ge_thickness[6] = {10,9,10,10,10,10.3};
+  G4double Ge_diameter[6] = {11.3,11.5,11.2,11.3,11.0,11.4};
+  G4double groove_inner[6] = {3,3,3,3,2.5,3};//CH1,3,4,6 are unknown
+  G4double groove_outer[6] = {5.5,5.5,5.5,5.5,5.5,5.5};//CH1,3,4,6 are unknown
+  G4double groove_thickness[6] = {1.5,1.5,1.5,1.5,1,1.5};
+  G4double deadlayer_thickness[6] = {0.5,0.5,0.5,0.5,0.5,0.5};
+  G4String cryostat_material[6] = {"G4_Cu","G4_Cu","G4_Al","G4_Cu","G4_Cu","G4_Cu"};//CH1,4,6 are unknown
+  G4double cryostat_holder_length[6] = {8.7,8.7,10,8.7,8.7,8.7};//CH1,4,6 are unknown
+  G4double cryostat_holder_thickness[6] = {2.4,2.4,2.4,2.4,2.4,2.4};//CH1,4,6 are unknown
+  G4String endcap_material[6] = {"G4_Al","G4_Al","G4_STAINLESS-STEEL","G4_Al","G4_Al","G4_Al"};//CH1,4,6 are unknown
+  G4double endcap_lengh[6] = {50,50,50,50,50,50};
+  G4double endcap_thickness[6] = {1.6,1.6,0.9,1.6,1.6,1.6};//CH1,4,6 are unknown
+  G4double endcap_diameter[6] = {25.4,25.4,25.4,25.4,25.4,25.4};
+  G4double cover_lengh[6] = {30,30,30,30,30,30};
+  G4double cover_thickness[6] = {3,3,3,3,3,3};
+  G4double window_thickness[6] = {0.03,0.08,0.025,0.025,0.03,0.025};
+  G4double distance_from_window[6] = {5,5,5,5,5,5};
+  G4double distance_from_cover[6] = {0.1,0.1,0.1,0.1,0.1,0.1};//guess
+  G4double window_sample_dis=165.2/2+3;;//dis. of the sample center from the Be window surface
+  G4double ge_dis_Z = (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; pos. the sample on the z axis
+  G4double nDets=6;
+  
   G4Material* solid_cryostat;
   G4Material* solid_cryostatholder;
   G4Material* solid_endcap; 
@@ -315,97 +329,69 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4VSolid* Ge_Det_dead;
   G4VSolid* Ge_Det_dead_sub;
   G4VSolid* Ge_Det_groove;
-  G4VSolid* Cryostat_Holder;
+  G4VSolid* Crystal_Holder;
   G4VSolid* Cover_Tubes;
   G4VSolid* Endcap_Tubes;
   G4VSolid* Window_Foil;
-  
-  // *** CH1 ***
-  solid_cryostat = nist->FindOrBuildMaterial("G4_Ge");
-  solid_cryostatholder = nist->FindOrBuildMaterial("G4_Cu");
-  solid_endcap = nist->FindOrBuildMaterial("G4_Al");
-  solid_cover = nist->FindOrBuildMaterial("G4_Sn");
-  solid_window = nist->FindOrBuildMaterial("G4_Be");
-  Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,((11.3/2.)-0.5)*mm,((10-0.5)/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
-  Ge_Det_groove = new G4Tubs("GeDet_groove",(3/2.)*mm,(5.5/2.)*mm,(1/2.)*mm,0.,2*M_PI*rad); 
-  Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -(9.5/2-1/2.)*mm));
-  Ge_Det_dead = new G4Tubs("Ge_Det_dead_ori",0*mm,(11.3/2.)*mm,(10/2.)*mm,0.,2*M_PI*rad);
-  Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((11.3-0.5*2)/2.)*mm,((10-0.5)/2.)*mm,0.,2*M_PI*rad);
-  Ge_Det_groove = new G4Tubs("GeDet_groove",(3/2.)*mm,(5.5/2.)*mm,(0.5/2.)*mm,0.,2*M_PI*rad); 
-  Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (0.25)*mm));
-  Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -((10/2.)-(0.5/2.))*mm));
-  Cryostat_Holder = new G4Tubs("Cryostat_Holder",(11.3/2.)*mm,((11.3/2.)+2.4)*mm,(8.7/2.)*mm,0.,2*M_PI*rad);//thinkness of holder is 2.4 mm
-  Endcap_Tubes = new G4Tubs("Endcap_Tubes",((25.4-1.6*2)/2.)*mm,(25.4/2.)*mm,(50/2.)*mm,0.,2*M_PI*rad);
-  Cover_Tubes = new G4Tubs("Cover_Tubes",((25.4/2.)+0.1)*mm,((25.4/2.)+0.1+3)*mm,(30/2.)*mm,0.,2*M_PI*rad);
-  Window_Foil = new G4Tubs("BeWin",0*mm,(25.4/2.)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
- 
-  G4LogicalVolume* TESTLog = new G4LogicalVolume(Ge_Det_dead, solid_cryostat, "TEST2");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, 0*mm), TESTLog, "TEST2", logicWorld, false, 0, checkOverlaps);
-  G4LogicalVolume* TESTLog2 = new G4LogicalVolume(Ge_Det_ori, solid_cryostat, "TEST");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, 0.5*mm), TESTLog2, "TEST", logicWorld, false, 0, checkOverlaps);
-
-  G4LogicalVolume* TESTLog3 = new G4LogicalVolume(Cryostat_Holder, solid_cryostatholder, "TEST3");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, 0*mm), TESTLog3, "TEST3", logicWorld, false, 0, checkOverlaps);
-
-  G4LogicalVolume* TESTLog4 = new G4LogicalVolume(Endcap_Tubes, solid_endcap, "TEST3");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, -(50/2.-10/2.-5)*mm), TESTLog4, "TEST3", logicWorld, false, 0, checkOverlaps);
-  G4LogicalVolume* TESTLog5 = new G4LogicalVolume(Cover_Tubes, solid_cover, "TEST3");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, -(30/2.-10/2.-5)*mm), TESTLog5, "TEST3", logicWorld, false, 0, checkOverlaps);
-
-  G4LogicalVolume* TESTLog6 = new G4LogicalVolume(Window_Foil, solid_window, "TEST6");
-  new G4PVPlacement(0, G4ThreeVector(0*mm, 0*mm, (10/2.+0.025/2.+5)*mm), TESTLog6, "TEST6", logicWorld, false, 0, checkOverlaps);
-
-  // *** CH2 *** 
-  // *** CH3 *** 
-  // *** CH4 *** 
-  // *** CH5 *** 
-  // *** CH6 *** 
-
-  // *** Old setting ***
-  G4Material* solid_common;
-  G4Material* solid_window;
-  G4Material* soild_shadow;
-  G4Material* solid_cover; 
-  G4double Ge_thick = 10;//mm
-  G4double Sn_thick = 3;//mm
-  G4double SS_thick = 0.9;//mm
-  solid_common=nist->FindOrBuildMaterial("G4_Ge");
-  solid_window=nist->FindOrBuildMaterial("G4_Be");
-  soild_shadow=nist->FindOrBuildMaterial("G4_Sn");
-  solid_cover=nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(5.641895835477563)*mm,(Ge_thick/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* Be_Window = new G4Tubs("BeWin",0*mm,(5.641895835477563+1)*mm,(0.025/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* Cover_Tubes = new G4Tubs("SSCover",(5.641895835477563+1+0.01)*mm,(5.641895835477563+1+0.01+SS_thick)*mm,(50/2.)*mm,0.,2*M_PI*rad);
-  G4VSolid* Sn_Shadow = new G4Tubs("SnShadow",(5.641895835477563+1+0.01+SS_thick+1.5)*mm,(5.641895835477563+1+0.01+SS_thick+Sn_thick)*mm,(Ge_thick/2.+1)*mm,0.,2*M_PI*rad);
-  G4double ge_dis_Z=(foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2+vir_thick+1.5+foil3_thick+0.2+5);//mm; same with pos. of sample
-  G4double window_sample_dis=165.2/2+0.025/2.+3; // dis. of chamber suface to Be window (chamber size + thinkness of window + 3 mm)
-  G4double ge_sample_dis=window_sample_dis+0.025/2.+Ge_thick/2.+0.5; // window_sample_dis + dis. of Ge to Be window(chamber size + thinkness of window + 3 mm + 1 mm)
-  G4double ss_cover_dis=window_sample_dis+0.025/2.+(50/2.);//Surface of Be window
-//  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
-  G4double nDets=6;
-  G4double current_angle;
-  G4ThreeVector pos_ge;
-  G4ThreeVector pos_be;
-  G4ThreeVector pos_ss;
-  G4LogicalVolume* GeLog;
-  G4LogicalVolume* BeLog = new G4LogicalVolume(Be_Window, solid_window, "BeTubs");
-  G4LogicalVolume* SSLog = new G4LogicalVolume(Cover_Tubes, solid_cover, "SSTubs");
-  G4LogicalVolume* SnLog = new G4LogicalVolume(Sn_Shadow, soild_shadow, "SnTubs");;
+  G4LogicalVolume* DeadlayerLog[6];
+  G4LogicalVolume* GeLog[6];
+  G4LogicalVolume* CrystalHolderLog[6];
+  G4LogicalVolume* EndcapLog[6];
+  G4LogicalVolume* SnCoverLog[6];
+  G4LogicalVolume* WindowLog[6];
+  G4double det_angle;
   G4RotationMatrix* rot_ge;
+  G4RotationMatrix* rot_deadlayer;
+  G4ThreeVector pos_deadlayer;
+  G4ThreeVector pos_ge;
+  G4ThreeVector pos_endcap;
+  G4ThreeVector pos_sncover;
+  G4ThreeVector pos_window;
+  
   for(int i=0; i<nDets;i++){
      auto idstr = std::to_string(i+1);
-     current_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
-     pos_ge = G4ThreeVector(ge_sample_dis*std::sin(current_angle)*mm, ge_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);//same Z for Ge, Be, and SS cover
-     pos_be = G4ThreeVector(window_sample_dis*std::sin(current_angle)*mm, window_sample_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
-     pos_ss = G4ThreeVector(ss_cover_dis*std::sin(current_angle)*mm, ss_cover_dis*std::cos(current_angle)*mm, (ge_dis_Z)*mm);
-     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);//GeTubs1~GeTubs6
-     rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
-     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
-     new G4PVPlacement(rot_ge, pos_be, BeLog, "BeTubs", logicWorld, false, 0, checkOverlaps);
-     new G4PVPlacement(rot_ge, pos_ss, SSLog, "SSTubs", logicWorld, false, 0, checkOverlaps);
-     new G4PVPlacement(rot_ge, pos_ge, SnLog, "SnTubs", logicWorld, false, 0, checkOverlaps);
- // }
+     solid_cryostat = nist->FindOrBuildMaterial("G4_Ge");
+     solid_cryostatholder = nist->FindOrBuildMaterial(cryostat_material[i]);
+     solid_endcap = nist->FindOrBuildMaterial(endcap_material[i]);
+     solid_cover = nist->FindOrBuildMaterial("G4_Sn");
+     solid_window = nist->FindOrBuildMaterial("G4_Be");
+     Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,((Ge_diameter[i]/2.)-deadlayer_thickness[i])*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
+     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((groove_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad); 
+     Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -((Ge_thickness[i]-deadlayer_thickness[i])/2-(groove_thickness[i]-deadlayer_thickness[i])/2.)*mm));
+     Ge_Det_dead = new G4Tubs("Ge_Det_dead_ori",0*mm,(Ge_diameter[i]/2.)*mm,(Ge_thickness[i]/2.)*mm,0.,2*M_PI*rad);
+     Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((Ge_diameter[i]-deadlayer_thickness[i]*2)/2.)*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);
+     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((deadlayer_thickness[i]/2.)*10)*mm,0.,2*M_PI*rad);//tips: 10 times for subtraction
+     Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (deadlayer_thickness[i]/2.)*mm));
+     Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -(Ge_thickness[i]/2.)*mm));
+     Crystal_Holder = new G4Tubs("Crystal_Holder",(Ge_diameter[i]/2.)*mm,((Ge_diameter[i]/2.)+cryostat_holder_thickness[i])*mm,(cryostat_holder_length[i]/2.)*mm,0.,2*M_PI*rad);//thinkness of holder is 2.4 mm
+     Endcap_Tubes = new G4Tubs("Endcap_Tubes",((endcap_diameter[i]-endcap_thickness[i]*2)/2.)*mm,(endcap_diameter[i]/2.)*mm,(endcap_lengh[i]/2.)*mm,0.,2*M_PI*rad);
+     Cover_Tubes = new G4Tubs("Cover_Tubes",((endcap_diameter[i]/2.)+distance_from_cover[i])*mm,((25.4/2.)+distance_from_cover[i]+cover_thickness[i])*mm,(cover_lengh[i]/2.)*mm,0.,2*M_PI*rad);
+     Window_Foil = new G4Tubs("BeWin",0*mm,(endcap_diameter[i]/2.)*mm,(window_thickness[i]/2.)*mm,0.,2*M_PI*rad);
 
+     // set logical volume
+     DeadlayerLog[i] = new G4LogicalVolume(Ge_Det_dead, solid_cryostat, "Deadlayer"+idstr);
+     GeLog[i] = new G4LogicalVolume(Ge_Det_ori, solid_cryostat, "Ge"+idstr);
+     CrystalHolderLog[i] = new G4LogicalVolume(Crystal_Holder, solid_cryostatholder, "Crystal_Holder"+idstr);
+     EndcapLog[i] = new G4LogicalVolume(Endcap_Tubes, solid_endcap, "Endcap"+idstr);
+     SnCoverLog[i] = new G4LogicalVolume(Cover_Tubes, solid_cover, "SnCover"+idstr);
+     WindowLog[i] = new G4LogicalVolume(Window_Foil, solid_window, "Window"+idstr);
+
+     // place
+     det_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
+     rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
+     rot_deadlayer = new G4RotationMatrix((-i*(360./nDets)-30+180)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
+     pos_deadlayer=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.)*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.)*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
+     pos_ge=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
+     pos_sncover=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+cover_lengh[i]/2.)*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+cover_lengh[i]/2.)*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
+     pos_endcap=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+endcap_lengh[i]/2.)*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+endcap_lengh[i]/2.)*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
+     pos_window=G4ThreeVector(window_sample_dis*std::sin(det_angle)*mm, window_sample_dis*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
+     new G4PVPlacement(rot_deadlayer, pos_deadlayer, DeadlayerLog[i], "Deadlayer"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_deadlayer, CrystalHolderLog[i], "Crystal_Holder"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_ge, GeLog[i], "Ge"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_endcap, EndcapLog[i], "Endcap"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_sncover, SnCoverLog[i], "SnCover"+idstr, logicWorld, false, 0, checkOverlaps);
+     new G4PVPlacement(rot_ge, pos_window, WindowLog[i], "Window"+idstr, logicWorld, false, 0, checkOverlaps);
+  } 
 
   //always return the physical World
   return physWorld;
