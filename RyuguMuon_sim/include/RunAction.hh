@@ -33,6 +33,7 @@
 #include "G4Accumulable.hh"
 #include "globals.hh"
 #include "RootOutput.hh"
+#include "DetectorConstruction.hh"
 
 class G4Run;
 class PrimaryGeneratorAction;
@@ -60,6 +61,7 @@ class RunAction : public G4UserRunAction
     PrimaryGeneratorAction* fPrimary;
     G4Accumulable<G4double> fEdep;
     G4Accumulable<G4double> fEdep2;
+    DetectorConstruction* myDetpointer;
 
 };
 

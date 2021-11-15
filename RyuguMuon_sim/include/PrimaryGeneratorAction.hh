@@ -29,6 +29,7 @@
 #define PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
+#include "DetectorConstruction.hh"
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 #include "RootOutput.hh"
@@ -64,6 +65,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     void SetMuonTimeSigma(G4double val)     {tSigma=val;} //P.B. 13 May 2009
   
   private:
+    DetectorConstruction* myDetpointer;
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunGamma; // pointer a to G4 gun class

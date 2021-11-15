@@ -24,17 +24,21 @@ void RootOutput::BeginOfRunAction() {
 
    // get parameter
    std::stringstream ss;ss.str("test");
-   if (strcmp(Parameters::mySteeringFileName,"vis.mac")!=0){
+   if (strcmp(Parameters::mySteeringFileName,"Unset")!=0){
       char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
       FILE *fSteeringFile=fopen(charSteeringFileName,"r");
       char  line[501];
+      G4cout << "\n\n....oooOO0OOooo........oooOO0OOooo......Configuration file used for this run....oooOO0OOooo........oooOO0OOooo......"<<G4endl;
       while (!feof(fSteeringFile)) {
          fgets(line,500,fSteeringFile);
+         if(line[0]=='#/') continue;
+         G4cout << line;
          if ((line[0]=='#')||(line[0]=='\n')||(line[0]=='\r')) continue;
          char tmpString0[100]="Unset", tmpString1[100]="Unset";
          sscanf(&line[0],"%s %s",tmpString0,tmpString1);
          if (strcmp(tmpString0,"/command/rootOutput")==0) ss << tmpString1;
       }
+      G4cout <<"....oooOO0OOooo........oooOO0OOooo......End of the configuration file.....oooOO0OOooo........oooOO0OOooo......\n\n"<<G4endl;
    }
    auto RootOutputFileName = "./Output_"+ss.str()+".root";
    rootFile = new TFile(RootOutputFileName.c_str(), "recreate");
@@ -256,7 +260,7 @@ void RootOutput::EndOfRunAction() {
   h1_StopVol->Write();
   h1_process->Write();
   rootFile->Close();
-  G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
+  G4cout<<Form("RootOutput::EndOfRunAction() - Root tree written out in %s",rootFile->GetName())<<G4endl;
 }
 
 void RootOutput::FillEvent() {

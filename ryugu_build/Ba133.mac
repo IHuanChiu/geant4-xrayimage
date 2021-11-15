@@ -6,4 +6,5 @@
 /gun/ion 56 133 0 0 
 #
 #Run203297 : 209347398
-/run/beamOn 250000000
+#/run/beamOn 250000000
+/run/beamOn 250

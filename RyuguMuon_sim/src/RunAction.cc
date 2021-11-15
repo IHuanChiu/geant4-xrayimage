@@ -76,7 +76,7 @@ RunAction::RunAction(PrimaryGeneratorAction* kin)
 //  analysisManager->CreateNtupleDColumn("Egap");
 //  analysisManager->FinishNtuple();
 
-  
+  myDetpointer = DetectorConstruction::GetDetInstance(); 
 }
 
 RunAction::~RunAction() {}
@@ -103,8 +103,10 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
       = fPrimary->GetParticleGun()->GetParticleDefinition();
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
 //    iRun->SetPrimary(particle, energy);
+    G4cout << "Sample Name : " << myDetpointer->SampleName << G4endl;
+    if (myDetpointer->SampleName == "RI"){
     G4cout << G4endl
-           << "------------UI--------------- \n"
+           << "------------Initial Setting--------------- \n"
            << "  RI Information \n"
            << "    Name:           " << particle->GetParticleName()        << '\n'
            << "    Type:           " << particle->GetParticleType()        << '\n'
@@ -113,6 +115,7 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
            << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
            << "------------------------------ \n"
            << G4endl;
+     }
   }
 
   // inform the runManager to save random number seed
@@ -205,6 +208,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
+    if (myDetpointer->SampleName == "RI"){
     if (fPrimary) {
        G4ParticleDefinition* particle = fPrimary->GetParticleGun()->GetParticleDefinition();
        G4cout << G4endl
@@ -217,6 +221,7 @@ void RunAction::EndOfRunAction(const G4Run* run)
               << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
               << "------------------------------ \n"
               << G4endl;
+    }
     }
 }
 

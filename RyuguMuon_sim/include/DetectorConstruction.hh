@@ -33,6 +33,7 @@
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
+class Messenger;
 /// Detector construction class to define materials and geometry.
 
 class DetectorConstruction : public G4VUserDetectorConstruction
@@ -40,10 +41,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction
   public:
     DetectorConstruction();
     virtual ~DetectorConstruction();
-
+    static DetectorConstruction* GetDetInstance();
     virtual G4VPhysicalVolume* Construct();
+
+    G4String SampleName;
     
   private:
+    static DetectorConstruction* pointerToDet;
+    Messenger* myMessenger; 
     //old collimator
 //    G4double shape_depth_1 = 20;
 //    G4double shape_depth_2 = 20;

@@ -1,2 +1,145 @@
 /run/verbose 2
 /run/initialize
+/control/execute vis.mac
+/vis/open OGL 600x600-0+0
+/vis/sceneHandler/create OGL
+/vis/viewer/create ! ! 600x600-0+0
+/vis/viewer/refresh
+/vis/viewer/set/autoRefresh false
+/vis/viewer/set/background black
+/vis/verbose errors
+/vis/drawVolume
+/vis/scene/create
+/vis/scene/add/volume world -1 -1 none m 0 0 0 0 0 0
+/vis/sceneHandler/attach
+/vis/viewer/set/viewpointVector -1 0 0
+/vis/viewer/set/lightsVector -1 0 0
+/vis/viewer/set/style wireframe
+/vis/viewer/set/auxiliaryEdge true
+/vis/viewer/set/lineSegmentsPerCircle 100
+/vis/scene/add/trajectories smooth
+/tracking/storeTrajectory 2
+/vis/scene/notifyHandlers
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
+/vis/scene/notifyHandlers scene-0
+/vis/scene/endOfEventAction accumulate -1
+/vis/set/textColour green
+/vis/set/textLayout right
+/vis/set/textLayout
+/vis/set/textColour
+/vis/scene/add/eventID
+/vis/scene/notifyHandlers
+/vis/scene/add/date
+/vis/scene/notifyHandlers
+/vis/set/colour red
+/vis/set/lineWidth 2
+/vis/scene/add/frame
+/vis/scene/notifyHandlers
+/vis/set/colour
+/vis/set/lineWidth
+/vis/geometry/set/visibility World 0 false
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Envelope 0 1 1 1 .3
+/vis/geometry/set/colour CdTeUp 0 1 0 0 .9
+/vis/geometry/set/colour intermediate1 0 1 0.98 0.80 .15
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour intermediate2 0 0.529 0.808 0.921 .15
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Sample 0 0 1 0 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour VirTubs 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour VirTubs2 0 1 1 0 0.5
+/vis/geometry/set/colour FoilTubs1 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour FoilTubs2 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour FoilTubs3 0 1 1 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour BeWindowTubs 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Cover 0 0.608 0.188 1 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window1 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window2 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window3 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window4 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window5 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Window6 0 1 1 0 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover1 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover2 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover3 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover4 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover5 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour SnCover6 0 0 1 0 .9
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder1 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder2 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder3 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder4 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder5 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Crystal_Holder6 0 0.608 0.188 1 1
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer1 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer2 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer3 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer4 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer5 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Deadlayer6 0 1 1 1 0.5
+/vis/scene/notifyHandlers
+/vis/viewer/set/style surface
+/vis/viewer/set/hiddenMarker true
+/vis/viewer/set/viewpointThetaPhi 120 150
+/vis/geometry/set/forceWireframe SSTubs 0 true
+/vis/geometry/set/forceWireframe Chamber 0 true
+/vis/scene/notifyHandlers
+/vis/geometry/set/colour Chamber 0 0 0.529 0.808 0.921 0.5
+/vis/scene/notifyHandlers
+/vis/viewer/set/autoRefresh true
+/vis/viewer/refresh
+/vis/verbose warnings
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByParticleID-0/set e+ green
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByParticleID-0/set e- green
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByParticleID-0/set neutron blue
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByParticleID-0/set mu+ red
+/vis/scene/notifyHandlers scene-0
+/vis/modeling/trajectories/drawByParticleID-0/set mu- red
+/vis/scene/notifyHandlers scene-0
+/vis/scene/add/trajectories smooth
+/tracking/storeTrajectory 2
+/vis/scene/notifyHandlers
+/vis/scene/add/trajectories smooth rich
+/tracking/storeTrajectory 4
+/vis/scene/notifyHandlers
+/run/beamOn 100
+/vis/scene/notifyHandlers scene-0

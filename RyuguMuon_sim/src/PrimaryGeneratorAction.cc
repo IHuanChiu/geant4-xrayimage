@@ -57,27 +57,28 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGunEle  = new G4ParticleGun(n_particle);
   fParticleGunGamma  = new G4ParticleGun(n_particle);
   fParticleGunRI  = new G4ParticleGun(n_particle);
-
-/*
-  //define input particles
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName="mu-");//IH
-  fParticleGun->SetParticleDefinition(particle);
-  muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
-
-  G4String eletronName;
-  G4ParticleDefinition* eletron
-    = particleTable->FindParticle(eletronName="e-");//IH
-  fParticleGunEle->SetParticleDefinition(eletron);
-  ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
-
-  G4String gammaName;
-  G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
-  fParticleGunGamma->SetParticleDefinition(gamma);
-  gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
-// */
+  myDetpointer = DetectorConstruction::GetDetInstance(); 
+  std::cout << "CHECK : " <<myDetpointer->SampleName << std::endl;
+  if(myDetpointer->SampleName != "RI"){
+     //define input particles (muon beam) TODO set muon beam
+//     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+//     G4String particleName;
+//     G4ParticleDefinition* particle
+//       = particleTable->FindParticle(particleName="mu-");//IH
+//     fParticleGun->SetParticleDefinition(particle);
+//     muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+//
+//     G4String eletronName;
+//     G4ParticleDefinition* eletron
+//       = particleTable->FindParticle(eletronName="e-");//IH
+//     fParticleGunEle->SetParticleDefinition(eletron);
+//     ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
+//
+//     G4String gammaName;
+//     G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
+//     fParticleGunGamma->SetParticleDefinition(gamma);
+//     gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -103,83 +104,82 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
-// ***** muon beam *****
-/*
-  // === particle incident position ===
-  //gauss for x and y
-  x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
-  y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
-  z0 = -5*CLHEP::mm;
-  //temp: only for this case (cut for beam)
-  //if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
-  //if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-
-  // == default particle momentum ==
-  pSigma = p0*mom_error;
-  p = G4RandGauss::shoot(p0,pSigma)*MeV;
-  G4double ux = p*dir_error_x*2*(G4UniformRand()-0.5)*MeV,
-           uy = p*dir_error_y*2*(G4UniformRand()-0.5)*MeV,
-           uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
-  G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
-  fParticleGun->SetParticleEnergy(particleEnergy);//IH 
-  //this command will show previous particle energy and current particle momentum "EACH EVENT" !!
-  //fParticleGun->SetParticleMomentum(p*MeV);//IH 
-//  fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
-  G4double muInitTime = fParticleGun->GetParticleTime();
-
-// ***** electron *****
-  G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
-           uy_e = p*(dir_error_y/10)*2*(G4UniformRand()-0.5)*MeV,
-           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
-  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
-  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
-  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH
-  long thisEventNr = (long) (anEvent->GetEventID());
-  if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {
-    // ** gauss **
-    x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
-    y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
-    //temp: only for this case (cut for beam)
-    //if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
-    //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
-    fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
-//    fParticleGunEle->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+  if(myDetpointer->SampleName != "RI"){
+     // ***** muon beam ***** TODO set muon beam
+     // === particle incident position ===
+     //gauss for x and y
+     x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+     y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+     z0 = -5*CLHEP::mm;
+     //temp: only for this case (cut for beam)
+     //if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
+     //if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
+     fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+   
+     // == default particle momentum ==
+     pSigma = p0*mom_error;
+     p = G4RandGauss::shoot(p0,pSigma)*MeV;
+     G4double ux = p*dir_error_x*2*(G4UniformRand()-0.5)*MeV,
+              uy = p*dir_error_y*2*(G4UniformRand()-0.5)*MeV,
+              uz = std::sqrt(p*p - ux*ux - uy*uy)*MeV;
+     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
+     G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
+     fParticleGun->SetParticleEnergy(particleEnergy);//IH 
+     //this command will show previous particle energy and current particle momentum "EACH EVENT" !!
+     //fParticleGun->SetParticleMomentum(p*MeV);//IH 
+     fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+     G4double muInitTime = fParticleGun->GetParticleTime();
+   
+   // ***** electron *****
+     G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
+              uy_e = p*(dir_error_y/10)*2*(G4UniformRand()-0.5)*MeV,
+              uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
+     fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
+     particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
+     fParticleGunEle->SetParticleEnergy(particleEnergy);//IH
+     long thisEventNr = (long) (anEvent->GetEventID());
+     if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) {
+       // ** gauss **
+       x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
+       y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
+       //temp: only for this case (cut for beam)
+       //if (std::fabs(x0_e)>60) x0_e = SetCutforBeam(x0_e,poi_sigmaX);
+       //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
+       fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
+       fParticleGunEle->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+     }
+   
+     myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
+     myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
+   
+   // ***** gamma *****
+     x0_ga = 0;
+     y0_ga = 0;
+     z0_ga = 275.15*CLHEP::mm;
+     fParticleGunGamma->SetParticlePosition(G4ThreeVector(x0_ga,y0_ga,z0_ga));
+     seed = int(G4UniformRand()*20);
+     fParticleGunGamma->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
+     ux_ga = 2*(G4UniformRand()-0.5)*MeV;
+     uy_ga = 2*(G4UniformRand()-0.5)*MeV;
+     uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
+     fParticleGunGamma->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
+   //  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+  }else{
+  // ***** RI source *****
+     if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
+        //if not UI : Name and type is "geantino"
+        //create vertex
+        G4int Z = 27, A = 57;//Co57
+        G4double excitEnergy = 0.*keV;
+        G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
+        fParticleGun->SetParticleDefinition(ion);
+     }
+     fParticleGun->SetParticlePosition(G4ThreeVector(0,0,275.15*CLHEP::mm));
+     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
+     fParticleGun->SetParticleCharge(0.*eplus);
+     fParticleGun->SetParticleEnergy(0*eV);
+     fParticleGun->GeneratePrimaryVertex(anEvent);
   }
-
-  myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
-  myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
-
-// ***** gamma *****
-  x0_ga = 0;
-  y0_ga = 0;
-  z0_ga = 275.15*CLHEP::mm;
-  fParticleGunGamma->SetParticlePosition(G4ThreeVector(x0_ga,y0_ga,z0_ga));
-  seed = int(G4UniformRand()*20);
-  fParticleGunGamma->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
-  ux_ga = 2*(G4UniformRand()-0.5)*MeV;
-  uy_ga = 2*(G4UniformRand()-0.5)*MeV;
-  uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
-  fParticleGunGamma->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
-//  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
-// */
-
-// ***** RI source *****
-  if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
-     //if not UI : Name and type is "geantino"
-     //create vertex
-     G4int Z = 27, A = 57;//Co57
-     G4double excitEnergy = 0.*keV;
-     G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
-     fParticleGun->SetParticleDefinition(ion);
-  }
-  fParticleGun->SetParticlePosition(G4ThreeVector(0,0,275.15*CLHEP::mm));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
-  fParticleGun->SetParticleCharge(0.*eplus);
-  fParticleGun->SetParticleEnergy(0*eV);
-  fParticleGun->GeneratePrimaryVertex(anEvent);
-
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

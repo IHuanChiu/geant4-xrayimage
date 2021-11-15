@@ -27,6 +27,7 @@
 
 #include "DetectorConstruction.hh"
 #include "Parameters.hh"
+#include "Messenger.hh"
 
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -47,12 +48,22 @@
 
 DetectorConstruction::DetectorConstruction()
 : G4VUserDetectorConstruction()
-{ }
+{
+   myMessenger = new Messenger(this);
+   pointerToDet=this;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::~DetectorConstruction()
-{ }
+{ 
+   delete myMessenger;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+DetectorConstruction* DetectorConstruction::pointerToDet=0;
+DetectorConstruction* DetectorConstruction::GetDetInstance() {return pointerToDet;}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -63,23 +74,23 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    // get parameter
    // ------------------------------------------------------------------------
    char tmpString0[100]="Unset", tmpString1[100]="Unset";
-   G4String SampleName="RI";
-   if (strcmp(Parameters::mySteeringFileName,"vis.mac")!=0){
+   SampleName="RI";
+   if (strcmp(Parameters::mySteeringFileName,"Unset")!=0){
       char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
-      std::cout << "here: " << charSteeringFileName << std::endl;
+      //std::cout << "here11: " << charSteeringFileName << std::endl;
       FILE *fSteeringFile=fopen(charSteeringFileName,"r");
       char  line[501];
       while (!feof(fSteeringFile)) {
          fgets(line,500,fSteeringFile);
-         std::cout << "here: " << line << std::endl;
+         //std::cout << "here: " << line << std::endl;
          if ((line[0]=='#')||(line[0]=='\n')||(line[0]=='\r')) continue;
          sscanf(&line[0],"%s %s",tmpString0,tmpString1);//command, sample name
          if (strcmp(tmpString0,"/command/sample")==0){ SampleName = tmpString1;
-         std::cout << "here: " << line[0] << " tmpString0 " << tmpString0 << tmpString1 << std::endl;
+         //std::cout << "here: " << line[0] << " tmpString0 " << tmpString0 << tmpString1 << std::endl;
          }
       }
    }
-   std::cout << "Sample Name: " << SampleName << std::endl;
+   //std::cout << "Sample Name: " << SampleName << std::endl;
 
    // ------------------------------------------------------------------------
    // Elements
@@ -285,6 +296,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
      SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
   }
+
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
   G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
   new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);

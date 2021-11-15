@@ -283,6 +283,30 @@ src/EventAction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/EventAction.cc.s
 .PHONY : src/EventAction.cc.s
 
+src/Messenger.o: src/Messenger.cc.o
+.PHONY : src/Messenger.o
+
+# target to build an object file
+src/Messenger.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/Messenger.cc.o
+.PHONY : src/Messenger.cc.o
+
+src/Messenger.i: src/Messenger.cc.i
+.PHONY : src/Messenger.i
+
+# target to preprocess a source file
+src/Messenger.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/Messenger.cc.i
+.PHONY : src/Messenger.cc.i
+
+src/Messenger.s: src/Messenger.cc.s
+.PHONY : src/Messenger.s
+
+# target to generate assembly for a file
+src/Messenger.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sim_MuonicAtom.dir/build.make CMakeFiles/sim_MuonicAtom.dir/src/Messenger.cc.s
+.PHONY : src/Messenger.cc.s
+
 src/Parameters.o: src/Parameters.cc.o
 .PHONY : src/Parameters.o
 
@@ -453,6 +477,9 @@ help:
 	@echo "... src/EventAction.o"
 	@echo "... src/EventAction.i"
 	@echo "... src/EventAction.s"
+	@echo "... src/Messenger.o"
+	@echo "... src/Messenger.i"
+	@echo "... src/Messenger.s"
 	@echo "... src/Parameters.o"
 	@echo "... src/Parameters.i"
 	@echo "... src/Parameters.s"
