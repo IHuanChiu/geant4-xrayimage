@@ -1,0 +1,13 @@
+#/control/verbose 2
+#/run/verbose 1
+#
+/command/rootOutput Co57_1 
+/command/chID 2
+/command/rot 45
+
+/run/initialize
+/gun/particle ion
+/gun/ion 27 57 0 0 
+#
+#Run 203296 : 599047987 
+/run/beamOn 5990479

@@ -58,26 +58,25 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fParticleGunGamma  = new G4ParticleGun(n_particle);
   fParticleGunRI  = new G4ParticleGun(n_particle);
   myDetpointer = DetectorConstruction::GetDetInstance(); 
-  std::cout << "CHECK : " <<myDetpointer->SampleName << std::endl;
   if(myDetpointer->SampleName != "RI"){
      //define input particles (muon beam) TODO set muon beam
-//     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 //     G4String particleName;
 //     G4ParticleDefinition* particle
 //       = particleTable->FindParticle(particleName="mu-");//IH
 //     fParticleGun->SetParticleDefinition(particle);
 //     muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
-//
-//     G4String eletronName;
-//     G4ParticleDefinition* eletron
-//       = particleTable->FindParticle(eletronName="e-");//IH
-//     fParticleGunEle->SetParticleDefinition(eletron);
-//     ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
-//
-//     G4String gammaName;
-//     G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
-//     fParticleGunGamma->SetParticleDefinition(gamma);
-//     gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
+
+     G4String eletronName;
+     G4ParticleDefinition* eletron
+       = particleTable->FindParticle(eletronName="e-");//IH
+     fParticleGunEle->SetParticleDefinition(eletron);
+     ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
+
+     G4String gammaName;
+     G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
+     fParticleGunGamma->SetParticleDefinition(gamma);
+     gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
   }
 }
 

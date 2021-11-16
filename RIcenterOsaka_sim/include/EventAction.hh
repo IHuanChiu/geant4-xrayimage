@@ -25,46 +25,62 @@
 //
 //
 
-#ifndef RunAction_h
-#define RunAction_h 1
+#ifndef EventAction_h
+#define EventAction_h 1
 
-#include <CLHEP/Units/PhysicalConstants.h>
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
-#include "globals.hh"
 #include "RootOutput.hh"
-#include "DetectorConstruction.hh"
+#include "G4UserEventAction.hh"
+#include "G4THitsMap.hh"
+#include "globals.hh"
 
-class G4Run;
-class PrimaryGeneratorAction;
+#include "TFile.h"
+#include "TTree.h"
+class RunAction;
 
-/// Run action class
+/// Event action class
 ///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
 
-class RunAction : public G4UserRunAction
+class EventAction : public G4UserEventAction
 {
   public:
-    RunAction(PrimaryGeneratorAction* kin);
-    virtual ~RunAction();
+    EventAction(RunAction* runAction);
+    virtual ~EventAction();
 
-    //virtual G4Run* GenerateRun();
-    void BeginOfRunAction(const G4Run*);
-    void   EndOfRunAction(const G4Run*);
+    virtual void BeginOfEventAction(const G4Event* event);
+    virtual void EndOfEventAction(const G4Event* event);
 
-    void AddEdep (G4double edep);
-//    #ifdef G4ANALYSIS_USE_ROOT
+    void AddEdep(G4int id, G4double edep) { fEdep[id] += edep; }
+    void AddEdep_e(G4int id, G4double edep) { fEdep_e[id] += edep; }
+    void AddEdep_gamma(G4int id, G4double edep) { fEdep_gamma[id] += edep; }
+    void AddEdep_other(G4int id, G4double edep) { fEdep_other[id] += edep; }
+    static const int numberOfdetectors = 2; 
 
   private:
-    PrimaryGeneratorAction* fPrimary;
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
-    DetectorConstruction* myDetpointer;
-    RootOutput* myRootOutput;
+    //IH
+    G4THitsMap<G4double>* GetHitsCollection(G4int hcID,
+                                           const G4Event* event) const;
+    G4double GetSum(G4THitsMap<G4double>* hitsMap) const;
+    time_t   timeOfRunStart;
+    time_t   curr;
+    std::chrono::high_resolution_clock::time_point run_pre;
+    double runtime;
 
+    G4double     fEdep[numberOfdetectors];
+    G4double     fEdep_e[numberOfdetectors];
+    G4double     fEdep_gamma[numberOfdetectors];
+    G4double     fEdep_other[numberOfdetectors];
+
+    RunAction* fRunAction;
+    G4int        store_det;
+    Double_t energyDep;
+
+    static G4int  nHowOftenToPrintEvent;
+
+  
 };
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 
+    

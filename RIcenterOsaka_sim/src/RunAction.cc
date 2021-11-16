@@ -61,33 +61,16 @@ RunAction::RunAction(PrimaryGeneratorAction* kin)
   new G4UnitDefinition("nanogray" , "nanoGy"  , "Dose", nanogray);
   new G4UnitDefinition("picogray" , "picoGy"  , "Dose", picogray); 
 
-  // Register accumulable to the accumulable manager
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
   accumulableManager->RegisterAccumulable(fEdep2); 
-
-  //IH make ntuple (G4AnalysisManager is used to handle ntuple and hist)
-//  auto analysisManager = G4AnalysisManager::Instance();
-//  analysisManager->SetVerboseLevel(1);
-//  analysisManager->SetNtupleMerging(true);  
-//  analysisManager->CreateNtuple("Ntuple", "CdTe background analysis");
-//  analysisManager->CreateNtupleDColumn("EventID");
-//  analysisManager->CreateNtupleDColumn("Eabs");
-//  analysisManager->CreateNtupleDColumn("Egap");
-//  analysisManager->FinishNtuple();
 
   myDetpointer = DetectorConstruction::GetDetInstance(); 
   myRootOutput = RootOutput::GetRootInstance();
 }
 
 RunAction::~RunAction() {}
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-//G4Run* RunAction::GenerateRun()
-//{
-//  fRun = new Run();
-//  return fRun;
-//}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void RunAction::BeginOfRunAction(const G4Run* iRun)
@@ -102,9 +85,6 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
     G4ParticleDefinition* particleprint
       = fPrimary->GetParticleGun()->GetParticleDefinition();
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
-//    iRun->SetPrimary(particle, energy);
-    G4cout << "Sample Name : " << myDetpointer->SampleName << G4endl;
-    if (myDetpointer->SampleName == "RI"){
     G4cout << G4endl
            << "------------Initial Setting--------------- \n"
            << "  RI Information \n"
@@ -115,7 +95,6 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
            << "    life time:      " << particleprint->GetPDGLifeTime()/CLHEP::second  << " second\n"
            << "------------------------------ \n"
            << G4endl;
-     }
   }
 
   // inform the runManager to save random number seed
@@ -124,11 +103,6 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
   // reset accumulables to their initial values
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
-
-  //IH
-//   G4String fileName = "Output";
-//   auto analysisManager = G4AnalysisManager::Instance();
-//   analysisManager->OpenFile(fileName);//output file
 
 }
 
@@ -152,16 +126,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
   G4double rms = edep2 - edep*edep/nofEvents;
   if (rms > 0.) rms = std::sqrt(rms); else rms = 0.;  
 
-//  const DetectorConstruction* detectorConstruction
-//   = static_cast<const DetectorConstruction*>
-//     (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-//  G4double mass = detectorConstruction->GetScoringVolume()->GetMass();
-//  G4double dose = edep/mass;
-//  G4double rmsDose = rms/mass;
-
-  // Run conditions
-  //  note: There is no primary generator action object for "master"
-  //        run manager for multi-threaded mode.
   const PrimaryGeneratorAction* generatorAction
    = static_cast<const PrimaryGeneratorAction*>
      (G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
@@ -175,16 +139,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
     runCondition += G4BestUnit(particleEnergy,"Energy");
   }
   
-  //IH
-//  auto analysisManager = G4AnalysisManager::Instance();
-//  analysisManager->Write();
-//  analysisManager->CloseFile();      
-
-//  #ifdef G4ANALYSIS_USE_ROOT
-//  #endif
-
-  // Print
-  //  
   if (IsMaster()) {
     G4cout
      << G4endl
@@ -200,13 +154,10 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << G4endl
      << " The run consists of " << nofEvents << " "<< runCondition
      << G4endl
-//     << " Cumulated dose per run, in scoring volume : " 
-//     << G4BestUnit(dose,"Dose") << " rms = " << G4BestUnit(rmsDose,"Dose")
      << G4endl
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
-    if (myDetpointer->SampleName == "RI"){
     if (fPrimary) {
        G4ParticleDefinition* particle = fPrimary->GetParticleGun()->GetParticleDefinition();
        G4cout << G4endl
@@ -219,7 +170,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
               << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
               << "------------------------------ \n"
               << G4endl;
-    }
     }
 }
 

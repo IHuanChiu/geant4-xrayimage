@@ -25,46 +25,25 @@
 //
 //
 
-#ifndef RunAction_h
-#define RunAction_h 1
+#ifndef Parameters_h
+#define Parameters_h 1
 
-#include <CLHEP/Units/PhysicalConstants.h>
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
 #include "globals.hh"
-#include "RootOutput.hh"
-#include "DetectorConstruction.hh"
 
-class G4Run;
-class PrimaryGeneratorAction;
+/// Action initialization class.
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
-
-class RunAction : public G4UserRunAction
+class Parameters
 {
   public:
-    RunAction(PrimaryGeneratorAction* kin);
-    virtual ~RunAction();
+    Parameters(G4String steeringFileName);
+    virtual ~Parameters();
 
-    //virtual G4Run* GenerateRun();
-    void BeginOfRunAction(const G4Run*);
-    void   EndOfRunAction(const G4Run*);
-
-    void AddEdep (G4double edep);
-//    #ifdef G4ANALYSIS_USE_ROOT
-
+    static G4String mySteeringFileName;
   private:
-    PrimaryGeneratorAction* fPrimary;
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
-    DetectorConstruction* myDetpointer;
-    RootOutput* myRootOutput;
-
 };
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 
+    

@@ -59,17 +59,7 @@ SteppingAction* SteppingAction::GetInstance()
 
 void SteppingAction::InitializeInBeginningOfEvent(){
   ReNumber = 7;
-  VolumeMap["FoilTubs1"] = 1;
-  VolumeMap["intermediate1"] = 2;
-  VolumeMap["FoilTubs2"] = 3;
-  VolumeMap["intermediate2"] = 4;
-  VolumeMap["FoilTubs3"] = 5;
-  VolumeMap["Sample"] = 6;
-  VolumeMap["Chamber"] = 7;
-  VolumeMap["VirTubs"] = 8;
-  VolumeMap["VirTubs2"] = 9;
-  VolumeMap["BeWindowTubs"] = 10;
-  VolumeMap["Holder"] = 11;
+  VolumeMap["Sample"] = 1;
   VolumeMap["World"] = 0;
   for(int i=1; i<6+1;i++){
      auto idstr = std::to_string(i);
@@ -150,91 +140,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     IsFirstStep = false;
   }
 
-  // =========== store muon hit position ===============   
-  if(abs(pdgID) == 13 && ParentID == 0){// note: before touch physic volume, pdgID is random number
-  //if(particleName == "mu-"){ 
-
-    if (VolumeMap[CurrentVolumeName] == 1){//foil-1
-       if(!muhitFoil1InThisEvent){
-          muhitFoil1InThisEvent = true;
-          myRootOutput->SetInitPolInFoil1(TrackPosition);
-          myRootOutput->SetInitMomInFoil1(TrackMomentum);
-          myRootOutput->SetInitTimeInFoil1(Time);
-          myRootOutput->SetInitKineticEnergyInFoil1(KineticEnergy);
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 2){//inter-1
-       if(!muhitInter1InThisEvent){
-          muhitInter1InThisEvent = true;
-          myRootOutput->SetInitPolInInter1(TrackPosition);
-          myRootOutput->SetInitMomInInter1(TrackMomentum);
-          myRootOutput->SetInitTimeInInter1(Time);
-          myRootOutput->SetInitKineticEnergyInInter1(KineticEnergy);
-       }else{//end point 
-          myRootOutput->SetEndPolInInter1(TrackPosition);
-          myRootOutput->SetEndMomInInter1(TrackMomentum);
-          myRootOutput->SetEndTimeInInter1(Time);            
-          myRootOutput->SetEndKineticEnergyInInter1(KineticEnergy);            
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 3){//foil-2
-       if(!muhitFoil2InThisEvent){
-          muhitFoil2InThisEvent = true;
-          myRootOutput->SetInitPolInFoil2(TrackPosition);
-          myRootOutput->SetInitMomInFoil2(TrackMomentum);
-          myRootOutput->SetInitTimeInFoil2(Time);
-          myRootOutput->SetInitKineticEnergyInFoil2(KineticEnergy);
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 4){//inter-2
-       if(!muhitInter2InThisEvent){
-          muhitInter2InThisEvent = true;
-          myRootOutput->SetInitPolInInter2(TrackPosition);
-          myRootOutput->SetInitMomInInter2(TrackMomentum);
-          myRootOutput->SetInitTimeInInter2(Time);
-          myRootOutput->SetInitKineticEnergyInInter2(KineticEnergy);
-       }else{//end point 
-          myRootOutput->SetEndPolInInter2(TrackPosition);
-          myRootOutput->SetEndMomInInter2(TrackMomentum);
-          myRootOutput->SetEndTimeInInter2(Time);            
-          myRootOutput->SetEndKineticEnergyInInter2(KineticEnergy);            
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 5){//foil-3
-       if(!muhitFoil3InThisEvent){
-          muhitFoil3InThisEvent = true;
-          myRootOutput->SetInitPolInFoil3(TrackPosition);
-          myRootOutput->SetInitMomInFoil3(TrackMomentum);
-          myRootOutput->SetInitTimeInFoil3(Time);
-          myRootOutput->SetInitKineticEnergyInFoil3(KineticEnergy);
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 8){//Vir-1
-       if(!muhitTargetInThisEvent){
-          muhitTargetInThisEvent = true;
-          myRootOutput->SetInitPolInTarget(TrackPosition);
-          myRootOutput->SetInitMomInTarget(TrackMomentum);
-          myRootOutput->SetInitTimeInTarget(Time);
-          myRootOutput->SetInitKineticEnergyInTarget(KineticEnergy);
-       }
-    }else if (VolumeMap[CurrentVolumeName] == 9){//vir-2
-       if(!muhitTarget2InThisEvent){
-          muhitTarget2InThisEvent = true;
-          myRootOutput->SetInitPolInTarget2(TrackPosition);
-          myRootOutput->SetInitMomInTarget2(TrackMomentum);
-          myRootOutput->SetInitTimeInTarget2(Time);
-          myRootOutput->SetInitKineticEnergyInTarget2(KineticEnergy);
-       }
-
-//    }else{//world
-//       if(!muEscapeInThisEvent){
-//          muEscapeInThisEvent = true;
-//          myRootOutput->SetInitPolInWorld(TrackPosition);
-//          myRootOutput->SetInitMomInWorld(TrackMomentum);
-//          myRootOutput->SetInitTimeInWorld(Time);
-//          myRootOutput->SetInitKineticEnergyInWorld(KineticEnergy);
-//       }
-    }//volume end
-
-      myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
-//      if(aTrack->GetPosition().z()/CLHEP::mm > 400) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-   
-  }//muon end
   // =========== store other particle ===============    
 // /*
      if(VolumeMap[CurrentVolumeName] < -1 && particleName != "mu-"){//set sensitivity detectors
@@ -265,7 +170,6 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
           if (aTrack->GetCreatorProcess() != 0){
           ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
           }else{ahit_process[nSignals] = ProcessMap["None"]; }
-          myRootOutput->h1_process->Fill(ahit_process[nSignals]);//fill process of signal
           nSignals++;
        }
        myRootOutput->SetnMaxHit(nSignals);//set n signal

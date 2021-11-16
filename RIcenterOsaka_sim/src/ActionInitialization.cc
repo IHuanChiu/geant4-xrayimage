@@ -25,46 +25,46 @@
 //
 //
 
-#ifndef RunAction_h
-#define RunAction_h 1
-
-#include <CLHEP/Units/PhysicalConstants.h>
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
-#include "globals.hh"
+#include "ActionInitialization.hh"
+#include "PrimaryGeneratorAction.hh"
+#include "RunAction.hh"
+#include "EventAction.hh"
+#include "SteppingAction.hh"
 #include "RootOutput.hh"
-#include "DetectorConstruction.hh"
 
-class G4Run;
-class PrimaryGeneratorAction;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
+ActionInitialization::ActionInitialization()
+ : G4VUserActionInitialization()
+{}
 
-class RunAction : public G4UserRunAction
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+ActionInitialization::~ActionInitialization()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void ActionInitialization::BuildForMaster() const
 {
-  public:
-    RunAction(PrimaryGeneratorAction* kin);
-    virtual ~RunAction();
+  RunAction* runAction = new RunAction(0);
+  SetUserAction(runAction);
+}
 
-    //virtual G4Run* GenerateRun();
-    void BeginOfRunAction(const G4Run*);
-    void   EndOfRunAction(const G4Run*);
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    void AddEdep (G4double edep);
-//    #ifdef G4ANALYSIS_USE_ROOT
+void ActionInitialization::Build() const
+{
+  PrimaryGeneratorAction* primary = new PrimaryGeneratorAction();
+  SetUserAction(primary);//Set UI setting
 
-  private:
-    PrimaryGeneratorAction* fPrimary;
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
-    DetectorConstruction* myDetpointer;
-    RootOutput* myRootOutput;
+  RunAction* runAction = new RunAction(primary);
+  SetUserAction(runAction);
+  
+  EventAction* eventAction = new EventAction(runAction);
+  SetUserAction(eventAction);
+  
+  SetUserAction(new SteppingAction(eventAction));
+}  
 
-};
-
-#endif
-
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

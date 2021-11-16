@@ -30,7 +30,6 @@ class RootOutput{
     void BeginOfRunAction();
     void EndOfRunAction();
     void FillEvent();
-    void FillParticle();
     void ClearAllRootVariables();
 
     void SetRunID          (G4int id) {runID = id;};
@@ -130,9 +129,6 @@ class RootOutput{
     TTree* rootTree;
     TTree* muonTree;
     TTree* TrackTree;
-
-    TH1F*  h1_process;
-    TH1F* h1_StopVol;
 
   // === variables for tree ===
   private:
