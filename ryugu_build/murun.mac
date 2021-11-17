@@ -34,7 +34,8 @@
 # sigma = 3%  ==> sigma 30*0.03 = 0.90
 #/gun/momentumsmearing 0.9 MeV
 #
-/command/rootOutput test 1
-/command/sample RI
+/command/rootOutput test 
+/command/sample Al
+/command/beamtype muon
 
-/run/beamOn 10000
+/run/beamOn 1000

@@ -1,13 +1,16 @@
 #/control/verbose 2
 #/run/verbose 1
 #
-/command/rootOutput Ba57_1 
+/command/rootOutput Ba133_ch2_0
 /command/chID 2
-/command/rot 45
+/command/rot 0
 
 /run/initialize
 /gun/particle ion
 /gun/ion 56 133 0 0 
 #
-#Run203297 : 209347398
-/run/beamOn 100000
+#0:  6233153405
+#45: 6305151174
+#90: 1099824480
+
+/run/beamOn 623315340

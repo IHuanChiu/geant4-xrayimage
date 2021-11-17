@@ -49,6 +49,33 @@
 #include "G4IonFluctuations.hh"
 #include "G4IonParametrisedLossModel.hh"
 #include "G4ParallelWorldPhysics.hh"
+#include "G4MuonicAtomDecayPhysics.hh"
+#include "G4MuMultipleScattering.hh"
+#include "G4MuIonisation.hh"
+#include "G4MuBremsstrahlung.hh"
+#include "G4MuPairProduction.hh"
+#include "G4StoppingPhysics.hh"
+//Muonic Atom (check decay and stopping for G4MuonicAtomDecayPhysics and G4MuonMinusAtomicCapture)
+//https://gitlab.physik.uni-kiel.de/geant4/geant4/-/tree/6aa23be5171b125c3363b5a4cfa00a57e524598b/source/physics_lists/constructors
+#include "G4OpAbsorption.hh"
+#include "G4OpRayleigh.hh"
+#include "G4OpBoundaryProcess.hh"
+#include "G4OpWLS.hh"
+#include "G4OpticalPhysics.hh"
+#include "G4ComptonScattering.hh"
+#include "G4GammaConversion.hh"
+#include "G4PhotoElectricEffect.hh"
+#include "G4RayleighScattering.hh"
+#include "G4eMultipleScattering.hh"
+#include "G4eIonisation.hh"
+#include "G4eBremsstrahlung.hh"
+#include "G4eplusAnnihilation.hh"
+#include "G4CoulombScattering.hh"
+#include "G4IonConstructor.hh"
+#include "G4GenericIon.hh"
+#include "G4PhysicsListHelper.hh"
+#include "G4LossTableManager.hh"
+#include "G4UAtomicDeexcitation.hh"
 
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
@@ -62,12 +89,15 @@ PhysicsList::PhysicsList()
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
   //raddecayList = new G4RadioactiveDecayPhysics();
+  // Muonic Atom decay
+  decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
 
 PhysicsList::~PhysicsList()
 {
   delete emPhysicsList;
   delete decPhysicsList;
+  delete decMuonicPhysicsList;
   //delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
@@ -83,6 +113,7 @@ void PhysicsList::ConstructParticle()
 {
   decPhysicsList -> ConstructParticle();
   emPhysicsList  -> ConstructParticle();
+  decMuonicPhysicsList -> ConstructParticle();//IH
 }
 
 void PhysicsList::ConstructProcess()
@@ -91,6 +122,7 @@ void PhysicsList::ConstructProcess()
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
   //raddecayList->ConstructProcess();
+  decMuonicPhysicsList->ConstructProcess();//IH
 
   // Hadron
   hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());

@@ -26,6 +26,7 @@ class Messenger: public G4UImessenger
     G4UIdirectory*             runDir;
     G4UIcmdWithAString*        Ignore1Cmd;
     G4UIcmdWithAString*        Ignore2Cmd;
+    G4UIcmdWithAString*        Ignore3Cmd;
     G4UIcmdWithAnInteger*      RunIDSetCmd;
 
   public:

@@ -70,6 +70,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    G4Element* elAr = new G4Element("Argon",   "Ar", Z=18., A= 39.948*g/mole);
    G4Element* elI  = new G4Element("Iodine",  "I",  Z=53., A= 126.90447*g/mole);
    G4Element* elCs = new G4Element("Cesium",  "Cs", Z=55., A= 132.90543*g/mole);
+   G4Element* elMg  = new G4Element("Magnesium", "Mg",Z=12.,A= 24.3050    *g/mole);
+   G4Element* elFe  = new G4Element("Iron",      "Fe",Z=26.,A= 55.847     *g/mole);
 
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
@@ -98,50 +100,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld,Vacuum,"World");                                       
   G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(), logicWorld, "World", 0, false, 0, checkOverlaps);                            
   // ***** Envelope *****
-  G4Box* solidEnv = new G4Box("Envelope", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ);      
-  G4LogicalVolume* logicEnv = new G4LogicalVolume(solidEnv,elA, "Envelope");    
+//  G4Box* solidEnv = new G4Box("Envelope", 0.5*env_sizeXY, 0.5*env_sizeXY, 0.5*env_sizeZ);      
+//  G4LogicalVolume* logicEnv = new G4LogicalVolume(solidEnv,Vacuum, "Envelope");    
 
-  // /* 2021/3 D2 experiment
-  G4Material* solid_common;
-  // ***** Pb Target *****
-//  solid_common=nist->FindOrBuildMaterial("G4_C");
-//  solid_common=nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
-  solid_common=nist->FindOrBuildMaterial("G4_Si");
-  G4double Pb_dis=5;//mm
-//  G4VSolid* Pb_Target = new G4Box("PbTarget",(7./2)*mm, (4./2)*mm, (1./2)*mm);
-  G4VSolid* Pb_Target = new G4Box("Target",(50./2)*mm, (50./2)*mm, (0.5/2)*mm);
-  G4ThreeVector pos_pb = G4ThreeVector(0, 0, 0*mm);
-  G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Target, solid_common, "Target");
-  new G4PVPlacement(0, pos_pb, PbLog, "Target", logicWorld, false, 0, checkOverlaps);
-  // ***** Ge detector *****
-  solid_common=nist->FindOrBuildMaterial("G4_Ge");
-  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(50./2)*mm,(50./2.)*mm,0.,2*M_PI*rad);
-  G4double ge_dis=100.+50./2.;//mm
-  G4double ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
-  G4double nDets=6;
-  G4double current_angle;
-  G4ThreeVector pos_ge;
-  G4LogicalVolume* GeLog;
-  G4RotationMatrix* rot_ge;
-//  for(int i=0; i<nDets;i++){
-//     auto idstr = std::to_string(i);
-//     current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
-//     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (ge_dis*std::cos(ge_angle))*mm);
-//     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
-//     rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
-//     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
-//  }
-//  ge_angle=(-1)*2*CLHEP::pi*(45./360)*CLHEP::rad;
-//  for(int i=0; i<nDets;i++){
-//     auto idstr = std::to_string(i);
-//     current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
-//     pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (-1*ge_dis*std::cos(ge_angle))*mm);
-//     GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs2"+idstr);
-//     rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
-//     new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs2"+idstr, logicWorld, false, 0, checkOverlaps);
-//  }
+//  G4Material* solid_common;
+//  solid_common=nist->FindOrBuildMaterial("G4_Si");
 
-  //always return the physical World
+  // ***** Ryugu C002 Target *****
+  G4Material* solid_sample;
+  double ryugu_density = 1.635*g/cm3;
+  int ncomponents;
+  int natoms;
+  solid_sample = new G4Material("Targetsolid", ryugu_density, ncomponents=4);
+  solid_sample->AddElement(elO, natoms=45);
+  solid_sample->AddElement(elMg, natoms=15);
+  solid_sample->AddElement(elSi, natoms=20);
+  solid_sample->AddElement(elFe, natoms=20);
+
+  G4Box* TargetBOX = new G4Box("Target",0.5*8.65*mm, 0.5*5.12*mm, 0.5*3.28*mm);
+  G4ThreeVector pos_target = G4ThreeVector(0, 0, 0*mm);
+  G4LogicalVolume* TargetLog = new G4LogicalVolume(TargetBOX, solid_sample, "Target");
+  new G4PVPlacement(0, pos_target, TargetLog, "Target", logicWorld, false, 0, checkOverlaps);
+
   return physWorld;
 }
 

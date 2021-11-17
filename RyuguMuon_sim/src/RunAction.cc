@@ -103,11 +103,10 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
       = fPrimary->GetParticleGun()->GetParticleDefinition();
     G4double energy = fPrimary->GetParticleGun()->GetParticleEnergy();
 //    iRun->SetPrimary(particle, energy);
-    G4cout << "Sample Name : " << myDetpointer->SampleName << G4endl;
-    if (myDetpointer->SampleName == "RI"){
+    G4cout << "Sample Name : " << myDetpointer->SampleName << ", Particles Type " << myDetpointer->BeamType << G4endl;
     G4cout << G4endl
            << "------------Initial Setting--------------- \n"
-           << "  RI Information \n"
+           << "    Information \n"
            << "    Name:           " << particleprint->GetParticleName()        << '\n'
            << "    Type:           " << particleprint->GetParticleType()        << '\n'
            << "    Z:              " << particleprint->GetAtomicNumber()        << '\n'
@@ -115,7 +114,6 @@ void RunAction::BeginOfRunAction(const G4Run* iRun)
            << "    life time:      " << particleprint->GetPDGLifeTime()/CLHEP::second  << " second\n"
            << "------------------------------ \n"
            << G4endl;
-     }
   }
 
   // inform the runManager to save random number seed
@@ -206,12 +204,11 @@ void RunAction::EndOfRunAction(const G4Run* run)
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
-    if (myDetpointer->SampleName == "RI"){
     if (fPrimary) {
        G4ParticleDefinition* particle = fPrimary->GetParticleGun()->GetParticleDefinition();
        G4cout << G4endl
-              << "------------------------------ \n"
-              << "  RI Information \n"
+              << "--------------END RUN---------------- \n"
+              << "  Information \n"
               << "    Name:           " << particle->GetParticleName()        << '\n'
               << "    Type:           " << particle->GetParticleType()        << '\n'
               << "    Z:              " << particle->GetAtomicNumber()        << '\n'
@@ -219,7 +216,6 @@ void RunAction::EndOfRunAction(const G4Run* run)
               << "    life time:      " << particle->GetPDGLifeTime()/CLHEP::second  << " second\n"
               << "------------------------------ \n"
               << G4endl;
-    }
     }
 }
 

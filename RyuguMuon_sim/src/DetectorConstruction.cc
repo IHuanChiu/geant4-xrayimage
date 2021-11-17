@@ -88,6 +88,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
          if (strcmp(tmpString0,"/command/sample")==0){ SampleName = tmpString1;
          //std::cout << "here: " << line[0] << " tmpString0 " << tmpString0 << tmpString1 << std::endl;
          }
+         if (strcmp(tmpString0,"/command/beamtype")==0){
+            BeamType = tmpString1;
+            if (BeamType == "ri" && SampleName != "RI"){
+               G4cout << "Please note that you used beamtype is ri, so the /command/sample should be RI !" << G4endl;
+               SampleName = "RI";
+            }
+         }
       }
    }
    //std::cout << "Sample Name: " << SampleName << std::endl;
@@ -199,7 +206,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4double inter_h_thick = 450;//mm
   G4VSolid* inter_h_tubs = new G4Tubs("intermediate2",0*mm,((150-covor_thick)/2)*mm,(inter_h_thick/2)*mm,0.,2*M_PI*rad);
-  G4ThreeVector pos_inter_h = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)*mm);//check beam position
+  G4ThreeVector pos_inter_h = G4ThreeVector(0, 0, (foil2_thick+inter_air_thick+foil1_thick+inter_h_thick/2)*mm);//check here for photon beam position (270.113 mm)
   G4LogicalVolume* INTERLog2 = new G4LogicalVolume(inter_h_tubs, solid_He, "intermediate2");  
   new G4PVPlacement(0, pos_inter_h, INTERLog2, "intermediate2", logicWorld, false, 0,  checkOverlaps);        
 
@@ -275,7 +282,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   }else if(SampleName=="Mg"){
      solid_sample = nist->FindOrBuildMaterial("G4_Mg"); sample_width=25; sample_thick=0.76;
   }else if(SampleName=="Ryugu"){
-     sample_width=10; sample_thick=1.2;
      double ryugu_density = 2.0*g/cm3;
      int ncomponents;
      int natoms;
@@ -285,8 +291,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      solid_sample->AddElement(elSi, natoms=20);
      solid_sample->AddElement(elFe, natoms=20);
   }
-  if(SampleName!="RI"){
+  if(SampleName!="RI" && SampleName!="Ryugu"){
      G4Box* solidsample = new G4Box("Sample", (sample_width/2.)*mm, (sample_width/2.)*mm, (sample_thick/2.)*mm);
+     SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
+  }else if(SampleName=="Ryugu"){
+     G4Box* solidsample = new G4Box("Target",0.5*8.65*mm, 0.5*5.12*mm, 0.5*3.28*mm);
      SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
   }else if(SampleName=="RI"){
      // === RI source ===
@@ -298,7 +307,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   }
 
   G4RotationMatrix* rot_sample = new G4RotationMatrix(90*CLHEP::deg,-20*CLHEP::deg,90*CLHEP::deg);
-  G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);  
+  G4ThreeVector pos_sample = G4ThreeVector(0, 0, (5)*mm);//center of sample is (270.113 or 270.15 + 5 mm for Al or Kapton foil)
   new G4PVPlacement(rot_sample,  pos_sample, SampleLog, "Sample", INTERLog2, false, 0, checkOverlaps);
 
   //

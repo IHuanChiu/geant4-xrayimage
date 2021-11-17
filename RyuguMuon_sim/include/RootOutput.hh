@@ -229,7 +229,7 @@ class RootOutput{
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetRunTime (G4double time) {RunTime = time;}
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
-    void SetnInitEnergy (G4double gamma_e){InitEnergy = gamma_e;}
+    void SetInitEnergy (G4double init_e){InitEnergy = init_e;}
     void SetSignalInfo (G4int det_id, G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
        Det_ID[id]=det_id+1;//det_id = 0~5 -> Det_ID = 1~6
        hit_energy[id] = energy;

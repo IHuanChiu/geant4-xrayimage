@@ -84,6 +84,11 @@
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
 {
+  // ------------------------------------------------------------------------
+  // get parameter
+  // ------------------------------------------------------------------------
+  myDetpointer = DetectorConstruction::GetDetInstance();
+
   //SetVerboseLevel(1);
   SetVerboseLevel(0);
 
@@ -92,12 +97,11 @@ PhysicsList::PhysicsList()
 //  emPhysicsList = new G4EmStandardPhysics_option1();
 //  emPhysicsList = new G4EmStandardPhysics_option2();
 //  emPhysicsList = new G4EmStandardPhysics_option3();
-//  emPhysicsList = new G4EmStandardPhysics_option4();
-  emPhysicsList = new G4EmLivermorePhysics();
+  emPhysicsList = new G4EmStandardPhysics_option4();
+//  emPhysicsList = new G4EmLivermorePhysics();
+
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
-  // Radioactive
-  raddecayList = new G4RadioactiveDecayPhysics();//RI, take huge time
   // Muonic Atom decay   
   decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
@@ -107,6 +111,7 @@ PhysicsList::~PhysicsList()
   delete emPhysicsList;
   delete decPhysicsList;
   delete decMuonicPhysicsList;
+//  if (myDetpointer->BeamType == "ri") 
   delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
@@ -175,24 +180,26 @@ void PhysicsList::ConstructProcess()
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
   decMuonicPhysicsList->ConstructProcess();//IH
-  raddecayList->ConstructProcess();//RI
 
-  // === RI ===
-  G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
-  G4bool ARMflag = false;
-  // need to initialize atomic deexcitation
-  G4LossTableManager* man = G4LossTableManager::Instance();
-  G4VAtomDeexcitation* deex = man->AtomDeexcitation();
-  if (!deex) {
-     ///G4EmParameters::Instance()->SetFluo(true);
-     G4EmParameters::Instance()->SetAugerCascade(ARMflag);
-     deex = new G4UAtomicDeexcitation();
-     deex->InitialiseAtomicDeexcitation();
-     man->SetAtomDeexcitation(deex);
+  // === Radioactive ===
+  if (myDetpointer->BeamType == "ri"){
+     raddecayList = new G4RadioactiveDecayPhysics();//RI, take huge time
+     raddecayList->ConstructProcess();//RI
+     // RI source
+     G4RadioactiveDecay* radioactiveDecay = new G4RadioactiveDecay();
+     G4bool ARMflag = false;
+     // need to initialize atomic deexcitation
+     G4LossTableManager* man = G4LossTableManager::Instance();
+     G4VAtomDeexcitation* deex = man->AtomDeexcitation();
+     if (!deex) {
+        ///G4EmParameters::Instance()->SetFluo(true);
+        G4EmParameters::Instance()->SetAugerCascade(ARMflag);
+        deex = new G4UAtomicDeexcitation();
+        deex->InitialiseAtomicDeexcitation();
+        man->SetAtomDeexcitation(deex);
+     }
+     radioactiveDecay->SetARM(ARMflag);        //Atomic Rearangement
   }
-  radioactiveDecay->SetARM(ARMflag);        //Atomic Rearangement
-//  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();// register radioactiveDecay
-//  ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
 
 //  ConstructAdditionalProcess();//IH
 

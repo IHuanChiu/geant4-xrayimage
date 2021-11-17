@@ -6,6 +6,9 @@
 #include "G4ProcessManager.hh"
 #include "globals.hh"
 
+#include "PrimaryGeneratorAction.hh"
+#include "DetectorConstruction.hh"
+
 class G4VPhysicsConstructor;
 
 class PhysicsList: public G4VModularPhysicsList
@@ -29,6 +32,8 @@ private:
   G4ProcessManager* pManager;//IH
   G4ParticleDefinition* particleDefinition;//IH
   G4String stringParticleName;//IH
+  DetectorConstruction* myDetpointer;
+
 };
 
 

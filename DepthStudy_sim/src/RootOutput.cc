@@ -26,7 +26,7 @@ void RootOutput::BeginOfRunAction() {
 //   }else rootFile->cd();
 
    rootTree = new TTree("tree","CdTe detector analysis");
-   TrackTree = new TTree("tracktree","Germanium simulation for particles");
+//   TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    rootTree->Branch("eventID",&eventID,"eventID/I");
    rootTree->Branch("runID",&runID,"runID/I"); 
@@ -106,37 +106,37 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("muTargetEndMomX",&muTargetEndMomX,"muTargetEndMomX/D");
 //   rootTree->Branch("muTargetEndMomY",&muTargetEndMomY,"muTargetEndMomY/D");
 //   rootTree->Branch("muTargetEndMomZ",&muTargetEndMomZ,"muTargetEndMomZ/D");
-   rootTree->Branch("muDecayPolX",&muDecayPolX,"muDecayPolX/D");
-   rootTree->Branch("muDecayPolY",&muDecayPolY,"muDecayPolY/D");
-   rootTree->Branch("muDecayPolZ",&muDecayPolZ,"muDecayPolZ/D");
-   rootTree->Branch("muDecayTime",&muDecayTime,"muDecayTime/D");
-   rootTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
-   rootTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
-   rootTree->Branch("muInitZ",&muInitZ,"muInitZ/D");//init muon 
-   rootTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
-   rootTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
-   rootTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
-   rootTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
-   rootTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
-   rootTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
-   rootTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
-   rootTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
-   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
-   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
+//   rootTree->Branch("muDecayPolX",&muDecayPolX,"muDecayPolX/D");
+//   rootTree->Branch("muDecayPolY",&muDecayPolY,"muDecayPolY/D");
+//   rootTree->Branch("muDecayPolZ",&muDecayPolZ,"muDecayPolZ/D");
+//   rootTree->Branch("muDecayTime",&muDecayTime,"muDecayTime/D");
+//   rootTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
+//   rootTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
+//   rootTree->Branch("muInitZ",&muInitZ,"muInitZ/D");//init muon 
+//   rootTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
+//   rootTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
+//   rootTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
+//   rootTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
+//   rootTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
+//   rootTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
+//   rootTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
+//   rootTree->Branch("eInitpX",&eInitpX,"eInitpX/D");//init ele 
+//   rootTree->Branch("eInitpY",&eInitpY,"eInitpY/D");//init ele 
+//   rootTree->Branch("eInitpZ",&eInitpZ,"eInitpZ/D");//init ele 
 
-   rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
-   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D"); 
-   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); //MeV 
-   rootTree->Branch("Hit_Start_X",&hit_startx,"Hit_Start_X[nSignals]/D");
-   rootTree->Branch("Hit_Start_Y",&hit_starty,"Hit_Start_Y[nSignals]/D");
-   rootTree->Branch("Hit_Start_Z",&hit_startz,"Hit_Start_Z[nSignals]/D");
-   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
-   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
-   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
-   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
-   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
-   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
-   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
+//   rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
+//   rootTree->Branch("Hit_Energy",&hit_energy,"Hit_Energy[nSignals]/D"); 
+//   rootTree->Branch("Hit_Energy_Reso",&hit_energy_reso,"Hit_Energy_Reso[nSignals]/D"); //MeV 
+//   rootTree->Branch("Hit_Start_X",&hit_startx,"Hit_Start_X[nSignals]/D");
+//   rootTree->Branch("Hit_Start_Y",&hit_starty,"Hit_Start_Y[nSignals]/D");
+//   rootTree->Branch("Hit_Start_Z",&hit_startz,"Hit_Start_Z[nSignals]/D");
+//   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
+//   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
+//   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
+//   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
+//   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
+//   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
+//   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
 
    // ===== detector info. =====
 //   rootTree->Branch("energyDep",&eDep,"energyDep/D");
@@ -151,15 +151,15 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("Nother",&Nother,"Nother/I");
 
    // ===== track info. =====
-   TrackTree->Branch("pdgId",&pdgId,"pdgId/I");
-   TrackTree->Branch("kinetic_E",&KineticE,"kinetic_E/D");
-   TrackTree->Branch("Total_E",&TotalE,"Total_E/D");
-   TrackTree->Branch("Deposit_E",&DepositE,"Deposit_E/D");
-   TrackTree->Branch("Detector_X",&Det_X,"Detector_X/D");
-   TrackTree->Branch("Detector_Y",&Det_Y,"Detector_Y/D");
-   TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
-   TrackTree->Branch("Track_Name",&Track_Name);
-   TrackTree->Branch("Track_Process",&Track_Process);
+ //  TrackTree->Branch("pdgId",&pdgId,"pdgId/I");
+ //  TrackTree->Branch("kinetic_E",&KineticE,"kinetic_E/D");
+ //  TrackTree->Branch("Total_E",&TotalE,"Total_E/D");
+ //  TrackTree->Branch("Deposit_E",&DepositE,"Deposit_E/D");
+ //  TrackTree->Branch("Detector_X",&Det_X,"Detector_X/D");
+ //  TrackTree->Branch("Detector_Y",&Det_Y,"Detector_Y/D");
+ //  TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
+ //  TrackTree->Branch("Track_Name",&Track_Name);
+ //  TrackTree->Branch("Track_Process",&Track_Process);
 //   TrackTree->Branch("Hit_Time",&Hit_Time,"Hit_Time/D");
 
    h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
@@ -178,18 +178,15 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
-  TrackTree->Write();
-  h1_process->Write();
-  h1_StopVol->Write();
+//  TrackTree->Write();
+//  h1_process->Write();
+//  h1_StopVol->Write();
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
 }
 
 void RootOutput::FillEvent() {
-  double total_E = 0;
-  for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
-  if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
-  if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
+  rootTree->Fill();//fill all event for depth study
 }
 
 void RootOutput::FillParticle() {

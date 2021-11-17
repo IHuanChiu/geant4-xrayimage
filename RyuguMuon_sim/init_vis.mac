@@ -2,6 +2,10 @@
 /control/verbose 2
 /control/saveHistory
 /run/verbose 2
+
+/command/rootOutput test 
+/command/sample Al
+/command/beamtype muon
 #
 # Change the default number of threads (in multi-threaded mode)
 #/run/numberOfThreads 4

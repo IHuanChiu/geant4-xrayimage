@@ -161,7 +161,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* solid_sample;
   G4LogicalVolume* SampleLog;
   G4double isotope_plastic_radius = 12.5*mm;
-  sample_thick = 6.0*mm;
+  sample_thick = 0.1*mm;
   solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
   G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
   SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");

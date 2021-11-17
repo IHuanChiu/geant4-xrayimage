@@ -57,8 +57,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
   G4ParticleDefinition* particle
-//    = particleTable->FindParticle(particleName="mu-");//IH
-    = particleTable->FindParticle(particleName="gamma");//IH
+    = particleTable->FindParticle(particleName="mu-");//IH
+//    = particleTable->FindParticle(particleName="gamma");//IH
   fParticleGun->SetParticleDefinition(particle);
   muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
 
@@ -103,7 +103,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // ** gauss **
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
   y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
-  z0 = -80*CLHEP::mm;
+  z0 = -10*CLHEP::mm;
   //temp: only for this case (cut for beam)
   //if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
   //if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);

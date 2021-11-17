@@ -29,7 +29,6 @@
 #define PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "DetectorConstruction.hh"
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 #include "RootOutput.hh"
@@ -59,17 +58,17 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     // method to access particle gun
     const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
     const G4ParticleGun* GetParticleGunEle() const { return fParticleGunEle; }
-    const G4ParticleGun* GetParticleGunRI() const { return fParticleGunRI; }
 
     void SetMuonTime(G4double val)          {t0=val;}     //P.B. 13 May 2009
     void SetMuonTimeSigma(G4double val)     {tSigma=val;} //P.B. 13 May 2009
-  
+
   private:
-    DetectorConstruction* myDetpointer;
+    G4String BeamType;
+
+    static PrimaryGeneratorAction* pointerToPrimary;
+
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     G4ParticleGun*  fParticleGunEle; // pointer a to G4 gun class
-    G4ParticleGun*  fParticleGunGamma; // pointer a to G4 gun class
-    G4ParticleGun*  fParticleGunRI; //
 
     G4double t0, tSigma;
     G4double p, pSigma;
@@ -104,6 +103,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double y0_ga;
     G4double z0_ga;
     G4int seed;
+    G4double gen_e_gamma;
+    G4int count_event;
 
     int SetCutforBeam(G4double poi,G4double sigma){
        poi=G4RandGauss::shoot(poi_mean,sigma)*CLHEP::mm;

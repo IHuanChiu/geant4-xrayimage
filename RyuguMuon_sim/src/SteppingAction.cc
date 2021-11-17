@@ -143,10 +143,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
    //     eIoni :    eletron ionization
    //     "brems":    Bremsstrahlung
 
-  // =========== ONLY for gamma source ===============   
+  // =========== init. energy of first particle ===============   
   if (IsFirstStep){ 
-//    std::cout << "pdgID : " << pdgID << " KineticEnergy : " << KineticEnergy << std::endl;
-    myRootOutput->SetnInitEnergy(KineticEnergy);//set n signal
+    myRootOutput->SetInitEnergy(KineticEnergy);//set n signal
     IsFirstStep = false;
   }
 
@@ -230,55 +229,49 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //          myRootOutput->SetInitKineticEnergyInWorld(KineticEnergy);
 //       }
     }//volume end
-
       myRootOutput->SetmuFinalVolume(VolumeMap[CurrentVolumeName]);//return final stop position of muon
 //      if(aTrack->GetPosition().z()/CLHEP::mm > 400) aTrack->SetTrackStatus(fKillTrackAndSecondaries);
-   
   }//muon end
-  // =========== store other particle ===============    
-// /*
-     if(VolumeMap[CurrentVolumeName] < -1 && particleName != "mu-"){//set sensitivity detectors
-       // =========== store signal particle in detector ===============
-       for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
-          if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
-             IsSameSignal       = true;
-             ahit_edep[j]       += step->GetTotalEnergyDeposit();
-             ahit_time_end[j]   = Time;
-             ahit_nsteps[j]++;
-             ahit_length[j]     += step->GetStepLength();
-          }else{
-             IsSameSignal = false;
-          }
-       }
 
-       if(!IsSameSignal){//define a new signal
-          det_id=(VolumeMap[CurrentVolumeName]+2)*(-1);//which detector is this signal in? CH 0~5 
-          ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
-          ahit_start_x[nSignals] = TrackPosition.x();
-          ahit_start_y[nSignals] = TrackPosition.y();
-          ahit_start_z[nSignals] = TrackPosition.z();
-          ahit_time_start[nSignals] = Time;
-          ahit_time_end[nSignals]   = Time;
-          ahit_nsteps[nSignals]     = 1;
-          ahit_length[nSignals]     = step->GetStepLength();
-          ahit_pdgid[nSignals]      = pdgID;
-          if (aTrack->GetCreatorProcess() != 0){
-          ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
-          }else{ahit_process[nSignals] = ProcessMap["None"]; }
-          myRootOutput->h1_process->Fill(ahit_process[nSignals]);//fill process of signal
-          nSignals++;
+  // =========== store other particle ===============    
+  if(VolumeMap[CurrentVolumeName] < -1){//set sensitivity detectors
+    // =========== store signal particle in detector ===============
+    for (G4int j=0; j<nSignals; j++) {//loop current all signal particles (matching signal to current step)
+       if(std::fabs(Time-ahit_time_end[j]) < GeTimeResolution){ // same signal(macro second)
+          IsSameSignal       = true;
+          ahit_edep[j]       += step->GetTotalEnergyDeposit();
+          ahit_time_end[j]   = Time;
+          ahit_nsteps[j]++;
+          ahit_length[j]     += step->GetStepLength();
+       }else{
+          IsSameSignal = false;
        }
-       myRootOutput->SetnMaxHit(nSignals);//set n signal
-       for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-         myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
-       }
-     }//end Ge detector
-// */ 
-  // get track
-//  preStep       = step->GetPreStepPoint();
-//  postStep      = step->GetPostStepPoint();//same with current step
-  
-//  kinenergy_pre = preStep->GetKineticEnergy();//for muon, kinenergy_pre = 0 is for stop (decay point?)
+    }
+
+    if(!IsSameSignal){//define a new signal
+       det_id=(VolumeMap[CurrentVolumeName]+2)*(-1);//which detector is this signal in? CH 0~5 
+       ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
+       ahit_start_x[nSignals] = TrackPosition.x();
+       ahit_start_y[nSignals] = TrackPosition.y();
+       ahit_start_z[nSignals] = TrackPosition.z();
+       ahit_time_start[nSignals] = Time;
+       ahit_time_end[nSignals]   = Time;
+       ahit_nsteps[nSignals]     = 1;
+       ahit_length[nSignals]     = step->GetStepLength();
+       ahit_pdgid[nSignals]      = pdgID;
+       if (aTrack->GetCreatorProcess() != 0){
+       ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
+       }else{ahit_process[nSignals] = ProcessMap["None"]; }
+       myRootOutput->h1_process->Fill(ahit_process[nSignals]);//fill process of signal
+       nSignals++;
+    }
+    myRootOutput->SetnMaxHit(nSignals);//set n signal
+    for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
+      //Fill
+      myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]);
+    }
+  }//end Ge detector
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

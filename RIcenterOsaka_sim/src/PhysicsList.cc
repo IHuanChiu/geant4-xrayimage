@@ -92,8 +92,8 @@ PhysicsList::PhysicsList()
 //  emPhysicsList = new G4EmStandardPhysics_option1();
 //  emPhysicsList = new G4EmStandardPhysics_option2();
 //  emPhysicsList = new G4EmStandardPhysics_option3();
-//  emPhysicsList = new G4EmStandardPhysics_option4();
-  emPhysicsList = new G4EmLivermorePhysics();
+  emPhysicsList = new G4EmStandardPhysics_option4();
+//  emPhysicsList = new G4EmLivermorePhysics();
   // Decay
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
@@ -191,8 +191,6 @@ void PhysicsList::ConstructProcess()
      man->SetAtomDeexcitation(deex);
   }
   radioactiveDecay->SetARM(ARMflag);        //Atomic Rearangement
-//  G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();// register radioactiveDecay
-//  ph->RegisterProcess(radioactiveDecay, G4GenericIon::GenericIon());
 
 //  ConstructAdditionalProcess();//IH
 

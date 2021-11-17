@@ -26,6 +26,7 @@
 //
 
 #include "PrimaryGeneratorAction.hh"
+#include "Parameters.hh"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
@@ -46,38 +47,54 @@ G4int PrimaryGeneratorAction::fractionOfEletronParticles = 10;
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(0), 
-  fParticleGunEle(0), 
-  fParticleGunGamma(0),
-  fParticleGunRI(0)
-//  t0(0), tSigma(0), 
-//  x0(0), y0(0), z0(-10*CLHEP::cm)
+  fParticleGunEle(0) 
 {
+
+   // ------------------------------------------------------------------------
+   // get parameter
+   // ------------------------------------------------------------------------
+   BeamType="muon";
+   char tmpString0[100]="Unset", tmpString1[100]="Unset";
+   if (strcmp(Parameters::mySteeringFileName,"Unset")!=0){
+      char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
+      FILE *fSteeringFile=fopen(charSteeringFileName,"r");
+      char  line[501];
+      while (!feof(fSteeringFile)) {
+         fgets(line,500,fSteeringFile);
+         if ((line[0]=='#')||(line[0]=='\n')||(line[0]=='\r')) continue;
+         sscanf(&line[0],"%s %s",tmpString0,tmpString1);//command, sample name
+         if (strcmp(tmpString0,"/command/beamtype")==0){ BeamType = tmpString1;
+         }
+      }
+   }
+
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
   fParticleGunEle  = new G4ParticleGun(n_particle);
-  fParticleGunGamma  = new G4ParticleGun(n_particle);
-  fParticleGunRI  = new G4ParticleGun(n_particle);
-  myDetpointer = DetectorConstruction::GetDetInstance(); 
-  if(myDetpointer->SampleName != "RI"){
-     //define input particles (muon beam) TODO set muon beam
-     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-//     G4String particleName;
-//     G4ParticleDefinition* particle
-//       = particleTable->FindParticle(particleName="mu-");//IH
-//     fParticleGun->SetParticleDefinition(particle);
-//     muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
 
-     G4String eletronName;
-     G4ParticleDefinition* eletron
-       = particleTable->FindParticle(eletronName="e-");//IH
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  if(BeamType == "muon"){
+     G4cout << Form("Beam type is %s",BeamType.c_str()) << G4endl;
+     G4ParticleDefinition* particle=particleTable->FindParticle("mu-");
+     fParticleGun->SetParticleDefinition(particle);
+     muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+
+     G4ParticleDefinition* eletron=particleTable->FindParticle("e-");
      fParticleGunEle->SetParticleDefinition(eletron);
      ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
-
-     G4String gammaName;
-     G4ParticleDefinition* gamma = particleTable->FindParticle(gammaName="gamma");//IH
-     fParticleGunGamma->SetParticleDefinition(gamma);
-     gamma_mass = fParticleGunGamma->GetParticleDefinition()->GetPDGMass();
+  }else if (BeamType == "gamma"){
+     G4cout << Form("Beam type is %s",BeamType.c_str()) << G4endl;
+     G4ParticleDefinition* particle = particleTable->FindParticle("gamma");
+     fParticleGun->SetParticleDefinition(particle);
+     gamma_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+  }else if (BeamType == "ri"){
+     G4cout << Form("Beam type is %s",BeamType.c_str()) << G4endl;
+  }else{
+     BeamType = "ri";
+     G4cout << Form("Set Beam type to %s",BeamType.c_str()) << G4endl;
   }
+
+  count_event=0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -86,25 +103,17 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
   delete fParticleGun;
   delete fParticleGunEle;
-  delete fParticleGunGamma;
-  delete fParticleGunRI;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
-  //
-
-  // In order to avoid dependence of PrimaryGeneratorAction
-  // on DetectorConstruction class we get Envelope volume
-  // from G4LogicalVolumeStore.
-
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
-  if(myDetpointer->SampleName != "RI"){
-     // ***** muon beam ***** TODO set muon beam
+
+  if(BeamType == "muon"){
+  // ***** muon beam ***** 
      // === particle incident position ===
      //gauss for x and y
      x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
@@ -150,25 +159,34 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
    
      myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
      myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
-   
-   // ***** gamma *****
+
+  }else if (BeamType == "gamma"){
+  // ***** gamma *****
+     count_event++;
      x0_ga = 0;
      y0_ga = 0;
-     z0_ga = 275.15*CLHEP::mm;
-     fParticleGunGamma->SetParticlePosition(G4ThreeVector(x0_ga,y0_ga,z0_ga));
-     seed = int(G4UniformRand()*20);
-     fParticleGunGamma->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
+     z0_ga = (275.113-3.28*0.5+7.90051e-01)*CLHEP::mm;
+     //NOTE: 
+     // 275.113 mm is center of sample; 
+     // 3.28 mm is thickness of ryugy sample; 
+     // depth of stopped muon in Ryugu sample is  7.90051e-01 mm;
+     fParticleGun->SetParticlePosition(G4ThreeVector(x0_ga,y0_ga,z0_ga));
+     //seed = int(G4UniformRand()*20);
+     //fParticleGun->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
+     gen_e_gamma = count_event%2000;
+     fParticleGun->SetParticleEnergy(0.001*gen_e_gamma*0.1);//random 0~200 keV gamma
      ux_ga = 2*(G4UniformRand()-0.5)*MeV;
      uy_ga = 2*(G4UniformRand()-0.5)*MeV;
      uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
-     fParticleGunGamma->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
-   //  fParticleGunGamma->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
+     fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+
   }else{
   // ***** RI source *****
      if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
         //if not UI : Name and type is "geantino"
         //create vertex
-        G4int Z = 27, A = 57;//Co57
+        G4int Z = 27, A = 57;//init. source : Co57
         G4double excitEnergy = 0.*keV;
         G4ParticleDefinition* ion = G4IonTable::GetIonTable()->GetIon(Z,A,excitEnergy);
         fParticleGun->SetParticleDefinition(ion);
@@ -178,7 +196,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      fParticleGun->SetParticleCharge(0.*eplus);
      fParticleGun->SetParticleEnergy(0*eV);
      fParticleGun->GeneratePrimaryVertex(anEvent);
-  }
+  }//beam type
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

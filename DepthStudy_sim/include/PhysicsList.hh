@@ -20,6 +20,7 @@ private:
   G4VPhysicsConstructor*    emPhysicsList;
   G4VPhysicsConstructor*    decPhysicsList;
   //G4VPhysicsConstructor*    raddecayList;
+  G4VPhysicsConstructor*    decMuonicPhysicsList;
   std::vector<G4VPhysicsConstructor*> hadronPhys;
 };
 

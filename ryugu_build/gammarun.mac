@@ -34,10 +34,8 @@
 # sigma = 3%  ==> sigma 30*0.03 = 0.90
 #/gun/momentumsmearing 0.9 MeV
 #
-/command/rootOutput test 1
-/command/sample Al
+/command/rootOutput Ryugu_gamma
+/command/sample Ryugu
 /command/beamtype gamma
 
 /run/beamOn 1000000
-# 
-# proton 210 MeV to the direction (0.,0.,1.)
