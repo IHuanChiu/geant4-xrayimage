@@ -34,8 +34,8 @@
 # sigma = 3%  ==> sigma 30*0.03 = 0.90
 #/gun/momentumsmearing 0.9 MeV
 #
-/command/rootOutput Ryugu_gamma
+/command/rootOutput Ryugu_gamma_fixedphoton
 /command/sample Ryugu
 /command/beamtype gamma
 
-/run/beamOn 1000000
+/run/beamOn 100000000

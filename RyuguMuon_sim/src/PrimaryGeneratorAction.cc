@@ -53,7 +53,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
    // ------------------------------------------------------------------------
    // get parameter
    // ------------------------------------------------------------------------
-   BeamType="muon";
+   //BeamType="muon";
+   BeamType="gamma";
    char tmpString0[100]="Unset", tmpString1[100]="Unset";
    if (strcmp(Parameters::mySteeringFileName,"Unset")!=0){
       char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
@@ -139,6 +140,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      G4double muInitTime = fParticleGun->GetParticleTime();
    
    // ***** electron *****
+     //TODO try not to used random, very slow
      G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
               uy_e = p*(dir_error_y/10)*2*(G4UniformRand()-0.5)*MeV,
               uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
@@ -173,12 +175,21 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      fParticleGun->SetParticlePosition(G4ThreeVector(x0_ga,y0_ga,z0_ga));
      //seed = int(G4UniformRand()*20);
      //fParticleGun->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
-     gen_e_gamma = count_event%2000;
-     fParticleGun->SetParticleEnergy(0.001*gen_e_gamma*0.1);//random 0~200 keV gamma
-     ux_ga = 2*(G4UniformRand()-0.5)*MeV;
-     uy_ga = 2*(G4UniformRand()-0.5)*MeV;
-     uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
-     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
+     gen_e_gamma = count_event%6800;
+     fParticleGun->SetParticleEnergy(0.01+0.001*gen_e_gamma*0.025);//random 10~180 keV gamma
+     //ux_ga = 2*(G4UniformRand()-0.5)*MeV;
+     //uy_ga = 2*(G4UniformRand()-0.5)*MeV;
+     //uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz
+     //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux_ga,uy_ga,uz_ga));//Momentum
+     //fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
+
+     //for(int iphi = -5; iphi < 5+1; iphi++){
+     //   for(int itheta = 0; itheta < 360; itheta++){
+     //      fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(itheta),std::cos(itheta),std::sin(iphi/10.)));
+     //   }//xy plane
+     // }//z axis
+     int itheta = int(G4UniformRand()*6); //random 0~5
+     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(2*CLHEP::pi*(itheta*60+30)/360.*CLHEP::rad),std::cos(2*CLHEP::pi*(itheta*60+30)/360.*CLHEP::rad),0));
      fParticleGun->GeneratePrimaryVertex(anEvent);// === particle gen. ===
 
   }else{

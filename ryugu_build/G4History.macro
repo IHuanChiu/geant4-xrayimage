@@ -126,7 +126,7 @@
 /vis/viewer/refresh
 /vis/verbose warnings
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
+/vis/modeling/trajectories/drawByParticleID-0/set gamma magenta
 /vis/scene/notifyHandlers scene-0
 /vis/modeling/trajectories/drawByParticleID-0/set e+ green
 /vis/scene/notifyHandlers scene-0
@@ -144,3 +144,5 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
+/run/beamOn 500
+/vis/scene/notifyHandlers scene-0

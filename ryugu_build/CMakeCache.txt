@@ -235,7 +235,7 @@ Qt5Widgets_DIR:PATH=/usr/local/opt/qt/lib/cmake/Qt5Widgets
 ROOT_CINT_EXECUTABLE:FILEPATH=/Users/chiu.i-huan/local/root/pro/bin/rootcint
 
 //Path to a program.
-ROOT_CONFIG_EXECUTABLE:FILEPATH=/Users/chiu.i-huan/local/root/pro/bin/root-config
+ROOT_CONFIG_EXECUTABLE:FILEPATH=/usr/local/bin/root-config
 
 //Build example with Geant4 UI and Vis drivers
 WITH_GEANT4_UIVIS:BOOL=ON

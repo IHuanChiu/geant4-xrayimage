@@ -1,8 +1,8 @@
 #/control/verbose 2
 #/run/verbose 1
 #
-/command/rootOutput Co57_ch2_0 
-/command/chID 2
+/command/rootOutput Co57_ch3_addAir2
+/command/chID 3
 /command/rot 0
 
 /run/initialize
@@ -10,4 +10,4 @@
 /gun/ion 27 57 0 0 
 #
 #Run 203296 : 599047987 
-/run/beamOn 1000000
+/run/beamOn 30000000

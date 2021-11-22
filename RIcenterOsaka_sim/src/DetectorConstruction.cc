@@ -127,8 +127,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //     
   // World
   //
-  G4double world_sizeXY = 1.2*30*cm;
-  G4double world_sizeZ  = 1.2*90*cm;
+  G4double world_sizeXY =  90*cm;
+  G4double world_sizeZ  =  90*cm;
   G4ThreeVector pos_world = G4ThreeVector(0, 0, 0);
   
   G4Box* solidWorld =    
@@ -137,8 +137,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       
   G4LogicalVolume* logicWorld =                         
     new G4LogicalVolume(solidWorld,          //its solid
-                        Vacuum,           //its material
-//                        elA,           //its material
+//                        Vacuum,           //its material
+                        elA,           //its material
                         "World");            //its name
                                    
   G4VPhysicalVolume* physWorld = 
@@ -150,6 +150,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       false,                 //no boolean operation
                       0,                     //copy number
                       checkOverlaps);        //overlaps checking
+
+  //
+  // ***** Table *****
+  //
+  G4Material* solid_table = nist->FindOrBuildMaterial("G4_Al");
+  G4Box* solidTable = new G4Box("Table", 200*mm,50*mm,300*mm);
+  G4LogicalVolume* TableLog = new G4LogicalVolume(solidTable, solid_table, "Table");
+  G4ThreeVector pos_table = G4ThreeVector(0, -(90+50)*mm, -100*mm);
+  new G4PVPlacement(0,  pos_table, TableLog, "Table", logicWorld, false, 0, checkOverlaps);
                      
   //
   // ***** Sample *****
@@ -167,6 +176,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
   G4ThreeVector pos_sample = G4ThreeVector(std::sin(rot_sample)*100, 0, -100+(100*std::cos(rot_sample))*mm);  
   new G4PVPlacement(rot_angle_sample,  pos_sample, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
+
 
   //
   // ***** Ge detector *****

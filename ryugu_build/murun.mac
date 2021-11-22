@@ -38,4 +38,4 @@
 /command/sample Al
 /command/beamtype muon
 
-/run/beamOn 1000
+/run/beamOn 10000

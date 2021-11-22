@@ -1,10 +1,6 @@
 # Macro file for the visualization setting in the initialization phase 
 # of the B1 example when running in interactive mode
 #
-/command/rootOutput test 
-/command/sample Al
-/command/chID 2
-/command/rot 45
 
 # Use these open statements to open selected visualization
 #
@@ -189,6 +185,10 @@
 #/vis/modeling/trajectories/drawByParticleID-0/set pi0 magenta
 # and everything else still grey
 
+/command/rootOutput test 
+/command/sample Al
+/command/chID 2
+/command/rot 0
 
 # trajectories smooth
 /vis/scene/add/trajectories smooth

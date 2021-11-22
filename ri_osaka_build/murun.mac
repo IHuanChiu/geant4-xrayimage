@@ -37,7 +37,7 @@
 /command/rootOutput test 
 /command/sample Al
 /command/chID 2
-/command/rot 45
+/command/rot 0
 
 /run/beamOn 1000
 # 
