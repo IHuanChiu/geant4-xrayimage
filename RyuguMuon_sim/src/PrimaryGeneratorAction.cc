@@ -176,7 +176,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      //seed = int(G4UniformRand()*20);
      //fParticleGun->SetParticleEnergy(0.01+0.01*seed);//10~200 keV gamma
      gen_e_gamma = count_event%6800;
-     fParticleGun->SetParticleEnergy(0.01+0.001*gen_e_gamma*0.025);//random 10~180 keV gamma
+     fParticleGun->SetParticleEnergy(0.01+0.001*gen_e_gamma*0.025);//random 10~180 [keV] gamma
      //ux_ga = 2*(G4UniformRand()-0.5)*MeV;
      //uy_ga = 2*(G4UniformRand()-0.5)*MeV;
      //uz_ga = 2*(G4UniformRand()-0.5)*MeV;//random direction to xyz

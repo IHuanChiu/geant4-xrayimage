@@ -76,7 +76,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    char tmpString0[100]="Unset", tmpString1[100]="Unset";
    SampleName="RI";
    rot_angle=0;
-   chID=2;
+   chID=6;
    if (strcmp(Parameters::mySteeringFileName,"Unset")!=0){
       char charSteeringFileName[1000]; strcpy(charSteeringFileName,(Parameters::mySteeringFileName).c_str());
       //std::cout << "here11: " << charSteeringFileName << std::endl;
@@ -170,7 +170,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Material* solid_sample;
   G4LogicalVolume* SampleLog;
   G4double isotope_plastic_radius = 12.5*mm;
-  sample_thick = 0.1*mm;
+  sample_thick = 0.01*mm;
   solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
   G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
   SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");

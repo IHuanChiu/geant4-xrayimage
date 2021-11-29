@@ -48,6 +48,11 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
+
+  //for gamma gen
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4ParticleDefinition* particle = particleTable->FindParticle("gamma");
+  fParticleGun->SetParticleDefinition(particle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -64,6 +69,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
+
+  //RI gen.
   if (fParticleGun->GetParticleDefinition() == G4Geantino::Geantino()) {
      G4int Z = 27, A = 57;//Co57
      G4double excitEnergy = 0.*keV;
@@ -75,6 +82,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   fParticleGun->SetParticleCharge(0.*eplus);
   fParticleGun->SetParticleEnergy(0*eV);
   fParticleGun->GeneratePrimaryVertex(anEvent);
+
+  //gamma gen. 
+//  fParticleGun->SetParticlePosition(G4ThreeVector(0,0,0*CLHEP::mm));
+//  fParticleGun->SetParticleEnergy(40*0.001);//40 keV
+//  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1));
+//  fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

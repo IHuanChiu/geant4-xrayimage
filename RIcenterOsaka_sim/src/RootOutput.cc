@@ -62,19 +62,25 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("Hit_Start_X",&hit_startx,"Hit_Start_X[nSignals]/D");
    rootTree->Branch("Hit_Start_Y",&hit_starty,"Hit_Start_Y[nSignals]/D");
    rootTree->Branch("Hit_Start_Z",&hit_startz,"Hit_Start_Z[nSignals]/D");
-   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
-   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
-   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
-   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
-   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
-   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
-   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit 
+//   rootTree->Branch("Hit_Time_Start",&hit_timestart,"Hit_Time_Start[nSignals]/D");
+//   rootTree->Branch("Hit_Time_End",&hit_timeend,"Hit_Time_End[nSignals]/D");
+//   rootTree->Branch("Hit_Nsteps",&hit_nsteps,"Hit_Nsteps[nSignals]/I");
+//   rootTree->Branch("Hit_Length",&hit_length,"Hit_Length[nSignals]/D");
+//   rootTree->Branch("Hit_pdgId",&hit_pdgId,"Hit_pdgId[nSignals]/I");
+//   rootTree->Branch("Hit_ProcessID",&hit_process,"Hit_ProcessID[nSignals]/I");
+//   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit 
 
+   h1_init_energy = new TH1F("h1_init_energy","Init. input energy [keV]",6800,10,180);
+   h1_ge_energy = new TH1F("h1_ge_energy","Deposite energy [keV]",6800,10,180);
+   h1_ge_energy_reso = new TH1F("h1_ge_energy_reso","Deposite energy with resolution [keV]",6800,10,180);
 }
 
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
+  h1_init_energy->Write();
+  h1_ge_energy->Write();
+  h1_ge_energy_reso->Write();
 //  muonTree->Write();//check beam profile (file size will be huge)
   rootFile->Close();
   G4cout<<Form("RootOutput::EndOfRunAction() - Root tree written out in %s",rootFile->GetName())<<G4endl;
@@ -105,6 +111,8 @@ void RootOutput::SetEnergyResolution (){
       }else{
          hit_energy_reso[i]=hit_energy[i];
       }
+      h1_ge_energy->Fill(hit_energy[i]*1000);
+      h1_ge_energy_reso->Fill(hit_energy_reso[i]*1000);
    }//loop signals in det.
 }
 

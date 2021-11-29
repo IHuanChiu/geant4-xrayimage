@@ -132,6 +132,7 @@ class RootOutput{
     TTree* TrackTree;
 
     TH1F*  h1_process;
+    TH1F*  h1_init_energy;
     TH1F* h1_StopVol;
 
   // === variables for tree ===

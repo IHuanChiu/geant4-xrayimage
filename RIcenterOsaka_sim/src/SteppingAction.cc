@@ -58,7 +58,6 @@ SteppingAction* SteppingAction::GetInstance()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SteppingAction::InitializeInBeginningOfEvent(){
-  ReNumber = 7;
   VolumeMap["Sample"] = 1;
   VolumeMap["World"] = 0;
   for(int i=1; i<6+1;i++){
@@ -73,20 +72,6 @@ void SteppingAction::InitializeInBeginningOfEvent(){
   ProcessMap["muIoni"] = 6;
   ProcessMap["conv"] = 7;
 
-  muhitSampleInThisEvent = false;
-  muhitFoil1InThisEvent = false;
-  muhitFoil2InThisEvent = false;
-  muhitFoil3InThisEvent = false;
-  muhitInter1InThisEvent = false;
-  muhitInter2InThisEvent = false;
-  muhitTargetInThisEvent = false;
-  muhitTarget2InThisEvent = false;
-  muEscapeInThisEvent = false;
-  ngammaHitVolume = 0;
-  neletronHitVolume = 0;
-  nneutronHitVolume = 0;
-  notherHitVolume = 0;
-  ParticleID = 0;
   ParentID = 0;
   egammahitSampleInThisEvent = false;
   currentType = 0;
@@ -126,6 +111,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   if (IsFirstStep){ 
     myRootOutput->SetnInitEnergy(KineticEnergy);//set n signal
     IsFirstStep = false;
+    myRootOutput->h1_init_energy->Fill(KineticEnergy*1000);//[keV], fill first step energy (beam energy)
   }
 
   // =========== store other particle ===============    
@@ -162,6 +148,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     myRootOutput->SetnMaxHit(nSignals);//set n signal
     for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
       myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
+
+//      if(ahit_edep[i]*1000>40 && ahit_edep[i]*1000<40.5){
+//       if (aTrack->GetCreatorProcess() != 0){
+//  std::cout << particleName   << "  pdgID : " << abs(pdgID) << " process : " << aTrack->GetCreatorProcess()->GetProcessName() << " Particle ID : " << step->GetTrack()->GetTrackID() << " ParentID : " << aTrack->GetParentID()  << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << Time << " Z : " << TrackPosition.z() <<  " energy : " << aTrack->GetKineticEnergy() << std::endl;
+//      }
     }
   }//end Ge detector
 }

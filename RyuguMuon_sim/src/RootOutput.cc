@@ -249,12 +249,14 @@ void RootOutput::BeginOfRunAction() {
    for (int i=1;i<=nh1bin;i++) h1_StopVol->GetXaxis()->SetBinLabel(i,var_name[i-1]);
    h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
    for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,pro_name[i-1]);
+   h1_init_energy = new TH1F("h1_init_energy","Init. input energy [keV]",6800,10,180);// used for BeamType="gamma"
    G4cout << "RootOutput::BeginOfRunAction()  The Root tree and branches were defined."<<G4endl;
 }
 
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
+  h1_init_energy->Write();
 //  muonTree->Write();//check beam profile (file size will be huge)
 //  TrackTree->Write();
   h1_StopVol->Write();

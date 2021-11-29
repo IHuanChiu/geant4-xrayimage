@@ -421,7 +421,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
      // place
      det_angle=(i*(2*CLHEP::pi/nDets)+(CLHEP::pi/6))*CLHEP::rad;
-     rot_ge = new G4RotationMatrix((-i*(360./nDets)-30)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
+     rot_ge = new G4RotationMatrix((-i*(360./nDets)-30+180)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      rot_deadlayer = new G4RotationMatrix((-i*(360./nDets)-30+180)*CLHEP::deg,-90*CLHEP::deg,0*CLHEP::deg);
      pos_deadlayer=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.)*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.)*std::cos(det_angle)*mm, (ge_dis_Z)*mm);
      pos_ge=G4ThreeVector((window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*std::sin(det_angle)*mm, (window_sample_dis+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*std::cos(det_angle)*mm, (ge_dis_Z)*mm);

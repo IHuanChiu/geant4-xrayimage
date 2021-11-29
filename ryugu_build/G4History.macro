@@ -1,8 +1,8 @@
 /run/verbose 2
-/run/initialize
 /command/rootOutput test
 /command/sample Al
-/command/beamtype gamma
+/command/beamtype muon
+/run/initialize
 /control/execute vis.mac
 /vis/open OGL 600x600-0+0
 /vis/sceneHandler/create OGL
@@ -33,6 +33,8 @@
 /vis/set/textLayout right
 /vis/set/textLayout
 /vis/set/textColour
+/vis/scene/add/axes
+/vis/scene/notifyHandlers
 /vis/scene/add/eventID
 /vis/scene/notifyHandlers
 /vis/scene/add/date
@@ -102,17 +104,17 @@
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour Crystal_Holder6 0 0.608 0.188 1 1
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer1 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer1 0 1 0 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer2 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer2 0 1 0 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer3 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer3 0 1 0 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer4 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer4 0 1 0 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer5 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer5 0 1 0 0 0.5
 /vis/scene/notifyHandlers
-/vis/geometry/set/colour Deadlayer6 0 1 1 1 0.5
+/vis/geometry/set/colour Deadlayer6 0 1 0 0 0.5
 /vis/scene/notifyHandlers
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
@@ -126,7 +128,7 @@
 /vis/viewer/refresh
 /vis/verbose warnings
 /vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/set gamma magenta
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
 /vis/scene/notifyHandlers scene-0
 /vis/modeling/trajectories/drawByParticleID-0/set e+ green
 /vis/scene/notifyHandlers scene-0
@@ -144,5 +146,3 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
-/run/beamOn 500
-/vis/scene/notifyHandlers scene-0

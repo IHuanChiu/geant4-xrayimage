@@ -1,0 +1,9 @@
+#/control/verbose 2
+#/run/verbose 1
+#
+/command/rootOutput gamma_ch1_check
+/command/chID 1
+
+/run/initialize
+
+/run/beamOn 3000000

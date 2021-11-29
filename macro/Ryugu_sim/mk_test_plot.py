@@ -1,0 +1,73 @@
+import os,ROOT
+__location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+ROOT.gROOT.LoadMacro( __location__+'/AtlasStyle/AtlasStyle.C')
+ROOT.SetAtlasStyle()
+
+def getLatex(ch, x = 0.85, y = 0.85):
+    _t = ROOT.TLatex()
+    _t.SetNDC()
+    _t.SetTextFont( 62 )
+    _t.SetTextColor( 36 )
+    _t.SetTextSize( 0.08 )
+    _t.SetTextAlign( 12 )
+    return _t
+
+if __name__=="__main__":
+   f1=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch1_20M.root","read")
+   f2=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch2_20M.root","read")
+   f3=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch3_20M.root","read")
+   f4=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch4_20M.root","read")
+   f5=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch5_20M.root","read")
+   f6=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/ri_osaka_build/Output_gamma_ch6_20M.root","read")
+   t1=f1.Get("tree")
+   t2=f2.Get("tree")
+   t3=f3.Get("tree")
+   t4=f4.Get("tree")
+   t5=f5.Get("tree")
+   t6=f6.Get("tree")
+   t1.Draw("Hit_Energy_Reso*1000 >> h1(800,38,42)")
+   t2.Draw("Hit_Energy_Reso*1000 >> h2(800,38,42)")
+   t3.Draw("Hit_Energy_Reso*1000 >> h3(800,38,42)")
+   t4.Draw("Hit_Energy_Reso*1000 >> h4(800,38,42)")
+   t5.Draw("Hit_Energy_Reso*1000 >> h5(800,38,42)")
+   t6.Draw("Hit_Energy_Reso*1000 >> h6(800,38,42)")
+   h1=ROOT.gDirectory.Get("h1")
+   h2=ROOT.gDirectory.Get("h2")
+   h3=ROOT.gDirectory.Get("h3")
+   h4=ROOT.gDirectory.Get("h4")
+   h5=ROOT.gDirectory.Get("h5")
+   h6=ROOT.gDirectory.Get("h6")
+
+   h1.SetTitle(";Energy [keV]; Counts/25 eV")
+   h1.SetLineColorAlpha(1,0.9)
+   h2.SetLineColorAlpha(2,0.6)
+   h3.SetLineColorAlpha(3,0.6)
+   h4.SetLineColorAlpha(4,0.6)
+   h5.SetLineColorAlpha(5,0.6)
+   h6.SetLineColorAlpha(6,0.6)
+
+   leg = ROOT.TLegend(.2,.65,.4,.9)
+   leg.SetFillColor(0)
+   leg.SetLineColor(0)
+   leg.SetBorderSize(0)
+   leg.AddEntry(h1, "CH1" , "l")
+   leg.AddEntry(h2, "CH2" , "l")
+   leg.AddEntry(h3, "CH3 " , "l")
+   leg.AddEntry(h4, "CH4 " , "l")
+   leg.AddEntry(h5, "CH5" , "l")
+   leg.AddEntry(h6, "CH6" , "l")
+
+   c2=ROOT.TCanvas("c2_{}".format(1),"c2_{}".format(1),1800,1200)
+   c2.cd()
+   h1.Draw("")
+   h2.Draw("same")
+   h3.Draw("same")
+   h4.Draw("same")
+   h5.Draw("same")
+   h6.Draw("same")
+   leg.Draw("same")
+
+   c2.SaveAs("/Users/chiu.i-huan/Desktop/c_RI_ch1to6_gamma.png")
+
+

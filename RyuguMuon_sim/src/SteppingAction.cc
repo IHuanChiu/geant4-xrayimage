@@ -147,6 +147,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   if (IsFirstStep){ 
     myRootOutput->SetInitEnergy(KineticEnergy);//set n signal
     IsFirstStep = false;
+    myRootOutput->h1_init_energy->Fill(KineticEnergy*1000);//[keV], fill first step energy (beam energy)
   }
 
   // =========== store muon hit position ===============   

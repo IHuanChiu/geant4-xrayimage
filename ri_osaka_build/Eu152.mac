@@ -1,8 +1,8 @@
 #/control/verbose 2
 #/run/verbose 1
 #
-/command/rootOutput Eu152_ch3_addAir2 
-/command/chID 3
+/command/rootOutput Eu152_ch2_200M
+/command/chID 2
 /command/rot 0
 
 /run/initialize
@@ -11,4 +11,4 @@
 #
 #Run203299 : 8926964400
 
-/run/beamOn 10000000
+/run/beamOn 1000000

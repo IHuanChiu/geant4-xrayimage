@@ -130,6 +130,9 @@ class RootOutput{
     TTree* muonTree;
     TTree* TrackTree;
 
+    TH1F*  h1_init_energy;
+    TH1F*  h1_ge_energy; 
+    TH1F*  h1_ge_energy_reso;
   // === variables for tree ===
   private:
     TFile* ResponseFile;
