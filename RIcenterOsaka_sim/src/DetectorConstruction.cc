@@ -159,7 +159,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4LogicalVolume* TableLog = new G4LogicalVolume(solidTable, solid_table, "Table");
   G4ThreeVector pos_table = G4ThreeVector(0, -(90+50)*mm, -100*mm);
   new G4PVPlacement(0,  pos_table, TableLog, "Table", logicWorld, false, 0, checkOverlaps);
-                     
+
   //
   // ***** Sample *****
   //
@@ -169,13 +169,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double sample_width;
   G4Material* solid_sample;
   G4LogicalVolume* SampleLog;
-  G4double isotope_plastic_radius = 12.5*mm;
+  G4LogicalVolume* SampleLogCover;
+  G4double isotope_plastic_radius = ((24/2.)-5.5)*mm;
   sample_thick = 0.01*mm;
   solid_sample = nist->FindOrBuildMaterial("G4_PLEXIGLASS"); // acrylic resin C5O2H8 density 1.18 g/cm3
   G4Tubs* solidsample = new G4Tubs("Sample", 0.0, isotope_plastic_radius, sample_thick*0.5, 0.0*deg, 360.0*deg);
+  G4Tubs* solidsamplecover = new G4Tubs("SampleCover", ((24/2.)-5)*mm, (24/2.)*mm, 4*0.5, 0.0*deg, 360.0*deg);
   SampleLog = new G4LogicalVolume(solidsample, solid_sample, "Sample");
+  SampleLogCover = new G4LogicalVolume(solidsamplecover, solid_sample, "SampleCover");
   G4ThreeVector pos_sample = G4ThreeVector(std::sin(rot_sample)*100, 0, -100+(100*std::cos(rot_sample))*mm);  
   new G4PVPlacement(rot_angle_sample,  pos_sample, SampleLog, "Sample", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(rot_angle_sample,  pos_sample, SampleLogCover, "SampleCover", logicWorld, false, 0, checkOverlaps);
 
 
   //
@@ -187,7 +191,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double groove_inner[6] = {3,3,3,3,2.5,3};//CH1,3,4,6 are unknown
   G4double groove_outer[6] = {5.5,5.5,5.5,5.5,5.5,5.5};//CH1,3,4,6 are unknown
   G4double groove_thickness[6] = {1.5,1.5,1.5,1.5,1,1.5};
-  G4double deadlayer_thickness[6] = {0.5,0.5,0.5,0.5,0.5,0.5};
+  //G4double deadlayer_thickness[6] = {0.5,0.5,0.5,0.5,0.5,0.5};
+  G4double deadlayer_thickness[6] = {0.5,1.68,0.015,0.5,0.5,0.5};//watanebe test
   G4String cryostat_material[6] = {"G4_Cu","G4_Cu","G4_Al","G4_Cu","G4_Cu","G4_Cu"};//CH1,4,6 are unknown
   G4double cryostat_holder_length[6] = {8.7,8.7,10,8.7,8.7,8.7};//CH1,4,6 are unknown
   G4double cryostat_holder_thickness[6] = {2.4,2.4,2.4,2.4,2.4,2.4};//CH1,4,6 are unknown

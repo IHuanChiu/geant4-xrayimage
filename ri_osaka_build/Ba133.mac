@@ -1,8 +1,8 @@
 #/control/verbose 2
 #/run/verbose 1
 #
-/command/rootOutput Ba133_ch2_0
-/command/chID 2
+/command/rootOutput Ba133_ch3_200M
+/command/chID 3
 /command/rot 0
 
 /run/initialize
@@ -13,4 +13,4 @@
 #45: 6305151174
 #90: 1099824480
 
-/run/beamOn 623315340
+/run/beamOn 200000000
