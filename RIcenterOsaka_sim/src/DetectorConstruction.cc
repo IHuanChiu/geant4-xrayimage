@@ -192,7 +192,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double groove_outer[6] = {5.5,5.5,5.5,5.5,5.5,5.5};//CH1,3,4,6 are unknown
   G4double groove_thickness[6] = {1.5,1.5,1.5,1.5,1,1.5};
   //G4double deadlayer_thickness[6] = {0.5,0.5,0.5,0.5,0.5,0.5};
-  G4double deadlayer_thickness[6] = {0.5,1.68,0.015,0.5,0.5,0.5};//watanebe test
+  G4double deadlayer_thickness[6] = {0.5,1.68,0.015,0.5,0.5,0.5};//watanebe test TODO need to be fixed
   G4String cryostat_material[6] = {"G4_Cu","G4_Cu","G4_Al","G4_Cu","G4_Cu","G4_Cu"};//CH1,4,6 are unknown
   G4double cryostat_holder_length[6] = {8.7,8.7,10,8.7,8.7,8.7};//CH1,4,6 are unknown
   G4double cryostat_holder_thickness[6] = {2.4,2.4,2.4,2.4,2.4,2.4};//CH1,4,6 are unknown
@@ -244,13 +244,19 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      solid_endcap = nist->FindOrBuildMaterial(endcap_material[i]);
      solid_cover = nist->FindOrBuildMaterial("G4_Sn");
      solid_window = nist->FindOrBuildMaterial("G4_Be");
-     Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,((Ge_diameter[i]/2.)-deadlayer_thickness[i])*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
-     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((groove_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad); 
-     Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -((Ge_thickness[i]-deadlayer_thickness[i])/2-(groove_thickness[i]-deadlayer_thickness[i])/2.)*mm));
+//     Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,((Ge_diameter[i]/2.)-deadlayer_thickness[i])*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
+     Ge_Det_ori = new G4Tubs("GeDet_ori",0*mm,((Ge_diameter[i]/2.)-deadlayer_thickness[i])*mm,((Ge_thickness[i]-0.5)/2.)*mm,0.,2*M_PI*rad);//thinkness of deadlayer is 0.5 mm
+//     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((groove_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad); 
+     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((groove_thickness[i]-0.5)/2.)*mm,0.,2*M_PI*rad); 
+//     Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -((Ge_thickness[i]-deadlayer_thickness[i])/2-(groove_thickness[i]-deadlayer_thickness[i])/2.)*mm));
+     Ge_Det_ori = new G4SubtractionSolid("GeDet", Ge_Det_ori, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -((Ge_thickness[i]-0.5)/2-(groove_thickness[i]-0.5)/2.)*mm));
      Ge_Det_dead = new G4Tubs("Ge_Det_dead_ori",0*mm,(Ge_diameter[i]/2.)*mm,(Ge_thickness[i]/2.)*mm,0.,2*M_PI*rad);
-     Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((Ge_diameter[i]-deadlayer_thickness[i]*2)/2.)*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);
-     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((deadlayer_thickness[i]/2.)*10)*mm,0.,2*M_PI*rad);//tips: 10 times for subtraction
-     Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (deadlayer_thickness[i]/2.)*mm));
+//     Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((Ge_diameter[i]-deadlayer_thickness[i]*2)/2.)*mm,((Ge_thickness[i]-deadlayer_thickness[i])/2.)*mm,0.,2*M_PI*rad);
+     Ge_Det_dead_sub = new G4Tubs("Ge_Det_dead_sub",0*mm,((Ge_diameter[i]-deadlayer_thickness[i]*2)/2.)*mm,((Ge_thickness[i]-0.5)/2.)*mm,0.,2*M_PI*rad);
+//     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((deadlayer_thickness[i]/2.)*10)*mm,0.,2*M_PI*rad);//tips: 10 times for subtraction
+//     Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (deadlayer_thickness[i]/2.)*mm));
+     Ge_Det_groove = new G4Tubs("GeDet_groove",(groove_inner[i]/2.)*mm,(groove_outer[i]/2.)*mm,((0.5/2.)*10)*mm,0.,2*M_PI*rad);//tips: 10 times for subtraction
+     Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_dead_sub, 0, G4ThreeVector(0*mm, 0*mm, (0.5/2.)*mm));
      Ge_Det_dead = new G4SubtractionSolid("Ge_Det_dead", Ge_Det_dead, Ge_Det_groove, 0, G4ThreeVector(0*mm, 0*mm, -(Ge_thickness[i]/2.)*mm));
      Crystal_Holder = new G4Tubs("Crystal_Holder",(Ge_diameter[i]/2.)*mm,((Ge_diameter[i]/2.)+cryostat_holder_thickness[i])*mm,(cryostat_holder_length[i]/2.)*mm,0.,2*M_PI*rad);//thinkness of holder is 2.4 mm
      Endcap_Tubes = new G4Tubs("Endcap_Tubes",((endcap_diameter[i]-endcap_thickness[i]*2)/2.)*mm,(endcap_diameter[i]/2.)*mm,(endcap_lengh[i]/2.)*mm,0.,2*M_PI*rad);
@@ -267,7 +273,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
      // place
      pos_deadlayer=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+5+Ge_thickness[i]/2.)*mm);
-     pos_ge=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*mm);
+     //pos_ge=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+5+Ge_thickness[i]/2.-deadlayer_thickness[i])*mm);
+     pos_ge=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+5+Ge_thickness[i]/2.-0.5)*mm);
      pos_sncover=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+cover_lengh[i]/2.)*mm);
      pos_endcap=G4ThreeVector(0,0,(-1)*(ge_dis_Z+window_thickness[i]/2.+endcap_lengh[i]/2.)*mm);
      pos_window=G4ThreeVector(0,0,(-1)*(ge_dis_Z)*mm);
