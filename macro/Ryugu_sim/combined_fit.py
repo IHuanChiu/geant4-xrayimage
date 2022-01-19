@@ -4,7 +4,8 @@ __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
 ROOT.gROOT.LoadMacro( __location__+'/AtlasStyle/AtlasStyle.C')
 ROOT.SetAtlasStyle()
-
+"""
+#old samples
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211107_ch2_Eu152_10cm_0rad.root"#ch2, Eu152
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/202111011_ch3_Eu152_10cm_0rad.root"#ch3, Eu152
 #ndecay_data=43741900 #Eu152
@@ -14,12 +15,22 @@ data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/
 ndecay_data=101878238 #Ba133, CH3
 mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Ba133_ch3_200M.root"
 ndecay_mc=200_000_000
+"""
 
-#overall_range_down=[39.8,43,119]
-#overall_range_up=[42,46,124]
+data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_0pirad.root"#ch2
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_0pirad.root"#ch3
+mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe.root"
 
-overall_range_down=[30.8,34,80]
-overall_range_up=[31.7,35.4,82]
+ndecay_data=873122400
+ndecay_mc=100_000_000
+
+#Eu152
+overall_range_down=[39.8,43,119]
+overall_range_up=[42,46,124]
+
+#Ba133
+#overall_range_down=[30.8,34,80]
+#overall_range_up=[31.7,35.4,82]
 
 nbins=int(6800)
 
