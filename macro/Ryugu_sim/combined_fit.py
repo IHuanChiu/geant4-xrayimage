@@ -17,16 +17,29 @@ mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4
 ndecay_mc=200_000_000
 """
 
-data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_0pirad.root"#ch2
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_0pirad.root"#ch2
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_0pirad.root"#ch3
-mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe.root"
 
-ndecay_data=873122400
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_025pirad.root"
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_05pirad.root"
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_025pirad.root"
+data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_05pirad.root"
+
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe.root"
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe.root"
+
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe_45.root"
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe_90.root"
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe_45.root"
+mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe_90.root"
+
+#ndecay_data=873122400
+ndecay_data=436561200
 ndecay_mc=100_000_000
 
 #Eu152
-overall_range_down=[39.8,43,119]
-overall_range_up=[42,46,124]
+overall_range_down=[39.8,44.5,119]
+overall_range_up=[41,46,124]
 
 #Ba133
 #overall_range_down=[30.8,34,80]
