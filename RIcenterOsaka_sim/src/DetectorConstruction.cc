@@ -284,7 +284,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      new G4PVPlacement(0, pos_deadlayer, CrystalHolderLog[i], "Crystal_Holder"+idstr, logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(0, pos_ge, GeLog[i], "Ge"+idstr, logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(0, pos_endcap, EndcapLog[i], "Endcap"+idstr, logicWorld, false, 0, checkOverlaps);
-     new G4PVPlacement(0, pos_sncover, SnCoverLog[i], "SnCover"+idstr, logicWorld, false, 0, checkOverlaps);
+//     new G4PVPlacement(0, pos_sncover, SnCoverLog[i], "SnCover"+idstr, logicWorld, false, 0, checkOverlaps);
      new G4PVPlacement(0, pos_window, WindowLog[i], "Window"+idstr, logicWorld, false, 0, checkOverlaps);
   } 
 
