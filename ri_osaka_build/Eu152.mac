@@ -1,9 +1,9 @@
 #/control/verbose 2
 #/run/verbose 1
 #
-/command/rootOutput Eu152_ch2_100M_nabe_45
+/command/rootOutput Eu152_ch2_100M_nabeNoSn_0
 /command/chID 2
-/command/rot 45
+/command/rot 0
 
 /run/initialize
 /gun/particle ion
@@ -11,4 +11,4 @@
 #
 #Run203299 : 8926964400
 
-/run/beamOn 100000000
+/run/beamOn 200000000
