@@ -17,35 +17,39 @@ mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4
 ndecay_mc=200_000_000
 """
 
-data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_0pirad.root"#ch2
+#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_0pirad.root"#ch2
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_0pirad.root"#ch3
 
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_025pirad.root"
-#data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_05pirad.root"
+data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/202112013_ch2_152Eu_10cm_05pirad.root"
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_025pirad.root"
 #data_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/RIcsv_data/20211208/20211130_ch3_152Eu_10cm_05pirad.root"
 
-mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe.root"
+#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe.root"
 #mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe.root"
 
 #mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe_45.root"
-#mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe_90.root"
+mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch2_100M_nabe_90.root"
 #mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe_45.root"
 #mc_file="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/G4_data/RIcenter/Output_Eu152_ch3_100M_nabe_90.root"
 
-ndecay_data=873122400
-#ndecay_data=436561200
+#ndecay_data=873122400
+ndecay_data=436561200
 ndecay_mc=100_000_000
 
 #Eu152
-overall_range_down=[39.8,44.5,119]
-overall_range_up=[41,46,124]
+#overall_range_down=[39.8,44.5,119]
+#overall_range_up=[41,46,124]
 
 #Ba133
 #overall_range_down=[30.8,34,80]
 #overall_range_up=[31.7,35.4,82]
 
-nbins=int(6800)
+#unknow peaks
+overall_range_down=[5.2,5.9]
+overall_range_up=[5.9,6.5]
+
+nbins=int(8000)
 
 def getLatex(ch, x = 0.85, y = 0.85):
     _t = ROOT.TLatex()
@@ -93,6 +97,7 @@ def fit(_h,outname):
        peak.SetLineColor(4)
        bkg.SetLineColor(3)
        total.SetLineColor(2)
+       _hdraw.SetMinimum(0)
        _hdraw.Draw("ep")
        peak.Draw("same")
        total.Draw("same")
@@ -109,8 +114,8 @@ if __name__=="__main__":
 
   t_data=f_data.Get("tree")
   t_mc=f_mc.Get("tree")
-  t_data.Draw("energy >> h_data({},10,180)".format(nbins))
-  t_mc.Draw("Hit_Energy_Reso*1000 >> h_mc({},10,180)".format(nbins))
+  t_data.Draw("energy >> h_data({},0,200)".format(nbins))
+  t_mc.Draw("Hit_Energy_Reso*1000 >> h_mc({},0,200)".format(nbins))
   h_data=ROOT.gDirectory.Get("h_data")
   h_mc=ROOT.gDirectory.Get("h_mc")
 

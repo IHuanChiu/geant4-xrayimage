@@ -107,6 +107,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   Time          = aTrack->GetGlobalTime()/CLHEP::microsecond;
   KineticEnergy = aTrack->GetKineticEnergy()/CLHEP::MeV;
 
+  if(KineticEnergy*1000>5.615 && KineticEnergy*1000<5.625){
+    if (aTrack->GetCreatorProcess() != 0){
+      std::cout << particleName   << "  pdgID : " << abs(pdgID) << " process : " << aTrack->GetCreatorProcess()->GetProcessName() << " Particle ID : " << step->GetTrack()->GetTrackID() << " ParentID : " << aTrack->GetParentID()  << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << Time << " Z : " << TrackPosition.z() <<  " energy : " << aTrack->GetKineticEnergy() << std::endl;
+    }
+  }
+
   // =========== ONLY for gamma source ===============   
   if (IsFirstStep){ 
     myRootOutput->SetnInitEnergy(KineticEnergy);//set n signal
@@ -148,12 +154,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     myRootOutput->SetnMaxHit(nSignals);//set n signal
     for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
       myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_start_x[i], ahit_start_y[i], ahit_start_z[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i]); //fill to root
-
-//      if(ahit_edep[i]*1000>40 && ahit_edep[i]*1000<40.5){
-//       if (aTrack->GetCreatorProcess() != 0){
-//  std::cout << particleName   << "  pdgID : " << abs(pdgID) << " process : " << aTrack->GetCreatorProcess()->GetProcessName() << " Particle ID : " << step->GetTrack()->GetTrackID() << " ParentID : " << aTrack->GetParentID()  << "  " << CurrentVolumeName << " number : " << VolumeMap[CurrentVolumeName] << " Time : " << Time << " Z : " << TrackPosition.z() <<  " energy : " << aTrack->GetKineticEnergy() << std::endl;
-//      }
     }
+
   }//end Ge detector
 }
 
