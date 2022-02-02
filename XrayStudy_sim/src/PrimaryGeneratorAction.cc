@@ -56,10 +56,15 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   //define input particles
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName="mu-");//IH
+  G4ParticleDefinition* particle;
+
+  //particle  = particleTable->FindParticle(particleName="mu-");//IH
+  //fParticleGun->SetParticleDefinition(particle);
+  //muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+
+  particle = particleTable->FindParticle("gamma");
   fParticleGun->SetParticleDefinition(particle);
-  muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+
 
   G4String eletronName;
   G4ParticleDefinition* eletron
@@ -90,9 +95,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
   myRootOutput->ClearAllRootVariables(); 
 
-  G4double envSizeXY = 0;
-  G4double envSizeZ = 0;
-
+   /* muon pulse beam
   for (int i=0;i< nPulseBeam; i++){
   // === default particle kinematic ===
   pSigma = p0*mom_error;
@@ -140,6 +143,18 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
   myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
   }//Pulse Beam
+  // */
+
+  // /* gamma generation
+  fParticleGun->SetParticlePosition(G4ThreeVector(0,0,0));
+  for (int i = 0 ; i < 6801 ; i++){
+     fParticleGun->SetParticleEnergy(0.01+0.001*i*0.025);
+     for (int idet = 0; idet < 6; idet++){
+        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),std::cos(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),0));
+        fParticleGun->GeneratePrimaryVertex(anEvent);
+     }//ch1~ch6
+  }//10~180 keV gamma
+  // */
 
 }
 
