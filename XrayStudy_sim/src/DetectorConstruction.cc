@@ -75,6 +75,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* elA = nist->FindOrBuildMaterial("G4_AIR"); 
   G4Material* HeA = nist->FindOrBuildMaterial("G4_He");
+  G4Material* SiO2 = nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
+  G4Material* CaO = nist->FindOrBuildMaterial("G4_CALCIUM_OXIDE");
+  G4Material* Al2O3 = nist->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
+  G4Material* MgO = nist->FindOrBuildMaterial("G4_MAGNESIUM_OXIDE");
+  G4Material* FeO = nist->FindOrBuildMaterial("G4_FERROUS_OXIDE");
+  G4Material* TiO2 = nist->FindOrBuildMaterial("G4_TITANIUM_DIOXIDE");
+  G4Material* Na2O = nist->FindOrBuildMaterial("G4_SODIUM_MONOXIDE");
 
   G4double atomicNumber = 1.;
   G4double massOfMole = 1.008*g/mole;
@@ -100,11 +107,42 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  solid_common=nist->FindOrBuildMaterial("G4_C");
 //  solid_common=nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
 //  solid_common=nist->FindOrBuildMaterial("G4_Al");
-  solid_common=nist->FindOrBuildMaterial("G4_AIR");
-  G4double Pb_dis=5;//mm
-  G4VSolid* Pb_Target = new G4Box("Target",(25./2)*mm, (25./2)*mm, (1.2/2)*mm);
+  //White
+  double sample_density = 2.9*g/cm3;
+  int ncomponents;
+  int mass_fraction;
+  solid_common = new G4Material("White", sample_density, ncomponents=5);
+  solid_common->AddMaterial(SiO2,mass_fraction=0.45);//mass fraction
+  solid_common->AddMaterial(Al2O3,mass_fraction=0.30);
+  solid_common->AddMaterial(CaO,mass_fraction=0.17);
+  solid_common->AddMaterial(MgO,mass_fraction=0.04);
+  solid_common->AddMaterial(FeO,mass_fraction=0.04);
+  G4VSolid* Target = new G4Box("Target",(10./2)*mm, (10./2)*mm, (1./2)*mm);
+  //Black
+//  solid_common = new G4Material("Black", sample_density, ncomponents=6);
+//  solid_common->AddMaterial(SiO2,mass_fraction=0.46);
+//  solid_common->AddMaterial(FeO,mass_fraction=0.24);
+//  solid_common->AddMaterial(CaO,mass_fraction=0.10);
+//  solid_common->AddMaterial(Al2O3,mass_fraction=0.09);
+//  solid_common->AddMaterial(MgO,mass_fraction=0.08);
+//  solid_common->AddMaterial(TiO2,mass_fraction=0.03);
+//  G4VSolid* Target = new G4Box("Target",(20./2)*mm, (20./2)*mm, (1./2)*mm);
+//  //DEW
+//  solid_common = new G4Material("DEW", sample_density, ncomponents=7);
+//  solid_common->AddMaterial(SiO2,mass_fraction=0.471);
+//  solid_common->AddMaterial(Al2O3,mass_fraction=0.183);
+//  solid_common->AddMaterial(CaO,mass_fraction=0.129);
+//  solid_common->AddMaterial(FeO,mass_fraction=0.126);
+//  solid_common->AddMaterial(Mg0,mass_fraction=0.081);
+//  solid_common->AddMaterial(TiO2,mass_fraction=0.006);
+//  solid_common->AddMaterial(Na2O,mass_fraction=0.004);
+//  G4VSolid* Target = new G4Box("Target",(30./2)*mm, (30./2)*mm, (3.5/2)*mm);
+  //Test
+  //solid_common=nist->FindOrBuildMaterial("G4_AIR");
+  //G4VSolid* Target = new G4Box("Target",(25./2)*mm, (25./2)*mm, (1.2/2)*mm);
+
   G4ThreeVector pos_pb = G4ThreeVector(0, 0, 0*mm);
-  G4LogicalVolume* PbLog = new G4LogicalVolume(Pb_Target, solid_common, "Target");
+  G4LogicalVolume* PbLog = new G4LogicalVolume(Target, solid_common, "Target");
   new G4PVPlacement(0, pos_pb, PbLog, "Target", logicWorld, false, 0, checkOverlaps);
 
   // ***** Ge detector *****

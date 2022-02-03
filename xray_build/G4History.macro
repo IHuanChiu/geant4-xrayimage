@@ -82,7 +82,7 @@
 /vis/geometry/set/colour Shadow 0 1 1 0 0.9
 /vis/geometry/set/forceWireframe FeTubs 0 true
 /vis/geometry/set/colour FeTubs 0 0 1 0 0.7
-/vis/geometry/set/colour Target 0 1 0.98 0.98 0.1
+/vis/geometry/set/colour Target 0 1 0.98 0.98 0.5
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour GeDet 0 0.792 0.8824 1 1.
 /vis/viewer/set/style surface
@@ -110,5 +110,3 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
-/run/beamOn 1
-/vis/scene/notifyHandlers scene-0

@@ -135,7 +135,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //     
   G4Material* alBaton_mater = nist->FindOrBuildMaterial("G4_Al");
   G4Box* alBaton = new G4Box("alBaton", (65/2.)*mm, (150/2.)*mm, (65/2.)*mm);
-  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 300)*mm);//221 is experiment setting
+  G4ThreeVector pos_alBaton = G4ThreeVector(0*mm, 0*mm, (sample_dis+5+sample_dz + 170)*mm);//221 is experiment setting
   G4LogicalVolume* alBatonLog = new G4LogicalVolume(alBaton,alBaton_mater,"AlBaton");
   new G4PVPlacement(0, pos_alBaton, alBatonLog, "AlBaton", logicWorld, false,0,checkOverlaps);
 
