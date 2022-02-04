@@ -117,10 +117,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4Orb* solid_ball_L = new G4Orb("Ball", (1.27/2.)*cm);
   G4Orb* solid_ball_S = new G4Orb("samllBall", (0.635/2.)*cm);
-  G4ThreeVector pos_sample1 = G4ThreeVector((0+(14.14/2.))*mm, (0+(14.14/2.))*mm, (0+5+sample_dz/2.)*mm);//L back
-  G4ThreeVector pos_sample2 = G4ThreeVector((0-(14.14/2.))*mm, (0+(14.14/2.))*mm, (0-6+sample_dz/2.)*mm);//S back
-  G4ThreeVector pos_sample3 = G4ThreeVector((0+(14.14/2.))*mm, (0-(14.14/2.))*mm, (0-9+sample_dz/2.)*mm);//S front
-  G4ThreeVector pos_sample4 = G4ThreeVector((0-(14.14/2.))*mm, (0-(14.14/2.))*mm, (0-2+sample_dz/2.)*mm);//L front
+  G4ThreeVector pos_sample1 = G4ThreeVector((0+(14.14/2.))*mm, (0+(14.14/2.))*mm, (-1)*(0)*mm);//L back
+  G4ThreeVector pos_sample2 = G4ThreeVector((0-(14.14/2.))*mm, (0+(14.14/2.))*mm, (-1)*(0+6.35-5+6.35-6.35/2)*mm);//S back
+  G4ThreeVector pos_sample3 = G4ThreeVector((0+(14.14/2.))*mm, (0-(14.14/2.))*mm, (-1)*(0+12.7+6.35-5-6.35/2-3)*mm);//S front
+  G4ThreeVector pos_sample4 = G4ThreeVector((0-(14.14/2.))*mm, (0-(14.14/2.))*mm, (-1)*(0+12.7-5)*mm);//L front
   G4LogicalVolume* TargetLog1 = new G4LogicalVolume(solid_ball_L,solid_target,"Target1"); 
   G4LogicalVolume* TargetLog2 = new G4LogicalVolume(solid_ball_L,solid_target,"Target2"); 
   G4LogicalVolume* TargetLog3 = new G4LogicalVolume(solid_ball_S,solid_target,"Target3"); 

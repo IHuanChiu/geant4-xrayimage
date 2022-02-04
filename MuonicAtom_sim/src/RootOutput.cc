@@ -34,7 +34,7 @@ void RootOutput::BeginOfRunAction() {
 
    rootTree = new TTree("tree","CdTe detector analysis");
    muonTree = new TTree("mutree","muon beam analysis");
-   TrackTree = new TTree("tracktree","Germanium simulation for particles");
+//   TrackTree = new TTree("tracktree","Germanium simulation for particles");
 
    // ===== muon position/hit =====
 //   muonTree->Branch("muCdTeTime",&muCdTeTime,"muCdTeTime[6]/D");
@@ -118,6 +118,7 @@ void RootOutput::BeginOfRunAction() {
    rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
+   rootTree->Branch("Det_ID",&Det_ID,"Det_ID[nSignals]/I");
    rootTree->Branch("Hit_Energy",hit_energy,"Hit_Energy[nSignals]/D");
    rootTree->Branch("Hit_Energy_Reso",hit_energy_reso,"Hit_Energy_Reso[nSignals]/D");
    rootTree->Branch("Hit_Time_Start",hit_timestart,"Hit_Time_Start[nSignals]/D");
@@ -146,16 +147,16 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("Nother",Nother,"Nother[nDet]/D");
 
    // ===== track info. =====
-   TrackTree->Branch("det_ID", &det_ID, "det_ID/I");
-   TrackTree->Branch("pdgId",&pdgId,"pdgId/I");
-   TrackTree->Branch("kinetic_E",&KineticE,"kinetic_E/D");
-   TrackTree->Branch("Total_E",&TotalE,"Total_E/D");
-   TrackTree->Branch("Detector_X",&Det_X,"Detector_X/D");
-   TrackTree->Branch("Detector_Y",&Det_Y,"Detector_Y/D");
-   TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
-   TrackTree->Branch("Track_Name",&Track_Name);
-   TrackTree->Branch("Track_Process",&Track_Process);
-   TrackTree->Branch("Track_ProcessID",&Track_ProcessID,"Track_ProcessID/I");
+//   TrackTree->Branch("det_ID", &det_ID, "det_ID/I");
+//   TrackTree->Branch("pdgId",&pdgId,"pdgId/I");
+//   TrackTree->Branch("kinetic_E",&KineticE,"kinetic_E/D");
+//   TrackTree->Branch("Total_E",&TotalE,"Total_E/D");
+//   TrackTree->Branch("Detector_X",&Det_X,"Detector_X/D");
+//   TrackTree->Branch("Detector_Y",&Det_Y,"Detector_Y/D");
+//   TrackTree->Branch("Detector_Z",&Det_Z,"Detector_Z/D");
+//   TrackTree->Branch("Track_Name",&Track_Name);
+//   TrackTree->Branch("Track_Process",&Track_Process);
+//   TrackTree->Branch("Track_ProcessID",&Track_ProcessID,"Track_ProcessID/I");
 
    // ===== histogram =====
    h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
@@ -178,7 +179,7 @@ void RootOutput::RootEndOfRunAction() {
   G4cout<<"RootOutput::RootEndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
   muonTree->Write();
-  TrackTree->Write();
+//  TrackTree->Write();
   h1_process->Write();
   rootFile->Close();
   G4cout<<"RootOutput::RootEndOfRunAction() - Root tree written out."<<G4endl;
@@ -275,6 +276,7 @@ void RootOutput::ClearAllRootVariables() {
   }
 
   for (int i = 0; i < nhitMax; i++){
+     Det_ID[i]=0;
      hit_energy[i] = 0.;
      hit_timestart[i] = 0.;
      hit_timeend[i] = 0.;

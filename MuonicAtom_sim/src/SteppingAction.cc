@@ -244,6 +244,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
          }
   
          if(!IsSameSignal){//current step isn't belong with pre-particle -> define a new signal
+            det_id=VolumeMap[CurrentVolumeName]-5;
             ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
             ahit_time_start[nSignals] = Time;
             ahit_time_end[nSignals]   = Time;
@@ -262,30 +263,30 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   
          myRootOutput->SetnMaxHit(nSignals);//set n signal 
          for (G4int i=0; i<nSignals; i++) {//loop all (merged) signals
-           myRootOutput->SetSignalInfo(i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i], ahit_x[i], ahit_y[i], ahit_z[i]); //fill to root
+           myRootOutput->SetSignalInfo(det_id, i, ahit_edep[i], ahit_time_start[i], ahit_time_end[i], ahit_nsteps[i], ahit_length[i], ahit_pdgid[i], ahit_process[i], ahit_x[i], ahit_y[i], ahit_z[i]); //fill to root
          }
  
    
         // *** track info. ***
-        if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){//skip muon & ignore same particle with different step
-              ParticleID    = aTrack->GetTrackID();
-              myRootOutput->ScannParticleHitVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName());//scan the number of hit particle 
-      
-              Kinetic_e         = aTrack->GetKineticEnergy()/CLHEP::MeV;
-              Total_e           = aTrack->GetTotalEnergy()/CLHEP::MeV;
-              det_x             = aTrack->GetPosition().x()/CLHEP::mm;
-              det_y             = aTrack->GetPosition().y()/CLHEP::mm;
-              det_z             = aTrack->GetPosition().z()/CLHEP::mm;
-              det_pdgid         = pdgID;
-      
-              if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
-              }else{ trackprocess = "None";}
-      
-              myRootOutput->StoreTrack(VolumeMap[CurrentVolumeName]-DetNumber, det_pdgid, 
-                                       Kinetic_e, Total_e, 
-                                       det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess, ProcessMap[trackprocess]);
-              myRootOutput->FillParticle();
-        }//first particle in sensitivity volume
+//        if(ParentID != 0 && step->GetTrack()->GetTrackID() != ParticleID){//skip muon & ignore same particle with different step
+//              ParticleID    = aTrack->GetTrackID();
+//              myRootOutput->ScannParticleHitVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName());//scan the number of hit particle 
+//      
+//              Kinetic_e         = aTrack->GetKineticEnergy()/CLHEP::MeV;
+//              Total_e           = aTrack->GetTotalEnergy()/CLHEP::MeV;
+//              det_x             = aTrack->GetPosition().x()/CLHEP::mm;
+//              det_y             = aTrack->GetPosition().y()/CLHEP::mm;
+//              det_z             = aTrack->GetPosition().z()/CLHEP::mm;
+//              det_pdgid         = pdgID;
+//      
+//              if (aTrack->GetCreatorProcess() != 0){ trackprocess   = aTrack->GetCreatorProcess()->GetProcessName();
+//              }else{ trackprocess = "None";}
+//      
+//              myRootOutput->StoreTrack(VolumeMap[CurrentVolumeName]-DetNumber, det_pdgid, 
+//                                       Kinetic_e, Total_e, 
+//                                       det_x, det_y, det_z, aTrack->GetDefinition()->GetParticleName(), trackprocess, ProcessMap[trackprocess]);
+//              myRootOutput->FillParticle();
+//        }//first particle in sensitivity volume
 
 //        /*
         // *** energy deposite & position of the first particle *** (Old method!)

@@ -129,6 +129,7 @@ class SteppingAction : public G4UserSteppingAction
     G4int ahit_pdgid[nhitMax_indetector];
     G4int ahit_process[nhitMax_indetector];
     G4int nSignals;//number of signal particles
+    G4int det_id;
 
 };
 

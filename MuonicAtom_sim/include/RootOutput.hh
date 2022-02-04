@@ -156,6 +156,7 @@ class RootOutput{
     Int_t Track_ProcessID;
 
     Int_t nSignals;
+    Int_t Det_ID[nhitMax];
     Double_t hit_energy[nhitMax];
     Double_t hit_energy_reso[nhitMax];
     Double_t hit_timestart[nhitMax];
@@ -189,7 +190,8 @@ class RootOutput{
   public:
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
-    void SetSignalInfo (G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int _pdgid, G4int name_id, G4double x, G4double y, G4double z){
+    void SetSignalInfo (G4int det_id, G4int id, G4double energy, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int _pdgid, G4int name_id, G4double x, G4double y, G4double z){
+       Det_ID[id]=det_id;
        hit_energy[id] = energy;
        hit_timestart[id] = time_start;
        hit_timeend[id] = time_end;

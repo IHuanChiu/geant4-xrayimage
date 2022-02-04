@@ -17,6 +17,7 @@ public:
   void SetVerboseLevel(G4int);
 
 private:
+  G4VPhysicsConstructor*    decMuonicPhysicsList;
   G4VPhysicsConstructor*    emPhysicsList;
   G4VPhysicsConstructor*    decPhysicsList;
   //G4VPhysicsConstructor*    raddecayList;

@@ -50,6 +50,9 @@
 #include "G4IonParametrisedLossModel.hh"
 #include "G4ParallelWorldPhysics.hh"
 
+#include "G4MuonicAtomDecayPhysics.hh"
+#include "G4UAtomicDeexcitation.hh"
+
 PhysicsList::PhysicsList()
  : G4VModularPhysicsList()
 {
@@ -62,12 +65,15 @@ PhysicsList::PhysicsList()
   decPhysicsList = new G4DecayPhysics("decays");
   // Radioactive
   //raddecayList = new G4RadioactiveDecayPhysics();
+  // Muonic Atom decay
+  decMuonicPhysicsList = new G4MuonicAtomDecayPhysics();//IH
 }
 
 PhysicsList::~PhysicsList()
 {
   delete emPhysicsList;
   delete decPhysicsList;
+  delete decMuonicPhysicsList;
   //delete raddecayList;
   for(size_t i=0; i<hadronPhys.size(); i++) {
     delete hadronPhys[i];
@@ -82,6 +88,7 @@ void PhysicsList::SetVerboseLevel(G4int i)
 void PhysicsList::ConstructParticle()
 {
   decPhysicsList -> ConstructParticle();
+  decMuonicPhysicsList -> ConstructParticle();//IH
   emPhysicsList  -> ConstructParticle();
 }
 
@@ -91,6 +98,7 @@ void PhysicsList::ConstructProcess()
   emPhysicsList->ConstructProcess();
   decPhysicsList->ConstructProcess();
   //raddecayList->ConstructProcess();
+  decMuonicPhysicsList->ConstructProcess();//IH
 
   // Hadron
   hadronPhys.push_back( new G4HadronPhysicsQGSP_BIC());
