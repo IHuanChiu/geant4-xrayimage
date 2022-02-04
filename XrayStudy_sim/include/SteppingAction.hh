@@ -71,6 +71,7 @@ class SteppingAction : public G4UserSteppingAction
     G4bool muhitKaptonInThisEvent;
     G4bool muEscapeInThisEvent;
     G4bool egammahitSampleInThisEvent;
+    G4bool xrayhitGeDetector;
     G4int ngammaHitVolume;
     G4int neletronHitVolume;
     G4int nneutronHitVolume;
@@ -134,6 +135,7 @@ class SteppingAction : public G4UserSteppingAction
     G4int ahit_pdgid[nhitMax_indetector];
     G4int ahit_process[nhitMax_indetector];
     G4int nSignals;//number of signal particles
+    G4int det_id;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

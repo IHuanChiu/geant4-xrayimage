@@ -58,13 +58,12 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4String particleName;
   G4ParticleDefinition* particle;
 
-  //particle  = particleTable->FindParticle(particleName="mu-");//IH
-  //fParticleGun->SetParticleDefinition(particle);
-  //muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
+//  particle  = particleTable->FindParticle(particleName="mu-");//IH
+//  fParticleGun->SetParticleDefinition(particle);
+//  muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
 
   particle = particleTable->FindParticle("gamma");
   fParticleGun->SetParticleDefinition(particle);
-
 
   G4String eletronName;
   G4ParticleDefinition* eletron
@@ -105,7 +104,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // ** gauss **
   x0 = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
   y0 = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
-  z0 = -80*CLHEP::mm;
+  z0 = -50*CLHEP::mm;
   //temp: only for this case (cut for beam)
   //if (std::fabs(x0)>60) x0 = SetCutforBeam(x0,poi_sigmaX);
   //if (std::fabs(y0)>60) y0 = SetCutforBeam(y0,poi_sigmaY);
@@ -118,9 +117,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(ux,uy,uz));//Momentum
   G4double particleEnergy = std::sqrt(p*p+muon_mass*muon_mass)-muon_mass;
   fParticleGun->SetParticleEnergy(particleEnergy);//IH
-  
-  fParticleGun->GeneratePrimaryVertex(anEvent);
   G4double muInitTime = fParticleGun->GetParticleTime()/CLHEP::nanosecond;
+  fParticleGun->GeneratePrimaryVertex(anEvent);
 
   // === electron ===
   G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
@@ -145,15 +143,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   }//Pulse Beam
   // */
 
-  // /* gamma generation
+//   /* gamma generation
   fParticleGun->SetParticlePosition(G4ThreeVector(0,0,0));
-  for (int i = 0 ; i < 6801 ; i++){
-     fParticleGun->SetParticleEnergy(0.01+0.001*i*0.025);
-     for (int idet = 0; idet < 6; idet++){
-        fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),std::cos(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),0));
-        fParticleGun->GeneratePrimaryVertex(anEvent);
-     }//ch1~ch6
-  }//10~180 keV gamma
+  int i = int(G4UniformRand()*6801);//0~6800
+  fParticleGun->SetParticleEnergy(0.01+0.001*i*0.025);
+  myRootOutput->SetInitEnergy(0.01+0.001*i*0.025);
+  int idet = int(G4UniformRand()*6);//0~5
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),std::cos(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),0));
+  fParticleGun->GeneratePrimaryVertex(anEvent);
   // */
 
 }

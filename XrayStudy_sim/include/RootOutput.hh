@@ -29,7 +29,7 @@ class RootOutput{
     void BeginOfRunAction();
     void EndOfRunAction();
     void FillEvent();
-    void FillParticle();
+    void FillXrays();
     void ClearAllRootVariables();
 
     void SetRunID          (G4int id) {runID = id;};
@@ -107,7 +107,7 @@ class RootOutput{
 
     TFile* rootFile;
     TTree* rootTree;
-    TTree* TrackTree;
+    TTree* muonTree;
 
     TH1F*  h1_process;
     TH1F* h1_StopVol;
@@ -192,12 +192,17 @@ class RootOutput{
     Double_t hit_length[nhitMax];
     Int_t hit_pdgId[nhitMax];
     Int_t hit_process[nhitMax];
+    Double_t init_energy;
+    Double_t input_energy;
+    Int_t Ge_detid;
 
    // === public class to catch info. === 
   public:
     void SetDetectorInfo (G4double edep, G4double edep_e, G4double edep_gamma, G4double edep_other, G4double time);
     void SetnMaxHit (G4int nhits){nSignals = nhits;}
     void SetRunTime (G4double time) {RunTime = time;}
+    void SetXrayInfo (G4int temp_detid, G4double temp_energy) {Ge_detid = temp_detid; input_energy=temp_energy;}
+    void SetInitEnergy(G4double temp_initenergy){init_energy = temp_initenergy;} 
     void SetSignalInfo (G4int id, G4double energy, G4double start_x, G4double start_y, G4double start_z, G4double time_start, G4double time_end, G4int nsteps, G4double length, G4int pdgId, G4int name_id){
        hit_energy[id] = energy; 
        hit_startx[id] = start_x; 
