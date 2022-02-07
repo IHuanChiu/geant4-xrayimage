@@ -66,6 +66,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     = particleTable->FindParticle(eletronName="e-");//IH
   fParticleGunEle->SetParticleDefinition(eletron);
   ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
+
+  seed=G4UniformRand()*0.000001;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -95,7 +97,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // === default particle kinematic ===
   pSigma = p0*mom_error;
-  p = G4RandGauss::shoot(p0,pSigma)*MeV;
+  p = G4RandGauss::shoot(p0+seed,pSigma)*MeV;
 
   // === particle init. position ===
   // ** gauss **
@@ -119,14 +121,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double muInitTime = fParticleGun->GetParticleTime()/CLHEP::nanosecond;
 
   // === electron ===
-  G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
-           uy_e = p*(dir_error_y/10)*2*(G4UniformRand()-0.5)*MeV,
-           uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
-  fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
-  particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
-  fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
   long thisEventNr = (long) (anEvent->GetEventID());
   if ((thisEventNr != 0) && (thisEventNr%fractionOfEletronParticles == 0)) { 
+    G4double ux_e = p*(dir_error_x/10)*2*(G4UniformRand()-0.5)*MeV,
+             uy_e = p*(dir_error_y/10)*2*(G4UniformRand()-0.5)*MeV,
+             uz_e = std::sqrt(p*p - ux_e*ux_e - uy_e*uy_e)*MeV;
+    fParticleGunEle->SetParticleMomentumDirection(G4ThreeVector(ux_e,uy_e,uz_e));
+    particleEnergy = std::sqrt(p*p+ele_mass*ele_mass)-ele_mass;
+    fParticleGunEle->SetParticleEnergy(particleEnergy);//IH 
     // ** gauss **
     x0_e = G4RandGauss::shoot(poi_mean,poi_sigmaX)*CLHEP::mm;
     y0_e = G4RandGauss::shoot(poi_mean,poi_sigmaY)*CLHEP::mm;
@@ -135,10 +137,10 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //if (std::fabs(y0_e)>60) y0_e = SetCutforBeam(y0_e,poi_sigmaY);
     fParticleGunEle->SetParticlePosition(G4ThreeVector(x0_e,y0_e,z0));
     fParticleGunEle->GeneratePrimaryVertex(anEvent);
+//    myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
   }
   
   myRootOutput->SetInitialMuonParameters(x0,y0,z0,ux,uy,uz,muInitTime);
-  myRootOutput->SetInitialEletronParameters(x0_e,y0_e,z0,ux_e,uy_e,uz_e);
   }//end set pulse
 
 }

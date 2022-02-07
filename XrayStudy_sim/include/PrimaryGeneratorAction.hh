@@ -95,6 +95,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double y0;
     G4double z0;
     G4int nPulseBeam = 1;
+    G4int count_event;
+    G4double gen_e_gamma;
     static G4int  fractionOfEletronParticles;//20% eletron
 
     int SetCutforBeam(G4double poi,G4double sigma){

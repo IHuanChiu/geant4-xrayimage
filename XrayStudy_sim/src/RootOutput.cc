@@ -64,9 +64,10 @@ void RootOutput::BeginOfRunAction() {
 //   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
 
    // Terada Xray 
+   rootTree->Branch("direction_id",&direction_id,"direction_id/I"); 
    rootTree->Branch("energy_init",&init_energy,"energy_init/D"); 
-   rootTree->Branch("energy",&input_energy,"energy/D"); 
    rootTree->Branch("detid",&Ge_detid,"detid/I"); 
+   rootTree->Branch("energy",&input_energy,"energy/D"); 
 
    h1_process = new TH1F("hit_process","Process of Signal",nh1bin,0,nh1bin);
    for (int i=1;i<=nh1bin;i++) h1_process->GetXaxis()->SetBinLabel(i,var_name[i-1]); 
@@ -84,9 +85,7 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
-  muonTree->Write();
-//  h1_process->Write();
-//  h1_StopVol->Write();
+//  muonTree->Write();
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
 }
@@ -96,7 +95,7 @@ void RootOutput::FillEvent() {
   for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
 //  if(total_E != 0) rootTree->Fill();//only fill event with energy deposit
   muonTree->Fill();
-  if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
+   if(Stop_Volume != -1000) h1_StopVol->Fill(Stop_Volume);
 }
 
 void RootOutput::FillXrays() {
@@ -178,7 +177,7 @@ void RootOutput::ClearAllRootVariables() {
    hit_pdgId[i] = 0;
    hit_process[i] = 0;
   }
-  init_energy = 0.;
-  input_energy = 0.;
+  init_energy = -100.;
+  input_energy = -100.;
   Ge_detid = -1;
 }

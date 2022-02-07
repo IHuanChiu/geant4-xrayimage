@@ -110,5 +110,3 @@
 /vis/scene/add/trajectories smooth rich
 /tracking/storeTrajectory 4
 /vis/scene/notifyHandlers
-/run/beamOn 10
-/vis/scene/notifyHandlers scene-0

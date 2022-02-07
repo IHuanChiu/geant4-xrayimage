@@ -70,6 +70,8 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
     = particleTable->FindParticle(eletronName="e-");//IH
   fParticleGunEle->SetParticleDefinition(eletron);
   ele_mass = fParticleGunEle->GetParticleDefinition()->GetPDGMass();
+
+  count_event=0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -144,11 +146,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // */
 
 //   /* gamma generation
-  fParticleGun->SetParticlePosition(G4ThreeVector(0,0,0));
-  int i = int(G4UniformRand()*6801);//0~6800
-  fParticleGun->SetParticleEnergy(0.01+0.001*i*0.025);
-  myRootOutput->SetInitEnergy(0.01+0.001*i*0.025);
+  G4double length = 10;//white mm
+//  G4double length = 20;//black mm
+//  G4double length = 30;//dew mm
+  G4double poi_x = (G4UniformRand()-0.5)*2*(length/2.)*CLHEP::mm;//(G4UniformRand()-0.5)*2 is -1 ~ 1 | length is size 
+  G4double poi_y = (G4UniformRand()-0.5)*2*(length/2.)*CLHEP::mm;//(G4UniformRand()-0.5)*2 is -1 ~ 1 | length is size 
+//  G4double poi_z = -0.5+G4RandGauss::shoot(0.422585,0.0723287)*CLHEP::mm;//white
+//  G4double poi_z = -0.5+G4RandGauss::shoot(0.433646,0.0777046)*CLHEP::mm;//black
+//  G4double poi_z = -1.75+G4RandGauss::shoot(0.426187,0.0715852)*CLHEP::mm;//dew
+  G4double poi_z = -1.75+G4RandGauss::shoot(1.05532,0.176408)*CLHEP::mm;//dew 35
+  
+  fParticleGun->SetParticlePosition(G4ThreeVector(poi_x,poi_y,poi_z));
+  count_event++;
+  gen_e_gamma = count_event%6800;
   int idet = int(G4UniformRand()*6);//0~5
+  myRootOutput->SetInitEnergy(idet+1,0.01+0.001*gen_e_gamma*0.025);
+  fParticleGun->SetParticleEnergy(0.01+0.001*gen_e_gamma*0.025);//random 10~180 [keV] gamma
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(std::sin(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),std::cos(2*CLHEP::pi*(idet*60+30)/360.*CLHEP::rad),0));
   fParticleGun->GeneratePrimaryVertex(anEvent);
   // */

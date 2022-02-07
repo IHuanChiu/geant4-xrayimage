@@ -67,6 +67,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4Box* fEnvelopeBox;
     G4double t0, tSigma;
     G4double p, pSigma;
+    G4double seed;
 
     G4double p0 = 30;//MeV/c
     G4double mom_error = 0.05;//5%

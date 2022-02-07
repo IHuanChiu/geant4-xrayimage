@@ -124,6 +124,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
   myRootOutput->SetRunTime(runtime);
 //  myRootOutput->SetEnergyResolution();
   myRootOutput->FillEvent();
+  myRootOutput->FillXrays();
   run_pre = std::chrono::high_resolution_clock::now();
 
   // time

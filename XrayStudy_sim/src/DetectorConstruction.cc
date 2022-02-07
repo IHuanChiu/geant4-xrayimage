@@ -108,13 +108,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   int ncomponents;
   double mass_fraction;
   //White
-  solid_common = new G4Material("White", sample_density, ncomponents=5);
-  solid_common->AddMaterial(SiO2,mass_fraction=45*perCent);//mass fraction
-  solid_common->AddMaterial(Al2O3,mass_fraction=30*perCent);
-  solid_common->AddMaterial(CaO,mass_fraction=17*perCent);
-  solid_common->AddMaterial(MgO,mass_fraction=4*perCent);
-  solid_common->AddMaterial(FeO,mass_fraction=4*perCent);
-  G4VSolid* Target = new G4Box("Target",(10./2)*mm, (10./2)*mm, (1./2)*mm);
+//  solid_common = new G4Material("White", sample_density, ncomponents=5);
+//  solid_common->AddMaterial(SiO2,mass_fraction=45*perCent);//mass fraction
+//  solid_common->AddMaterial(Al2O3,mass_fraction=30*perCent);
+//  solid_common->AddMaterial(CaO,mass_fraction=17*perCent);
+//  solid_common->AddMaterial(MgO,mass_fraction=4*perCent);
+//  solid_common->AddMaterial(FeO,mass_fraction=4*perCent);
+//  G4VSolid* Target = new G4Box("Target",(10./2)*mm, (10./2)*mm, (1./2)*mm);
   //Black
 //  solid_common = new G4Material("Black", sample_density, ncomponents=6);
 //  solid_common->AddMaterial(SiO2,mass_fraction=46*perCent);
@@ -124,16 +124,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //  solid_common->AddMaterial(MgO,mass_fraction=8*perCent);
 //  solid_common->AddMaterial(TiO2,mass_fraction=3*perCent);
 //  G4VSolid* Target = new G4Box("Target",(20./2)*mm, (20./2)*mm, (1./2)*mm);
-  //DEW
-//  solid_common = new G4Material("DEW", sample_density, ncomponents=7);
-//  solid_common->AddMaterial(SiO2,mass_fraction=47.1*perCent);
-//  solid_common->AddMaterial(Al2O3,mass_fraction=18.3*perCent);
-//  solid_common->AddMaterial(CaO,mass_fraction=12.9*perCent);
-//  solid_common->AddMaterial(FeO,mass_fraction=12.6*perCent);
-//  solid_common->AddMaterial(MgO,mass_fraction=8.1*perCent);
-//  solid_common->AddMaterial(TiO2,mass_fraction=0.6*perCent);
-//  solid_common->AddMaterial(Na2O,mass_fraction=0.4*perCent);
-//  G4VSolid* Target = new G4Box("Target",(30./2)*mm, (30./2)*mm, (3.5/2)*mm);
+  //DEW & DEW35
+  solid_common = new G4Material("DEW", sample_density, ncomponents=7);
+  solid_common->AddMaterial(SiO2,mass_fraction=47.1*perCent);
+  solid_common->AddMaterial(Al2O3,mass_fraction=18.3*perCent);
+  solid_common->AddMaterial(CaO,mass_fraction=12.9*perCent);
+  solid_common->AddMaterial(FeO,mass_fraction=12.6*perCent);
+  solid_common->AddMaterial(MgO,mass_fraction=8.1*perCent);
+  solid_common->AddMaterial(TiO2,mass_fraction=0.6*perCent);
+  solid_common->AddMaterial(Na2O,mass_fraction=0.4*perCent);
+  G4VSolid* Target = new G4Box("Target",(30./2)*mm, (30./2)*mm, (3.5/2)*mm);
   //Test
 //  solid_common=nist->FindOrBuildMaterial("G4_C");
 //  solid_common=nist->FindOrBuildMaterial("G4_SILICON_DIOXIDE");

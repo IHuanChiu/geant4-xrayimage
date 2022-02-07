@@ -71,11 +71,10 @@ def getLatex(ch, x = 0.85, y = 0.85):
     return _t
 
 if __name__=="__main__":
-   #f1=ROOT.TFile("./MuonStop/Output_white_stop_27.root","read")
-   #f1=ROOT.TFile("./MuonStop/Output_black_stop_27.root","read")
-   #f1=ROOT.TFile("./MuonStop/Output_dew_stop_27.root","read")
-   f1=ROOT.TFile("./MuonStop/Output_dew_stop_35.root","read")
-   width, _name=1.75, "dew_35" # 0.5 mm for white/black; 1.75 mm for dew
+   #f1=ROOT.TFile("./G4_MCsample//Output_white_stop_27.root","read"); width, _name=0.5, "stop_white"
+   #f1=ROOT.TFile("./G4_MCsample//Output_black_stop_27.root","read"); width, _name=0.5, "stop_black"
+   #f1=ROOT.TFile("./G4_MCsample//Output_dew_stop_27.root","read"); width, _name=1.75, "stop_dew"
+   f1=ROOT.TFile("./G4_MCsample//Output_dew_stop_35.root","read"); width, _name=1.75, "stop_dew_35"
    tree=f1.Get("muontree")
    tree.Draw("muSampleEndPolZ+{} >> h1(2000,0,2)".format(width),"muSampleEndPolZ != -1000","")
    h1=ROOT.gDirectory.Get("h1")
@@ -91,6 +90,6 @@ if __name__=="__main__":
 #   _func.SetLineColor(2)
 #   _func.Draw("same")
 
-   c2.SaveAs("/Users/chiu.i-huan/Desktop/c_terada_stop_{}.png".format(_name))
+   c2.SaveAs("/Users/chiu.i-huan/Desktop/c_terada_{}.png".format(_name))
 
 

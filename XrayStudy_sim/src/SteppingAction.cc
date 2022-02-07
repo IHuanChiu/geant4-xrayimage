@@ -178,9 +178,9 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
      if(VolumeMap[CurrentVolumeName] >= 1 && abs(pdgID) == 22 && !xrayhitGeDetector){//set sensitivity detectors
         xrayhitGeDetector=true;
-        det_id=VolumeMap[CurrentVolumeName]+1;
+        det_id=VolumeMap[CurrentVolumeName];
         myRootOutput->SetXrayInfo(det_id,KineticEnergy);      
-        myRootOutput->FillXrays();
+//        myRootOutput->FillXrays();
      }//Ge det1~6
 
 //     if(VolumeMap[CurrentVolumeName] >= 1){//set sensitivity detectors

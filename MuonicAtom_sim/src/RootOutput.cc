@@ -91,10 +91,10 @@ void RootOutput::BeginOfRunAction() {
    muonTree->Branch("muInitX",&muInitX,"muInitX/D");//init muon 
    muonTree->Branch("muInitY",&muInitY,"muInitY/D");//init muon 
    muonTree->Branch("muInitZ",&muInitZ,"muInitZ/D");//init muon 
-   muonTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
-   muonTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
-   muonTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
-   muonTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
+//   muonTree->Branch("muInitpX",&muInitpX,"muInitpX/D");//init muon 
+//   muonTree->Branch("muInitpY",&muInitpY,"muInitpY/D");//init muon 
+//   muonTree->Branch("muInitpZ",&muInitpZ,"muInitpZ/D");//init muon 
+//   muonTree->Branch("muInitTime",&muInitTime,"muInitTime/D");//init muon 
 //   muonTree->Branch("eInitX",&eInitX,"eInitX/D");//init ele 
 //   muonTree->Branch("eInitY",&eInitY,"eInitY/D");//init ele 
 //   muonTree->Branch("eInitZ",&eInitZ,"eInitZ/D");//init ele 
@@ -105,20 +105,20 @@ void RootOutput::BeginOfRunAction() {
    // ===== info. with energy deposit =====
    rootTree->Branch("eventID",&eventID,"eventID/I");
    rootTree->Branch("runID",&runID,"runID/I"); 
-   rootTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
-   rootTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
+//   rootTree->Branch("muSampleTime",&muSampleTime,"muSampleTime/D");
+//   rootTree->Branch("muSampleKineticEnergy",&muSampleKineticEnergy,"muSampleKineticEnergy/D");
    rootTree->Branch("muSamplePolX",&muSamplePolX,"muSamplePolX/D");
    rootTree->Branch("muSamplePolY",&muSamplePolY,"muSamplePolY/D");
    rootTree->Branch("muSamplePolZ",&muSamplePolZ,"muSamplePolZ/D");
    rootTree->Branch("muSampleEndTime",&muSampleEndTime,"muSampleEndTime/D");
-   rootTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
+//   rootTree->Branch("muSampleEndKineticEnergy",&muSampleEndKineticEnergy,"muSampleEndKineticEnergy/D");
    rootTree->Branch("muSampleEndPolX",&muSampleEndPolX,"muSampleEndPolX/D");
    rootTree->Branch("muSampleEndPolY",&muSampleEndPolY,"muSampleEndPolY/D");
    rootTree->Branch("muSampleEndPolZ",&muSampleEndPolZ,"muSampleEndPolZ/D");
-   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");//muon hit
 
    rootTree->Branch("nSignals",&nSignals,"nSignals/I");//nsiganle in a event
    rootTree->Branch("Det_ID",&Det_ID,"Det_ID[nSignals]/I");
+   rootTree->Branch("Stop_VolumeID",&Stop_Volume,"Stop_VolumeID/I");
    rootTree->Branch("Hit_Energy",hit_energy,"Hit_Energy[nSignals]/D");
    rootTree->Branch("Hit_Energy_Reso",hit_energy_reso,"Hit_Energy_Reso[nSignals]/D");
    rootTree->Branch("Hit_Time_Start",hit_timestart,"Hit_Time_Start[nSignals]/D");
@@ -189,7 +189,8 @@ void RootOutput::FillEvent() {
   double total_E = 0;
   for (int i = 0; i < nSignals; i++) total_E+=hit_energy[i];
   if(total_E != 0) rootTree->Fill();
-  muonTree->Fill();
+  if(total_E != 0) muonTree->Fill();// for large events
+//  muonTree->Fill();
 }
 
 void RootOutput::FillParticle() {
