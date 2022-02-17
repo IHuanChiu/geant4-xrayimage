@@ -69,13 +69,20 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     G4double p, pSigma;
     G4double seed;
 
+    //takeshita setting
     G4double p0 = 30;//MeV/c
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
-    G4double poi_sigmaX = 0.5;//mm
-    G4double poi_sigmaY = 7;//mm
-    G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
-    G4double dir_error_y = 0.30;//angle error : 30%*2pi
+    //G4double poi_sigmaX = 0.5;//mm
+    //G4double poi_sigmaY = 7;//mm
+    //G4double dir_error_x = 0.025;//angle error : 2.5%*2pi
+    //G4double dir_error_y = 0.30;//angle error : 30%*2pi
+
+    // test
+    G4double poi_sigmaX = 5;//mm
+    G4double poi_sigmaY = 5;//mm
+    G4double dir_error_x = 0.1;//angle error : 2.5%*2pi
+    G4double dir_error_y = 0.1;//angle error : 30%*2pi
 
     G4double rho_e;   
     G4double theta_e; 

@@ -245,15 +245,18 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
   
          if(!IsSameSignal){//current step isn't belong with pre-particle -> define a new signal
             det_id=VolumeMap[CurrentVolumeName]-5;
+            rot_angle=(det_id-1)*(2*CLHEP::pi/8.)*CLHEP::rad;
             ahit_edep[nSignals]       = step->GetTotalEnergyDeposit();
             ahit_time_start[nSignals] = Time;
             ahit_time_end[nSignals]   = Time;
             ahit_nsteps[nSignals]     = 1;
             ahit_length[nSignals]     = step->GetStepLength();
             ahit_pdgid[nSignals]      = pdgID;
-            ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
-            ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
-            ahit_z[nSignals]          = (aTrack->GetPosition().z()/CLHEP::mm)-(30+1/2.);//CdTe to 0
+            //ahit_x[nSignals]          = aTrack->GetPosition().x()/CLHEP::mm;
+            //ahit_y[nSignals]          = aTrack->GetPosition().y()/CLHEP::mm;
+            ahit_x[nSignals]          = (aTrack->GetPosition().x()*std::cos(rot_angle)-aTrack->GetPosition().y()*std::sin(rot_angle))/CLHEP::mm;//rotation
+            ahit_y[nSignals]          = (aTrack->GetPosition().x()*std::sin(rot_angle)+aTrack->GetPosition().y()*std::cos(rot_angle))/CLHEP::mm;//rotation
+            ahit_z[nSignals]          = (aTrack->GetPosition().z()-30)/CLHEP::mm;//CdTe position
             if (aTrack->GetCreatorProcess() != 0){
             ahit_process[nSignals]    = ProcessMap[aTrack->GetCreatorProcess()->GetProcessName()];
             }else{ahit_process[nSignals] = ProcessMap["None"]; }
@@ -289,14 +292,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //        }//first particle in sensitivity volume
 
 //        /*
-        // *** energy deposite & position of the first particle *** (Old method!)
-         if(!particleHitCdTe){
-            if(aTrack->GetDefinition()->GetParticleName() == "gamma") particleHitCdTe = true;//first position of gamma
-            myRootOutput->SetParticlePositionInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetPosition().x()/CLHEP::mm+0.0, aTrack->GetPosition().y()/CLHEP::mm+0.0, aTrack->GetPosition().z()/CLHEP::mm);
-         }
-         myRootOutput->SetEnergyDepositInVolume(VolumeMap[CurrentVolumeName]-DetNumber, aTrack->GetDefinition()->GetParticleName(), step->GetTotalEnergyDeposit()/CLHEP::MeV);
-        // */
-     }//end : if(VolumeMap[CurrentVolumeName] >= 2)
+     }//set sensitivity volume
+
   }// end : if (aTrack->GetDefinition())
 
 }

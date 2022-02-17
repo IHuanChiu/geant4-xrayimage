@@ -118,6 +118,7 @@ class SteppingAction : public G4UserSteppingAction
     G4bool IsSameSignal;
 
     G4int idet;
+    G4double rot_angle;
     G4double ahit_edep[nhitMax_indetector];
     G4double ahit_time_start[nhitMax_indetector];
     G4double ahit_time_end[nhitMax_indetector];

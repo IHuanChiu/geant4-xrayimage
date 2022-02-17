@@ -51,21 +51,14 @@
 /vis/geometry/set/colour CdTe 0 1 0 0 .5
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe0 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe1 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe2 0 1 0 0 .5
 /vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe3 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe4 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe5 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe6 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe7 0 1 0 0 .5
-/vis/scene/notifyHandlers
 /vis/geometry/set/colour CdTe8 0 1 0 0 .5
 /vis/geometry/set/colour CdTe9 0 1 0 0 .5
 /vis/geometry/set/colour Shelf 0 0 1 0 .7

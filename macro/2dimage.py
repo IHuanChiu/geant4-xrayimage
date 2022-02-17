@@ -44,7 +44,7 @@ def plot(args):
     elif tree.GetEntries() > 100000: nbin=64
     else:nbin=32
 
-    ecut_base=TCut("Hit_y < {}".format(-180))
+    ecut_base=TCut("Det_ID == {}".format(3))
     ecut_s = TCut("Stop_VolumeID == {}".format(3))#sample
     ecut_b = TCut("Stop_VolumeID == {}".format(4))#Al
    

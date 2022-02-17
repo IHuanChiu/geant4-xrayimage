@@ -34,20 +34,56 @@ def createRatioCanvas(Name = "cs", w = 1000, h = 800):
     cRatioCanvas.SetWindowSize( int(w + (w-cRatioCanvas.GetWw())), int(h + (h-cRatioCanvas.GetWh())) )
     return cRatioCanvas
 
+def comparison(args):
+    cut_signal = TCut("((x < 5 && x > -5) && (y < 11 && y > -7))")
+    cut_basic = TCut("((trigger > 235 && trigger < 240) || (trigger > 247 && trigger < 253))")
+    UTcut = TCut("((unixtime > 1583663336 && unixtime < 1583663640) || (unixtime > 1583665785 && unixtime < 1583668072) || (unixtime > 1583670126 && unixtime < 1583728926) || (unixtime > 1583797615 && unixtime < 1583807420) || (unixtime > 1583808902 && unixtime < 1583823904) || (unixtime > 1583825103 && unixtime < 1583837643) || (unixtime > 1583838416 && unixtime < 1583846500) || (unixtime > 1583847476 && unixtime < 1583872201))")
+    ecut_s = TCut("Stop_VolumeID == {}".format(3))#sample
+
+    f = ROOT.TFile(args.input)
+    f_data = ROOT.TFile("/Users/chiu.i-huan/Desktop/new_scientific/imageAna/run/root/JPARC2020March_CdTe_sum.root","read") # paper result
+    tree = f.Get("tree")
+    mytree = f_data.Get("tree")
+
+    tree.Draw("Hit_Energy_Reso*1000 >> h_s(520,10,140)",ecut_s,"")
+    mytree.Draw("energy >> h_all_s(520,10,140)",cut_basic+UTcut+cut_signal,"")
+
+    h_mc, h_data = gDirectory.Get("h_s"), gDirectory.Get("h_all_s")
+    n_max_mc, n_max_data = h_mc.GetMaximum(), h_data.GetMaximum()
+    h_mc.SetTitle(";Energy [keV];Normalized (/0.25keV)")
+    h_mc.GetXaxis().CenterTitle(); h_mc.GetYaxis().CenterTitle();
+    h_mc.SetLineColor(4)
+    h_data.SetLineColor(2)
+
+    cv  = createRatioCanvas("cv", 1200, 800)
+    print("Ratio for scale : {:.2f}".format(n_max_data/n_max_mc))
+    h_mc.Scale(n_max_data/n_max_mc)
+    h_data.Draw("hist")
+    h_mc.Draw("hist same")
+#    h_mc.DrawNormalized("hist")
+#    h_data.DrawNormalized("hist same")
+    leg=ROOT.TLegend(.60,.65,.80,.85)
+    leg.AddEntry(h_mc,  "MC", "l");
+    leg.AddEntry(h_data,  "Data", "l");
+    leg.Draw("same");
+    cv.Print("/Users/chiu.i-huan/Desktop/Output_mc_vs_data.pdf")
+    cv.Print("/Users/chiu.i-huan/Desktop/Output_mc_vs_data.png")
+    
+
 def plot(args):
     f = ROOT.TFile(args.input)   
     tree = f.Get("tree")
 
-    cv  = createRatioCanvas("cv", 1500, 800)
+    cv  = createRatioCanvas("cv", 1200, 800)
 
     ecut_s = TCut("Stop_VolumeID == {}".format(3))#sample
     ecut_b = TCut("Stop_VolumeID == {}".format(4))#Al
-    tree.Draw("Hit_Energy_Reso*1000 >> h_a(600,0,150)","","")
-    tree.Draw("Hit_Energy_Reso*1000 >> h_s(600,0,150)",ecut_s,"")
-    tree.Draw("Hit_Energy_Reso*1000 >> h_b(600,0,150)",ecut_b,"")
+    tree.Draw("Hit_Energy_Reso*1000 >> h_a(520,10,140)","","")
+    tree.Draw("Hit_Energy_Reso*1000 >> h_s(520,10,140)",ecut_s,"")
+    tree.Draw("Hit_Energy_Reso*1000 >> h_b(520,10,140)",ecut_b,"")
     h_a, h_s, h_b=gDirectory.Get("h_a"), gDirectory.Get("h_s"), gDirectory.Get("h_b")
-    h_a.GetXaxis().SetTitle("Energy[kev]")
-    h_a.GetYaxis().SetTitle("Counts (/0.25keV)")
+    h_a.SetTitle(";Energy [keV];Counts (/0.25keV)")
+    h_a.GetXaxis().CenterTitle(); h_a.GetYaxis().CenterTitle();
     h_a.SetLineColor(1)
     h_s.SetLineColor(2)
     h_b.SetLineColor(4)
@@ -70,5 +106,6 @@ if __name__ == '__main__' :
   parser.add_argument("input", type=str, default="./root/20151112_00009_001.root", help="Input File Name")
   args = parser.parse_args()
 
-  plot( args )
+#  plot( args )
+  comparison( args )
 
