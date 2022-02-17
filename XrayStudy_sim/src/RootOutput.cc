@@ -85,7 +85,7 @@ void RootOutput::BeginOfRunAction() {
 void RootOutput::EndOfRunAction() {
   G4cout<<"RootOutput::EndOfRunAction() - Write Tree "<<G4endl;
   rootTree->Write();
-//  muonTree->Write();
+//  muonTree->Write();//TODO for muon stop position
   rootFile->Close();
   G4cout<<"RootOutput::EndOfRunAction() - Root tree written out."<<G4endl;
 }

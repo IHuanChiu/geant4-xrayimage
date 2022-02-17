@@ -77,7 +77,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     //G4double dir_error_y = 0.30;//momentum direction error : 0.30*2pi
 
     //small beam size
-    G4double p0 = 35;//MeV/c
+    G4double p0 = 27;//MeV/c
     G4double mom_error = 0.05;//5%
     G4double poi_mean = 0;//mm
     G4double poi_sigmaX = 0.01;//mm

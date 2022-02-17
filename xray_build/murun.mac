@@ -35,6 +35,7 @@
 # sigma = 3%  ==> sigma 30*0.03 = 0.90
 #/gun/momentumsmearing 0.9 MeV
 #
-/run/beamOn 40800000
+#/run/beamOn 40800000
+/run/beamOn 10000000
 # 
 # proton 210 MeV to the direction (0.,0.,1.)

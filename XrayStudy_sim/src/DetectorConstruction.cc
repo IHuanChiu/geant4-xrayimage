@@ -166,37 +166,21 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4ThreeVector pos_pb = G4ThreeVector(0, 0, 0*mm);
   G4LogicalVolume* PbLog = new G4LogicalVolume(Target, solid_common, "Target");
   new G4PVPlacement(rot_sample, pos_pb, PbLog, "Target", logicWorld, false, 0, checkOverlaps);
+//  new G4PVPlacement(0, pos_pb, PbLog, "Target", logicWorld, false, 0, checkOverlaps);//TODO for check muon stop position
 
   // ***** Ge detector *****
   solid_common=nist->FindOrBuildMaterial("G4_Ge");
   //G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(50./2)*mm,(50./2.)*mm,0.,2*M_PI*rad);
-  //G4double ge_dis=100.+50./2.;//mm
-  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(20./2)*mm,(3./2.)*mm,0.,2*M_PI*rad);
-  G4double ge_dis=50.;//mm
+//  G4double ge_dis=50.;//mm
+  G4VSolid* Ge_Det = new G4Tubs("GeDet",0*mm,(11.3/2)*mm,(3./2.)*mm,0.,2*M_PI*rad);//Ryugu detector
+  G4double ge_dis=165.2;//mm, Ryugu chamber
   G4double nDets=6;
   G4double current_angle;
   G4ThreeVector pos_ge;
   G4LogicalVolume* GeLog;
   G4RotationMatrix* rot_ge;
   G4double ge_angle;
-  //ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
-  //for(int i=0; i<nDets;i++){
-  //   auto idstr = std::to_string(i);
-  //   current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
-  //   pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (ge_dis*std::cos(ge_angle))*mm);
-  //   GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs"+idstr);
-  //   rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
-  //   new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
-  //}
-  //ge_angle=(-1)*2*CLHEP::pi*(45./360)*CLHEP::rad;
-  //for(int i=0; i<nDets;i++){
-  //   auto idstr = std::to_string(i);
-  //   current_angle=i*(2*CLHEP::pi/nDets)*CLHEP::rad;
-  //   pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (-1*ge_dis*std::cos(ge_angle))*mm);
-  //   GeLog = new G4LogicalVolume(Ge_Det, solid_common, "GeTubs2"+idstr);
-  //   rot_ge = new G4RotationMatrix(-i*(360./nDets)*CLHEP::deg,-45*CLHEP::deg,0*CLHEP::deg);
-  //   new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs2"+idstr, logicWorld, false, 0, checkOverlaps);
-  //}
+
   ge_angle=2*CLHEP::pi*(45./360)*CLHEP::rad;
   Ge_Det= new G4Tubs("GeDet",0*mm,(20./2)*mm,(1./2.)*mm,0.,2*M_PI*rad);
   for(int i=0; i<nDets;i++){
@@ -206,6 +190,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
      pos_ge = G4ThreeVector(ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm, ge_dis*std::sin(ge_angle)*std::cos(current_angle)*mm, (0*ge_dis*std::cos(ge_angle))*mm);
      GeLog = new G4LogicalVolume(Ge_Det, Vacuum, "GeTubs"+idstr);
      new G4PVPlacement(rot_ge, pos_ge, GeLog, "GeTubs"+idstr, logicWorld, false, 0, checkOverlaps);
+//     std::cout << "CH" << i+1 << " x : " << ge_dis*std::sin(ge_angle)*std::sin(current_angle)*mm << " y : " << ge_dis*std::sin(ge_angle)*std::cos(current_angle) << std::endl;
   }
 
   //always return the physical World

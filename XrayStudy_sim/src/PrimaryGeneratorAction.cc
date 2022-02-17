@@ -58,10 +58,12 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4String particleName;
   G4ParticleDefinition* particle;
 
-//  particle  = particleTable->FindParticle(particleName="mu-");//IH
+  // muon beam
+//  particle  = particleTable->FindParticle(particleName="mu-");
 //  fParticleGun->SetParticleDefinition(particle);
 //  muon_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
 
+  // gamma source
   particle = particleTable->FindParticle("gamma");
   fParticleGun->SetParticleDefinition(particle);
 
@@ -146,17 +148,20 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // */
 
 //   /* gamma generation
-//  G4double poi_z = -0.5+G4RandGauss::shoot(0.422585,0.0723287)*CLHEP::mm; G4double length = 10;//white
-//  G4double poi_z = -0.5+G4RandGauss::shoot(0.433646,0.0777046)*CLHEP::mm; G4double length = 20;//black
-//  G4double poi_z = -1.75+G4RandGauss::shoot(0.426187,0.0715852)*CLHEP::mm;G4double length = 30;//dew
-  G4double poi_z = -1.75+G4RandGauss::shoot(1.05532,0.176408)*CLHEP::mm; G4double length = 30;//dew 35
-  G4double poi_x = (G4UniformRand()-0.5)*2*(length/2.)*CLHEP::mm;
-  G4double poi_y = (G4UniformRand()-0.5)*2*(length/2.)*CLHEP::mm;//(G4UniformRand()-0.5)*2 is -1 ~ 1 | length is size 
+//  G4double poi_z = -0.5+G4RandGauss::shoot(0.422585,0.0723287)*CLHEP::mm; G4double length_x = 10;G4double length_y = 10;//white
+//  G4double poi_z = -0.5+G4RandGauss::shoot(0.433646,0.0777046)*CLHEP::mm; G4double length_x = 20;G4double length_y = 10;//black
+//  G4double poi_z = -1.75+G4RandGauss::shoot(0.426187,0.0715852)*CLHEP::mm;G4double length_x = 30;G4double length_y = 10;//dew
+//  G4double poi_z = -1.75+G4RandGauss::shoot(1.05532,0.176408)*CLHEP::mm; G4double length_x = 30;G4double length_y = 10;//dew 35
+  G4double poi_z = -0.5*3.28+G4RandGauss::shoot(0.7567,0.1337)*CLHEP::mm; G4double length_x = 8.65; G4double length_y = 5.12;//Ryugu
+  G4double poi_x = (G4UniformRand()-0.5)*2*(length_x/2.)*CLHEP::mm;
+  G4double poi_y = (G4UniformRand()-0.5)*2*(length_y/2.)*CLHEP::mm;//(G4UniformRand()-0.5)*2 is -1 ~ 1 | length_x,length_y is size 
   G4double rot_rad=(20./360)*2*CLHEP::pi*CLHEP::rad;
   G4double poi_x_prime=poi_x*std::cos(rot_rad)-poi_z*std::sin(rot_rad);
   G4double poi_z_prime=poi_x*std::sin(rot_rad)+poi_z*std::cos(rot_rad);
-  G4double Ge_x[6] = {17.6777, 35.3553, 17.6777, -17.6777, -35.3553, -17.6777};
-  G4double Ge_y[6] = {30.6186, 0, -30.6186, -30.6186, 0, 30.6186};
+//  G4double Ge_x[6] = {17.6777, 35.3553, 17.6777, -17.6777, -35.3553, -17.6777};
+//  G4double Ge_y[6] = {30.6186, 0, -30.6186, -30.6186, 0, 30.6186};
+  G4double Ge_x[6] = {58.407, 116.814, 58.407, -58.407, -116.814, -58.407};
+  G4double Ge_y[6] = {101.164, 0, -101.164, -101.164, 0, 101.164};
   
   fParticleGun->SetParticlePosition(G4ThreeVector(poi_x_prime,poi_y,poi_z_prime));
   count_event++;
