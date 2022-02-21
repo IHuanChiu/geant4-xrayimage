@@ -96,7 +96,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // from G4LogicalVolumeStore.
 
   RootOutput* myRootOutput = RootOutput::GetRootInstance();
-  myRootOutput->ClearAllRootVariables(); 
+   myRootOutput->ClearAllRootVariables(); 
 
    /* muon pulse beam
   for (int i=0;i< nPulseBeam; i++){

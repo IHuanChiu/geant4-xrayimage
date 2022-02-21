@@ -21,11 +21,11 @@ def getLatex(ch, x = 0.85, y = 0.85):
 if __name__=="__main__":
    fout = ROOT.TFile("./output_eff_plots_Ryugu.root","recreate")
 
-   f1, _name=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/xray_build/Output_1.root","read"), "ryugu"
+   f1, _name=ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/xray_build/Output_xray_self.root","read"), "ryugu"
    tree=f1.Get("tree")
    h_eff_list=[]
    for i in range(6):
-       tree.Draw("energy_init*1000 >> h0_{}_{}(680,10,180)".format(_name,i+1),"direction_id=={}".format(i+1),"")
+       tree.Draw("energy_init*1000 >> h0_{}_{}(680,10,180)".format(_name,i+1),"direction_id=={} && detid !=-1".format(i+1),"")
        tree.Draw("energy*1000 >> h1_{}_{}(680,10,180)".format(_name,i+1),"detid=={}".format(i+1),"")
        h0=ROOT.gDirectory.Get("h0_{}_{}".format(_name,i+1))
        h1=ROOT.gDirectory.Get("h1_{}_{}".format(_name,i+1))
