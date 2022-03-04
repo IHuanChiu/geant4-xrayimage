@@ -41,7 +41,7 @@ def getfunc(name, _down, _up):
     return ROOT.TF1(name,"expo",_down,_up) 
 
 def fit(args):
-    fout = ROOT.TFile("/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/outfigs/fit_output.root","recreate")
+    fout = ROOT.TFile(args.output,"recreate")
     cv0  = createRatioCanvas("cv0", 1200, 800)
 
     f_ba=ROOT.TFile("./edb_data/MUSE203305_01_001_000_ene.root","read")
@@ -155,7 +155,7 @@ def fit(args):
 
 if __name__ == '__main__' :
   parser = argparse.ArgumentParser(description='Process some integers.') 
-  parser.add_argument("--input", type=str, default="./root/20151112_00009_001.root", help="Input File Name")
+  parser.add_argument("--output", type=str, default="/Users/chiu.i-huan/Desktop/geant4WS/geant4-xrayimage/macro/Ryugu_sim/outfigs/fit_output.root", help="Input File Name")
   args = parser.parse_args()
 
   fit( args )

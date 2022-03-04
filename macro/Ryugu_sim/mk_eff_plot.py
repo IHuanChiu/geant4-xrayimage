@@ -25,7 +25,7 @@ if __name__=="__main__":
    tree=f1.Get("tree")
    h_eff_list=[]
    for i in range(6):
-       tree.Draw("energy_init*1000 >> h0_{}_{}(680,10,180)".format(_name,i+1),"direction_id=={} && detid !=-1".format(i+1),"")
+       tree.Draw("energy_init*1000 >> h0_{}_{}(680,10,180)".format(_name,i+1),"direction_id=={}".format(i+1),"")
        tree.Draw("energy*1000 >> h1_{}_{}(680,10,180)".format(_name,i+1),"detid=={}".format(i+1),"")
        h0=ROOT.gDirectory.Get("h0_{}_{}".format(_name,i+1))
        h1=ROOT.gDirectory.Get("h1_{}_{}".format(_name,i+1))
@@ -45,10 +45,11 @@ if __name__=="__main__":
        ROOT.gPad.SetLogy(0)
        h2.Draw("p")
        
-       c2.SaveAs("/Users/chiu.i-huan/Desktop/c_{}_{}.png".format(_name,i+1))
+#       c2.SaveAs("/Users/chiu.i-huan/Desktop/c_{}_{}.png".format(_name,i+1))
        h_eff_list.append(h2)
 
    c3, index=ROOT.TCanvas("c3","c3",1200,1200), 1
+   ROOT.SetAtlasStyle()
    c3.cd()
    leg = ROOT.TLegend(.78,.3,.88,.58)
    leg.SetFillColor(0)
@@ -61,5 +62,6 @@ if __name__=="__main__":
       index+=1
    leg.Draw("same")
    c3.SaveAs("/Users/chiu.i-huan/Desktop/c_all_combined.png")
+   c3.SaveAs("/Users/chiu.i-huan/Desktop/c_all_combined.pdf")
 
 
