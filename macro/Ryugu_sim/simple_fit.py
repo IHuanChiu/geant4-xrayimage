@@ -42,14 +42,17 @@ def fit6ch(args):
     if args.output.lower() == "co":
        overall_range_down=[13.8,121,135.5]
        overall_range_up=[14.8,122.8,137.5]
+       emissivity=[9.16, 85.60, 10.68] #%
        cout_all=1222778353 # source in Ryugu Exp.
     elif args.output.lower() == "eu":
        overall_range_down=[39.7,44.8,46.1,121]
        overall_range_up=[40.6,45.8,47.2,122.6]
+       emissivity=[38.3, 7.24+3.74, 2.39, 28.58] #%
        cout_all=2716632871
     elif args.output.lower() == "ba":
        overall_range_down=[34.6,35.6,80.4]
        overall_range_up=[35.4,36.2,81.6]
+       emissivity=[5.99+11.6, 3.58, 2.62+34.06] #%
        cout_all=15770190
     else:
        print("check output name!")
@@ -110,7 +113,7 @@ def fit6ch(args):
           struct.ch = ich
           struct.peak = par1
           struct.intensity = peak.Integral(par1-3*par2,par1+3*par2)/_binwidth
-          struct.eff = struct.intensity/cout_all
+          struct.eff = struct.intensity/(cout_all*emissivity[_ip])
           tout.Fill()
     fout=ROOT.TFile("/Users/chiu.i-huan/Desktop/temp_output/output_fit_result_{}.root".format(args.output),"recreate")
     fout.cd()
